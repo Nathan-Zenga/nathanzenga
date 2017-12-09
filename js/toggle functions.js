@@ -1,5 +1,4 @@
 $(document).ready(function() {
-	document.body.innerHTML = '<div class="bgvid"><video autoplay loop muted poster="/img/bgvid-poster.jpg"> <source src="/img/sparks.mp4"/> </video></div>' + document.body.innerHTML;
 
 	// if ($(".introscreen").css("display") != "none") {
 	// 	if(location.hash == "" && location.origin != document.referrer.slice(0, 22)) {
