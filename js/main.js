@@ -1,18 +1,5 @@
 $(document).ready(function() {
 
-	// if ($(".introscreen").css("display") != "none") {
-	// 	if(location.hash == "" && location.origin != document.referrer.slice(0, 22)) {
-	// 		$(".introscreen").delay( 5000 ).fadeOut( 1000, function() {
-	// 			location.hash = "#home";
-	// 		});
-	// 		$(".introscreen p:last-child").delay( 500 ).fadeIn( 500 );
-	// 	} else {
-	// 		$(".introscreen").hide(0, function() {
-	// 			location.hash = "#home";
-	// 		});
-	// 	}
-	// }
-
 	$("#dropdown").click(function() {
 		$(".nav").slideDown();
 		$(this).fadeOut();
