@@ -25,6 +25,7 @@ $(function(){
 			"4svciety":"72157682756177700",
 			"eddygrant":"72157681869499180",
 			"beatfreeks":"72157680397025793",
+			"scanned": "72157663115670011",
 			"motion1": "trailingball",
 			"motion2": "ripple",
 			"motion3": "swarm",
