@@ -1,4 +1,17 @@
 $(function(){
+    
+    function showNames(s) {
+		if ( $("#figures").length && $("#figures, .galleria-info-title").length > 1 && $(".galleria-info-title").text() != "" ) {
+			$(".iframe").append("<div id='info-title'></div>");
+			$("#info-title").text( $(".galleria-info-title").text().replace(/X|V|I| X| V| I/g,"") );
+			$("#info-title").animate({
+				left: "+=20"
+			}, 3000, "linear");
+			$("#info-title").fadeIn().dequeue().delay(2600).fadeOut(function(){$(this).css("left","")});
+			clearInterval(s);
+		}
+	}
+    
 	Galleria.loadTheme("https://cdnjs.cloudflare.com/ajax/libs/galleria/1.5.6/themes/classic/galleria.classic.min.js").configure("transition", "fade");
 	var g = {"abstract":"72157663613653419",
 			"figures":"72157663122488679",
@@ -63,17 +76,7 @@ $(function(){
 		$(".main span").html(motion);
 	}
 
-	var s = setInterval(function() {
-		if ( $("#figures").length && $("#figures, .galleria-info-title").length > 1 && $(".galleria-info-title").text() != "" ) {
-			$(".iframe").append("<div id='info-title'></div>");
-			$("#info-title").text( $(".galleria-info-title").text().replace(/X|V|I| X| V| I/g,"") );
-			$("#info-title").animate({
-				left: "+=20"
-			}, 3000, "linear");
-			$("#info-title").fadeIn().dequeue().delay(2600).fadeOut(function(){$(this).css("left","")});
-			clearInterval(s);
-		}
-	});
+	var s = setInterval( showNames(s) );
 
 	$(".sublist a").click(function() {
 		if ($(window).width() < 768) {
@@ -95,16 +98,7 @@ $(function(){
 
 			if ( $("#figures").length ) {
 				$(".iframe").append("<div id='info-title'></div>");
-				var s = setInterval(function() {
-					if ( $("#figures, .galleria-info-title").length > 1 && $(".galleria-info-title").text() != "" ) {
-						$("#info-title").text( $(".galleria-info-title").text().replace(/X|V|I| X| V| I/g,"") );
-						$("#info-title").animate({
-							left: "+=20"
-						}, 3000, "linear");
-						$("#info-title").fadeIn().dequeue().delay(2600).fadeOut(function(){$(this).css("left","")});
-						clearInterval(s);
-					}
-				});
+				var s = setInterval( showNames(s) );
 			}
 		}
 	});
