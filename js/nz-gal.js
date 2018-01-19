@@ -1,5 +1,5 @@
 $(function(){
-    var = s;
+    var s;
     function showNames() {
 		if ( $("#figures").length && $("#figures, .galleria-info-title").length > 1 && $(".galleria-info-title").text() != "" ) {
 			$(".iframe").append("<div id='info-title'></div>");
