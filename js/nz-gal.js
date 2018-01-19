@@ -1,5 +1,5 @@
 $(function(){
-    
+    var = s;
     function showNames() {
 		if ( $("#figures").length && $("#figures, .galleria-info-title").length > 1 && $(".galleria-info-title").text() != "" ) {
 			$(".iframe").append("<div id='info-title'></div>");
@@ -76,7 +76,7 @@ $(function(){
 		$(".main span").html(motion);
 	}
 
-	var s = setInterval(function() {
+	s = setInterval(function() {
         showNames();
     } );
 
@@ -100,7 +100,7 @@ $(function(){
 
 			if ( $("#figures").length ) {
 				$(".iframe").append("<div id='info-title'></div>");
-				var s = setInterval(function() {
+				s = setInterval(function() {
                     showNames();
                 } );
 			}
@@ -111,7 +111,7 @@ $(function(){
 		if ( $("#figures").length ) {
 			var n = 0;
 			clearInterval(s);
-			var s = setInterval(function() {
+			s = setInterval(function() {
 				console.log("Interval 3");
 				if (n >= 300) {
 					n = 0;
