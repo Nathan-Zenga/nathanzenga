@@ -1,6 +1,6 @@
 $(function(){
     
-    function showNames(s) {
+    function showNames() {
 		if ( $("#figures").length && $("#figures, .galleria-info-title").length > 1 && $(".galleria-info-title").text() != "" ) {
 			$(".iframe").append("<div id='info-title'></div>");
 			$("#info-title").text( $(".galleria-info-title").text().replace(/X|V|I| X| V| I/g,"") );
@@ -76,7 +76,9 @@ $(function(){
 		$(".main span").html(motion);
 	}
 
-	var s = setInterval( showNames(s) );
+	var s = setInterval(function() {
+        showNames();
+    } );
 
 	$(".sublist a").click(function() {
 		if ($(window).width() < 768) {
@@ -98,7 +100,9 @@ $(function(){
 
 			if ( $("#figures").length ) {
 				$(".iframe").append("<div id='info-title'></div>");
-				var s = setInterval( showNames(s) );
+				var s = setInterval(function() {
+                    showNames();
+                } );
 			}
 		}
 	});
