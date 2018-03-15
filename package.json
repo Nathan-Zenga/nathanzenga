@@ -1,0 +1,24 @@
+{
+  "name": "nathanzenga_com",
+  "version": "5.3.0",
+  "description": "web app for portfolio works",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "body-parser": "*",
+    "cookie-parser": "^1.4.1",
+    "ejs": "^2.5.7",
+    "express": "^4.16.3",
+    "grunt": "1.0.1",
+    "grunt-cli": "1.2.0",
+    "grunt-contrib-uglify": "3.3.0"
+  },
+  "engines": {
+    "node": "8.7.0",
+    "npm": "5.6.0"
+  },
+  "author": "Nathan Zengamambu",
+  "license": "ISC"
+}
