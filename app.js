@@ -28,6 +28,10 @@ app.use(function (req, res, next) {
 
 app.use('/', require('./routes/index'));
 
+setInterval(function() {
+	http.get("https://nathanzenga.herokuapp.com");
+}, 1000*60*25); // 25 mins
+
 // Set port + listen for requests
 var port = process.env.PORT || 5678;
 app.listen(port, function() {
