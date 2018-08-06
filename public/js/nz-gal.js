@@ -1,5 +1,5 @@
 $(function() {
-	Galleria.loadTheme("https://cdnjs.cloudflare.com/ajax/libs/galleria/1.5.6/themes/classic/galleria.classic.min.js").configure("transition", "fade");
+	Galleria.loadTheme("https://cdnjs.cloudflare.com/ajax/libs/galleria/1.5.7/themes/classic/galleria.classic.min.js").configure("transition", "fade");
 	var g = {
 		abstract: "72157663613653419",
 		figures: "72157663122488679",
@@ -46,9 +46,10 @@ $(function() {
 			$("#navclose").click();
 		}
 
-		var id = $(this).attr("id").slice(0,-1),
-			e = '<div class="iframe" oncontextmenu="return false" id="' + id + '"></div>',
-			vid = '<iframe class="iframe" src="https://www.youtube.com/embed/' + g[id] + '?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>';
+		var id = this.id.slice(0,-1);
+		var e = '<div class="iframe" oncontextmenu="return false" id="' + id + '"></div>';
+		var vid = '<iframe class="iframe" src="https://www.youtube.com/embed/' + g[id] +
+		'?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>';
 
 		if( $("#video-page").length ) {
 			$(".main span").html(vid);
