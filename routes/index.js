@@ -29,21 +29,13 @@ router.get('/video', (req, res) => {
 router.get('/:page', (req, res) => {
 
 	var p = req.params.page;
-	var t = (p == 'photo') ? p + 'graphy' : p;
+	var t = (/photo|video/.test(p)) ? p + 'graphy' : p;
 
 	res.render('index', {
 		title: t.charAt(0).toUpperCase() + t.slice(1) + ' / ',
 		page: p,
 		sublist: sublist[p],
-		// gallery: req.path == '/art' ? 'art' : sublist[p][0][0].slice(0,-1)
-		gallery: () => {
-			if (p == 'art') {
-				p = 'art'
-			} else {
-				return sublist[p][0][0].slice(0,-1)
-			}
-			return p
-		}
+		gallery: p == 'art' ? p : sublist[p][0][0].slice(0,-1)
 	});
 });
 
