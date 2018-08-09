@@ -4,8 +4,7 @@ var express = require('express'),
 	bodyParser = require('body-parser'),
 	http = require('http'), // core module
 	path = require('path'), // core module
-	ejs = require('ejs'),
-	FACTORIAL = path.join(__dirname, 'build', 'factorial.min.js');
+	ejs = require('ejs');
 
 var app = express();
 
@@ -22,7 +21,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Global variables
 app.use(function (req, res, next) {
-	// res.locals.errors = null;
 	next();
 });
 
