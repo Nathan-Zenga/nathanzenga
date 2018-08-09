@@ -4,49 +4,37 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" href="img/lsq.png">
-	<title><%= title %>Nathan Zenga</title>
+	<title>Nathan Zenga</title>
 	<meta name="keywords" content="Nathan Zenga, Visual Artist, Visuals, Artist, Digital Art, Digital, Art, Photography, Design, Photoshop, Videography, Filmmaker, Film, London, UK, Freelance">
-	<meta name="description" content="London-based photographer, videographer, website designer and visual artist.">
+	<meta name="description" content="London-based photographer, videographer, developer and visual artist.">
 	<meta name="robots" content="index, follow">
+
+	<link rel="stylesheet" type="text/css" href="/css/defaults.css">
+	<link rel="stylesheet" type="text/css" href="/css/main.css">
+	<link rel="stylesheet" type="text/css" href="/css/galleria.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/galleria/1.5.7/galleria.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/galleria/1.5.7/plugins/flickr/galleria.flickr.min.js"></script>
 	<script src="/js/main.js"></script>
 	<script src="/js/nz-gal.js"></script>
-	<link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
 
-<body id="<%= page %>-page">
-
+<body>
 	<div class="bgvid">
 		<video autoplay loop muted poster="/img/bgvid-poster.jpg"><source src="/img/sparks.mp4"/></video>
 	</div>
 
-
 	<div class="container-fluid">
-		<div id="dropdown">Menu</div>
-		<div class="col-sm-2 nav">
-			<div class="row"><a href="/"><img id="Logo" src="/img/l.png"></a></div>
-			<div class="row gap"><a href="/art">Art</a></div>
-			<div class="row"><a href="/photo">Photography</a></div>
-			<div class="row"><a href="/digital">Digitals</a></div>
-			<div class="row"><a href="/personal">Personal</a></div>
-			<div class="row"><a href="/video">Video</a></div>
-			<div class="row"><a href="/about">About</a></div>
-
-			<%_ if (typeof sublist != 'undefined') { _%>
-				<%_ sublist.forEach(function(innerArr, i) { _%>
-					<%_ if (i == 0) { _%>
-			<div class="row sublist gap"><a id="<%= innerArr[0] %>"><%= innerArr[1] %></a></div>
-					<%_ } else { _%>
-			<div class="row sublist"><a id="<%= innerArr[0] %>"><%= innerArr[1] %></a></div>
-					<%_ } _%>
-				<%_ }) _%>
-			<%_ } _%>
-
-			<br>
-			<div><a id="nav-left"><-</a> <a id="nav-right">-></a></div>
-
+		<div id="nav_dropdown">Menu</div>
+		<nav class="col-sm-2">
+			<div class="row"><a href="/"><img id="logo" src="/img/l.png"></a></div>
+			<div class="row link gap" id="work"><a>Work</a></div>
+			<div class="row link" id="info"><a>Info</a></div>
+			<div class="row link" id="contact"><a>Contact</a></div>
+			<div class="row gap icons">
+				<a class="fa fa-instagram" target="_blank" aria-hidden="true" href="http://instagram.com/nathanzenga"></a>&nbsp;&nbsp;&nbsp;
+				<a class="fa fa-envelope-o" target="_blank" aria-hidden="true" href="mailto:nathanzenga@gmail.com"></a>
+			</div>
 			<div class="row" id="navclose"><a class="glyphicon glyphicon-chevron-up"></a></div>
-		</div>
+		</nav>
 		<div class="col-sm-10 main">
