@@ -26,6 +26,11 @@ $(function() {
 	$(".contact .submit").click(function(e){
 		e.preventDefault();
 
+		$(".contact .result")
+		.css("display", "none")
+		.html("<p style='text-align:center'>Sending...</p>")
+		.slideDown();
+
 		var $details = $(this).closest("form").find(".details");
 		var data = {};
 
@@ -43,7 +48,8 @@ $(function() {
 					.val("")
 					.end()
 					.find(".result")
-					.css("display", "none")
+					.stop()
+					.hide(0)
 					.html("<h3 style='text-align:center'>"+ msg +"</h3>")
 					.slideDown().delay(3000).slideUp();
 			}

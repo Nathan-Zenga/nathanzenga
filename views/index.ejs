@@ -33,8 +33,9 @@
 				<div class="row link gap" id="work"><a>Work</a></div>
 				<div class="row link" id="info"><a>Info</a></div>
 				<div class="row link" id="contact"><a>Contact</a></div>
-				<div class="row gap icons">
-					<a class="fa fa-instagram" target="_blank" aria-hidden="true" href="http://instagram.com/nathanzenga"></a>
+				<div class="row gap nav-icons">
+					<a class="fa fa-instagram" target="_blank" aria-hidden="true" href="http://instagram.com/nathanzenga"></a>&nbsp;&nbsp;
+					<a class="fa fa-linkedin" target="_blank" aria-hidden="true" href="https://uk.linkedin.com/in/nathan-zengamambu"></a>
 				</div>
 				<div class="row" id="navclose"><a class="glyphicon glyphicon-chevron-up"></a></div>
 			</div>
@@ -45,55 +46,9 @@
 					<div class="index-slideshow" oncontextmenu="return false" id="<%= typeof gallery == 'function' ? gallery() : gallery %>"></div>
 				</span>
 			</section>
-			<section class="work">
-				<div class="inner-container">
-					<div class="row">
-						<div class="col-sm-6 thumb" id="figures">
-							<div class="cover-image"></div>
-							<a><div class="overlay-label"><h3>Faces</h3></div></a>
-						</div>
-						<div class="col-sm-6 thumb" id="places1">
-							<div class="cover-image"></div>
-							<a><div class="overlay-label"><h3>Places</h3></div></a>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-6 thumb" id="designs">
-							<div class="cover-image"></div>
-							<a><div class="overlay-label"><h3>Designs</h3></div></a>
-						</div>
-						<div class="col-sm-6 thumb" id="art">
-							<div class="cover-image" style="background-color: black"></div>
-							<a><div class="overlay-label"><h3>Videos</h3></div></a>
-						</div>
-					</div>
-				</div>
-			</section>
-			<section class="info">
-				<div class="info-body centre">
-					<p>London-based photographer, videographer, developer and visual artist.</p>
-					<p class="gap">"&nbsp;&nbsp;&nbsp;Define normal&nbsp;&nbsp;&nbsp;"</p>
-				</div>
-			</section>
-			<section class="contact">
-				<form class="form-group centre">
-					<fieldset>
-						<label class="sr-only">Email Address</label>
-						<input class="form-control details half" style="margin-right: 20px;" type="email" id="email" name="email" placeholder="Your Email Address">
-
-						<label class="sr-only">Name</label>
-						<input class="form-control details half" type="text" id="name" name="name" placeholder="Your Name">
-
-						<label class="sr-only">Message</label>
-						<textarea class="form-control details" type="text" id="message" name="message" placeholder="Enter Message"></textarea>
-						
-						<label class="sr-only">SUBMIT</label>
-						<input class="form-control submit" type="submit" value="Send">
-
-						<div class="result"></div>
-					</fieldset>
-				</form>
-			</section>
+			<%_ include work _%>
+			<%_ include about _%>
+			<%_ include contact _%>
 		</div>
 	</div>
 	<div class="leg">&copy; Nathan Zengamambu <%= new Date().getFullYear() %> | All rights reserved</div>
