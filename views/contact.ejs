@@ -1,28 +1,22 @@
-<%_ include partials/header _%>
+<section class="contact">
+	<form class="form-group centre">
+		<fieldset>
+			<label class="sr-only">Email Address</label>
+			<input class="form-control details half" style="margin-right: 20px;" type="email" id="email" name="email" placeholder="Your Email Address">
 
-			<div class="about">
-				<p>Photographer &#149; Videographer &#149; Web Designer &#149; Programmer &#149; Visual Artist </p>
-				<p>Based in London, UK</p>
-				<p>&nbsp;</p>
-				<p>My statement? <span>Define normal</span></p>
-				<p>&nbsp;</p>
-				<p>Commissions are open upon request.</p>
-				<p>&nbsp;</p>
-				<p><a class="icon" id="contactOpen" target="_blank"><i class="fa fa-envelope-o" aria-hidden="true"></i></a> <a class="icon" target="_blank" href="http://instagram.com/nathanzenga"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-				</p>
-			</div>
-			<div class="contact">
-				<table width="100%" height="100%" border="0" style="text-align: center;">
-					<tr>
-						<td>
-							<p>For business + enquiries:</p>
-							<p><iframe frameborder="0" scrolling="no" width="100%" height="100%" id="submit_form" src="https://www.tumblr.com/submit_form/nathanzenga.tumblr.com" style="background-color:transparent; margin-top:0; overflow:hidden;"></iframe></p>
-							<p>or</p>
-							<p><a href="mailto:nathanzenga@gmail.com">nathanzenga@gmail.com</a></p>
-						</td>
-					</tr>
-				</table>
-				<div id="contactClose">&times;</div>
-			</div>
+			<label class="sr-only">Name</label>
+			<input class="form-control details half" type="text" id="name" name="name" placeholder="Your Name">
 
-<%_ include partials/footer _%>
+			<label class="sr-only">Subject</label>
+			<input class="form-control details" type="text" id="subject" name="subject" placeholder="Subject">
+
+			<label class="sr-only">Message</label>
+			<textarea class="form-control details" type="text" id="message" name="message" placeholder="Enter Message"></textarea>
+			
+			<label class="sr-only">SUBMIT</label>
+			<input class="form-control submit" type="submit" value="Send">
+
+			<div class="result"></div>
+		</fieldset>
+	</form>
+</section>

@@ -62,14 +62,13 @@ nav .row a {
 	width: 100%;
 }
 
-nav .icons {
+nav .nav-icons {
 	display: none;
 	font-size: 1.5em
 }
 
-nav .icons a {
+nav .nav-icons a {
 	display: inline;
-	padding: 0 50px
 }
 
 nav .gap {
@@ -126,7 +125,10 @@ nav .gap {
 	}
 	nav .inner-nav {
 		position: fixed;
+		top: 50%;
 		width: calc(100% / 2.4);
+		height: auto;
+		transform: translateY(-50%);
 	}
 	nav .row {
 		letter-spacing: 0;
@@ -134,7 +136,7 @@ nav .gap {
 		transform: translateX(0); 
 		-webkit-transform: translateX(0); 
 	}
-	nav .icons {
+	nav .nav-icons {
 		display: block;
 	}
 	#navclose {
@@ -200,7 +202,7 @@ nav .gap {
 .contact form .details {
 	margin-bottom: 20px;
 	background-color: transparent;
-	border: none;
+	border-width: 0px;
 	border-bottom: 1px solid;
 	color: white;
 }
@@ -208,11 +210,6 @@ nav .gap {
 .contact form .details.half {
 	width: calc(50% - 10px);
 	float: left;
-}
-
-.contact form .details, 
-.contact form .submit {
-	text-transform: lowercase;
 }
 
 .contact form textarea {
@@ -229,10 +226,26 @@ nav .gap {
 
 .info .info-body {
 	padding: 0 20px;
+	text-align: center;
+}
+
+.info .info-icons {
+	display: block;
+	font-size: 1.5em;
 }
 
 .info .gap {
 	margin-top: 3em;
+}
+
+@media (min-width: 768px) {
+	.info .info-body {
+		text-align: left;
+	}
+
+	.info .info-icons {
+		display: none;
+	}
 }
 
 .work .inner-container {
@@ -262,6 +275,7 @@ nav .gap {
 }
 
 .work .thumb .overlay-label {
+	text-transform: lowercase;
 	background-color: rgba(0,0,0,.5);
 	z-index: 98;
 }
