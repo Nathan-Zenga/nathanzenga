@@ -56,4 +56,7 @@ $(function() {
 		});
 	});
 
+	$("#toggleThumbnails").click(function() {
+		$("#gallery_view .galleria-thumbnails-container").fadeToggle(100);
+	});
 });

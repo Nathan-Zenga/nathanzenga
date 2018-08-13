@@ -8,12 +8,6 @@
 	left: 50%; transform: translateX(-50%);
 	-webkit-transform: translateX(-50%);
 	width: 80%; height: 50px;
-	opacity: 0;
-	transition: .5s
-}
-
-.galleria-theme-classic:hover > .galleria-thumbnails-container {
-	opacity: 1
 }
 
 .galleria-theme-classic .galleria-info-link {

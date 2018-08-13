@@ -1,13 +1,14 @@
 var express = require('express'),
 	router = express.Router(),
+	galleries = require('../config/galleries'),
 	nodemailer = require('nodemailer');
 
 router.get('/', (req, res) => {
-	res.render('index', {
-		title: '',
-		page: 'index',
-		gallery: 'assorted'
-	});
+	res.render('index');
+});
+
+router.get('/get/galleries', (req, res) => {
+	res.send(galleries);
 });
 
 router.post('/send/message', (req, res) => {
