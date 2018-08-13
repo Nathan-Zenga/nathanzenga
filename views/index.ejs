@@ -13,6 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="/css/main.css">
 	<link rel="stylesheet" type="text/css" href="/css/galleria.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/galleria/1.5.7/galleria.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/galleria/1.5.7/plugins/flickr/galleria.flickr.min.js"></script>
 	<script src="/js/main.js"></script>
@@ -20,6 +21,8 @@
 </head>
 
 <body>
+	<%_ include modals/gallery _%>
+
 	<div class="bgvid">
 		<video autoplay loop muted poster="/img/bgvid-poster.jpg"><source src="/img/sparks.mp4"/></video>
 	</div>
@@ -27,7 +30,7 @@
 	<div id="nav_dropdown">Menu</div>
 
 	<div class="container-fluid">
-		<nav class="col-sm-5">
+		<nav class="col-sm-4">
 			<div class="inner-nav">
 				<div class="row link" id="index"><a><img id="logo" src="/img/l.png"></a></div>
 				<div class="row link gap" id="work"><a>Work</a></div>
@@ -40,10 +43,10 @@
 				<div class="row" id="navclose"><a class="glyphicon glyphicon-chevron-up"></a></div>
 			</div>
 		</nav>
-		<div class="col-sm-7 main">
+		<div class="col-sm-8 main">
 			<section class="index">
 				<span>
-					<div class="index-slideshow" oncontextmenu="return false" id="<%= typeof gallery == 'function' ? gallery() : gallery %>"></div>
+					<div class="index-slideshow" oncontextmenu="return false" id="assorted"></div>
 				</span>
 			</section>
 			<%_ include work _%>
