@@ -4,7 +4,7 @@ $(function() {
 			var s = this.id;
 			$("html, body").stop().animate({
 				scrollTop: $("section." + s).offset().top
-			}, 500)
+			}, 700, 'easeInOutExpo')
 		} catch(err) {
 			console.log("Section doesn't exist")
 		}
