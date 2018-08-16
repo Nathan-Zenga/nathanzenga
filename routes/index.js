@@ -12,6 +12,9 @@ router.get('/get/galleries', (req, res) => {
 });
 
 router.post('/send/message', (req, res) => {
+	let empty = false;
+	for (k in req.body) if (req.body[k] === '') empty = true;
+	if (empty) return res.send("Please fill in the missing field(s)");
 	let transporter = nodemailer.createTransport({
 		service: 'gmail',
 		port: 465,
@@ -37,7 +40,7 @@ router.post('/send/message', (req, res) => {
 		console.log("The message was sent!");
 		console.log(info);
 		console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-		res.send('Message Sent');
+		res.send('Message sent');
 	});
 });
 
