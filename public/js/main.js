@@ -43,11 +43,8 @@ $(function() {
 			if (status !== 'success') {
 				alert("error: "+status );
 			} else {
-				$(".contact form")
-					.find(".details")
-					.val("")
-					.end()
-					.find(".result")
+				if (msg.includes("sent")) $(".contact form .details").val("");
+				$(".contact .result")
 					.stop()
 					.hide(0)
 					.html("<h3 style='text-align:center'>"+ msg +"</h3>")
