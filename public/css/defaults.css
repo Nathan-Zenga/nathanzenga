@@ -3,10 +3,9 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat|Arvo');
 
 html, body {
-	height: 100%;
 	padding:0!important;
 	background-color: black;
-	font-family: 'Arvo', 'Century Gothic', sans-serif;
+	font-family: 'Montserrat', 'Century Gothic', sans-serif;
 	color: white;
 	font-feature-settings: "liga" 0;
 }

@@ -1,17 +1,15 @@
 $(function() {
-	Galleria.loadTheme("https://cdnjs.cloudflare.com/ajax/libs/galleria/1.5.7/themes/classic/galleria.classic.min.js").configure({transition: "fade"});
+	Galleria.loadTheme("https://cdnjs.cloudflare.com/ajax/libs/galleria/1.5.7/themes/classic/galleria.classic.min.js").configure({
+		transition: "fade",
+		swipe: "disabled"
+	});
+
 	$.get('/get/galleries', function(g, status) {
 		var imageSize = 'big';
 		var imageCrop = window.innerWidth < 768 ? false : true;
 		var id = $(".index-slideshow").attr("id");
 
-		if ($(".index-slideshow").length) {
-			if (id == 'assorted') {
-				Galleria.run( "#"+id, { imageCrop: imageCrop, flickr:"set:"+g[id].set, flickrOptions: { imageSize: imageSize }, autoplay: 3000 })
-			} else {
-				Galleria.run( "#"+id, { imageCrop: imageCrop, flickr:"set:"+g[id].set, flickrOptions: { imageSize: imageSize }})
-			}
-		}
+		Galleria.run( "#" + id, { imageCrop: imageCrop, flickr:"set:"+g[id].set, flickrOptions: { imageSize: imageSize }, autoplay: 3000 });
 
 		$(".work .thumb")
 		.each(function() {
