@@ -1,10 +1,68 @@
 $(function() {
+	var keys = {
+		32: 1, // spacebar
+		33: 1, // pageup
+		34: 1, // pagedown
+		35: 1, // end
+		36: 1, // home
+		37: 1, // left
+		38: 1, // up
+		39: 1, // right
+		40: 1  // down
+	};
+
+	var smoothScroll = (scrollTop) => {
+		$("html, body").stop().animate({ scrollTop: scrollTop }, 700, 'easeInOutExpo');
+	}
+
+	document.onkeydown = function(e){
+		if (keys[e.keyCode]) {
+			e = e || window.event;
+			if (e.preventDefault) e.preventDefault();
+
+			var key = e.keyCode;
+			var st;
+
+			if (key == 32 || key == 34 || key == 40) {
+				st = "+=" + window.innerHeight;
+			} else if (key == 33 || key == 38) {
+				st = "-=" + window.innerHeight;
+			} else if (key == 35) {
+				st = document.body.offsetHeight - window.innerHeight;
+			} else if (key == 36) {
+				st = 0;
+			}
+
+			smoothScroll(st);
+
+			return false;
+		}
+	}
+
+	// for mouse wheel/touchpad movements
+	$('html, body').bind('DOMMouseScroll mousewheel', function(e){
+		e = e || window.event;
+		if (e.preventDefault) e.preventDefault();
+
+		var st;
+
+		if (e.originalEvent.detail > 0 || e.originalEvent.wheelDelta < 0) {
+			//scroll down
+			st = "+=" + window.innerHeight;
+		} else {
+			//scroll up
+			st = "-=" + window.innerHeight;
+		}
+
+		smoothScroll(st);
+
+		return false; //prevent page fom scrolling
+	});
+
 	$("nav .link").click(function() {
 		try {
 			var s = this.id;
-			$("html, body").stop().animate({
-				scrollTop: $("section." + s).offset().top
-			}, 700, 'easeInOutExpo')
+			smoothScroll($("section." + s).offset().top)
 		} catch(err) {
 			console.log("Section doesn't exist")
 		}
