@@ -32,11 +32,11 @@ router.post('/send/message', (req, res) => {
 		from: `"${req.body.name}" <${req.body.email}>`,
 		to: 'nathanzenga@gmail.com',
 		subject: req.body.subject,
-		text: req.body.message
+		text: `From ${req.body.name} (${req.body.email}):\n\n${req.body.message}`
 	};
 
 	transporter.sendMail(mailOptions, function(err, info) {
-		if (err) return console.log(err);
+		if (err) return console.log(err), res.send("Could not send message");
 		console.log("The message was sent!");
 		console.log(info);
 		console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));

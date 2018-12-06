@@ -15,53 +15,75 @@ $(function() {
 		$("html, body").stop().animate({ scrollTop: scrollTop }, 700, 'easeInOutExpo');
 	}
 
-	document.onkeydown = function(e){
+	var markSection = () => {
+		var $lastVisitedSection;
+		$("section").each(function(i){
+			if ( window.pageYOffset >= $(this).offset().top ) {
+				$lastVisitedSection = $(this);
+			}
+		});
+		return $lastVisitedSection;
+	}
+
+	var index = markSection().index();
+
+	var overrideKeyPress = function(e) {
+		e = e || window.event;
 		if (keys[e.keyCode]) {
-			e = e || window.event;
 			if (e.preventDefault) e.preventDefault();
 
 			var key = e.keyCode;
-			var st;
 
-			if (key == 32 || key == 34 || key == 40) {
-				st = "+=" + window.innerHeight;
-			} else if (key == 33 || key == 38) {
-				st = "-=" + window.innerHeight;
-			} else if (key == 35) {
-				st = document.body.offsetHeight - window.innerHeight;
-			} else if (key == 36) {
-				st = 0;
+			if (key == 32 || key == 34 || key == 40) { // down
+				index += 1;
+			} else if (key == 33 || key == 38) { // up
+				index -= 1;
+			} else if (key == 35) { // end
+				index = $("section:last").index();
+			} else if (key == 36) { // home
+				index = 0;
 			}
 
-			smoothScroll(st);
+			if (index < 0) index = 0;
+			else if ( index > $("section:last").index() ) index = $("section:last").index();
+
+			smoothScroll($("section").eq(index).offset().top);
 
 			return false;
 		}
 	}
+
+	document.onkeydown = overrideKeyPress;
+
+	$("input:not(:submit), textarea")
+		.focusin(function(){
+			document.onkeydown = function(e) { return true };
+		})
+		.focusout(function(){
+			document.onkeydown = overrideKeyPress;
+		});
 
 	// for mouse wheel/touchpad movements
 	$('html, body').bind('DOMMouseScroll mousewheel', function(e){
 		e = e || window.event;
 		if (e.preventDefault) e.preventDefault();
 
-		var st;
+		// scroll down, else scroll up
+		e.originalEvent.detail > 0 || e.originalEvent.wheelDelta < 0 ? index += 1 : index -= 1;
 
-		if (e.originalEvent.detail > 0 || e.originalEvent.wheelDelta < 0) {
-			//scroll down
-			st = "+=" + window.innerHeight;
-		} else {
-			//scroll up
-			st = "-=" + window.innerHeight;
-		}
+		if (index < 0) index = 0;
+		else if ( index > $("section:last").index() ) index = $("section:last").index();
 
-		smoothScroll(st);
+		smoothScroll($("section").eq(index).offset().top);
 
-		return false; //prevent page fom scrolling
+		//prevent page fom scrolling
+		return false;
 	});
 
 	$("nav .link").click(function() {
 		try {
 			var s = this.id;
+			index = $(this).index();
 			smoothScroll($("section." + s).offset().top)
 		} catch(err) {
 			console.log("Section doesn't exist")
@@ -104,7 +126,7 @@ $(function() {
 				if (msg.includes("sent")) $(".contact form .details").val("");
 				$(".contact .result")
 					.stop()
-					.hide(0)
+					.slideUp()
 					.html("<h3 style='text-align:center'>"+ msg +"</h3>")
 					.slideDown().delay(3000).slideUp();
 			}
