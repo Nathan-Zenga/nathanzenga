@@ -29,14 +29,15 @@ $(function() {
 
 	var overrideKeyPress = function(e) {
 		e = e || window.event;
+		var shiftKey = e.shiftKey;
 		if (keys[e.keyCode]) {
 			if (e.preventDefault) e.preventDefault();
 
 			var key = e.keyCode;
 
-			if (key == 32 || key == 34 || key == 40) { // down
+			if ((key == 32 && !shiftKey) || key == 34 || key == 40) { // down
 				index += 1;
-			} else if (key == 33 || key == 38) { // up
+			} else if ((key == 32 && shiftKey) || key == 33 || key == 38) { // up
 				index -= 1;
 			} else if (key == 35) { // end
 				index = $("section:last").index();
