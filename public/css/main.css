@@ -216,6 +216,10 @@ nav .gap {
 	resize: none;
 }
 
+.contact form .result {
+	position: absolute;
+}
+
 @media (min-width: 768px) {
 	.contact form.centre {
 		-webkit-transform: translate(0, -50%);
