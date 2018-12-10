@@ -339,7 +339,18 @@ nav .gap {
 
 #gallery_view .modal-icons {
 	position: absolute;
-	top: 20px; right: 20px;
+	right: 0px;
 	font-size: 1.75em;
 	z-index: 96;
+}
+
+#gallery_view .modal-icons .close-view {
+	padding: 15px 10px 0 0;
+	background-color: rgba(0,0,0,.5);
+}
+
+@media (min-width: 768px) {
+	#gallery_view .modal-icons .close-view {
+		padding: 30px;
+	}
 }
