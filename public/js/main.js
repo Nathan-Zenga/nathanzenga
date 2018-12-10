@@ -39,9 +39,13 @@ $(function() {
 				index += 1;
 			} else if ((key == 32 && shiftKey) || key == 33 || key == 38) { // up
 				index -= 1;
-			} else if (key == 35) { // end
+			} else if (key == 37 && $("#gallery_view .galleria-image-nav-left").length) {
+				$("#gallery_view .galleria-image-nav-left").click();
+			} else if (key == 39 && $("#gallery_view .galleria-image-nav-right").length) {
+				$("#gallery_view .galleria-image-nav-right").click();
+			} else if (key == 35) {
 				index = $("section:last").index();
-			} else if (key == 36) { // home
+			} else if (key == 36) {
 				index = 0;
 			}
 
@@ -109,8 +113,8 @@ $(function() {
 
 		$(".contact .result")
 		.css("display", "none")
-		.html("<p style='text-align:center'>Sending...</p>")
-		.slideDown();
+		.html("<p style='text-align:center; margin-top: 20px'>Sending...</p>")
+		.fadeIn();
 
 		var $details = $(this).closest("form").find(".details");
 		var data = {};
@@ -127,9 +131,8 @@ $(function() {
 				if (msg.includes("sent")) $(".contact form .details").val("");
 				$(".contact .result")
 					.stop()
-					.slideUp()
-					.html("<h3 style='text-align:center'>"+ msg +"</h3>")
-					.slideDown().delay(3000).slideUp();
+					.fadeOut(function() { $(this).html("<h3 style='text-align:center'>"+ msg +"</h3>") })
+					.fadeIn().delay(3000).fadeOut();
 			}
 		});
 	});
