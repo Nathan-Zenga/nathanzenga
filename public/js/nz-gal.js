@@ -22,7 +22,7 @@ $(function() {
 		})
 		.click(function() {
 			var id = this.id;
-			Galleria.run( "#gallery_view .iframe", { flickr:"set:"+g[id].set, flickrOptions: { imageSize: imageSize } });
+			Galleria.configure({ swipe: "auto" }).run( "#gallery_view .iframe", { flickr:"set:"+g[id].set, flickrOptions: { imageSize: imageSize } });
 		});
 	});
 });

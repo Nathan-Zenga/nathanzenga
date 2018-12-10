@@ -58,7 +58,7 @@ $(function() {
 
 	$("input:not(:submit), textarea")
 		.focusin(function(){
-			document.onkeydown = function(e) { return true };
+			document.onkeydown = null;
 		})
 		.focusout(function(){
 			document.onkeydown = overrideKeyPress;
@@ -134,7 +134,7 @@ $(function() {
 		});
 	});
 
-	$("#toggleThumbnails").click(function() {
-		$("#gallery_view .galleria-thumbnails-container").fadeToggle(100);
+	$(".close-view").click(function() {
+		$("#gallery_view").modal("hide");
 	});
 });

@@ -45,3 +45,14 @@ ul {
 .row {
 	margin: 0;
 }
+
+.hamburger-inner:before,
+.hamburger-inner:after,
+.hamburger-inner {
+	background-color: white!important;
+	width: 30px;
+}
+
+.hamburger.is-active:hover, .hamburger:hover {
+	opacity: 1;
+}
