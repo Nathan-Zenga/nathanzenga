@@ -164,8 +164,8 @@ nav .gap {
 	position:fixed;
 	top: 50%;
 	left: 50%;
+	-webkit-transform: translate(-50%,-50%);
 	transform: translate(-50%,-50%);
-	transform: translate(---50%,-50%);
 	width:100%; height:100%;
 	overflow:hidden;
 	z-index:1
@@ -218,6 +218,10 @@ nav .gap {
 
 .contact form .result {
 	position: absolute;
+}
+
+.contact form .submit {
+	font-weight: bold;
 }
 
 @media (min-width: 768px) {

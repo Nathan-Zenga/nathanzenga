@@ -1,15 +1,14 @@
 $(function() {
-	Galleria.loadTheme("https://cdnjs.cloudflare.com/ajax/libs/galleria/1.5.7/themes/classic/galleria.classic.min.js").configure({
-		transition: 'fade'
-	});
-
 	$.get('/get/galleries', function(g, status) {
+		function isDevice (rgx) { return rgx.test(detect.parse(navigator.userAgent).device.type) };
+		function swipe () { return isDevice(/Mobile|Tablet/) ? 'auto' : 'disabled' };
 		var imageSize = 'big';
-		var imageCrop = window.innerWidth < 768 ? false : true;
-		var swipe = () => { return window.innerWidth < 768 ? 'auto' : 'disabled' };
-		var id = 'assorted';
+		var imageCrop = isDevice(/Mobile|Tablet/) || window.innerWidth < 768 ? false : true;
 
-		Galleria.run( "#" + id, { imageCrop: imageCrop, flickr:"set:"+g[id].set, flickrOptions: { imageSize: imageSize }, autoplay: 3000, swipe: "disabled" });
+		Galleria
+		.loadTheme("https://cdnjs.cloudflare.com/ajax/libs/galleria/1.5.7/themes/classic/galleria.classic.min.js")
+		.configure({ transition: 'fade' })
+		.run( "#assorted", { imageCrop: imageCrop, flickr:"set:"+g.assorted.set, flickrOptions: { imageSize: imageSize }, autoplay: 3000, swipe: "disabled" });
 
 		$(".work .thumb")
 		.each(function() {
