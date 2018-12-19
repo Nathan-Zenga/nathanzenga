@@ -88,7 +88,7 @@ $(function() {
 	$("nav .link").click(function() {
 		try {
 			var s = this.id;
-			index = $(this).index();
+			index = $("section." + s).index();
 			smoothScroll($("section." + s).offset().top)
 		} catch(err) {
 			console.log("Section doesn't exist")
