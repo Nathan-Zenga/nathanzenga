@@ -11,6 +11,9 @@ $(function() {
 				flickr: "set:"+g.assorted.set,
 				flickrOptions: { imageSize: imageSize },
 				autoplay: 3000,
+				showImagenav: false,
+				showInfo: false,
+				thumbnails: false,
 				swipe: "disabled"
 			})
 		};
@@ -18,18 +21,35 @@ $(function() {
 		runSlideshow();
 		window.addEventListener("orientationchange", runSlideshow);
 
-		$(".work .thumb")
-		.each(function() {
+		$(".work .thumb").each(function() {
 			try {
-				var id = this.id;
-				Galleria.run( ".work .thumb#"+ id +" .cover-image", { flickr: "search:nz-"+g[id].tag+"-cover", flickrOptions: { max: 1 }, imageCrop: true })
+				let id = this.id;
+				Galleria.run( ".work .thumb#"+ id +" .cover-image", { flickr: "search:nz-"+g[id].tag+"-cover", flickrOptions: { max: 1 }, imageCrop: true, thumbnails: false, showImagenav: false })
 			} catch(err) {
 				console.log(err)
 			}
-		})
-		.click(function() {
-			var id = this.id;
-			Galleria.run( "#gallery_view .iframe", { flickr: "set:"+g[id].set, flickrOptions: { imageSize: imageSize }, swipe: swipe() });
+		});
+
+		$(".work .thumb, #figures_thumbs_modal .thumb-img").click(function() {
+			if (this.dataset.target !== "#figures_thumbs_modal") {
+				let id = this.id;
+				Galleria.run( "#gallery_view .iframe", { flickr: "set:"+g[id].set, flickrOptions: { imageSize: imageSize }, swipe: swipe() });
+			} else {
+				$("#figures_thumbs_modal .thumb-img").each(function() {
+					let id = this.id;
+					let settings = {
+						flickr: "search:nz-"+g[id].tag+"-cover",
+						flickrOptions: { max: 1 },
+						imageCrop: true,
+						showImagenav: false,
+						showInfo: false,
+						thumbnails: false
+					};
+					let pos = { blanqkanvas: "center 20%", witley: "center 15%" };
+					settings.imagePosition = pos[id] ? pos[id] : undefined;
+					Galleria.run( "#" + id + " .iframe", settings);
+				})
+			}
 		});
 	});
 });

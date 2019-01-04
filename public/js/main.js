@@ -136,8 +136,4 @@ $(function() {
 			}
 		});
 	});
-
-	$(".close-view").click(function() {
-		$("#gallery_view").modal("hide");
-	});
 });
