@@ -148,15 +148,6 @@ nav .gap {
 	height:100%;
 }
 
-.index-slideshow#assorted .galleria-theme-classic .galleria-thumbnails-container,
-.index-slideshow#assorted .galleria-theme-classic .galleria-image-nav,
-.index-slideshow#assorted .galleria-theme-classic .galleria-info-link,
-.cover-image .galleria-theme-classic .galleria-thumbnails-container,
-.cover-image .galleria-theme-classic .galleria-image-nav,
-.cover-image .galleria-theme-classic .galleria-info-link {
-	display: none;
-}
-
 .bgvid {
 	position:fixed;
 	top: 50%;
@@ -312,50 +303,81 @@ nav .gap {
 	}
 }
 
-#gallery_view {
+.gallery.modal {
 	background-color: rgba(0,0,0,.75);
 }
 
-#gallery_view .modal-dialog {
+.gallery.modal .modal-dialog {
 	width: 100%; height: 100%;
 	margin: 0;
 }
 
-#gallery_view .modal-content,
-#gallery_view .modal-body,
-#gallery_view .iframe {
+.gallery.modal .modal-content,
+.gallery.modal .modal-body,
+.gallery.modal .iframe {
 	height: 100%;
 }
 
-#gallery_view .modal-body {
+.gallery.modal .modal-body {
 	padding: 30px 0px;
 }
 
-#gallery_view .modal-content {
+.gallery.modal .modal-content {
 	background-color: transparent;
 	border: none;
 	box-shadow: none;
 }
 
-#gallery_view .galleria-info-link,
-#gallery_view .galleria-thumbnails-container {
+.gallery.modal .galleria-info-link,
+.gallery.modal .galleria-thumbnails-container {
 	display: none;
 }
 
-#gallery_view .modal-icons {
+.gallery.modal .modal-icons {
 	position: absolute;
 	right: 0px;
 	font-size: 1.75em;
 	z-index: 96;
 }
 
-#gallery_view .modal-icons .close-view {
+.gallery.modal .modal-icons .close-view {
 	padding: 15px 10px 0 0;
 	background-color: rgba(0,0,0,.5);
 }
 
+#figures_thumbs_modal .container,
+#figures_thumbs_modal .inner {
+	height: 100%
+}
+
+#figures_thumbs_modal .container .row {
+	height: 50%
+}
+
+#figures_thumbs_modal .thumb-img {
+	height: 50%;
+	padding: 10px;
+}
+
+#figures_thumbs_modal .thumb-img .iframe {
+	height: 100%;
+}
+
+#figures_thumbs_modal .thumb-label {
+	position: absolute;
+	bottom: 10px;
+	width: calc(100% - 20px);
+	padding: 10px;
+	background-color: rgba(0,0,0,.5);
+	z-index: 50;
+}
+
 @media (min-width: 768px) {
-	#gallery_view .modal-icons .close-view {
+	.gallery.modal .modal-icons .close-view {
 		padding: 30px;
+	}
+
+	#figures_thumbs_modal .thumb-img {
+		height: 100%;
 	}
 }
