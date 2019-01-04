@@ -45,7 +45,7 @@ $(function() {
 						showInfo: false,
 						thumbnails: false
 					};
-					let pos = { blanqkanvas: "center 20%", witley: "center 15%" };
+					let pos = { blanqkanvas: "center 20%", witley: "center 15%", kojey: "center 20%" };
 					settings.imagePosition = pos[id] ? pos[id] : undefined;
 					Galleria.run( "#" + id + " .iframe", settings);
 				})
