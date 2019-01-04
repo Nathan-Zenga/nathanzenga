@@ -29,5 +29,12 @@ module.exports = {
 	trip: {set: "qWoNMJ0HeaY", tag: "trip"},
 	dede: {set: "dYSLvmaZlh0", tag: "dede"},
 	ab: {set: "KkCTDiIECM8", tag: "ab"},
-	laswap: {set: "jYZiBss_eSU", tag: "laswap"}
+	laswap: {set: "jYZiBss_eSU", tag: "laswap"},
+	blkniche: {set: "72157705334752475", tag: "blkniche"},
+	sorom: {set: "72157703888554651", tag: "sorom"},
+	say: {set: "72157699429358160", tag: "say"},
+	blanqkanvas: {set: "72157703888404561", tag: "blanqkanvas"},
+	kai: {set: "72157705334378155", tag: "kai"},
+	kojey: {set: "72157703888333641", tag: "kojey"},
+	witley: {set: "72157702056674572", tag: "knc"}
 }
