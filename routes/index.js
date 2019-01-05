@@ -4,7 +4,18 @@ var express = require('express'),
 	nodemailer = require('nodemailer');
 
 router.get('/', (req, res) => {
-	res.render('index');
+	res.render('index', {
+		colspan: 6,
+		modalThumbs: [
+			[
+				{ id: "witley", label: "Witley" },
+				{ id: "say", label: "S.A.Y" }
+			],[
+				{ id: "blanqkanvas", label: "Blanq Kanvas" },
+				{ id: "kojey", label: "Kojey Radical" }
+			]
+		]
+	})
 });
 
 router.get('/get/galleries', (req, res) => {
