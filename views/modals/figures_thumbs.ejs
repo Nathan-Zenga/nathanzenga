@@ -10,34 +10,18 @@
 		<div class="modal-content">
 			<div class="modal-body">
 				<div class="container">
-					<div class="row">
-						<div class="col-sm-6 thumb-img" id="witley" data-toggle="modal" data-target="#gallery_view">
-							<div class="inner"">
-								<div class="iframe"></div>
-								<div class="thumb-label">Witley</div>
+					<%_ modalThumbs.forEach(row => { _%>
+						<div class="row">
+						<%_ row.forEach(thumb => { _%>
+							<div class="col-sm-<%= colspan %> thumb-img" id="<%= thumb.id %>" data-toggle="modal" data-target="#gallery_view">
+								<div class="inner"">
+									<div class="iframe" oncontextmenu="return false"></div>
+									<div class="thumb-label"><%= thumb.label %></div>
+								</div>
 							</div>
+						<%_ }) _%>
 						</div>
-						<div class="col-sm-6 thumb-img" id="say" data-toggle="modal" data-target="#gallery_view">
-							<div class="inner"">
-								<div class="iframe"></div>
-								<div class="thumb-label">S.A.Y</div>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-6 thumb-img" id="blanqkanvas" data-toggle="modal" data-target="#gallery_view">
-							<div class="inner"">
-								<div class="iframe"></div>
-								<div class="thumb-label">Blanq Kanvas</div>
-							</div>
-						</div>
-						<div class="col-sm-6 thumb-img" id="kojey" data-toggle="modal" data-target="#gallery_view">
-							<div class="inner"">
-								<div class="iframe"></div>
-								<div class="thumb-label">Kojey Radical</div>
-							</div>
-						</div>
-					</div>
+					<%_ }) _%>
 				</div>
 			</div>
 		</div>
