@@ -5,14 +5,15 @@ var express = require('express'),
 
 router.get('/', (req, res) => {
 	res.render('index', {
-		colspan: 6,
 		modalThumbs: [
 			[
 				{ id: "witley", label: "Witley" },
-				{ id: "say", label: "S.A.Y" }
+				{ id: "say", label: "S.A.Y" },
+				{ id: "blanqkanvas", label: "Blanq Kanvas" }
 			],[
-				{ id: "blanqkanvas", label: "Blanq Kanvas" },
-				{ id: "kojey", label: "Kojey Radical" }
+				{ id: "kojey", label: "Kojey Radical" },
+				{ id: "kai", label: "Kai Rabai" },
+				{ id: "sorom", label: "Sorom" }
 			]
 		]
 	})
