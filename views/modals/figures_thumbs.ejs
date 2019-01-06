@@ -13,7 +13,7 @@
 					<%_ modalThumbs.forEach(row => { _%>
 						<div class="row">
 						<%_ row.forEach(thumb => { _%>
-							<div class="col-sm-<%= colspan %> thumb-img" id="<%= thumb.id %>" data-toggle="modal" data-target="#gallery_view">
+							<div class="col-sm-<%= 12 / row.length %> thumb-img" id="<%= thumb.id %>" data-toggle="modal" data-target="#gallery_view">
 								<div class="inner"">
 									<div class="iframe" oncontextmenu="return false"></div>
 									<div class="thumb-label"><%= thumb.label %></div>
