@@ -305,6 +305,7 @@ nav .gap {
 
 .gallery.modal {
 	background-color: rgba(0,0,0,.75);
+	overflow: auto;
 }
 
 .gallery.modal .modal-dialog {
@@ -334,15 +335,19 @@ nav .gap {
 }
 
 .gallery.modal .modal-icons {
-	position: absolute;
-	right: 0px;
+	position: fixed;
+	right: 10px;
+	top: 10px;
 	font-size: 1.75em;
+	background-color: rgba(0,0,0,.5);
+	border-radius: 100%;
+	overflow: hidden;
 	z-index: 96;
 }
 
 .gallery.modal .modal-icons .close-view {
-	padding: 15px 10px 0 0;
-	background-color: rgba(0,0,0,.5);
+	padding: 0;
+	margin-top: 6px;
 }
 
 #figures_thumbs_modal .container,
@@ -350,12 +355,8 @@ nav .gap {
 	height: 100%
 }
 
-#figures_thumbs_modal .container .row {
-	height: 50%
-}
-
 #figures_thumbs_modal .thumb-img {
-	height: 50%;
+	height: 22.5vh;
 	padding: 10px;
 	cursor: pointer;
 }
@@ -376,8 +377,8 @@ nav .gap {
 }
 
 @media (min-width: 768px) {
-	.gallery.modal .modal-icons .close-view {
-		padding: 30px;
+	#figures_thumbs_modal .container .row {
+		height: 50%
 	}
 
 	#figures_thumbs_modal .thumb-img {
