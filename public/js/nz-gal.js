@@ -3,28 +3,35 @@ $(function() {
 	$.get('/get/galleries', function(g, status) {
 		function isDevice (rgx) { return rgx.test(detect.parse(navigator.userAgent).device.type) };
 		function swipe () { return isDevice(/Mobile|Tablet/) ? 'auto' : 'disabled' };
-		var imageSize = 'big';
-		var imageCrop = isDevice(/Mobile|Tablet/) || window.innerWidth < 768 ? false : true;
+		var imageSize = 'big', isLandscape;
 		var runSlideshow = () => {
-			return Galleria.run( "#assorted", {
-				imageCrop: (window.innerWidth >= window.innerHeight) || imageCrop,
-				flickr: "set:"+g.assorted.set,
-				flickrOptions: { imageSize: imageSize },
-				autoplay: 3000,
-				showImagenav: false,
-				showInfo: false,
-				thumbnails: false,
-				swipe: "disabled"
-			})
-		};
+			if (isLandscape != (window.innerWidth >= window.innerHeight)) {
+				isLandscape = (window.innerWidth >= window.innerHeight);
+				return Galleria.run( "#assorted", {
+					imageCrop: isLandscape,
+					flickr: "set:"+g.assorted.set,
+					flickrOptions: { imageSize: imageSize },
+					autoplay: 3000,
+					showImagenav: false,
+					showInfo: false,
+					thumbnails: false,
+					swipe: "disabled"
+				})
+			}
+		}
 
-		runSlideshow();
-		window.addEventListener("orientationchange", runSlideshow);
+		runSlideshow(); window.addEventListener("resize", runSlideshow);
 
 		$(".work .thumb").each(function() {
 			try {
 				let id = this.id;
-				Galleria.run( ".work .thumb#"+ id +" .cover-image", { flickr: "search:nz-"+g[id].tag+"-cover", flickrOptions: { max: 1 }, imageCrop: true, thumbnails: false, showImagenav: false })
+				Galleria.run( ".work .thumb#"+ id +" .cover-image", {
+					flickr: "search:nz-"+g[id].tag+"-cover",
+					flickrOptions: { max: 1 },
+					imageCrop: true,
+					thumbnails: false,
+					showImagenav: false
+				})
 			} catch(err) {
 				console.log(err)
 			}
