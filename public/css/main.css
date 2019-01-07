@@ -303,6 +303,12 @@ nav .gap {
 	}
 }
 
+@media (max-width: 768px) and (orientation: landscape) {
+	.work .inner-container {
+		height: 100%;
+	}
+}
+
 .gallery.modal {
 	background-color: rgba(0,0,0,.75);
 	overflow: auto;

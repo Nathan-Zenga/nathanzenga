@@ -69,19 +69,23 @@ $(function() {
 		});
 
 	// for mouse wheel/touchpad movements
-	$('html, body').bind('DOMMouseScroll mousewheel', function(e){
-		e = e || window.event;
-		if (e.preventDefault) e.preventDefault();
+	$('html, body').on('DOMMouseScroll mousewheel', function(e){
+		function main() {
+			e = e || window.event;
+			if (e.preventDefault) e.preventDefault();
 
-		// scroll down, else scroll up
-		e.originalEvent.detail > 0 || e.originalEvent.wheelDelta < 0 ? index += 1 : index -= 1;
+			// scroll down, else scroll up
+			e.originalEvent.detail > 0 || e.originalEvent.wheelDelta < 0 ? index += 1 : index -= 1;
 
-		if (index < 0) index = 0;
-		else if ( index > $("section:last").index() ) index = $("section:last").index();
+			if (index < 0) index = 0;
+			else if ( index > $("section:last").index() ) index = $("section:last").index();
 
-		smoothScroll($("section").eq(index).offset().top);
+			smoothScroll($("section").eq(index).offset().top);
+		}
 
-		//prevent page fom scrolling
+		$(":animated").length ? this.addEventListener("animationend", main) : main();
+
+		//prevent page from scrolling
 		return false;
 	});
 
