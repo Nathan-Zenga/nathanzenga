@@ -5,7 +5,7 @@ var express = require('express'),
 
 router.get('/', (req, res) => {
 	res.render('index', {
-		modalThumbs: [
+		modalThumbsFigures: [
 			[
 				{ id: "witley", label: "Witley" },
 				{ id: "say", label: "S.A.Y" },
@@ -14,6 +14,14 @@ router.get('/', (req, res) => {
 				{ id: "kojey", label: "Kojey Radical" },
 				{ id: "kai", label: "Kai Rabai" },
 				{ id: "sorom", label: "Sorom" }
+			]
+		],
+		modalThumbsPlaces: [
+			[
+				{ id: "places1", label: "Appreciating Art" },
+				{ id: "places2", label: "On Arabic Soil (Dubai, 2015)" }
+			],[
+				{ id: "fauna", label: "Fauna" }
 			]
 		]
 	})

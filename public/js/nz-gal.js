@@ -37,16 +37,16 @@ $(function() {
 			}
 		});
 
-		$(".work .thumb, #figures_thumbs_modal .thumb-img").click(function() {
-			if (this.dataset.target !== "#figures_thumbs_modal") {
+		$(".work .thumb, .thumbs-modal .thumb-img").click(function() {
+			if (this.dataset.target === "#gallery_view") {
 				let id = this.id;
 				Galleria.run( "#gallery_view .iframe", { flickr: "set:"+g[id].set, flickrOptions: { imageSize: imageSize }, swipe: swipe() });
 			} else {
-				$("#figures_thumbs_modal .thumb-img").each(function() {
+				$(this.dataset.target).find(".thumb-img").each(function() {
 					let id = this.id;
 					let settings = {
 						flickr: "search:nz-"+g[id].tag+"-cover",
-						flickrOptions: { max: 1 },
+						flickrOptions: { max: 1, imageSize: imageSize },
 						imageCrop: true,
 						showImagenav: false,
 						showInfo: false,
