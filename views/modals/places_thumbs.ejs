@@ -1,4 +1,4 @@
-<div id="figures_thumbs_modal" class="gallery thumbs-modal modal fade" role="dialog">
+<div id="places_thumbs_modal" class="gallery thumbs-modal modal fade" role="dialog">
 	<div class="modal-icons">
 		<div class="hamburger hamburger--squeeze is-active close-view" data-dismiss="modal">
 			<span class="hamburger-box">
@@ -8,7 +8,7 @@
 	</div>
 	<div class="modal-body">
 		<div class="container">
-			<%_ modalThumbsFigures.forEach(row => { _%>
+			<%_ modalThumbsPlaces.forEach(row => { _%>
 				<div class="row">
 				<%_ row.forEach(thumb => { _%>
 					<div class="col-sm-<%= 12 / row.length %> thumb-img" id="<%= thumb.id %>" data-toggle="modal" data-target="#gallery_view">
