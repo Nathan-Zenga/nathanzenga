@@ -4,10 +4,10 @@ $(function() {
 		function isDevice (rgx) { return rgx.test(detect.parse(navigator.userAgent).device.type) };
 		function swipe () { return isDevice(/Mobile|Tablet/) ? 'auto' : 'disabled' };
 		var imageSize = 'big', isLandscape;
-		var runSlideshow = () => {
+		var toToggle = () => {
 			if (isLandscape != (window.innerWidth >= window.innerHeight)) {
 				isLandscape = (window.innerWidth >= window.innerHeight);
-				return Galleria.run( "#assorted", {
+				Galleria.run( "#assorted", {
 					imageCrop: isLandscape,
 					flickr: "set:"+g.assorted.set,
 					flickrOptions: { imageSize: imageSize },
@@ -18,9 +18,18 @@ $(function() {
 					swipe: "disabled"
 				})
 			}
-		}
 
-		runSlideshow(); window.addEventListener("resize", runSlideshow);
+			if (window.innerWidth < 768) {
+				$(".thumbs-modal").each(function(){
+					let length = $(this).find(".thumb-img").length;
+					$(this).find(".thumb-img").css("height", length >= 4 ? "calc(25vh - 20px)" : "calc(" + (100 / length) + "vh - 20px)");
+				});
+			} else {
+				$(".thumbs-modal .thumb-img").css("height", "");
+			}
+		};
+
+		toToggle(); window.addEventListener("resize", toToggle);
 
 		$(".work .thumb").each(function() {
 			try {
