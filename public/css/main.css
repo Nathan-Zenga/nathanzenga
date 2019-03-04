@@ -396,7 +396,6 @@ main {
 
 .title {
 	text-align: center;
-	font-weight: 600
 }
 
 .title > div {
@@ -436,15 +435,14 @@ main {
 .menu nav {
 	padding: 1em 0;
 	text-transform: uppercase;
-	color: rgb(255, 228, 181);
-	background-color: rgba(0,0,0,.6);
+	border-top: 1px solid rgb(25, 25, 25);
+	border-bottom: 1px solid rgb(25, 25, 25);
 }
 
 @media (min-width: 992px) {
 	.menu nav {
 		padding: 0;
 		text-transform: initial;
-		color: inherit;
-		background-color: transparent;
+		border: none;
 	}
 }

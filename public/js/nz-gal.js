@@ -41,6 +41,8 @@ $(function() {
 				show: i,
 				max: 1
 			})
+		}).click(function() {
+			var imgIndex = $(".content.grid > .thumb > .inner").index(this);
 		})
 
 
