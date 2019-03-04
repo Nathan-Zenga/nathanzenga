@@ -19,17 +19,17 @@ $(function() {
 		return;
 	});
 
-	// var keys = {
-	// 	32: 1, // spacebar
-	// 	33: 1, // pageup
-	// 	34: 1, // pagedown
-	// 	35: 1, // end
-	// 	36: 1, // home
-	// 	37: 1, // left
-	// 	38: 1, // up
-	// 	39: 1, // right
-	// 	40: 1  // down
-	// };
+	var keys = {
+		// 32: 1, // spacebar
+		// 33: 1, // pageup
+		// 34: 1, // pagedown
+		// 35: 1, // end
+		// 36: 1, // home
+		37: 1, // left
+		// 38: 1, // up
+		39: 1, // right
+		// 40: 1  // down
+	};
 
 	// var smoothScroll = (scrollTop) => {
 	// 	$("html, body").stop().animate({ scrollTop: scrollTop }, 700, 'easeInOutExpo');
@@ -47,38 +47,25 @@ $(function() {
 
 	// var index = markSection().index();
 
-	// var overrideKeyPress = function(e) {
-	// 	e = e || window.event;
-	// 	var shiftKey = e.shiftKey;
-	// 	if (keys[e.keyCode]) {
-	// 		if (e.preventDefault) e.preventDefault();
+	var overrideKeyPress = function(e) {
+		e = e || window.event;
+		var shiftKey = e.shiftKey;
+		if (keys[e.keyCode]) {
+			if (e.preventDefault) e.preventDefault();
 
-	// 		var key = e.keyCode;
+			var key = e.keyCode;
 
-	// 		if ((key == 32 && !shiftKey) || key == 34 || key == 40) { // down
-	// 			index += 1;
-	// 		} else if ((key == 32 && shiftKey) || key == 33 || key == 38) { // up
-	// 			index -= 1;
-	// 		} else if (key == 37 && $("#gallery_view .galleria-image-nav-left").length) {
-	// 			$("#gallery_view .galleria-image-nav-left").click();
-	// 		} else if (key == 39 && $("#gallery_view .galleria-image-nav-right").length) {
-	// 			$("#gallery_view .galleria-image-nav-right").click();
-	// 		} else if (key == 35) {
-	// 			index = $("section:last").index();
-	// 		} else if (key == 36) {
-	// 			index = 0;
-	// 		}
+			if (key == 37 && $("#gallery_view .galleria-image-nav-left").length) {
+				$("#gallery_view .galleria-image-nav-left").click();
+			} else if (key == 39 && $("#gallery_view .galleria-image-nav-right").length) {
+				$("#gallery_view .galleria-image-nav-right").click();
+			}
 
-	// 		if (index < 0) index = 0;
-	// 		else if ( index > $("section:last").index() ) index = $("section:last").index();
+			return false;
+		}
+	}
 
-	// 		smoothScroll($("section").eq(index).offset().top);
-
-	// 		return false;
-	// 	}
-	// }
-
-	// document.onkeydown = overrideKeyPress;
+	document.onkeydown = overrideKeyPress;
 
 	// $("input:not(:submit), textarea")
 	// 	.focusin(function(){
