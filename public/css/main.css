@@ -1,4 +1,4 @@
-﻿.leg {
+﻿/*.leg {
 	display: none;
 	position: fixed;
 	bottom: 10px;
@@ -386,5 +386,65 @@ nav .gap {
 
 	.thumbs-modal .thumb-img {
 		height: 100%;
+	}
+}*/
+
+main {
+	margin-top: 80px;
+	padding-bottom: 50px;
+}
+
+.title {
+	text-align: center;
+	font-weight: 600
+}
+
+.title > div {
+	margin-bottom: 30px;
+}
+
+.title .name {
+	font-size: 2em;
+}
+
+.title .occupation {
+	letter-spacing: 3px;
+}
+
+.content {
+	margin-top: 60px; 
+}
+
+.content.grid > .thumb {
+	height: 400px;
+	padding: 10px;
+}
+
+.content.grid > .thumb > .inner {
+	height: 100%;
+	background-color: rgba(0,0,0,.1);
+}
+
+.content.grid .galleria-image {
+	filter: contrast(1);
+}
+
+.menu {
+	text-align: center;
+}
+
+.menu nav {
+	padding: 1em 0;
+	text-transform: uppercase;
+	color: rgb(255, 228, 181);
+	background-color: rgba(0,0,0,.6);
+}
+
+@media (min-width: 992px) {
+	.menu nav {
+		padding: 0;
+		text-transform: initial;
+		color: inherit;
+		background-color: transparent;
 	}
 }
