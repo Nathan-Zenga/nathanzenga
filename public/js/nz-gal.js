@@ -3,7 +3,8 @@ $(function() {
 	$.get('/get/galleries', function(g, status) {
 		function isDevice (rgx) { return rgx.test(detect.parse(navigator.userAgent).device.type) };
 		function swipe () { return isDevice(/Mobile|Tablet/) ? 'auto' : 'disabled' };
-		var imageSize = 'big'/*, isLandscape*/;
+		var imageSize = 'big';
+		// var isLandscape;
 		// var toToggle = () => {
 		// 	if (isLandscape != (window.innerWidth >= window.innerHeight)) {
 		// 		isLandscape = (window.innerWidth >= window.innerHeight);
@@ -42,9 +43,15 @@ $(function() {
 				max: 1
 			})
 		}).click(function() {
-			var imgIndex = $(".content.grid > .thumb > .inner").index(this);
+			var i = $(".content.grid > .thumb > .inner").index(this);
+			$("#gallery_view .iframe").galleria({
+				flickr: "set:" + g.assorted.set,
+				flickrOptions: { imageSize: imageSize },
+				showInfo: false,
+				thumbnails: false,
+				show: i,
+				max: 1
+			})
 		})
-
-
 	});
 });
