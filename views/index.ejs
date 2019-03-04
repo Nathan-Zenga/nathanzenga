@@ -25,42 +25,48 @@
 </head>
 
 <body>
-	<%_ include modals/figures_thumbs _%>
-	<%_ include modals/places_thumbs _%>
-	<%_ include modals/gallery _%>
-
-	<div class="bgvid">
-		<video autoplay loop muted poster="/img/bgvid-poster.jpg"><source src="/img/sparks.mp4"/></video>
-	</div>
-
-	<div id="nav_dropdown">Menu</div>
-
-	<div class="container-fluid">
-		<nav class="col-sm-4">
-			<div class="inner-nav">
-				<div class="row link" id="index"><a><img id="logo" src="/img/l.png"></a></div>
-				<div class="row link gap" id="work"><a>Work</a></div>
-				<div class="row link" id="info"><a>Info</a></div>
-				<div class="row link" id="contact"><a>Contact</a></div>
-				<div class="row gap nav-icons">
-					<a class="fab fa-instagram" target="_blank" aria-hidden="true" href="http://instagram.com/nathanzenga"></a>&#8195;
-					<a class="fab fa-linkedin" target="_blank" aria-hidden="true" href="https://uk.linkedin.com/in/nathan-zengamambu"></a>
-				</div>
-				<div class="row" id="navclose"><a class="glyphicon glyphicon-chevron-up"></a></div>
-			</div>
-		</nav>
-		<div class="col-sm-8 main">
-			<section class="index">
-				<span>
-					<div class="index-slideshow" oncontextmenu="return false" id="assorted"></div>
-				</span>
-			</section>
-			<%_ include work _%>
-			<%_ include about _%>
-			<%_ include contact _%>
+	<main class="inner-body container">
+		<div class="row title">
+			<div class="name">&copy; NATHAN ZENGA</div>
+			<div class="occupation">VISUAL ARTIST</div>
 		</div>
-	</div>
-	<div class="leg copyright" id="copyright">&copy; Nathan Zengamambu <%= new Date().getFullYear() %> | All rights reserved</div>
+		<div class="row menu">
+			<div class="menu-icon-container mb-view-md">
+				<button class="hamburger hamburger--spin menu-icon" type="button">
+					<span class="hamburger-box">
+						<span class="hamburger-inner"></span>
+					</span>
+				</button>
+			</div>
+			<nav class="dt-view-md">
+				<a href="/">Overview</a><span class="dt-view-md">&emsp;&emsp;</span><span class="mb-view-md"><br><br></span>
+				<a href="/photo">Photography</a><span class="dt-view-md">&emsp;&emsp;</span><span class="mb-view-md"><br><br></span>
+				<a href="/design">Designs</a><span class="dt-view-md">&emsp;&emsp;</span><span class="mb-view-md"><br><br></span>
+				<a href="/video">Motion</a><span class="dt-view-md">&emsp;&emsp;</span><span class="mb-view-md"><br><br></span>
+				<a href="/info">Info</a>
+			</nav>
+		</div>
+		<div class="row content grid">
+			<div class="col-sm-6 thumb"><div class="inner"></div></div>
+			<div class="col-sm-6 thumb"><div class="inner"></div></div>
+			<div class="col-sm-6 col-md-4 thumb"><div class="inner"></div></div>
+			<div class="col-sm-6 col-md-4 thumb"><div class="inner"></div></div>
+			<div class="col-sm-6 col-md-4 thumb"><div class="inner"></div></div>
+			<div class="col-sm-6 thumb"><div class="inner"></div></div>
+			<div class="col-sm-6 thumb"><div class="inner"></div></div>
+			<div class="col-sm-6 col-md-4 thumb"><div class="inner"></div></div>
+			<div class="col-sm-6 col-md-4 thumb"><div class="inner"></div></div>
+			<div class="col-sm-6 col-md-4 thumb"><div class="inner"></div></div>
+			<div class="col-sm-6 thumb"><div class="inner"></div></div>
+			<div class="col-sm-6 thumb"><div class="inner"></div></div>
+			<div class="col-sm-6 col-md-4 thumb"><div class="inner"></div></div>
+			<div class="col-sm-6 col-md-4 thumb"><div class="inner"></div></div>
+			<div class="col-sm-6 col-md-4 thumb"><div class="inner"></div></div>
+			<div class="col-sm-6 thumb"><div class="inner"></div></div>
+			<div class="col-sm-6 thumb"><div class="inner"></div></div>
+		</div>
+	</main>
+<!-- 	<div class="leg copyright" id="copyright">&copy; Nathan Zengamambu <%= new Date().getFullYear() %> | All rights reserved</div>
 	<script type="text/javascript">
 	var sc_project=11226028; 
 	var sc_invisible=1; 
@@ -73,6 +79,6 @@
 	href="http://statcounter.com/" target="_blank"><img
 	class="statcounter"
 	src="//c.statcounter.com/11226028/0/1bbd0017/1/" alt="Web
-	Analytics"></a></div></noscript>
+	Analytics"></a></div></noscript> -->
 </body>
 </html>
