@@ -49,15 +49,6 @@
 	text-align: right;
 }
 
-.galleria-theme-classic .galleria-loader {
-	left: 50%; top:50%; right: auto;
-	transform: translate(-50%, -50%);
-	width: 30px; height: 30px;
-	background-size: 100%; background-position: 0;
-	opacity: 1!important; border-radius: 50%;
-	box-shadow: 0 0 10px black, 0 0 10px black, 0 0 10px black;
-}
-
 .galleria-theme-classic .galleria-thumbnails .galleria-image {
 	border: 2px black solid;
 	border-radius: 5px

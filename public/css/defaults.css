@@ -1,11 +1,11 @@
 @import url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
 @import url('https://use.fontawesome.com/releases/v5.2.0/css/all.css');
-@import url('https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700,800|Arvo|Questrial');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700,800|Arvo|Questrial|Poppins:600,700,800,900');
 
 html, body {
 	padding:0!important;
 	background-color: rgb(255, 228, 181);
-	font-family: 'Questrial', 'Montserrat', 'Century Gothic', sans-serif;
+	font-family: 'Poppins', 'Montserrat', 'Century Gothic', sans-serif;
 	color: rgb(25, 25, 25);
 	font-feature-settings: "liga" 0;
 }
