@@ -350,6 +350,15 @@ main {
 	padding-bottom: 50px;
 }
 
+footer {
+	padding-bottom: 50px;
+}
+
+footer .socials {
+	text-align: center;
+	font-size: 2em;
+}
+
 .title {
 	text-align: center;
 }
@@ -389,14 +398,30 @@ main {
 	text-align: center;
 }
 
+.menu.fixed {
+	height: 59px;
+}
+
+.menu.fixed .nav-group {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	background-color: rgba(255, 228, 181, .9);
+	padding: 20px 0;
+	z-index: 100;
+}
+
 .menu nav {
 	padding: 1em 0;
 	text-transform: uppercase;
-	border-top: 1px solid rgb(25, 25, 25);
-	border-bottom: 1px solid rgb(25, 25, 25);
 }
 
 @media (min-width: 992px) {
+	.menu.fixed {
+		height: 20px;
+	}
+
 	.menu nav {
 		padding: 0;
 		text-transform: initial;
