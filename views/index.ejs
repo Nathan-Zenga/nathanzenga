@@ -32,20 +32,24 @@
 			<div class="occupation">VISUAL ARTIST</div>
 		</div>
 		<div class="row menu">
-			<div class="menu-icon-container mb-view-md">
-				<button class="hamburger hamburger--spin menu-icon" type="button">
-					<span class="hamburger-box">
-						<span class="hamburger-inner"></span>
-					</span>
-				</button>
+			<div class="nav-group">
+				<div class="menu-icon-container mb-view-md">
+					<button class="hamburger hamburger--spin menu-icon" type="button">
+						<span class="hamburger-box">
+							<span class="hamburger-inner"></span>
+						</span>
+					</button>
+				</div>
+				<nav class="dt-view-md">
+					<%_ var space = '<span class="dt-view-md space">&emsp;&emsp;</span>'; _%>
+					<%_ var linebreak = '<span class="mb-view-md linebreak"><br><br></span>'; _%>
+					<a href="/">Overview</a><%- space + linebreak %>
+					<a href="/photo">Photography</a><%- space + linebreak %>
+					<a href="/design">Designs</a><%- space + linebreak %>
+					<a href="/video">Motion</a><%- space + linebreak %>
+					<a href="/info">Info</a>
+				</nav>
 			</div>
-			<nav class="dt-view-md">
-				<a href="/">Overview</a><span class="dt-view-md">&emsp;&emsp;</span><span class="mb-view-md"><br><br></span>
-				<a href="/photo">Photography</a><span class="dt-view-md">&emsp;&emsp;</span><span class="mb-view-md"><br><br></span>
-				<a href="/design">Designs</a><span class="dt-view-md">&emsp;&emsp;</span><span class="mb-view-md"><br><br></span>
-				<a href="/video">Motion</a><span class="dt-view-md">&emsp;&emsp;</span><span class="mb-view-md"><br><br></span>
-				<a href="/info">Info</a>
-			</nav>
 		</div>
 		<div class="row content grid">
 			<%_ var n = 0; _%>
@@ -56,6 +60,12 @@
 			<%_ } _%>
 		</div>
 	</main>
+	<footer>
+		<div class="socials">
+			<a class="fab fa-instagram" target="_blank" aria-hidden="true" href="http://instagram.com/nathanzenga"></a>&#8195;
+			<a class="fab fa-linkedin" target="_blank" aria-hidden="true" href="https://uk.linkedin.com/in/nathan-zengamambu"></a>
+		</div>
+	</footer>
 <!-- 	<div class="leg copyright" id="copyright">&copy; Nathan Zengamambu <%= new Date().getFullYear() %> | All rights reserved</div>
 	<script type="text/javascript">
 	var sc_project=11226028; 
