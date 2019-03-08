@@ -93,9 +93,16 @@ footer .socials {
 	}
 }
 
-.modal {
-	background-color: rgba(0,0,0,.75);
-	overflow: auto;
+.modal-backdrop {
+	background-color: inherit;
+}
+
+.modal-backdrop.in {
+	opacity: 1;
+}
+
+.modal-open .modal {
+	padding: 0!important;
 }
 
 .modal .iframe {
@@ -115,6 +122,12 @@ footer .socials {
 	display: none;
 }
 
+.modal .galleria-image-nav-left,
+.modal .galleria-image-nav-right {
+	-webkit-filter: invert(1);
+	filter: invert(1);
+}
+
 .modal .modal-icons {
 	position: fixed;
 	right: 15px;
@@ -127,10 +140,4 @@ footer .socials {
 .modal .modal-icons .close-view {
 	padding: 0;
 	margin-top: 6px;
-}
-
-.modal .hamburger.is-active .hamburger-inner,
-.modal .hamburger.is-active .hamburger-inner:after,
-.modal .hamburger.is-active .hamburger-inner:before {
-	background-color: rgb(255, 228, 181)
 }
