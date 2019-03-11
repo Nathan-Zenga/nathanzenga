@@ -1,7 +1,7 @@
 {
   "name": "nathanzenga_com",
-  "version": "5.3.0",
-  "description": "web app for portfolio works",
+  "version": "6.1.0",
+  "description": "portfolio site",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,7 +11,7 @@
     "cookie-parser": "^1.4.1",
     "ejs": "^2.5.7",
     "express": "^4.16.3",
-    "grunt": "1.0.1",
+    "grunt": "^1.0.3",
     "grunt-cli": "1.2.0",
     "grunt-contrib-uglify": "3.3.0",
     "nodemailer": "^4.6.7"
