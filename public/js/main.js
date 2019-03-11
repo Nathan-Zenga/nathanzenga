@@ -16,21 +16,10 @@ $(function() {
 		39: 1 // right
 	};
 
-	// var smoothScroll = (scrollTop) => {
-	// 	$("html, body").stop().animate({ scrollTop: scrollTop }, 700, 'easeInOutExpo');
-	// }
-
-	// var markSection = () => {
-	// 	var $lastVisitedSection;
-	// 	$("section").each(function(i){
-	// 		if ( window.pageYOffset >= $(this).offset().top ) {
-	// 			$lastVisitedSection = $(this);
-	// 		}
-	// 	});
-	// 	return $lastVisitedSection;
-	// }
-
-	// var index = markSection().index();
+	var smoothScroll = scrollTop => {
+		scrollTop = scrollTop.data != undefined ? scrollTop.data : scrollTop;
+		$("html, body").stop().animate({ scrollTop: scrollTop }, 700, 'easeInOutExpo');
+	}
 
 	var overrideKeyPress = function(e) {
 		e = e || window.event;
@@ -59,11 +48,11 @@ $(function() {
 		$("nav").stop().slideToggle(function() {
 			if ($(this).css("display") == "none") $(this).css("display", "");
 		});
-		return;
 	});
+
+	$(".toTop").click(0, smoothScroll);
 
 	document.onkeydown = overrideKeyPress;
 	toggleClass();
 	$(window).scroll(toggleClass);
-
 });
