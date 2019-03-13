@@ -21,6 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Global variables
 app.use(function (req, res, next) {
+	res.locals.production = (process.env.NODE_ENV === "production");
 	next();
 });
 
