@@ -7,6 +7,10 @@ router.get('/', (req, res) => {
 	res.render('index', { pagename: "home" })
 });
 
+router.get('/photo', (req, res) => {
+	res.render('photo', { pagename: "photo" })
+});
+
 router.get('/get/galleries', (req, res) => {
 	res.send(galleries);
 });
