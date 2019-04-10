@@ -42,12 +42,11 @@ footer .toTop {
 }
 
 .content.grid > .thumb {
-	height: 400px;
 	padding: 10px;
 }
 
 .content.grid > .thumb > .inner {
-	height: 100%;
+	height: 350px;
 	background-color: rgba(0,0,0,.1);
 	cursor: pointer;
 }
