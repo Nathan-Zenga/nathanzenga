@@ -1,5 +1,5 @@
 ﻿main {
-	margin-top: 80px;
+	margin-top: 60px;
 	padding-bottom: 50px;
 }
 
@@ -89,6 +89,14 @@ footer .toTop {
 		text-transform: initial;
 		border: none;
 	}
+}
+
+.menu.fixed .nav-group .scroll-tracker {
+	position: absolute;
+	top: 0;
+	width: 0;
+	height: 5px;
+	background-color: rgba(25, 25, 25, .5);
 }
 
 .modal-backdrop {

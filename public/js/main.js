@@ -43,6 +43,12 @@ $(function() {
 		$(".menu").toggleClass("fixed", window.pageYOffset >= $(".row.menu").offset().top - 20);
 	};
 
+	var toggleScrollTracker = function() {
+		$(".scroll-tracker").css({
+			width: (window.pageYOffset / (document.body.offsetHeight-window.innerHeight) * 100) + "%"
+		})
+	};
+
 	$(".menu-icon").click(function() {
 		$(this).toggleClass("is-active");
 		$("nav").stop().slideToggle(function() {
@@ -53,6 +59,9 @@ $(function() {
 	$(".toTop").click(0, smoothScroll);
 
 	document.onkeydown = overrideKeyPress;
+
 	toggleClass();
+	toggleScrollTracker();
 	$(window).scroll(toggleClass);
+	$(window).on("scroll resize", toggleScrollTracker);
 });

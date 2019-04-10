@@ -24,7 +24,7 @@
 	<script src="/js/nz-gal.js"></script>
 </head>
 
-<body>
+<body id="<%= pagename %>">
 	<%_ include modals/gallery _%>
 	<main class="inner-body container">
 		<div class="row title">
@@ -33,6 +33,7 @@
 		</div>
 		<div class="row menu">
 			<div class="nav-group">
+				<div class="scroll-tracker"></div>
 				<div class="menu-icon-container mb-view">
 					<button class="hamburger hamburger--spin menu-icon" type="button">
 						<span class="hamburger-box">
@@ -53,11 +54,8 @@
 			</div>
 		</div>
 		<div class="row content grid">
-			<%_ var n = 0; _%>
 			<%_ for (i = 0; i <= 16; i++) { _%>
-				<%_ if (n >= 5) n = 0; _%>
-				<div class="col-sm-6 <%= n < 2 ? '' : 'col-md-4 ' %>thumb"><div class="inner" data-toggle="modal" data-target="#gallery_view"></div></div>
-				<%_ n++; _%>
+				<div class="col-sm-6 col-md-4 thumb"><div class="inner" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"></div></div>
 			<%_ } _%>
 		</div>
 	</main>
