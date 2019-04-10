@@ -1,0 +1,19 @@
+<%_ include partials/header _%>
+		<div class="row content grid">
+			<%_
+			var settings = [
+				{gallery: "say", label: "S.A.Y."}, 
+				{gallery: "sorom", label: "Sorom"}, 
+				{gallery: "kai", label: "Kai Rabai"}, 
+				{gallery: "kojey", label: "Kojey Radical"}, 
+				{gallery: "witley", label: "Witley"}
+			];
+			for (var i = 0; i < settings.length; i++) {
+			_%>
+			<div class="col-sm-6 col-lg-4 thumb">
+				<div class="inner" id="<%= settings[i].gallery %>" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"></div>
+				<label style="margin: 5px 0"><%= settings[i].label %></label>
+			</div>
+			<%_ } _%>
+		</div>
+<%_ include partials/footer _%>
