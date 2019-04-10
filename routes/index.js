@@ -4,7 +4,7 @@ var express = require('express'),
 	nodemailer = require('nodemailer');
 
 router.get('/', (req, res) => {
-	res.render('index')
+	res.render('index', { pagename: "home" })
 });
 
 router.get('/get/galleries', (req, res) => {
@@ -12,9 +12,6 @@ router.get('/get/galleries', (req, res) => {
 });
 
 router.post('/send/message', (req, res) => {
-	let empty = false;
-	for (k in req.body) if (req.body[k] === '') empty = true;
-	if (empty) return res.send("Please fill in the missing field(s)");
 	let transporter = nodemailer.createTransport({
 		service: 'gmail',
 		port: 465,
@@ -29,7 +26,7 @@ router.post('/send/message', (req, res) => {
 	});
 
 	let mailOptions = {
-		from: `"${req.body.name}" <${req.body.email}>`,
+		from: { name: req.body.name, address: req.body.email },
 		to: 'nathanzenga@gmail.com',
 		subject: req.body.subject,
 		text: `From ${req.body.name} (${req.body.email}):\n\n${req.body.message}`
