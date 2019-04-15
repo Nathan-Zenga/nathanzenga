@@ -11,6 +11,14 @@ router.get('/photo', (req, res) => {
 	res.render('photo', { pagename: "photo" })
 });
 
+router.get('/design', (req, res) => {
+	res.render('design', { pagename: "design" })
+});
+
+router.get('/info', (req, res) => {
+	res.render('info', { pagename: "info" })
+});
+
 router.get('/get/galleries', (req, res) => {
 	res.send(galleries);
 });
@@ -43,6 +51,10 @@ router.post('/send/message', (req, res) => {
 		console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 		res.send('Message sent');
 	});
+});
+
+router.get("*", (req, res) => {
+	res.status(404).render('index', { pagename: "error" });
 });
 
 module.exports = router;
