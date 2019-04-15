@@ -1,0 +1,30 @@
+<%_ include partials/header _%>
+	<div class="col-sm-6" style="margin-bottom: 3em; padding: 0 10px;">
+		<p>London-based photographer, videographer, developer and visual artist.</p>
+		<br>
+		<ul>Shows:
+			<li>2017 - 'Welcome To Tottenham' - GUAP Ltd.</li>
+		</ul>
+	</div>
+
+	<div class="col-sm-6">
+		<form class="form-group">
+			<label class="sr-only">Email Address</label>
+			<input class="form-control details" type="email" id="email" name="email" placeholder="Your Email" required>
+
+			<label class="sr-only">Name</label>
+			<input class="form-control details" type="text" id="name" name="name" placeholder="Your Name" required>
+
+			<label class="sr-only">Subject</label>
+			<input class="form-control details" type="text" id="subject" name="subject" placeholder="Subject" required>
+
+			<label class="sr-only">Message</label>
+			<textarea class="form-control details" type="text" id="message" name="message" placeholder="Enter Message" required></textarea>
+			
+			<label class="sr-only">SUBMIT</label>
+			<input class="form-control submit" type="submit" value="Send">
+
+			<div class="result" style="display: none;"></div>
+		</form>
+	</div>
+<%_ include partials/footer _%>
