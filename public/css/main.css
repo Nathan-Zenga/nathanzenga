@@ -41,18 +41,33 @@ footer .toTop {
 	letter-spacing: 3px;
 }
 
-.content.grid > .thumb {
+.content > [class*="-container"] {
 	padding: 10px;
 }
 
-.content.grid > .thumb > .inner {
-	height: 350px;
+.content > [class*="-container"] > .inner {
 	background-color: rgba(0,0,0,.1);
+	height: 350px;
+}
+
+.content.galleria-init > .img-container > .inner {
 	cursor: pointer;
 }
 
-.content.grid .galleria-image {
-	filter: contrast(1);
+.content > .txt-container > .inner {
+	padding: 20px;
+	overflow: auto;
+}
+
+@media (max-width: 767px) {
+	.content > .txt-container > .inner {
+		background-color: transparent;
+		height: auto;
+	}
+}
+
+#design .content > [class*="-container"]:nth-child(even) {
+	margin-bottom: 3em;
 }
 
 .menu {
@@ -145,4 +160,15 @@ footer .toTop {
 .modal .modal-icons .close-view {
 	padding: 0;
 	margin-top: 6px;
+}
+
+.slideshow > div {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
 }
