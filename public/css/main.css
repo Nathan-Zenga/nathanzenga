@@ -172,3 +172,8 @@ footer .toTop {
 	background-position: center;
 	background-repeat: no-repeat;
 }
+
+form > .details,
+form fieldset > .details {
+	margin-bottom: 1em;
+}
