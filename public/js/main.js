@@ -78,5 +78,19 @@ $(function() {
 					.appendTo(ss);
 			}, 4000);
 		});
-	}
+	};
+
+	$("#info form").submit(function(e) {
+		e.preventDefault();
+		var data = {};
+
+		$("form .details").each(function() {
+			var name = $(this).attr("name");
+			data[name] = this.value;
+		});
+
+		$.post("/send/message", data, function(value) {
+			alert(value);
+		})
+	})
 });
