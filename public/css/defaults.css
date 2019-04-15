@@ -22,8 +22,8 @@ a:hover {
 }
 
 ::selection {
-	color: black;
-	background: gold
+	color: rgb(255, 228, 181);
+	background: rgb(25, 25, 25);
 }
 
 img:not(#logo) {
@@ -40,7 +40,7 @@ ul {
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: #777;
+	background-color: rgb(25, 25, 25);
 	border-radius: 10px;
 }
 
