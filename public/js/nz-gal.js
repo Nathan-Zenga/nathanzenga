@@ -18,7 +18,7 @@ $(function() {
 			})
 
 		}).click(function() {
-			var i = $(".content.grid > .img-container > .inner").index(this);
+			var i = $(".content.galleria-init > .img-container > .inner").index(this);
 			var id = this.id;
 			var options = {
 				flickrOptions: { imageSize: imageSize },
