@@ -45,7 +45,7 @@ $(function() {
 
 	var toggleScrollTracker = function() {
 		$(".scroll-tracker").css({
-			width: (window.pageYOffset / (document.body.offsetHeight-window.innerHeight) * 100) + "%"
+			width: (window.pageYOffset / (document.documentElement.offsetHeight-window.innerHeight) * 100) + "%"
 		})
 	};
 
