@@ -4,19 +4,19 @@ var express = require('express'),
 	nodemailer = require('nodemailer');
 
 router.get('/', (req, res) => {
-	res.render('index', { pagename: "home" })
+	res.render('index', { title: null, pagename: "home" })
 });
 
 router.get('/photo', (req, res) => {
-	res.render('photo', { pagename: "photo" })
+	res.render('photo', { title: "Photography", pagename: "photo" })
 });
 
 router.get('/design', (req, res) => {
-	res.render('design', { pagename: "design" })
+	res.render('design', { title: "Designs", pagename: "design" })
 });
 
 router.get('/info', (req, res) => {
-	res.render('info', { pagename: "info" })
+	res.render('info', { title: "Info", pagename: "info" })
 });
 
 router.get('/get/galleries', (req, res) => {
@@ -54,7 +54,7 @@ router.post('/send/message', (req, res) => {
 });
 
 router.get("*", (req, res) => {
-	res.status(404).render('index', { pagename: "error" });
+	res.status(404).render('index', { title: "Error 404", pagename: "error" });
 });
 
 module.exports = router;
