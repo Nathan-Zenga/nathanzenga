@@ -25,6 +25,15 @@ footer .toTop {
 	cursor: pointer;
 }
 
+.scroll-tracker {
+	position: fixed;
+	top: 0;
+	width: 0;
+	height: 5px;
+	background-color: rgba(25, 25, 25, .5);
+	z-index: 101;
+}
+
 .title {
 	text-align: center;
 }
@@ -103,14 +112,6 @@ footer .toTop {
 		text-transform: initial;
 		border: none;
 	}
-}
-
-.menu.fixed .nav-group .scroll-tracker {
-	position: absolute;
-	top: 0;
-	width: 0;
-	height: 5px;
-	background-color: rgba(25, 25, 25, .5);
 }
 
 .modal-backdrop {
