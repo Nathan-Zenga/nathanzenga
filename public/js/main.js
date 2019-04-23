@@ -65,21 +65,6 @@ $(function() {
 	$(window).scroll(toggleClass);
 	$(window).on("scroll resize", toggleScrollTracker);
 
-	if ($(".slideshow").length) {
-		$(".slideshow").each(function(){
-			var ss = this;
-			$(ss).children("div:gt(0)").hide();
-			setInterval(function() {
-				$(ss).children('div:first')
-					.fadeOut(2000)
-					.next()
-					.fadeIn(2000)
-					.end()
-					.appendTo(ss);
-			}, 4000);
-		});
-	};
-
 	$("#info form").submit(function(e) {
 		e.preventDefault();
 		var data = {};
