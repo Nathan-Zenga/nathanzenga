@@ -1,10 +1,11 @@
 // import modules
-var express = require('express'),
-	cookieParser = require('cookie-parser'),
-	bodyParser = require('body-parser'),
-	http = require('http'), // core module
-	path = require('path'), // core module
-	ejs = require('ejs');
+var express = require('express');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var http = require('http'); // core module
+var path = require('path'); // core module
+var ejs = require('ejs');
+var production = (process.env.NODE_ENV === "production");
 
 var app = express();
 
@@ -21,7 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Global variables
 app.use(function (req, res, next) {
-	res.locals.production = (process.env.NODE_ENV === "production");
+	res.locals.production = production;
 	next();
 });
 
@@ -31,4 +32,9 @@ app.use('/', require('./routes/index'));
 var port = process.env.PORT || 5678;
 app.listen(port, function() {
 	console.log('Server started on port '+ port);
+	if (production) {
+		setInterval(function() {
+			http.get("http://nathanzenga.co/");
+		}, 60000 * 25);
+	}
 });
