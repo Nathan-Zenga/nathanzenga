@@ -19,7 +19,7 @@ router.get('/info', (req, res) => {
 	res.render('info', { title: "Info", pagename: "info" })
 });
 
-router.get('/get/galleries', (req, res) => {
+router.post('/galleries', (req, res) => {
 	res.send(galleries);
 });
 
