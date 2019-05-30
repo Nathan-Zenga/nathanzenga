@@ -7,14 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "body-parser": "*",
-    "cookie-parser": "^1.4.1",
-    "ejs": "^2.5.7",
-    "express": "^4.16.3",
-    "grunt": "^1.0.3",
-    "grunt-cli": "1.2.0",
-    "grunt-contrib-uglify": "3.3.0",
-    "nodemailer": "^4.6.7"
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "ejs": "^2.6.1",
+    "express": "^4.17.1",
+    "nodemailer": "^4.7.0"
   },
   "engines": {
     "node": "8.7.0",
