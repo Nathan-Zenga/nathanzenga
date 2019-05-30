@@ -36,5 +36,5 @@ module.exports = {
 	blanqkanvas: {set: "72157703888404561", tag: "blanqkanvas"},
 	kai: {set: "72157705334378155", tag: "kai"},
 	kojey: {set: "72157703888333641", tag: "kojey"},
-	witley: {set: "72157702056674572", tag: "knc"}
+	witley: {set: "72157702056674572", tag: "witley"}
 }
