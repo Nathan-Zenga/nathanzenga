@@ -1,5 +1,5 @@
 $(function() {
-	Galleria.loadTheme("https://cdnjs.cloudflare.com/ajax/libs/galleria/1.5.7/themes/classic/galleria.classic.min.js").configure({ transition: 'fade' });
+	Galleria.loadTheme("https://cdnjs.cloudflare.com/ajax/libs/galleria/1.5.7/themes/classic/galleria.classic.min.js").configure({ transition: 'fade', showInfo: false, thumbnails: false });
 	$.post('/galleries', function(g, status) {
 		var imageSize = 'big';
 		var isSlideshow;
@@ -17,9 +17,7 @@ $(function() {
 				}).tags("nz-"+ g.sets[imgID].tag +"-cover", function(data) {
 					$(img).html("<img src="+ data[0].big +">").galleria({
 						imageCrop: true,
-						showImagenav: false,
-						showInfo: false,
-						thumbnails: false
+						showImagenav: false
 					})
 				});
 			} else {
@@ -28,12 +26,10 @@ $(function() {
 				else if (document.body.id === "design")   flickr = "tags:nz-designs-" + imgID;
 
 				$(this).galleria({
-					imageCrop: isSlideshow ? false : true,
+					imageCrop: !isSlideshow,
 					flickr: flickr,
 					flickrOptions: { imageSize: isSlideshow ? "original" : imageSize },
 					showImagenav: false,
-					showInfo: false,
-					thumbnails: false,
 					show: imgID ? 0 : i,
 					max: isSlideshow ? undefined : 1,
 					autoplay: isSlideshow ? 4000 : undefined,
@@ -45,10 +41,7 @@ $(function() {
 			var i = $(".content.galleria-init .img").index(this);
 			var id = this.id;
 			var options = {
-				flickrOptions: { imageSize: isSlideshow ? "original" : imageSize },
-				showInfo: false,
-				thumbnails: false,
-				swipe: "disabled"
+				flickrOptions: { imageSize: isSlideshow ? "original" : imageSize }
 			};
 
 			if (document.body.id == "home") {
