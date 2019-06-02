@@ -40,7 +40,7 @@ $(function() {
 	}
 
 	var toggleClass = function() {
-		$(".menu").toggleClass("fixed", window.pageYOffset >= $(".row.menu").offset().top - 20);
+		$(".menu").toggleClass("fixed", window.pageYOffset >= $(".row.menu").offset().top - 15);
 	};
 
 	var toggleScrollTracker = function() {
