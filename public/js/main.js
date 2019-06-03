@@ -67,15 +67,20 @@ $(function() {
 
 	$("#info form").submit(function(e) {
 		e.preventDefault();
+		var form = this;
 		var data = {};
 
-		$("form .details").each(function() {
-			var name = $(this).attr("name");
-			data[name] = this.value;
+		$(this).serializeArray().forEach(function(field) {
+			var name = field.name;
+			data[name] = field.value;
 		});
 
-		$.post("/send/message", data, function(value) {
-			alert(value);
+		$(this).append("<div class='loader' style='display:none'><div class='spinner'></div></div>").find(".loader").stop().fadeIn();
+
+		$.post("/send/message", data, function(res) {
+			$(".loader").stop().fadeOut();
+			if (res.includes("sent")) $(form).find(".details").val("");
+			alert(res);
 		})
 	})
 });
