@@ -82,5 +82,18 @@ $(function() {
 			if (res.includes("sent")) $(form).find(".details").val("");
 			alert(res);
 		})
-	})
+	});
+
+	if (document.body.id === "info") {
+		$(".info-txt-carousel > div").first().show();
+		setInterval(function() {
+			$(".info-txt-carousel > div")
+			.first()
+			.slideUp(1500, "linear")
+			.next()
+			.slideDown(1500, "linear")
+			.end()
+			.appendTo(".info-txt-carousel");
+		}, 1500)
+	}
 });

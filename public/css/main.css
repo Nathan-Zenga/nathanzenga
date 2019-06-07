@@ -174,6 +174,24 @@ footer .toTop {
 	background-repeat: no-repeat;
 }
 
+#info .info-txt {
+	margin-bottom: 3em;
+	padding: 0 10px;
+}
+
+#info .info-txt > div {
+	position: absolute;
+	display: inline-block;
+}
+
+#info .info-txt-carousel {
+	left: 120px;
+}
+
+#info .info-txt > div > div {
+	display: none;
+}
+
 form > .details,
 form fieldset > .details {
 	margin-bottom: 1em;
