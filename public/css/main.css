@@ -59,6 +59,10 @@ footer .toTop {
 	height: 350px;
 }
 
+body:not(#design) .content > [class*="-container"] > .inner {
+	position: relative;
+}
+
 .content.galleria-init > .img-container > .inner {
 	cursor: pointer;
 }
@@ -227,4 +231,20 @@ form fieldset > .details {
 @keyframes spin {
 	from { transform: translate(-50%, -50%) rotate(0deg) }
 	to { transform: translate(-50%, -50%) rotate(360deg) }
+}
+
+.expand-icon {
+	position: absolute;
+	opacity: 0;
+	top: 0;
+	right: 0;
+	padding: 5px 10px;
+	cursor: pointer;
+	background-color: rgb(255, 228, 181);
+	z-index: 20;
+	transition: .5s opacity;
+}
+
+.img:hover .expand-icon {
+	opacity: 1;
 }
