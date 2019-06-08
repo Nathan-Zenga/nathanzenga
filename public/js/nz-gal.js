@@ -16,17 +16,31 @@ $(function() {
 				flickrOptions: { imageSize: isSlideshow ? "original" : imageSize }
 			};
 
-			if (pagename == "home") {
-				options.flickr = "set:" + g.sets.assorted.set;
-				options.show = i;
-			} else if (pagename == "photo") {
-				options.flickr = "set:" + g.sets[id].set;
-			} else if (pagename == "design") {
-				options.flickr = "tags:nz-designs-" + id;
+			switch(pagename) {
+				case "home":
+					options.flickr = "set:" + g.sets.assorted.set;
+					options.show = i;
+					break;
+
+				case "photo":
+					options.flickr = "set:" + g.sets[id].set;
+					break;
+
+				case "design":
+					options.flickr = "tags:nz-designs-" + id;
+					break;
 			}
 
 			$("#gallery_view .iframe").galleria(options);
 		}
+
+		Galleria.on("loadfinish", function() {
+			if (this._target.className === "inner img") {
+				$(this._target).append('<div class="expand-icon"><i class="fas fa-expand"></i></div>').find(".expand-icon").fadeTo(0, 1).delay(2000).fadeOut(function() {
+					$(this).removeAttr("style")
+				});
+			}
+		});
 
 		if (pagename === "home") {
 			flickr.set(g.sets.assorted.set, function(data) {
