@@ -1,9 +1,19 @@
 $(function() {
-	Galleria.loadTheme("https://cdnjs.cloudflare.com/ajax/libs/galleria/1.5.7/themes/classic/galleria.classic.min.js").configure({ transition: 'fade', showInfo: false, thumbnails: false });
+	Galleria.loadTheme("https://cdnjs.cloudflare.com/ajax/libs/galleria/1.5.7/themes/classic/galleria.classic.min.js").configure({ transition: 'fade', showInfo: false, thumbnails: false })
+	.on("loadfinish", function() {
+		if (this._target.className === "inner img") {
+			$(this._target).append("<div class='expand-icon'><i class='fas fa-expand'></i></div>").find(".expand-icon").fadeTo(0, 1).delay(2000).fadeOut(function() {
+				$(this).removeAttr("style")
+			});
+		}
+	});
+
+	var pagename = document.body.id;
+	$(".content.galleria-init").html(pagename === "home" ? "<div class='loader' style='position: relative; top: auto: left: auto;'><div class='spinner'></div></div>" : undefined);
+
 	$.post('/galleries', function(g, status) {
 		var imageSize = 'big';
 		var isSlideshow;
-		var pagename = document.body.id;
 		var flickr = new Galleria.Flickr(g.key);
 
 		flickr.setOptions({ max: Infinity });
@@ -34,26 +44,22 @@ $(function() {
 			$("#gallery_view .iframe").galleria(options);
 		}
 
-		Galleria.on("loadfinish", function() {
-			if (this._target.className === "inner img") {
-				$(this._target).append('<div class="expand-icon"><i class="fas fa-expand"></i></div>').find(".expand-icon").fadeTo(0, 1).delay(2000).fadeOut(function() {
-					$(this).removeAttr("style")
-				});
-			}
-		});
-
 		if (pagename === "home") {
 			flickr.set(g.sets.assorted.set, function(data) {
-				data.forEach(function(img, i) {
-					$(".content.galleria-init")
-					.append('<div class="col-sm-6 col-md-4 img-container"><div class="inner img" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"><img src="'+ img.big +'"></div></div>')
-					.find(".img").eq(-1)
-					.galleria({
-						imageCrop: true,
-						showImagenav: false
-					});
-					if (i === data.length-1) $(".content.galleria-init .img").click(onclick);
-				})
+				$(".loader").fadeOut(function(){
+					$(this).remove();
+					data.forEach(function(img, i) {
+						$(".content.galleria-init")
+						.append('<div class="col-sm-6 col-md-4 img-container"><div class="inner img" style="display: none" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"><img style="display: none" src="'+ img.big +'"></div></div>')
+						.find(".img").eq(-1).delay(i * 250).slideDown(function() {
+							$(this).removeAttr("style").children("img").removeAttr("style").end().galleria({
+								imageCrop: true,
+								showImagenav: false
+							});
+						});
+						if (i === data.length-1) $(".content.galleria-init .img").click(onclick);
+					})
+				});
 			});
 		} else {
 			$(".content.galleria-init .img").each(function(i) {
