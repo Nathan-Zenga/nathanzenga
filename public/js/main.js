@@ -1,27 +1,15 @@
 $(function() {
-	var randomRGBA = a => {
-		a = a || 1;
-		var arr = [];
-
-		for (var i = 0; i < 3; i++) {
-			arr.push(Math.round(Math.random() * 255));
-		}
-
-		arr = "rgba(" + arr.join(",") + "," + a + ")";
-		return arr;
-	};
-
 	var keys = {
 		37: 1, // left
 		39: 1 // right
 	};
 
-	var smoothScroll = scrollTop => {
+	function smoothScroll(scrollTop) {
 		scrollTop = scrollTop.data != undefined ? scrollTop.data : scrollTop;
-		$("html, body").stop().animate({ scrollTop: scrollTop }, 700, 'easeInOutExpo');
+		$("html, body").stop().animate({ scrollTop }, 700, 'easeInOutExpo');
 	}
 
-	var overrideKeyPress = function(e) {
+	function overrideKeyPress(e) {
 		e = e || window.event;
 		var shiftKey = e.shiftKey;
 		if (keys[e.keyCode]) {
@@ -39,11 +27,11 @@ $(function() {
 		}
 	}
 
-	var toggleClass = function() {
+	function toggleClass() {
 		$(".menu").toggleClass("fixed", window.pageYOffset >= $(".row.menu").offset().top - 15);
 	};
 
-	var toggleScrollTracker = function() {
+	function toggleScrollTracker() {
 		$(".scroll-tracker").css({
 			width: (window.pageYOffset / (document.documentElement.offsetHeight-window.innerHeight) * 100) + "%"
 		})
@@ -51,9 +39,16 @@ $(function() {
 
 	$(".menu-icon").click(function() {
 		$(this).toggleClass("is-active");
-		$("nav").stop().slideToggle(function() {
-			if ($(this).css("display") == "none") $(this).css("display", "");
-		});
+		var steps = [
+			(d) => setTimeout(()=> $(".nav-group").css("width", $(this).hasClass("is-active") ? "100%" : ""), d),
+			(d) => setTimeout(()=> $("nav").stop().slideToggle(function() {
+				if ($(this).css("display") == "none") $(this).css("display", "")
+			}), d)
+		];
+		var menuOpen = $(this).hasClass("is-active");
+		var menuFixed = $(".menu").hasClass("fixed");
+		steps[0](!menuOpen && menuFixed ? 400 : 0);
+		steps[1](menuOpen && menuFixed ? 400 : 0);
 	});
 
 	$(".toTop").click(0, smoothScroll);
