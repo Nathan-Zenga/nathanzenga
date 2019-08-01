@@ -87,23 +87,43 @@ body:not(#design) .content > [class*="-container"] > .inner {
 	text-align: center;
 }
 
+.menu .nav-group {
+	right: 0;
+	float: right;
+	width: 100%;
+	transition: .4s width;
+}
+
+.menu .menu-icon {
+	width: 100%;
+}
+
 .menu.fixed {
 	height: 29px;
+}
+
+.menu.fixed .nz .hamburger,
+.menu.fixed .nz .hamburger-box,
+.menu.fixed .menu-icon-container {
+	width: 100%;
 }
 
 .menu.fixed .nav-group {
 	position: fixed;
 	top: 0;
-	left: 0;
-	width: 100%;
+	width: 60px;
 	background-color: rgba(255, 228, 181, .9);
 	padding: 15px 0;
 	z-index: 100;
 }
 
 .menu nav {
-	padding-top: 1em;
+	padding-top: 30px;
 	text-transform: uppercase;
+}
+
+.menu.fixed nav {
+	padding-bottom: 30px;
 }
 
 @media (min-width: 768px) {
@@ -111,10 +131,18 @@ body:not(#design) .content > [class*="-container"] > .inner {
 		height: 20px;
 	}
 
+	.menu.fixed .nav-group {
+		width: 100%;
+		transition: none;
+	}
+
 	.menu nav {
-		padding: 0;
+		padding-top: 0;
 		text-transform: initial;
-		border: none;
+	}
+
+	.menu.fixed nav {
+		padding-bottom: 0;
 	}
 }
 
