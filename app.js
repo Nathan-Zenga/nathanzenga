@@ -28,6 +28,10 @@ app.use(function (req, res, next) {
 
 app.use('/', require('./routes/index'));
 
+app.get("*", (req, res) => {
+	res.status(404).render('index', { title: "Error 404", pagename: "error" });
+});
+
 // Set port + listen for requests
 var port = process.env.PORT || 5678;
 app.listen(port, function() {

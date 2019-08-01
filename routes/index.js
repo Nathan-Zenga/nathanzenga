@@ -53,8 +53,4 @@ router.post('/send/message', (req, res) => {
 	});
 });
 
-router.get("*", (req, res) => {
-	res.status(404).render('index', { title: "Error 404", pagename: "error" });
-});
-
 module.exports = router;
