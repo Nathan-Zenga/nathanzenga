@@ -67,6 +67,10 @@ body:not(#design) .content > [class*="-container"] > .inner {
 	cursor: pointer;
 }
 
+.content.galleria-init .img-container label {
+	margin: 5px 0;
+}
+
 .content > .txt-container > .inner {
 	padding: 20px;
 	overflow: auto;
@@ -76,6 +80,19 @@ body:not(#design) .content > [class*="-container"] > .inner {
 	.content > .txt-container > .inner {
 		background-color: transparent;
 		height: auto;
+	}
+
+	@media (orientation: portrait) {
+		.content.galleria-init > .img-container {
+			padding-left: 0;
+			padding-right: 0;
+			margin: 0 -15px;
+		}
+
+		.content.galleria-init > .img-container label {
+			margin-left: 10px;
+			margin-right: 10px;
+		}
 	}
 }
 
