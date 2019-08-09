@@ -12,12 +12,12 @@
 				{gallery: "places1", label: "Places"},
 				{gallery: "fauna", label: "Fauna"},
 			];
-			for (var i = 0; i < settings.length; i++) {
+			settings.forEach(setting => {
 			_%>
 			<div class="col-sm-6 col-lg-4 img-container">
-				<div class="inner img" id="<%= settings[i].gallery %>" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"></div>
-				<label style="margin: 5px 0"><%= settings[i].label %></label>
+				<div class="inner img" id="<%= setting.gallery %>" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"></div>
+				<label><%= setting.label %></label>
 			</div>
-			<%_ } _%>
+			<%_ }) _%>
 		</div>
 <%_ include partials/footer _%>
