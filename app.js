@@ -5,9 +5,12 @@ var bodyParser = require('body-parser');
 var http = require('http'); // core module
 var path = require('path'); // core module
 var ejs = require('ejs');
+var mongoose = require('mongoose');
+var app = express();
 var production = (process.env.NODE_ENV === "production");
 
-var app = express();
+let conn = mongoose.connection;
+mongoose.connect(process.env.DB);
 
 // View Engine
 app.set('view engine', 'ejs');
