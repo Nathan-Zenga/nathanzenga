@@ -21,22 +21,21 @@ router.get('/design', (req, res) => {
 });
 
 router.get('/info', (req, res) => {
-	models.info_text.find((err, docs) => {
-		res.render('info', { title: "Info", pagename: "info", docs })
+	models.info_text.find((err, txt) => {
+		res.render('info', { title: "Info", pagename: "info", txt: txt[0] })
 	})
 });
 
 router.get('/---settings---', (req, res) => {
-	var allDocs = [];
 	models.gallery.find((err, docs) => {
-		allDocs = allDocs.concat(docs);
+		let galleries = docs;
 
 		models.design.find((err, docs) => {
-			allDocs = allDocs.concat(docs);
+			let designs = docs;
 
 			models.info_text.find((err, docs) => {
-				allDocs = allDocs.concat(docs);
-				res.render('settings', { title: "Settings", pagename: "settings", allDocs })
+				let info = docs;
+				res.render('settings', { title: "Settings", pagename: "settings", docs: { galleries, designs, info } })
 			})
 		})
 	})
