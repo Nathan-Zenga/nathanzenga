@@ -5,6 +5,7 @@
 			<input class="form-control details" type="text" id="gallery" name="gallery" placeholder="Gallery Name" required>
 			<label class="sr-only">Label</label>
 			<input class="form-control details" type="text" id="label" name="label" placeholder="Label" required>
+			<input type="submit" name="submit" value="Save" hidden>
 		</form>
 
 		<form id="design-form">
@@ -18,11 +19,14 @@
 			<input class="form-control details" type="text" id="description" name="description" placeholder="Description" required>
 			<label class="sr-only">Link</label>
 			<input class="form-control details" type="text" id="link" name="link" placeholder="Link" required>
+			<input type="submit" name="submit" value="Save" hidden>
 		</form>
 
 		<form id="info-form">
 			<label class="sr-only">Info</label>
 			<input class="form-control details" type="text" id="info" name="info" placeholder="Info" required>
+			<input type="submit" name="submit" value="Save" hidden>
 		</form>
+		<input class="form-control btn btn-default" type="submit" value="Save">
 	</div>
 <%_ include partials/footer _%>
