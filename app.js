@@ -6,11 +6,16 @@ var http = require('http'); // core module
 var path = require('path'); // core module
 var ejs = require('ejs');
 var mongoose = require('mongoose');
-var app = express();
 var production = (process.env.NODE_ENV === "production");
 
+mongoose.connect(process.env.DB, { useNewUrlParser: true });
+
 let conn = mongoose.connection;
-mongoose.connect(process.env.DB);
+conn.once('open', function() {
+	console.log("Connected to DB")
+});
+
+var app = express();
 
 // View Engine
 app.set('view engine', 'ejs');
