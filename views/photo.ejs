@@ -1,19 +1,6 @@
 <%_ include partials/header _%>
 		<div class="row content galleria-init">
-			<%_
-			var settings = [
-				{gallery: "say", label: "S.A.Y."}, 
-				{gallery: "sorom", label: "Sorom"}, 
-				{gallery: "beatfreeks", label: "Editorial"},
-				{gallery: "kai", label: "Kai Rabai"}, 
-				{gallery: "kojey", label: "Kojey Radical"}, 
-				{gallery: "witley", label: "Witley"},
-				{gallery: "4svciety", label: "SVCIETY SS17"},
-				{gallery: "places1", label: "Places"},
-				{gallery: "fauna", label: "Fauna"},
-			];
-			settings.forEach(setting => {
-			_%>
+			<%_ docs.forEach(setting => { _%>
 			<div class="col-sm-6 col-lg-4 img-container">
 				<div class="inner img" id="<%= setting.gallery %>" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"></div>
 				<label><%= setting.label %></label>
