@@ -96,4 +96,25 @@ $(function() {
 			.appendTo(".info-txt-carousel");
 		}, 1550)
 	}
+
+	if (document.body.id === "settings") {
+		$("#settings form").submit(function(e) {
+			e.preventDefault();
+			var data = {};
+			var form = this;
+
+			$(this).serializeArray().forEach(function(field) {
+				var name = field.name;
+				data[name] = field.value;
+			});
+
+			$(this).append("<div class='loader' style='display:none'><div class='spinner'></div></div>").find(".loader").stop().fadeIn();
+
+			$.post($(this).data("action"), data, function(res) {
+				$(".loader").stop().fadeOut();
+				$(form).find(".details").val("");
+				alert(res);
+			})
+		})
+	}
 });
