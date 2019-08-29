@@ -120,3 +120,7 @@ ul {
 	width: 100%;
 	height: 2px;
 }
+
+form .details {
+	margin-bottom: 1em;
+}

@@ -241,11 +241,6 @@ body:not(#design) .content > [class*="-container"] > .inner {
 	display: none;
 }
 
-form > .details,
-form fieldset > .details {
-	margin-bottom: 1em;
-}
-
 .loader {
 	position: absolute;
 	top: 0;
