@@ -1,32 +1,32 @@
 <%_ include partials/header _%>
-	<div class="form-group">
-		<form id="gallery-form">
-			<label class="sr-only">Gallery Name</label>
-			<input class="form-control details" type="text" id="gallery" name="gallery" placeholder="Gallery Name" required>
-			<label class="sr-only">Label</label>
-			<input class="form-control details" type="text" id="label" name="label" placeholder="Label" required>
-			<input type="submit" name="submit" value="Save" hidden>
-		</form>
+	<label> New gallery (Photography) </label>
+	<form class="form-group gallery-settings" data-action="/save/gallery">
+		<label class="sr-only">Gallery Name</label>
+		<input class="form-control details" type="text" id="gallery" name="gallery" placeholder="Gallery ID">
+		<label class="sr-only">Label</label>
+		<input class="form-control details" type="text" id="label" name="label" placeholder="Label">
+		<input class="form-control submit" type="submit" name="submit" value="Save">
+	</form>
 
-		<form id="design-form">
-			<label class="sr-only">ID</label>
-			<input class="form-control details" type="text" id="id" name="id" placeholder="ID" required>
-			<label class="sr-only">Client</label>
-			<input class="form-control details" type="text" id="client" name="client" placeholder="Client" required>
-			<label class="sr-only">Tools</label>
-			<input class="form-control details" type="text" id="tool" name="tool" placeholder="tool" required>
-			<label class="sr-only">Description</label>
-			<input class="form-control details" type="text" id="description" name="description" placeholder="Description" required>
-			<label class="sr-only">Link</label>
-			<input class="form-control details" type="text" id="link" name="link" placeholder="Link" required>
-			<input type="submit" name="submit" value="Save" hidden>
-		</form>
+	<label> Designs </label>
+	<form class="form-group designs-settings" data-action="/save/designs">
+		<label class="sr-only">ID</label>
+		<input class="form-control details" type="text" id="id" name="id" placeholder="ID">
+		<label class="sr-only">Client</label>
+		<input class="form-control details" type="text" id="client" name="client" placeholder="Client">
+		<label class="sr-only">Tools</label>
+		<input class="form-control details" type="text" id="tool" name="tool" placeholder="tool">
+		<label class="sr-only">Description</label>
+		<input class="form-control details" type="text" id="description" name="description" placeholder="Description">
+		<label class="sr-only">Link</label>
+		<input class="form-control details" type="text" id="link" name="link" placeholder="Link">
+		<input class="form-control submit" type="submit" name="submit" value="Save">
+	</form>
 
-		<form id="info-form">
-			<label class="sr-only">Info</label>
-			<input class="form-control details" type="text" id="info" name="info" placeholder="Info" required>
-			<input type="submit" name="submit" value="Save" hidden>
-		</form>
-		<input class="form-control btn btn-default" type="submit" value="Save">
-	</div>
+	<label> Info </label>
+	<form class="form-group info-text-settings" data-action="/save/info-text">
+		<label class="sr-only">Info</label>
+		<input class="form-control details" type="text" id="info" name="info" placeholder="Info">
+		<input class="form-control submit" type="submit" name="submit" value="Save settings">
+	</form>
 <%_ include partials/footer _%>
