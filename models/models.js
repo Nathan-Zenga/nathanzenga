@@ -16,5 +16,5 @@ module.exports.design = mongoose.model('Design', mongoose.Schema({
 }));
 
 module.exports.info_text = mongoose.model('Info-Text', mongoose.Schema({
-	body: String
+	info: String
 }));
