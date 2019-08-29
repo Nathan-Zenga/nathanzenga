@@ -45,16 +45,37 @@ router.post('/galleries', (req, res) => {
 	res.send(galleries);
 });
 
-router.post('/save', (req, res) => {
-	var newGallery = new models.gallery({
-		gallery: req.body.gallery,
-		label: req.body.label
-	});
+router.post('/save/*', (req, res) => {
+	switch (req.path) {
+		case "/save/gallery":
+			var newGallery = new models.gallery({
+				gallery: req.body.gallery,
+				label: req.body.label
+			});
+			newGallery.save(err => { if (err) return res.send(err) })
+			break;
 
-	newGallery.save(err => {
-		if (err) return res.send(err);
-		res.redirect(req.get("referer"));
-	})
+		case "/save/designs":
+			var newDesign = new models.design({
+				id: req.body.id,
+				text: {
+					client: req.body.client,
+					tools: req.body.tools,
+					description: req.body.description
+				},
+				link: req.body.link
+			});
+			newDesign.save(err => { if (err) return res.send(err) })
+			break;
+
+		case "/save/info-text":
+			var newInfo = new models.design({
+				info: req.body.info
+			});
+			newInfo.save(err => { if (err) return res.send(err) })
+			break;
+	}
+	res.send("Saved!");
 });
 
 router.post('/send/message', (req, res) => {
