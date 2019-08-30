@@ -54,7 +54,7 @@ footer .toTop {
 	padding: 10px;
 }
 
-.content > [class*="-container"] > .inner {
+body:not(#settings) .content > [class*="-container"] > .inner {
 	background-color: rgba(0,0,0,.1);
 	height: 350px;
 }
