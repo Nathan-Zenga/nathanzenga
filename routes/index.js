@@ -45,9 +45,10 @@ router.post('/galleries', (req, res) => {
 	res.send(galleries);
 });
 
-router.post('/save/*', (req, res) => {
-	switch (req.path) {
-		case "/save/gallery":
+router.post('/save/:setting', (req, res) => {
+	switch (req.params.setting) {
+
+		case "gallery":
 			var newGallery = new models.gallery({
 				gallery: req.body.gallery,
 				label: req.body.label
@@ -55,7 +56,8 @@ router.post('/save/*', (req, res) => {
 			newGallery.save(err => { if (err) return res.send(err) })
 			break;
 
-		case "/save/designs":
+
+		case "designs":
 			var newDesign = new models.design({
 				id: req.body.id,
 				text: {
@@ -68,14 +70,21 @@ router.post('/save/*', (req, res) => {
 			newDesign.save(err => { if (err) return res.send(err) })
 			break;
 
-		case "/save/info-text":
+
+		case "info-text":
 			var newInfo = new models.design({
 				info: req.body.info
 			});
 			newInfo.save(err => { if (err) return res.send(err) })
 			break;
 	}
-	res.send("Saved!");
+	res.redirect(req.get("referrer"));
+});
+
+router.post('/delete/:section/:id', (req, res) => {
+	models[req.params.section].deleteOne({_id: req.params.id}, function(err) {
+		res.redirect(req.get("referrer"));
+	});
 });
 
 router.post('/send/message', (req, res) => {
