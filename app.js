@@ -35,6 +35,7 @@ app.use(function (req, res, next) {
 });
 
 app.use('/', require('./routes/index'));
+app.use('/settings', require('./routes/settings'));
 
 app.get("*", (req, res) => {
 	res.status(404).render('index', { title: "Error 404", pagename: "error" });
