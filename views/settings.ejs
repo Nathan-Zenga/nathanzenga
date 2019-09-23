@@ -3,7 +3,7 @@
 		<div class="col-sm-4 form-container">
 			<div class="inner">
 				<label> New gallery (Photography) </label>
-				<form class="form-group gallery-settings" method="post" action="/save/gallery">
+				<form class="form-group gallery-settings" method="post" action="/settings/save/gallery">
 					<label class="sr-only">Gallery Name</label>
 					<input class="form-control details" type="text" id="gallery" name="gallery" placeholder="Gallery ID">
 					<label class="sr-only">Label</label>
@@ -16,7 +16,7 @@
 		<div class="col-sm-4 form-container">
 			<div class="inner">
 				<label> Designs </label>
-				<form class="form-group designs-settings" method="post" action="/save/designs">
+				<form class="form-group designs-settings" method="post" action="/settings/save/designs">
 					<label class="sr-only">ID</label>
 					<input class="form-control details" type="text" id="id" name="id" placeholder="ID">
 					<label class="sr-only">Client</label>
@@ -35,7 +35,7 @@
 		<div class="col-sm-4 form-container">
 			<div class="inner">
 				<label> Info </label>
-				<form class="form-group info-text-settings" method="post" action="/save/info-text">
+				<form class="form-group info-text-settings" method="post" action="/settings/save/info-text">
 					<label class="sr-only">Info</label>
 					<input class="form-control details" type="text" id="info" name="info" placeholder="Info">
 					<input class="form-control submit" type="submit" name="submit" value="Save">
@@ -46,7 +46,7 @@
 	<div class="row content">
 		<div class="col-sm-4 list-container">
 			<%_ docs.galleries.forEach(gallery => { _%>
-				<form class="form-group" method="post" action="/delete/gallery/<%= gallery._id %>">
+				<form class="form-group" method="post" action="/settings/delete/gallery/<%= gallery._id %>">
 					<div class="col-xs-9"><input class="form-control details" type="text" id="info" name="info" value="<%= gallery.label %>" disabled></div>
 					<div class="col-xs-3"><input class="form-control submit" type="submit" name="submit" value="Delete"></div>
 				</form>
