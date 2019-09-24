@@ -29,7 +29,6 @@ router.post('/save/:setting', (req, res) => {
 			newGallery.save(err => { if (err) return res.send(err) })
 			break;
 
-
 		case "designs":
 			var newDesign = new models.design({
 				id: req.body.id,
@@ -42,7 +41,6 @@ router.post('/save/:setting', (req, res) => {
 			});
 			newDesign.save(err => { if (err) return res.send(err) })
 			break;
-
 
 		case "info-text":
 			var newInfo = new models.design({
@@ -57,6 +55,13 @@ router.post('/save/:setting', (req, res) => {
 router.post('/delete/:section/:id', (req, res) => {
 	models[req.params.section].deleteOne({_id: req.params.id}, err => {
 		res.redirect(req.get("referrer"));
+	});
+});
+
+router.post('/edit/:section/:id', (req, res) => {
+	models[req.params.section].findById({_id: req.params.id}, (err, item) => {
+		for (k in req.body) item[k] = req.body[k];
+		item.save(err => res.redirect(req.get("referrer")));
 	});
 });
 
