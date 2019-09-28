@@ -9,14 +9,14 @@ router.get('/', (req, res) => {
 });
 
 router.get('/photo', (req, res) => {
-	models.gallery.find((err, docs) => {
-		res.render('photo', { title: "Photography", pagename: "photo", docs })
+	models.gallery.find((err, galleries) => {
+		res.render('photo', { title: "Photography", pagename: "photo", galleries })
 	})
 });
 
 router.get('/design', (req, res) => {
-	models.design.find((err, docs) => {
-		res.render('design', { title: "Designs", pagename: "design", docs })
+	models.design.find((err, designs) => {
+		res.render('design', { title: "Designs", pagename: "design", designs })
 	})
 });
 
