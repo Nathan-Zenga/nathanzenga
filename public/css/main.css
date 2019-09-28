@@ -288,3 +288,7 @@ body:not(#design) .content > [class*="-container"] > .inner {
 .img:hover .expand-icon {
 	opacity: 1;
 }
+
+.tab-content {
+	padding: 1em 0;
+}

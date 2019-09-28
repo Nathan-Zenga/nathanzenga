@@ -121,6 +121,8 @@ ul {
 	height: 2px;
 }
 
-form .details {
+.form-control {
 	margin-bottom: 1em;
+	box-shadow: none;
+	border: none;
 }
