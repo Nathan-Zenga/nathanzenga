@@ -25,6 +25,16 @@ footer .toTop {
 	cursor: pointer;
 }
 
+form {
+	max-width: 550px;
+	margin: 0 auto;
+}
+
+hr {
+	border-top: 1px solid rgb(25, 25, 25);
+	width: 40%;
+}
+
 .scroll-tracker {
 	position: fixed;
 	top: 0;
