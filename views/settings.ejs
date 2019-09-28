@@ -1,19 +1,35 @@
 <%_ include partials/header _%>
 	<div class="row content">
-		<div class="col-sm-4 form-container">
+
+		<div class="form-container">
 			<div class="inner">
-				<label> New gallery (Photography) </label>
 				<form class="form-group gallery-settings" method="post" action="/settings/save/gallery">
-					<label class="sr-only">Gallery Name</label>
-					<input class="form-control details" type="text" id="gallery" name="gallery" placeholder="Gallery ID">
+					<label class="sr-only">Key</label>
+					<input class="form-control details" type="text" id="key" name="key" placeholder="Key" required>
+					<label class="sr-only">Set ID</label>
+					<input class="form-control details" type="text" id="set_ID" name="set_ID" placeholder="Set ID" required>
 					<label class="sr-only">Label</label>
-					<input class="form-control details" type="text" id="label" name="label" placeholder="Label">
-					<input class="form-control submit" type="submit" name="submit" value="Save">
+					<input class="form-control details" type="text" id="label" name="label" placeholder="Label" required>
+					<label class="sr-only">Bulk</label>
+					<textarea class="form-control details" id="bulk" name="bulk" placeholder="On a new line, format as so: [Key] -- [Set ID] -- [Label]" required></textarea>
+					<input class="form-control submit" type="submit" name="submit" value="Save new gallery">
+				</form>
+				<hr>
+				<form class="form-group gallery-settings" method="post" action="/settings/delete/gallery">
+					<label class="sr-only">Select to Delete</label>
+					<select class="form-control details" id="gallery_to_delete" name="gallery_to_delete" required>
+						<option value="Select">Select gallery</option>
+						<%_ docs.galleries.forEach(gallery => { _%>
+							<option value="<%= gallery._id %>"><%= gallery.label %></option>
+						<%_ }) _%>
+					</select>
+					<input class="form-control submit btn-danger" type="submit" name="submit" value="Delete">
 				</form>
 			</div>
 		</div>
 
-		<div class="col-sm-4 form-container">
+
+<!-- 		<div class="col-sm-4 form-container">
 			<div class="inner">
 				<label> Designs </label>
 				<form class="form-group designs-settings" method="post" action="/settings/save/designs">
@@ -54,5 +70,5 @@
 				</form>
 			<%_ }) _%>
 		</div>
-	</div>
+	</div> -->
 <%_ include partials/footer _%>
