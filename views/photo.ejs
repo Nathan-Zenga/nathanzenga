@@ -1,9 +1,9 @@
 <%_ include partials/header _%>
 		<div class="row content galleria-init">
-			<%_ docs.forEach(setting => { _%>
+			<%_ galleries.forEach(gallery => { _%>
 			<div class="col-sm-6 col-lg-4 img-container">
-				<div class="inner img" id="<%= setting.gallery %>" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"></div>
-				<label><%= setting.label %></label>
+				<div class="inner img" id="<%= gallery.key %>" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"></div>
+				<label><%= gallery.label %></label>
 			</div>
 			<%_ }) _%>
 		</div>
