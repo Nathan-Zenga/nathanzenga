@@ -64,11 +64,10 @@ $(function() {
 		} else {
 			$(".content.galleria-init .img").each(function(i) {
 				var img = this;
-				var imgID = img.id;
 				isSlideshow = this.className.includes("slideshow");
 
 				if (pagename === "photo") {
-					flickr.tags("nz-"+ g.sets[imgID].tag +"-cover", function(data) {
+					flickr.tags("nz-"+ img.id +"-cover", function(data) {
 						$(img).html("<img src="+ data[0].big +">").galleria({
 							imageCrop: true,
 							showImagenav: false
@@ -78,10 +77,10 @@ $(function() {
 				else if (pagename === "design") {
 					$(this).galleria({
 						imageCrop: !isSlideshow,
-						flickr: "tags:nz-designs-" + imgID,
+						flickr: "tags:nz-designs-" + img.id,
 						flickrOptions: { imageSize: isSlideshow ? "original" : imageSize },
 						showImagenav: false,
-						show: imgID ? 0 : i,
+						show: img.id ? 0 : i,
 						max: isSlideshow ? undefined : 1,
 						autoplay: isSlideshow ? 4000 : undefined,
 						swipe: isSlideshow ? "disabled" : undefined
