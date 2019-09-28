@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 
 module.exports.gallery = mongoose.model('Gallery', mongoose.Schema({
-	gallery: String,
+	key: String,
+	set_ID: String,
 	label: String
 }));
 
