@@ -9,13 +9,15 @@ module.exports.gallery = mongoose.model('Gallery', mongoose.Schema({
 module.exports.design = mongoose.model('Design', mongoose.Schema({
 	id: String,
 	text: {
-		client: String,
-		tools: String,
-		description: String
+		client: { type: String },
+		tools: { type: String },
+		description: { type: String }
 	},
 	link: String
 }));
 
-module.exports.info_text = mongoose.model('Info-Text', mongoose.Schema({
-	info: String
+module.exports.info_text = mongoose.model('Info_text', mongoose.Schema({
+	text: String
+}, {
+	capped: { max: 1, size: 1000 }
 }));
