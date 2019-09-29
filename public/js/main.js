@@ -23,7 +23,7 @@ $(function() {
 	document.onkeydown = function(e) {
 		e = e || window.event;
 		var shiftKey = e.shiftKey;
-		if (keys[e.keyCode] && $("#gallery_view").length) {
+		if (keys[e.keyCode] && $("#gallery_view.in").length) {
 			if (e.preventDefault) e.preventDefault();
 
 			switch(e.keyCode) {
