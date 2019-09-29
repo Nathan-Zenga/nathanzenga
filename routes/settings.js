@@ -78,9 +78,11 @@ router.post('/save/gallery', (req, res) => {
 // });
 
 router.post('/delete/gallery/', (req, res) => {
-	models.gallery.deleteOne({_id: req.body.gallery_to_delete}, err => {
-		res.redirect(req.get("referrer"));
-	});
+	if (req.body.gallery_to_delete.toLowerCase() === "all") {
+		models.gallery.deleteMany({}, err => err ? res.send(err) : res.redirect(req.get("referrer")) );
+	} else {
+		models.gallery.deleteOne({_id: req.body.gallery_to_delete}, err => err ? res.send(err) : res.redirect(req.get("referrer")) );
+	}
 });
 
 // router.post('/edit/:section/', (req, res) => {
