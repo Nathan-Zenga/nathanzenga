@@ -96,4 +96,11 @@ $(function() {
 			.appendTo(".info-txt-carousel");
 		}, 1550)
 	}
+
+	if (document.body.id === "settings") {
+		$("#bulk").change(function() {
+			let isRequired = !this.value;
+			$(this).closest("form").find(".details").not(this).attr("required", isRequired);
+		})
+	}
 });
