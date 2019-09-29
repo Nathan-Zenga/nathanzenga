@@ -23,7 +23,7 @@ router.post('/save/gallery', (req, res) => {
 
 	function complete (obj) {
 		obj = obj.constructor.name != "Array" ? [obj] : obj;
-		models.gallery.collection.insert(obj, (err, result) => {
+		models.gallery.insertMany(obj, (err, result) => {
 			console.log(result);
 			if (err) return res.send(err);
 			res.redirect(req.get("referrer"));
@@ -31,11 +31,9 @@ router.post('/save/gallery', (req, res) => {
 	};
 
 	if (req.body.bulk) {
-		models.gallery.deleteMany({}, err => {
-			let bulk = req.body.bulk.split("\n");
-			obj = bulk.map(gallery => { let e = gallery.split(" -- "); return {key: e[0], set_ID: e[1], label: e[2]} });
-			complete(obj);
-		})
+		let bulk = req.body.bulk.split("\n");
+		obj = bulk.map(gallery => { let e = gallery.split(" -- "); return {key: e[0], set_ID: e[1], label: e[2]} });
+		complete(obj);
 	} else {
 		obj = { key: req.body.key, set_ID: req.body.set_ID, label: req.body.label };
 		complete(obj);
@@ -45,14 +43,6 @@ router.post('/save/gallery', (req, res) => {
 
 // router.post('/save/:setting', (req, res) => {
 // 	switch (req.params.setting) {
-
-// 		case "gallery":
-// 			var newGallery = new models.gallery({
-// 				gallery: req.body.gallery,
-// 				label: req.body.label
-// 			});
-// 			newGallery.save(err => { if (err) return res.send(err) })
-// 			break;
 
 // 		case "designs":
 // 			var newDesign = new models.design({
@@ -78,18 +68,12 @@ router.post('/save/gallery', (req, res) => {
 // });
 
 router.post('/delete/gallery/', (req, res) => {
+	var cb = err => err ? res.send(err) : res.redirect(req.get("referrer"));
 	if (req.body.gallery_to_delete.toLowerCase() === "all") {
-		models.gallery.deleteMany({}, err => err ? res.send(err) : res.redirect(req.get("referrer")) );
+		models.gallery.deleteMany({}, cb);
 	} else {
-		models.gallery.deleteOne({_id: req.body.gallery_to_delete}, err => err ? res.send(err) : res.redirect(req.get("referrer")) );
+		models.gallery.deleteOne({_id: req.body.gallery_to_delete}, cb);
 	}
 });
-
-// router.post('/edit/:section/', (req, res) => {
-// 	models[req.params.section].findById({_id: req.params.id}, (err, item) => {
-// 		for (k in req.body) item[k] = req.body[k];
-// 		item.save(err => res.redirect(req.get("referrer")));
-// 	});
-// });
 
 module.exports = router;
