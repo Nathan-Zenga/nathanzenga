@@ -1,33 +1,55 @@
 <%_ include partials/header _%>
 	<div class="row content">
 
-		<div class="form-container">
-			<div class="inner">
-				<form class="form-group gallery-settings" method="post" action="/settings/save/gallery">
-					<label class="sr-only">Key</label>
-					<input class="form-control details" type="text" id="key" name="key" placeholder="Key">
-					<label class="sr-only">Set ID</label>
-					<input class="form-control details" type="text" id="set_ID" name="set_ID" placeholder="Set ID">
-					<label class="sr-only">Label</label>
-					<input class="form-control details" type="text" id="label" name="label" placeholder="Label">
-					<label class="sr-only">Bulk</label>
-					<textarea class="form-control details" id="bulk" name="bulk" placeholder="On a new line, format as so: [Key] -- [Set ID] -- [Label]"></textarea>
-					<input class="form-control submit" type="submit" name="submit" value="Save new gallery">
-				</form>
-				<hr>
-				<form class="form-group gallery-settings" method="post" action="/settings/delete/gallery">
-					<label class="sr-only">Select to Delete</label>
-					<select class="form-control details" id="gallery_to_delete" name="gallery_to_delete">
-						<option value="Select">Select gallery</option>
-						<%_ docs.galleries.forEach(gallery => { _%>
-							<option value="<%= gallery._id %>"><%= gallery.label %></option>
-						<%_ }) _%>
-						<option value="all">All</option>
-					</select>
-					<input class="form-control submit btn-danger" type="submit" name="submit" value="Delete">
-				</form>
+		<ul class="nav nav-pills">
+			<li class="active"><a data-toggle="pill" href="#galleries">Galleries</a></li>
+			<li><a data-toggle="pill" href="#infotext">Info Text</a></li>
+		</ul>
+
+		<div class="tab-content">
+			<div id="galleries" class="tab-pane fade in active">
+				<div class="form-container">
+					<div class="inner">
+						<form class="form-group gallery-settings" method="post" action="/settings/save/gallery">
+							<label class="sr-only">Key</label>
+							<input class="form-control details" type="text" id="key" name="key" placeholder="Key">
+							<label class="sr-only">Set ID</label>
+							<input class="form-control details" type="text" id="set_ID" name="set_ID" placeholder="Set ID">
+							<label class="sr-only">Label</label>
+							<input class="form-control details" type="text" id="label" name="label" placeholder="Label">
+							<label class="sr-only">Bulk</label>
+							<textarea class="form-control details" id="bulk" name="bulk" placeholder="Format per line: [Key] -- [Set ID] -- [Label]"></textarea>
+							<input class="form-control submit" type="submit" value="Save new gallery">
+						</form>
+						<hr>
+						<form class="form-group gallery-settings" method="post" action="/settings/delete/gallery">
+							<label class="sr-only">Select to Delete</label>
+							<select class="form-control details" id="gallery_to_delete" name="gallery_to_delete">
+								<option value="Select">Select gallery</option>
+								<%_ docs.galleries.forEach(gallery => { _%>
+									<option value="<%= gallery._id %>"><%= gallery.label %></option>
+								<%_ }) _%>
+								<option value="*">--All--</option>
+							</select>
+							<input class="form-control submit btn-danger" type="submit" value="Delete">
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div id="infotext" class="tab-pane fade">
+				<div class="form-container">
+					<div class="inner">
+						<form class="form-group gallery-settings" method="post" action="/settings/save/info-text">
+							<label class="sr-only">Info Text</label>
+							<textarea class="form-control details" type="text" id="text" name="text" placeholder="HTML or plain text"></textarea>
+							<input class="form-control submit" type="submit" value="Save">
+						</form>
+					</div>
+				</div>
 			</div>
 		</div>
+
 
 
 <!-- 		<div class="col-sm-4 form-container">
@@ -44,7 +66,7 @@
 					<input class="form-control details" type="text" id="description" name="description" placeholder="Description">
 					<label class="sr-only">Link</label>
 					<input class="form-control details" type="text" id="link" name="link" placeholder="Link">
-					<input class="form-control submit" type="submit" name="submit" value="Save">
+					<input class="form-control submit" type="submit" value="Save">
 				</form>
 			</div>
 		</div>
@@ -55,7 +77,7 @@
 				<form class="form-group info-text-settings" method="post" action="/settings/save/info-text">
 					<label class="sr-only">Info</label>
 					<input class="form-control details" type="text" id="info" name="info" placeholder="Info">
-					<input class="form-control submit" type="submit" name="submit" value="Save">
+					<input class="form-control submit" type="submit" value="Save">
 				</form>
 			</div>
 		</div>
@@ -66,8 +88,8 @@
 			<%_ docs.galleries.forEach(gallery => { _%>
 				<form class="form-group" method="post" action="/settings/delete/gallery/<%= gallery._id %>">
 					<div class="col-xs-8"><input class="form-control details" type="text" id="info" name="info" value="<%= gallery.label %>" disabled></div>
-					<div class="col-xs-2"><button class="form-control submit edit" type="submit" name="submit"><i class="fas fa-edit"></i></button></div>
-					<div class="col-xs-2"><button class="form-control submit delete btn-danger" type="submit" name="submit"><i class="fas fa-trash-alt"></i></button></div>
+					<div class="col-xs-2"><button class="form-control submit edit" type="submit"><i class="fas fa-edit"></i></button></div>
+					<div class="col-xs-2"><button class="form-control submit delete btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button></div>
 				</form>
 			<%_ }) _%>
 		</div>
