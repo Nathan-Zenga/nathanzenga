@@ -7,7 +7,7 @@ router.get('/---', (req, res) => {
 	models.gallery.find((err, galleries) => {
 		models.design.find((err, designs) => {
 			models.info_text.find((err, info) => {
-				res.render('settings', { title: "Settings", pagename: "settings", docs: { galleries, designs, info } })
+				res.render('settings', { title: "Settings", pagename: "settings", docs: { galleries, designs, info: info[0] } })
 			})
 		})
 	})
@@ -35,36 +35,28 @@ router.post('/save/gallery', (req, res) => {
 	}
 });
 
-// router.post('/save/:setting', (req, res) => {
-// 	switch (req.params.setting) {
-
-// 		case "designs":
-// 			var newDesign = new models.design({
-// 				id: req.body.id,
-// 				text: {
-// 					client: req.body.client,
-// 					tools: req.body.tools,
-// 					description: req.body.description
-// 				},
-// 				link: req.body.link
-// 			});
-// 			newDesign.save(err => { if (err) return res.send(err) })
-// 			break;
-
-// 		case "info-text":
-// 			var newInfo = new models.design({
-// 				info: req.body.info
-// 			});
-// 			newInfo.save(err => { if (err) return res.send(err) })
-// 			break;
-// 	}
-// 	res.redirect(req.get("referrer"));
-// });
-
 router.post('/delete/gallery/', (req, res) => {
 	var query = req.body.gallery_to_delete === "*" ? {} : {_id: req.body.gallery_to_delete};
 	var cb = err => err ? res.send(err) : res.redirect(req.get("referrer"));
 	models.gallery.deleteMany(query, cb);
 });
+
+router.post('/save/info-text/', (req, res) => {
+	models.info_text.deleteMany({}, err => {
+		var newInfo = new models.info_text({ text: req.body.text });
+		newInfo.save(err => err ? res.send(err) : res.redirect(req.get("referrer")));
+	});
+});
+
+	// var newDesign = new models.design({
+	// 	id: req.body.id,
+	// 	text: {
+	// 		client: req.body.client,
+	// 		tools: req.body.tools,
+	// 		description: req.body.description
+	// 	},
+	// 	link: req.body.link
+	// });
+	// newDesign.save(err => { if (err) return res.send(err) })
 
 module.exports = router;
