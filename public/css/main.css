@@ -300,5 +300,18 @@ body:not(#design) .content > [class*="-container"] > .inner {
 }
 
 .tab-content {
-	padding: 1em 0;
+	padding: 2em 0;
+}
+
+.nav.nav-pills {
+	display: table;
+	margin: 0 auto;
+}
+
+.nav.nav-pills> .active > a,
+.nav.nav-pills> .active > a:focus,
+.nav.nav-pills> .active > a:hover {
+	background-color: rgb(25, 25, 25);
+	color: rgb(255, 228, 181);
+	opacity: 1;
 }
