@@ -30,6 +30,10 @@ form {
 	margin: 0 auto;
 }
 
+form.info-text-settings textarea {
+	height: 15em
+}
+
 hr {
 	border-top: 1px solid rgb(25, 25, 25);
 	width: 40%;
@@ -236,11 +240,6 @@ body:not(#design) .content > [class*="-container"] > .inner {
 #info .info-txt {
 	margin-bottom: 3em;
 	padding: 0 10px;
-}
-
-#info .info-txt > div {
-	position: absolute;
-	display: inline-block;
 }
 
 #info .info-txt-carousel {
