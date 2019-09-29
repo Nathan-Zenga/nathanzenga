@@ -22,7 +22,7 @@
 							<input class="form-control submit" type="submit" value="Save new gallery">
 						</form>
 						<br><br><br>
-						<form class="form-group gallery-settings" method="post" action="/settings/delete/gallery">
+						<form class="form-group gallery-delete-settings" method="post" action="/settings/delete/gallery">
 							<label class="sr-only">Select to Delete</label>
 							<select class="form-control details" id="gallery_to_delete" name="gallery_to_delete" required>
 								<option value="">Select gallery</option>
@@ -40,7 +40,7 @@
 			<div id="infotext" class="tab-pane fade">
 				<div class="form-container">
 					<div class="inner">
-						<form class="form-group gallery-settings" method="post" action="/settings/save/info-text">
+						<form class="form-group info-text-settings" method="post" action="/settings/save/info-text">
 							<label class="sr-only">Info Text</label>
 							<textarea class="form-control details" type="text" id="text" name="text" placeholder="HTML or plain text"><%= docs.info ? docs.info.text : "" %></textarea>
 							<input class="form-control submit" type="submit" value="Save">
