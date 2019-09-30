@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 module.exports.gallery = mongoose.model('Gallery', mongoose.Schema({
 	tag: String,
-	set_ID: String,
+	set_id: String,
 	label: String
 }));
 
