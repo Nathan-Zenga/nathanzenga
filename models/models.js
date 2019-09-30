@@ -3,7 +3,8 @@ var mongoose = require('mongoose');
 module.exports.gallery = mongoose.model('Gallery', mongoose.Schema({
 	tag: String,
 	set_id: String,
-	label: String
+	label: String,
+	index: Number
 }));
 
 module.exports.design = mongoose.model('Design', mongoose.Schema({
