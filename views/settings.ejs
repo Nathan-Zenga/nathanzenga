@@ -4,94 +4,76 @@
 		<ul class="nav nav-pills">
 			<li class="active"><a data-toggle="pill" href="#galleries">Galleries</a></li>
 			<li><a data-toggle="pill" href="#infotext">Info Text</a></li>
+			<li><a data-toggle="pill" href="#designs">Designs</a></li>
 		</ul>
 
 		<div class="tab-content">
 			<div id="galleries" class="tab-pane fade in active">
 				<div class="form-container">
-					<div class="inner">
-						<form class="form-group gallery-settings" method="post" action="/settings/save/gallery">
-							<label class="sr-only">Key</label>
-							<input class="form-control details" type="text" id="key" name="key" placeholder="Key" required>
-							<label class="sr-only">Set ID</label>
-							<input class="form-control details" type="text" id="set_ID" name="set_ID" placeholder="Set ID" required>
-							<label class="sr-only">Label</label>
-							<input class="form-control details" type="text" id="label" name="label" placeholder="Label" required>
-							<label class="sr-only">Bulk</label>
-							<textarea class="form-control details" id="bulk" name="bulk" placeholder="Format per line: [Key] -- [Set ID] -- [Label]"></textarea>
-							<input class="form-control submit" type="submit" value="Save new gallery">
-						</form>
-						<br><br><br>
-						<form class="form-group gallery-delete-settings" method="post" action="/settings/delete/gallery">
-							<label class="sr-only">Select to Delete</label>
-							<select class="form-control details" id="gallery_to_delete" name="gallery_to_delete" required>
-								<option value="">Select gallery</option>
-								<%_ docs.galleries.forEach(gallery => { _%>
-									<option value="<%= gallery._id %>"><%= gallery.label %></option>
-								<%_ }) _%>
-								<option value="*">--All--</option>
-							</select>
-							<input class="form-control submit btn-danger" type="submit" value="Delete">
-						</form>
-					</div>
+					<form class="form-group gallery-settings" method="post" action="/settings/save/gallery">
+						<label class="sr-only">Key</label>
+						<input class="form-control details" type="text" id="key" name="key" placeholder="Key" required>
+						<label class="sr-only">Set ID</label>
+						<input class="form-control details" type="text" id="set_ID" name="set_ID" placeholder="Set ID" required>
+						<label class="sr-only">Label</label>
+						<input class="form-control details" type="text" id="label" name="label" placeholder="Label" required>
+						<label class="sr-only">Bulk</label>
+						<textarea class="form-control details" id="bulk" name="bulk" placeholder="Format per line: [Key] -- [Set ID] -- [Label]"></textarea>
+						<input class="form-control submit" type="submit" value="Save new gallery">
+					</form>
+					<br><br><br>
+					<form class="form-group gallery-delete-settings" method="post" action="/settings/delete/gallery">
+						<label class="sr-only">Select to Delete</label>
+						<select class="form-control details" id="gallery_to_delete" name="gallery_to_delete" required>
+							<option value="">Select gallery</option>
+							<%_ docs.galleries.forEach(gallery => { _%>
+								<option value="<%= gallery._id %>"><%= gallery.label %></option>
+							<%_ }) _%>
+							<option value="*">--All--</option>
+						</select>
+						<input class="form-control submit btn-danger" type="submit" value="Delete">
+					</form>
 				</div>
 			</div>
 
 			<div id="infotext" class="tab-pane fade">
 				<div class="form-container">
-					<div class="inner">
-						<form class="form-group info-text-settings" method="post" action="/settings/save/info-text">
-							<label class="sr-only">Info Text</label>
-							<textarea class="form-control details" type="text" id="text" name="text" placeholder="HTML or plain text"><%= docs.info ? docs.info.text : "" %></textarea>
-							<input class="form-control submit" type="submit" value="Save">
-						</form>
-					</div>
+					<form class="form-group info-text-settings" method="post" action="/settings/save/info-text">
+						<label class="sr-only">Info Text</label>
+						<textarea class="form-control details" type="text" id="text" name="text" placeholder="HTML or plain text"><%= docs.info ? docs.info.text : "" %></textarea>
+						<input class="form-control submit" type="submit" value="Save">
+					</form>
+				</div>
+			</div>
+
+			<div id="designs" class="tab-pane fade">
+				<div class="form-container">
+					<form class="form-group design-settings" method="post" action="/settings/save/design">
+						<label class="sr-only">ID</label>
+						<input class="form-control details" type="text" id="d_id" name="d_id" placeholder="ID" required>
+						<label class="sr-only">Client</label>
+						<input class="form-control details" type="text" id="client" name="client" placeholder="Client" required>
+						<label class="sr-only">Tools</label>
+						<input class="form-control details" type="text" id="tools" name="tools" placeholder="Tools" required>
+						<label class="sr-only">Description</label>
+						<textarea class="form-control details" type="text" id="description" name="description" placeholder="Description" required></textarea>
+						<label class="sr-only">Link</label>
+						<input class="form-control details" type="text" id="link" name="link" placeholder="Link" required>
+						<input class="form-control submit" type="submit" value="Save">
+					</form>
+					<br><br><br>
+					<form class="form-group design-delete-settings" method="post" action="/settings/delete/design">
+						<label class="sr-only">Select to Delete</label>
+						<select class="form-control details" id="gallery_to_delete" name="design_to_delete" required>
+							<option value="">Select design</option>
+							<%_ docs.designs.forEach(design => { _%>
+								<option value="<%= gallery._id %>"><%= design.text.client %></option>
+							<%_ }) _%>
+							<option value="*">--All--</option>
+						</select>
+						<input class="form-control submit btn-danger" type="submit" value="Delete">
+					</form>
 				</div>
 			</div>
 		</div>
-
-
-
-<!-- 		<div class="col-sm-4 form-container">
-			<div class="inner">
-				<label> Designs </label>
-				<form class="form-group designs-settings" method="post" action="/settings/save/designs">
-					<label class="sr-only">ID</label>
-					<input class="form-control details" type="text" id="id" name="id" placeholder="ID">
-					<label class="sr-only">Client</label>
-					<input class="form-control details" type="text" id="client" name="client" placeholder="Client">
-					<label class="sr-only">Tools</label>
-					<input class="form-control details" type="text" id="tool" name="tool" placeholder="tool">
-					<label class="sr-only">Description</label>
-					<input class="form-control details" type="text" id="description" name="description" placeholder="Description">
-					<label class="sr-only">Link</label>
-					<input class="form-control details" type="text" id="link" name="link" placeholder="Link">
-					<input class="form-control submit" type="submit" value="Save">
-				</form>
-			</div>
-		</div>
-
-		<div class="col-sm-4 form-container">
-			<div class="inner">
-				<label> Info </label>
-				<form class="form-group info-text-settings" method="post" action="/settings/save/info-text">
-					<label class="sr-only">Info</label>
-					<input class="form-control details" type="text" id="info" name="info" placeholder="Info">
-					<input class="form-control submit" type="submit" value="Save">
-				</form>
-			</div>
-		</div>
-	</div>
-
-	<div class="row content">
-		<div class="col-sm-4 list-container gallery-list">
-			<%_ docs.galleries.forEach(gallery => { _%>
-				<form class="form-group" method="post" action="/settings/delete/gallery/<%= gallery._id %>">
-					<div class="col-xs-8"><input class="form-control details" type="text" id="info" name="info" value="<%= gallery.label %>" disabled></div>
-					<div class="col-xs-2"><button class="form-control submit edit" type="submit"><i class="fas fa-edit"></i></button></div>
-					<div class="col-xs-2"><button class="form-control submit delete btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button></div>
-				</form>
-			<%_ }) _%>
-		</div>
-	</div> -->
 <%_ include partials/footer _%>
