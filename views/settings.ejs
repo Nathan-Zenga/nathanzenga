@@ -18,7 +18,8 @@
 						<label class="sr-only">Label</label>
 						<input class="form-control details" type="text" id="label" name="label" placeholder="Label" required>
 						<label class="sr-only">Bulk</label>
-						<textarea class="form-control details" id="bulk" name="bulk" placeholder="Format per line: [Key] -- [Set ID] -- [Label]"></textarea>
+						<%_ var placeholder = "Format per line:\n[Tag] -- [Set ID] -- [Label] -- [Index No.]"; _%>
+						<textarea class="form-control details" id="bulk" name="bulk" placeholder="<%- placeholder %>"></textarea>
 						<input class="form-control submit" type="submit" value="Save new gallery">
 					</form>
 					<br><br><br>
