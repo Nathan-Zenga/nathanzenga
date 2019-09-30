@@ -48,15 +48,23 @@ router.post('/save/info-text/', (req, res) => {
 	});
 });
 
-	// var newDesign = new models.design({
-	// 	id: req.body.id,
-	// 	text: {
-	// 		client: req.body.client,
-	// 		tools: req.body.tools,
-	// 		description: req.body.description
-	// 	},
-	// 	link: req.body.link
-	// });
-	// newDesign.save(err => { if (err) return res.send(err) })
+router.post('/save/design/', (req, res) => {
+	var newDesign = new models.design({
+		d_id: req.body.d_id,
+		text: {
+			client: req.body.client,
+			tools: req.body.tools,
+			description: req.body.description
+		},
+		link: req.body.link
+	});
+	newDesign.save(err => err ? res.send(err) : res.redirect(req.get("referrer")));
+});
+
+router.post('/delete/design/', (req, res) => {
+	var query = req.body.design_to_delete === "*" ? {} : {_id: req.body.design_to_delete};
+	var cb = err => err ? res.send(err) : res.redirect(req.get("referrer"));
+	models.design.deleteMany(query, cb);
+});
 
 module.exports = router;
