@@ -8,7 +8,7 @@ module.exports.gallery = mongoose.model('Gallery', mongoose.Schema({
 }));
 
 module.exports.design = mongoose.model('Design', mongoose.Schema({
-	d_id: String,
+	d_id: { type: String, uppercase: true },
 	text: {
 		client: { type: String },
 		tools: { type: String },
