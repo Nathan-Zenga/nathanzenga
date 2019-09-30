@@ -4,7 +4,7 @@ var nodemailer = require('nodemailer');
 var models = require('../models/models');
 
 router.get('/---', (req, res) => {
-	models.gallery.find((err, galleries) => {
+	models.gallery.find({index: {$gte: 0}}).sort({index: 1}).exec((err, galleries) => {
 		models.design.find((err, designs) => {
 			models.info_text.find((err, info) => {
 				res.render('settings', { title: "Settings", pagename: "settings", docs: { galleries, designs, info: info[0] } })
@@ -27,10 +27,10 @@ router.post('/save/gallery', (req, res) => {
 
 	if (req.body.bulk) {
 		let bulk = req.body.bulk.split("\n");
-		obj = bulk.map(gallery => { let e = gallery.split(" -- "); return {tag: e[0].trim(), set_id: e[1].trim(), label: e[2].trim()} });
+		obj = bulk.map(gallery => { let e = gallery.split(" -- "); return {tag: e[0].trim(), set_id: e[1].trim(), label: e[2].trim(), index: e[3]} });
 		complete(obj);
 	} else {
-		obj = { tag: req.body.tag, set_id: req.body.set_id, label: req.body.label };
+		obj = { tag: req.body.tag, set_id: req.body.set_id, label: req.body.label, index: req.body.index };
 		complete(obj);
 	}
 });

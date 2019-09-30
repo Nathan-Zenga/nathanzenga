@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/photo', (req, res) => {
-	models.gallery.find((err, galleries) => {
+	models.gallery.find({index: {$gte: 0}}).sort({index: 1}).exec((err, galleries) => {
 		res.render('photo', { title: "Photography", pagename: "photo", galleries })
 	})
 });
@@ -26,8 +26,8 @@ router.get('/info', (req, res) => {
 	})
 });
 
-router.post('/galleries', (req, res) => {
-	res.send(galleries);
+router.post('/key', (req, res) => {
+	res.send(process.env.FLICKR_KEY);
 });
 
 router.post('/send/message', (req, res) => {
