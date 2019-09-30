@@ -1,13 +1,13 @@
 var mongoose = require('mongoose');
 
 module.exports.gallery = mongoose.model('Gallery', mongoose.Schema({
-	key: String,
+	tag: String,
 	set_ID: String,
 	label: String
 }));
 
 module.exports.design = mongoose.model('Design', mongoose.Schema({
-	id: String,
+	d_id: String,
 	text: {
 		client: { type: String },
 		tools: { type: String },
