@@ -27,10 +27,10 @@ router.post('/save/gallery', (req, res) => {
 
 	if (req.body.bulk) {
 		let bulk = req.body.bulk.split("\n");
-		obj = bulk.map(gallery => { let e = gallery.split(" -- "); return {key: e[0].trim(), set_id: e[1].trim(), label: e[2].trim()} });
+		obj = bulk.map(gallery => { let e = gallery.split(" -- "); return {tag: e[0].trim(), set_id: e[1].trim(), label: e[2].trim()} });
 		complete(obj);
 	} else {
-		obj = { key: req.body.key, set_id: req.body.set_id, label: req.body.label };
+		obj = { tag: req.body.tag, set_id: req.body.set_id, label: req.body.label };
 		complete(obj);
 	}
 });
