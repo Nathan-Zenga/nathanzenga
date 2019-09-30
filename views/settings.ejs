@@ -68,7 +68,7 @@
 						<select class="form-control details" id="gallery_to_delete" name="design_to_delete" required>
 							<option value="">Select design</option>
 							<%_ docs.designs.forEach(design => { _%>
-								<option value="<%= gallery._id %>"><%= design.text.client %></option>
+								<option value="<%= design._id %>"><%= design.text.client %></option>
 							<%_ }) _%>
 							<option value="*">--All--</option>
 						</select>
