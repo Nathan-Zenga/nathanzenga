@@ -1,31 +1,8 @@
 <%_ include partials/header _%>
 		<div class="row content galleria-init">
-			<%_
-			var items = [
-				{
-					id: "WBR",
-					text: {
-						client: "WEREN'T BORN RICH",
-						tools: "Nodemailer and Express on Node.js; Stripe",
-						description: "Multi-device responsive design for an online store - embedded with Shopify API for data retrieval, built-in search engine & checkout process."
-					},
-					link: "https://werentbornrich.herokuapp.com"
-				},
-				{
-					id: "ROOM113",
-					text: {
-						client: "ROOM 113",
-						tools: "MongoDB; Express on Node.js; Bootstrap",
-						description: "Multi-device responsive digital platform with API designed for persistant storage."
-					},
-					link: "https://room113.herokuapp.com"
-				}
-			];
-
-			items.forEach((item, i) => {
-			_%>
+			<%_ designs.forEach((item, i) => { _%>
 			<div class="col-sm-8 <%= i % 2 !== 0 ? 'col-sm-push-4' : '' %> img-container">
-				<div class="inner slideshow img" id="<%= item.id %>" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"></div>
+				<div class="inner slideshow img" id="<%= item.d_id %>" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"></div>
 			</div>
 			<div class="col-sm-4 <%= i % 2 !== 0 ? 'col-sm-pull-8' : '' %> txt-container">
 				<div class="inner">
