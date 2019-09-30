@@ -34,7 +34,8 @@ $(function() {
 				break;
 
 			case "photo":
-				options.flickr = "set:" + id;
+				let set = id.split("-")[1];
+				options.flickr = "set:" + set;
 				break;
 
 			case "design":
@@ -65,10 +66,11 @@ $(function() {
 	} else {
 		$(".content.galleria-init .img").each(function(i) {
 			var img = this;
+			var id = img.id.split("-");
 			isSlideshow = this.className.includes("slideshow");
 
 			if (pagename === "photo") {
-				flickr.tags("nz-"+ img.id +"-cover", function(data) {
+				flickr.tags("nz-"+ id[0] +"-cover", function(data) {
 					$(img).html("<img src="+ data[0].big +">").galleria({
 						imageCrop: true,
 						showImagenav: false
