@@ -10,6 +10,25 @@
 			</div>
 		</div>
 	</footer>
+	<script type="text/javascript">
+		if ($(".galleria-init").length) {
+			var script = document.createElement("script")
+			script.type = "text/javascript";
+
+			if (script.readyState) { // IE
+				script.onreadystatechange = function() {
+					if (/loaded|complete/.test(script.readyState)) {
+						script.onreadystatechange = null;
+					}
+				};
+			} else {
+				script.onload = function() {};
+			}
+
+			script.src = "/js/nz-gal.js";
+			document.getElementsByTagName("head")[0].appendChild(script);
+		}
+	</script>
 	<%_ if (production) { _%>
 		<script type="text/javascript">
 		var sc_project=11226028; 
