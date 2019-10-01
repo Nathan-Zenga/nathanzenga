@@ -99,7 +99,7 @@ $(function() {
 
 	if (document.body.id === "settings") {
 		$("#bulk").change(function() {
-			let isRequired = !this.value;
+			let isRequired = !this.value.trim();
 			$(this).closest("form").find(".details").not(this).attr("required", isRequired);
 		})
 	}
