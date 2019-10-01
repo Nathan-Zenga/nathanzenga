@@ -17,18 +17,19 @@ router.post('/save/gallery', (req, res) => {
 	var obj;
 
 	function complete (obj) {
-		obj = obj.constructor.name != "Array" ? [obj] : obj;
-		models.gallery.insertMany(obj, (err, result) => {
-			console.log(result);
+		let docs = obj.constructor.name != "Array" ? [obj] : obj;
+		models.gallery.insertMany(docs, (err, result) => {
 			if (err) return res.send(err);
 			res.redirect(req.get("referrer"));
 		})
 	};
 
 	if (req.body.bulk) {
-		let bulk = req.body.bulk.split("\n");
-		obj = bulk.map(gallery => { let e = gallery.split(" -- "); return {tag: e[0].trim(), set_id: e[1].trim(), label: e[2].trim(), index: e[3]} });
-		complete(obj);
+		let bulk = req.body.bulk.split("\n").map(gallery => {
+			let e = gallery.split(" -- ");
+			return {tag: e[0].trim(), set_id: e[1].trim(), label: e[2].trim(), index: e[3]}
+		});
+		complete(bulk);
 	} else {
 		obj = { tag: req.body.tag, set_id: req.body.set_id, label: req.body.label, index: req.body.index };
 		complete(obj);
