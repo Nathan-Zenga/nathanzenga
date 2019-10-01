@@ -37,7 +37,7 @@ router.post('/gallery/save', (req, res) => {
 	if (req.body.bulk) {
 		let bulk = req.body.bulk.split("\n").map(gallery => {
 			let e = gallery.split(" -- ");
-			return {tag: e[0].trim(), set_id: e[1].trim(), label: e[2].trim(), index: e[3]}
+			return { tag: e[0].trim(), set_id: e[1].trim(), label: e[2].trim(), index: req.body.index }
 		});
 		bulk.forEach(item => indexShift(item, 0));
 		complete(bulk);
