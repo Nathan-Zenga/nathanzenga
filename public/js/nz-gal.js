@@ -29,7 +29,7 @@ $(function() {
 
 		switch(pagename) {
 			case "home":
-				options.flickr = "set:72157663613653419";
+				options.flickr = "set:72157647107363402";
 				options.show = i;
 				break;
 
@@ -47,7 +47,7 @@ $(function() {
 	}
 
 	if (pagename === "home") {
-		flickr.set("72157663613653419", function(data) {
+		flickr.set("72157647107363402", function(data) {
 			$(".loader").fadeOut(function(){
 				$(this).remove();
 				data.forEach(function(img, i) {
