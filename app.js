@@ -47,7 +47,7 @@ app.listen(port, function() {
 	console.log('Server started on port '+ port);
 	if (production) {
 		setInterval(function() {
-			http.get("http://nathanzenga.co/");
+			http.get("https://nathanzenga.co/");
 		}, 60000 * 25);
 	}
 });
