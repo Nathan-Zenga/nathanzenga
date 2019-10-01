@@ -79,8 +79,7 @@ hr {
 	padding: 10px;
 }
 
-body:not(#settings) .content > [class*="-container"] > .inner {
-	background-color: rgba(0,0,0,.1);
+.content > [class*="-container"] > .inner {
 	height: 350px;
 }
 
@@ -89,6 +88,7 @@ body:not(#design) .content > [class*="-container"] > .inner {
 }
 
 .content.galleria-init > .img-container > .inner {
+	background-color: rgba(0,0,0,.1);
 	cursor: pointer;
 }
 
@@ -136,17 +136,11 @@ body:not(#design) .content > [class*="-container"] > .inner {
 	transition: .4s width;
 }
 
-.menu .menu-icon {
-	width: 100%;
-}
-
 .menu.fixed {
 	height: 29px;
 }
 
-.menu.fixed .nz .hamburger,
-.menu.fixed .nz .hamburger-box,
-.menu.fixed .menu-icon-container {
+.menu.fixed .menu-icon {
 	width: 100%;
 }
 
