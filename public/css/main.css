@@ -30,8 +30,19 @@ form {
 	margin: 0 auto;
 }
 
+textarea,
+textarea.form-control {
+	min-width: 100%;
+	max-width: 100%;
+	height: 6em
+}
+
 form.info-text-settings textarea {
 	height: 15em
+}
+
+label {
+	margin-left: 12px;
 }
 
 hr {
@@ -313,4 +324,24 @@ body:not(#design) .content > [class*="-container"] > .inner {
 	background-color: rgb(25, 25, 25);
 	color: rgb(255, 228, 181);
 	opacity: 1;
+}
+
+.form-control {
+	margin-bottom: 1em;
+	box-shadow: none;
+	border: none;
+}
+
+@media (min-width: 768px) {
+	form .row .column {
+		padding: 0 .5em;
+	}
+
+	form .row .column:first-child {
+		padding-left: 0;
+	}
+
+	form .row .column:last-child {
+		padding-right: 0;
+	}
 }
