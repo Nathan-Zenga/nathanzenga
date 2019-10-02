@@ -85,7 +85,13 @@
 						<label class="sr-only">Link</label>
 						<input class="form-control details" type="text" id="link" name="link" placeholder="Link" required>
 						<label class="sr-only">Index</label>
-						<input class="form-control details" type="text" id="index" name="index" placeholder="Index" required>
+						<select class="form-control details" id="index" name="index" required>
+							<option value="">Index</option>
+							<%_ docs.designs.forEach((design, i) => { _%>
+								<option value="<%= i %>"><%= i %></option>
+							<%_ }) _%>
+							<option value="<%= docs.designs.length %>"><%= docs.designs.length %></option>
+						</select>
 						<input class="form-control submit" type="submit" value="Save">
 					</form>
 
