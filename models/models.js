@@ -14,7 +14,8 @@ module.exports.design = mongoose.model('Design', mongoose.Schema({
 		tools: { type: String },
 		description: { type: String }
 	},
-	link: String
+	link: String,
+	index: Number
 }));
 
 module.exports.info_text = mongoose.model('Info_text', mongoose.Schema({
