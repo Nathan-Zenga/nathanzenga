@@ -12,30 +12,38 @@
 				<div class="form-container">
 					<form class="form-group gallery-settings" method="post" action="/settings/gallery/save">
 						<div class="row">
-							<div class="col-sm-4 column">
-								<label class="sr-only">Tag</label>
-								<input class="form-control details" type="text" id="tag" name="tag" placeholder="Tag" required>
+							<div class="col-sm-10 column">
+								<div class="col-sm-4 column">
+									<label class="sr-only">Tag</label>
+									<input class="form-control details" type="text" id="tag" name="tag" placeholder="Tag" required>
+								</div>
+								<div class="col-sm-4 column">
+									<label class="sr-only">Set ID</label>
+									<input class="form-control details" type="text" id="set_id" name="set_id" placeholder="Set ID" required>
+								</div>
+								<div class="col-sm-4 column">
+									<label class="sr-only">Label</label>
+									<input class="form-control details" type="text" id="label" name="label" placeholder="Label" required>
+								</div>
 							</div>
-							<div class="col-sm-4 column">
-								<label class="sr-only">Set ID</label>
-								<input class="form-control details" type="text" id="set_id" name="set_id" placeholder="Set ID" required>
-							</div>
-							<div class="col-sm-4 column">
-								<label class="sr-only">Label</label>
-								<input class="form-control details" type="text" id="label" name="label" placeholder="Label" required>
+							<div class="col-sm-2 column">
+								<div class="col-sm-12">
+									<label class="sr-only">Index</label>
+									<select class="form-control details" id="index" name="index" required>
+										<option value="">Index</option>
+										<%_ docs.galleries.forEach((gallery, i) => { _%>
+											<option value="<%= i %>"><%= i %></option>
+										<%_ }) _%>
+										<option value="<%= docs.galleries.length %>"><%= docs.galleries.length %></option>
+									</select>
+								</div>
 							</div>
 						</div>
 						<label class="sr-only">Bulk</label>
-						<%_ var placeholder = "Format per line:\n[Tag] -- [Set ID] -- [Label]"; _%>
+						<%_ var placeholder = "Format per line: \n[Tag] -- [Set ID] -- [Label] -- [Index]"; _%>
 						<textarea class="form-control details" id="bulk" name="bulk" placeholder="<%- placeholder %>"></textarea>
-						<label class="sr-only">Index</label>
-						<select class="form-control details" id="index" name="index" required>
-							<option value="">Index</option>
-							<%_ docs.galleries.forEach((gallery, i) => { _%>
-								<option value="<%= i %>"><%= i %></option>
-							<%_ }) _%>
-							<option value="<%= docs.galleries.length %>"><%= docs.galleries.length %></option>
-						</select>
+						<label class="sr-only">Upper Bound Index</label>
+						<input type="hidden" id="max_index" name="max_index" value="<%= docs.galleries.length %>" required>
 						<input class="form-control submit" type="submit" value="Save new gallery">
 					</form>
 
