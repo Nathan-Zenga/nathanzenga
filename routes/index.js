@@ -9,13 +9,13 @@ router.get('/', (req, res) => {
 });
 
 router.get('/photo', (req, res) => {
-	models.gallery.find({index: {$gte: 0}}).sort({index: 1}).exec((err, galleries) => {
+	models.gallery.find().sort({index: 1}).exec((err, galleries) => {
 		res.render('photo', { title: "Photography", pagename: "photo", galleries })
 	})
 });
 
 router.get('/design', (req, res) => {
-	models.design.find((err, designs) => {
+	models.design.find().sort({index: 1}).exec((err, designs) => {
 		res.render('design', { title: "Designs", pagename: "design", designs })
 	})
 });
@@ -26,9 +26,7 @@ router.get('/info', (req, res) => {
 	})
 });
 
-router.post('/key', (req, res) => {
-	res.send(process.env.FLICKR_KEY);
-});
+router.post('/key', (req, res) => res.send(process.env.FLICKR_KEY));
 
 router.post('/send/message', (req, res) => {
 	let transporter = nodemailer.createTransport({
