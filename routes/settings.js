@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 var nodemailer = require('nodemailer');
 var models = require('../models/models');
-var indexShift = (currentDoc, deletion, cb) => {
-	models.gallery.find({index: {$gte: currentDoc.index}}).sort({index: 1}).exec((err, docs) => {
+var indexShift = (collection, currentDoc, deletion, cb) => {
+	models[collection].find({index: {$gte: currentDoc.index}}).sort({index: 1}).exec((err, docs) => {
 		if (err) return err;
 		docs.forEach(doc => {
 			doc.index += (deletion ? -1 : 1);
@@ -15,7 +15,7 @@ var indexShift = (currentDoc, deletion, cb) => {
 
 router.get('/---', (req, res) => {
 	models.gallery.find().sort({index: 1}).exec((err, galleries) => {
-		models.design.find((err, designs) => {
+		models.design.find().sort({index: 1}).exec((err, designs) => {
 			models.info_text.find((err, info) => {
 				res.render('settings', { title: "Settings", pagename: "settings", docs: { galleries, designs, info: info[0] } })
 			})
@@ -39,11 +39,11 @@ router.post('/gallery/save', (req, res) => {
 			let e = gallery.split(" -- ");
 			return { tag: e[0].trim(), set_id: e[1].trim(), label: e[2].trim(), index: req.body.index }
 		});
-		bulk.forEach(item => indexShift(item, 0));
+		bulk.forEach(item => indexShift("gallery", item, 0));
 		complete(bulk);
 	} else {
 		obj = { tag: req.body.tag, set_id: req.body.set_id, label: req.body.label, index: req.body.index };
-		indexShift(obj, 0, () => complete(obj));
+		indexShift("gallery", obj, 0, () => complete(obj));
 	}
 });
 
@@ -54,7 +54,7 @@ router.post('/gallery/delete', (req, res) => {
 
 	if (!all) {
 		models.gallery.findOne(query, (err, doc) => {
-			indexShift(doc, 1, () => models.gallery.deleteOne(query, cb));
+			indexShift("gallery", doc, 1, () => models.gallery.deleteOne(query, cb));
 		})
 	} else {
 		models.gallery.deleteMany({}, cb);
@@ -78,7 +78,9 @@ router.post('/design/save', (req, res) => {
 		},
 		link: req.body.link
 	});
-	newDesign.save(err => err ? res.send(err) : res.redirect(req.get("referrer")));
+	indexShift("design", newDesign, 0, () => {
+		newDesign.save(err => err ? res.send(err) : res.redirect(req.get("referrer")));
+	});
 });
 
 router.post('/design/delete', (req, res) => {
@@ -88,7 +90,7 @@ router.post('/design/delete', (req, res) => {
 
 	if (!all) {
 		models.design.findOne(query, (err, doc) => {
-			indexShift(doc, 1, () => models.design.deleteOne(query, cb));
+			indexShift("design", doc, 1, () => models.design.deleteOne(query, cb));
 		})
 	} else {
 		models.design.deleteMany({}, cb);
