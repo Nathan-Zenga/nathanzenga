@@ -126,4 +126,10 @@ router.post('/design/delete', (req, res) => {
 	}
 });
 
+router.post('/design/reorder', (req, res) => {
+	var id = req.body.design_to_reorder;
+	var index = req.body.index;
+	indexReorder("design", id, index, () => res.redirect(req.get("referrer")));
+});
+
 module.exports = router;
