@@ -16,17 +16,15 @@ var indexReorder = (collection, id, newIndex, cb) => {
 	models[collection].find().sort({index: 1}).exec((err, docs) => {
 		if (err) return res.send(err);
 		let selected_doc = docs.filter(e => e._id == id)[0];
-		selected_doc.index = newIndex;
-		selected_doc.save(err => {
-			if (err) return res.send(err);
-			docs.forEach((doc, i) => {
-				if (doc.index != i) {
-					doc.index = i;
-					doc.save();
-				}
-			});
-			if (cb) cb();
+		docs.splice(selected_doc.index, 1);
+		docs.splice(parseInt(newIndex), 0, selected_doc);
+		docs.forEach((doc, i) => {
+			if (doc.index != i) {
+				doc.index = i;
+				doc.save();
+			}
 		});
+		if (cb) cb();
 	})
 };
 
