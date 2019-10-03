@@ -4,12 +4,29 @@ var nodemailer = require('nodemailer');
 var models = require('../models/models');
 var indexShift = (collection, currentDoc, deletion, cb) => {
 	models[collection].find({index: {$gte: currentDoc.index}}).sort({index: 1}).exec((err, docs) => {
-		if (err) return err;
+		if (err) return res.send(err);
 		docs.forEach(doc => {
 			doc.index += (deletion ? -1 : 1);
 			doc.save();
 		});
 		if (cb) cb();
+	})
+};
+var indexReorder = (collection, id, newIndex, cb) => {
+	models[collection].find().sort({index: 1}).exec((err, docs) => {
+		if (err) return res.send(err);
+		let selected_doc = docs.filter(e => e._id == id)[0];
+		selected_doc.index = newIndex;
+		selected_doc.save(err => {
+			if (err) return res.send(err);
+			docs.forEach((doc, i) => {
+				if (doc.index != i) {
+					doc.index = i;
+					doc.save();
+				}
+			});
+			if (cb) cb();
+		});
 	})
 };
 
@@ -36,9 +53,9 @@ router.post('/gallery/save', (req, res) => {
 
 	if (req.body.bulk) {
 		let max_index = parseInt(req.body.max_index);
-		let bulk = req.body.bulk.split("\n").map(gallery => {
+		let bulk = req.body.bulk.split("\n").map((gallery, i) => {
 			let e = gallery.split(" -- ");
-			return { tag: e[0].trim(), set_id: e[1].trim(), label: e[2].trim(), index: parseInt(e[3]) > max_index ? max_index : e[3] }
+			return { tag: e[0].trim(), set_id: e[1].trim(), label: e[2].trim(), index: parseInt(e[3]) > max_index+i ? max_index+i : e[3] }
 		});
 		bulk.forEach(item => indexShift("gallery", item, 0));
 		complete(bulk);
@@ -53,13 +70,19 @@ router.post('/gallery/delete', (req, res) => {
 	var query = {_id: req.body.gallery_to_delete};
 	var cb = err => err ? res.send(err) : res.redirect(req.get("referrer"));
 
-	if (!all) {
+	if (all) {
+		models.gallery.deleteMany({}, cb);
+	} else {
 		models.gallery.findOne(query, (err, doc) => {
 			indexShift("gallery", doc, 1, () => models.gallery.deleteOne(query, cb));
 		})
-	} else {
-		models.gallery.deleteMany({}, cb);
 	}
+});
+
+router.post('/gallery/reorder', (req, res) => {
+	var id = req.body.gallery_to_reorder;
+	var index = req.body.index;
+	indexReorder("gallery", id, index, () => res.redirect(req.get("referrer")));
 });
 
 router.post('/info-text/save', (req, res) => {
