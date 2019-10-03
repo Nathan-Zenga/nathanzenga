@@ -32,7 +32,7 @@
 									<select class="form-control details" id="index" name="index" required>
 										<option value="">Index</option>
 										<%_ docs.galleries.forEach((gallery, i) => { _%>
-											<option value="<%= i %>"><%= i %></option>
+										<option value="<%= i %>"><%= i %></option>
 										<%_ }) _%>
 										<option value="<%= docs.galleries.length %>"><%= docs.galleries.length %></option>
 									</select>
@@ -54,11 +54,37 @@
 						<select class="form-control details" id="gallery_to_delete" name="gallery_to_delete" required>
 							<option value="">Select gallery</option>
 							<%_ docs.galleries.forEach(gallery => { _%>
-								<option value="<%= gallery._id %>"><%= gallery.label %></option>
+							<option value="<%= gallery._id %>"><%= gallery.label %></option>
 							<%_ }) _%>
 							<option value="*">*</option>
 						</select>
 						<input class="form-control submit btn-danger" type="submit" value="Delete">
+					</form>
+
+					<br><br><br>
+
+					<form class="form-group gallery-reorder-settings" method="post" action="/settings/gallery/reorder">
+						<div class="row">
+							<div class="col-sm-10 column">
+								<label class="sr-only">Select to Re-order</label>
+								<select class="form-control details" id="gallery_to_reorder" name="gallery_to_reorder" required>
+									<option value="">Select gallery</option>
+									<%_ docs.galleries.forEach(gallery => { _%>
+									<option value="<%= gallery._id %>"><%= gallery.label %></option>
+									<%_ }) _%>
+								</select>
+							</div>
+							<div class="col-sm-2 column">
+								<label class="sr-only">Index</label>
+								<select class="form-control details" id="index" name="index" required>
+									<option value="">Index</option>
+									<%_ docs.galleries.forEach((gallery, i) => { _%>
+									<option value="<%= i %>"><%= i %></option>
+									<%_ }) _%>
+								</select>
+							</div>
+						</div>
+						<input class="form-control submit" type="submit" value="Re-order Gallery">
 					</form>
 				</div>
 			</div>
@@ -96,7 +122,7 @@
 						<select class="form-control details" id="index" name="index" required>
 							<option value="">Index</option>
 							<%_ docs.designs.forEach((design, i) => { _%>
-								<option value="<%= i %>"><%= i %></option>
+							<option value="<%= i %>"><%= i %></option>
 							<%_ }) _%>
 							<option value="<%= docs.designs.length %>"><%= docs.designs.length %></option>
 						</select>
@@ -110,7 +136,7 @@
 						<select class="form-control details" id="gallery_to_delete" name="design_to_delete" required>
 							<option value="">Select design</option>
 							<%_ docs.designs.forEach(design => { _%>
-								<option value="<%= design._id %>"><%= design.text.client %></option>
+							<option value="<%= design._id %>"><%= design.text.client %></option>
 							<%_ }) _%>
 							<option value="*">*</option>
 						</select>
