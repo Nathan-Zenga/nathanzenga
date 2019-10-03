@@ -55,7 +55,12 @@ router.post('/gallery/save', (req, res) => {
 		let max_index = parseInt(req.body.max_index);
 		let bulk = req.body.bulk.split("\n").map((gallery, i) => {
 			let e = gallery.split(" -- ");
-			return { tag: e[0].trim(), set_id: e[1].trim(), label: e[2].trim(), index: parseInt(e[3]) > max_index+i ? max_index+i : e[3] }
+			return {
+				tag: e[0].trim(),
+				set_id: e[1].trim(),
+				label: e[2].trim(),
+				index: !e[3].trim() || parseInt(e[3]) > max_index+i ? max_index+i : e[3].trim()
+			}
 		});
 		bulk.forEach(item => indexShift("gallery", item, 0));
 		complete(bulk);
