@@ -326,16 +326,28 @@ body:not(#design) .content > [class*="-container"] > .inner {
 	border: none;
 }
 
+form .row .column.xs {
+	padding: 0 .5em;
+}
+
+form .row .column.xs:first-child {
+	padding-left: 0;
+}
+
+form .row .column.xs:last-child {
+	padding-right: 0;
+}
+
 @media (min-width: 768px) {
-	form .row .column {
+	form .row .column.sm {
 		padding: 0 .5em;
 	}
 
-	form .row .column:first-child {
+	form .row .column.sm:first-child {
 		padding-left: 0;
 	}
 
-	form .row .column:last-child {
+	form .row .column.sm:last-child {
 		padding-right: 0;
 	}
 }
