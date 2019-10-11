@@ -12,21 +12,21 @@
 				<div class="form-container">
 					<form class="form-group gallery-settings" method="post" action="/settings/gallery/save">
 						<div class="row">
-							<div class="col-sm-10 column">
-								<div class="col-sm-4 column">
-									<label class="sr-only">Tag</label>
-									<input class="form-control details" type="text" id="tag" name="tag" placeholder="Tag" required>
+							<div class="col-sm-10 column sm">
+								<div class="col-sm-4 column sm">
+									<label class="sr-only">Label</label>
+									<input class="form-control details" type="text" id="label" name="label" placeholder="Gallery Name" required>
 								</div>
-								<div class="col-sm-4 column">
+								<div class="col-sm-4 column sm">
 									<label class="sr-only">Set ID</label>
 									<input class="form-control details" type="text" id="set_id" name="set_id" placeholder="Set ID" required>
 								</div>
-								<div class="col-sm-4 column">
-									<label class="sr-only">Label</label>
-									<input class="form-control details" type="text" id="label" name="label" placeholder="Label" required>
+								<div class="col-sm-4 column sm">
+									<label class="sr-only">Tag</label>
+									<input class="form-control details" type="text" id="tag" name="tag" placeholder="Tag" required>
 								</div>
 							</div>
-							<div class="col-sm-2 column">
+							<div class="col-sm-2 column sm">
 								<div class="col-sm-12">
 									<label class="sr-only">Index</label>
 									<select class="form-control details" id="index" name="index" required>
@@ -40,8 +40,8 @@
 							</div>
 						</div>
 						<label class="sr-only">Bulk</label>
-						<%_ var placeholder = "Format per line: \n[Tag] -- [Set ID] -- [Label] -- [Index]"; _%>
-						<textarea class="form-control details" id="bulk" name="bulk" placeholder="<%- placeholder %>"></textarea>
+						<%_ var placeholder = 'Enter above fields in exact order, separate with a " -- "'; _%>
+						<textarea class="form-control details" id="bulk" name="bulk" placeholder="<%= placeholder %>"></textarea>
 						<label class="sr-only">Upper Bound Index</label>
 						<input type="hidden" id="max_index" name="max_index" value="<%= docs.galleries.length %>" required>
 						<input class="form-control submit" type="submit" value="Save new gallery">
@@ -65,7 +65,7 @@
 
 					<form class="form-group gallery-reorder-settings" method="post" action="/settings/gallery/reorder">
 						<div class="row">
-							<div class="col-sm-10 column">
+							<div class="col-sm-10 column sm">
 								<label class="sr-only">Select to Re-order</label>
 								<select class="form-control details" id="gallery_to_reorder" name="gallery_to_reorder" required>
 									<option value="">Select gallery</option>
@@ -74,7 +74,7 @@
 									<%_ }) _%>
 								</select>
 							</div>
-							<div class="col-sm-2 column">
+							<div class="col-sm-2 column sm">
 								<label class="sr-only">Index</label>
 								<select class="form-control details" id="index" name="index" required>
 									<option value="">Index</option>
@@ -103,11 +103,11 @@
 				<div class="form-container">
 					<form class="form-group design-settings" method="post" action="/settings/design/save">
 						<div class="row">
-							<div class="col-sm-6 column">
+							<div class="col-sm-6 column sm">
 								<label class="sr-only">ID</label>
 								<input class="form-control details" type="text" id="d_id" name="d_id" placeholder="ID" required>
 							</div>
-							<div class="col-sm-6 column">
+							<div class="col-sm-6 column sm">
 								<label class="sr-only">Client</label>
 								<input class="form-control details" type="text" id="client" name="client" placeholder="Client" required>
 							</div>
@@ -117,7 +117,7 @@
 						<label class="sr-only">Description</label>
 						<textarea class="form-control details" type="text" id="description" name="description" placeholder="Description" required></textarea>
 						<label class="sr-only">Link</label>
-						<input class="form-control details" type="text" id="link" name="link" placeholder="Link" required>
+						<input class="form-control details" type="url" id="link" name="link" pattern='^(http|https):\/\/[^ "]+.[a-z]{2}$' placeholder="Link" required>
 						<label class="sr-only">Index</label>
 						<select class="form-control details" id="index" name="index" required>
 							<option value="">Index</option>
@@ -147,7 +147,7 @@
 
 					<form class="form-group design-reorder-settings" method="post" action="/settings/design/reorder">
 						<div class="row">
-							<div class="col-sm-10 column">
+							<div class="col-sm-10 column sm">
 								<label class="sr-only">Select to Re-order</label>
 								<select class="form-control details" id="design_to_reorder" name="design_to_reorder" required>
 									<option value="">Select design</option>
@@ -156,7 +156,7 @@
 									<%_ }) _%>
 								</select>
 							</div>
-							<div class="col-sm-2 column">
+							<div class="col-sm-2 column sm">
 								<label class="sr-only">Index</label>
 								<select class="form-control details" id="index" name="index" required>
 									<option value="">Index</option>
