@@ -75,15 +75,15 @@ hr {
 	letter-spacing: 3px;
 }
 
-.content > [class*="-container"] {
+.content > .media-container {
 	padding: 10px;
 }
 
-.content > [class*="-container"] > .inner {
+.content > .media-container > .inner {
 	height: 350px;
 }
 
-body:not(#design) .content > [class*="-container"] > .inner {
+body:not(#design) .content > .media-container > .inner {
 	position: relative;
 }
 
@@ -121,7 +121,7 @@ body:not(#design) .content > [class*="-container"] > .inner {
 	}
 }
 
-#design .content > [class*="-container"]:nth-child(even) {
+#design .content > .media-container:nth-child(even) {
 	margin-bottom: 3em;
 }
 
