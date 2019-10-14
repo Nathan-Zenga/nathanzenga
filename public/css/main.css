@@ -75,15 +75,15 @@ hr {
 	letter-spacing: 3px;
 }
 
-.content > .media-container {
+.content .media-container {
 	padding: 10px;
 }
 
-.content > .media-container > .inner {
+.content .media-container > .inner {
 	height: 350px;
 }
 
-body:not(#design) .content > .media-container > .inner {
+body:not(#design) .content .media-container > .inner {
 	position: relative;
 }
 
@@ -121,7 +121,7 @@ body:not(#design) .content > .media-container > .inner {
 	}
 }
 
-#design .content > .media-container:nth-child(even) {
+#design .content .media-container:nth-child(even) {
 	margin-bottom: 3em;
 }
 
@@ -350,4 +350,48 @@ form .row .column.xs:last-child {
 	form .row .column.sm:last-child {
 		padding-right: 0;
 	}
+}
+
+.grid {
+	max-width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.grid .grid-inner {
+	display: grid;
+	grid-gap: 5px;
+	grid-template-columns: repeat(2, 50%);
+	grid-auto-rows: 200px;
+	grid-auto-flow: dense;
+	margin-left: -15px;
+	margin-right: -15px;
+}
+
+/*.grid .grid-inner > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}*/
+
+.grid .grid-inner > .img-container {
+	padding: 0;
+}
+
+.grid .grid-inner > .img-container > .inner.img {
+    width: 100%;
+    height: 100%;
+}
+
+.grid .grid-inner .horizontal {
+	grid-column: span 2;
+}
+
+.grid .grid-inner .vertical {
+	grid-row: span 2;
+}
+
+.grid .grid-inner .big {
+	grid-column: span 2;
+	grid-row: span 2;
 }

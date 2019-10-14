@@ -15,7 +15,7 @@ $(function() {
 	var flickr = new Galleria.Flickr(key);
 	var isSlideshow;
 
-	$(".content.galleria-init").html(pagename === "home" ? "<div class='loader' style='position: relative; top: auto: left: auto;'><div class='spinner'></div></div>" : undefined);
+	$(".content.galleria-init").prepend(pagename === "home" ? "<div class='loader' style='position: relative; top: auto: left: auto;'><div class='spinner'></div></div>" : undefined);
 
 	flickr.setOptions({ max: Infinity });
 
@@ -51,13 +51,17 @@ $(function() {
 			$(".loader").fadeOut(function(){
 				$(this).remove();
 				data.forEach(function(img, i) {
-					$(".content.galleria-init")
-					.append('<div class="col-sm-6 col-md-4 img-container"><div class="inner img" style="display: none" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"><img style="display: none" src="'+ img.big +'"></div></div>')
-					.find(".img").eq(-1).delay(i * 250).slideDown(function() {
-						$(this).removeAttr("style").children("img").removeAttr("style").end().galleria({
-							imageCrop: true,
-							showImagenav: false
-						});
+					$(".content.galleria-init .grid-inner").append('<div class="img-container"><div class="inner img" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"><img style="opacity: 0" src="'+ img.big +'"></div></div>');
+
+					let tempImg = $(".img").eq(-1).find("img").get(0);
+					console.log(tempImg.height + " X " + tempImg.width);
+					let landscape = tempImg.width > tempImg.height;
+					let portrait = tempImg.width < tempImg.height;
+					let orientation = portrait ? "vertical " : landscape && (i % 2 == 0) ? "horizontal " : "";
+
+					$(".img").eq(-1).parent().addClass(orientation).end().children("img").removeAttr("style").end().galleria({
+						imageCrop: true,
+						showImagenav: false
 					});
 					if (i === data.length-1) $(".content.galleria-init .img").click(onclick);
 				})
