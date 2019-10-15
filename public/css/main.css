@@ -379,8 +379,9 @@ form .row .column.xs:last-child {
 }
 
 .grid .grid-inner > .img-container > .inner.img {
-    width: 100%;
-    height: 100%;
+	position: relative;
+	width: 100%;
+	height: 100%;
 }
 
 .grid .grid-inner .horizontal {
