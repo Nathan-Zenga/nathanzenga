@@ -1,10 +1,10 @@
 <%_ include partials/header _%>
 		<div class="row content galleria-init">
 			<%_ designs.forEach((item, i) => { _%>
-			<div class="col-sm-8 <%= i % 2 !== 0 ? 'col-sm-push-4' : '' %> media-container">
+			<div class="col-sm-8 <%= i % 2 !== 0 ? 'col-sm-push-4' : '' %> img-container media-container">
 				<div class="inner slideshow img" id="<%= item.d_id %>" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"></div>
 			</div>
-			<div class="col-sm-4 <%= i % 2 !== 0 ? 'col-sm-pull-8' : '' %> txt-container">
+			<div class="col-sm-4 <%= i % 2 !== 0 ? 'col-sm-pull-8' : '' %> txt-container media-container">
 				<div class="inner">
 					<p>Client:<br><b><%= item.text.client %></b></p>
 					<br>
