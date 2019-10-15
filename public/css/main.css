@@ -75,8 +75,12 @@ hr {
 	letter-spacing: 3px;
 }
 
+.content {
+	overflow: hidden;
+}
+
 .content .media-container {
-	padding: 10px;
+	padding: 5px;
 }
 
 .content .media-container > .inner {
@@ -102,6 +106,10 @@ body:not(#design) .content .media-container > .inner {
 }
 
 @media (max-width: 767px) {
+	.content {
+		overflow: visible;
+	}
+
 	.content > .txt-container > .inner {
 		background-color: transparent;
 		height: auto;
@@ -382,6 +390,7 @@ form .row .column.xs:last-child {
 	position: relative;
 	width: 100%;
 	height: 100%;
+	cursor: pointer;
 }
 
 .grid .grid-inner .horizontal {
@@ -392,7 +401,7 @@ form .row .column.xs:last-child {
 	grid-row: span 2;
 }
 
-.grid .grid-inner .big {
+/*.grid .grid-inner .big {
 	grid-column: span 2;
 	grid-row: span 2;
-}
+}*/
