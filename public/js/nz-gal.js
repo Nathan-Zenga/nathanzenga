@@ -51,7 +51,7 @@ $(function() {
 			$(".loader").fadeOut(function(){
 				$(this).remove();
 				data.forEach(function(img, i) {
-					$(".content.galleria-init .grid-inner").append('<div class="img-container" style="opacity: 0"><div class="inner img" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"><img src="'+ img.big +'"></div></div>');
+					$(".content.galleria-init .grid-inner").append('<div class="img-container media-container" style="opacity: 0"><div class="inner img" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"><img src="'+ img.big +'"></div></div>');
 					if (i === data.length-1) $(".content.galleria-init .img").click(onclick);
 				});
 				$(".inner.img img").on("load", function() {
@@ -59,7 +59,7 @@ $(function() {
 					let i = $(".inner.img").index($(img).parent(".img").get(0));
 					let landscape = img.width > img.height;
 					let portrait = img.width < img.height;
-					let orientation = portrait ? "vertical" : landscape && (i % 5 == 0) ? "horizontal" : "";
+					let orientation = portrait ? "vertical" : landscape && (i % 2 == 0) ? "horizontal" : "";
 
 					$(img).parents(".img-container").addClass(orientation).fadeTo(.5, 1, function() { $(this).removeAttr("style") }).children(".inner.img").galleria({
 						imageCrop: true,
