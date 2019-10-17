@@ -360,13 +360,13 @@ form .row .column.xs:last-child {
 	}
 }
 
-.grid {
+.grid-container {
 	max-width: 700px;
 	margin-left: auto;
 	margin-right: auto;
 }
 
-.grid .grid-inner {
+.grid-container .grid {
 	display: grid;
 	grid-template-columns: repeat(2, 50%);
 	grid-auto-rows: 200px;
@@ -375,17 +375,25 @@ form .row .column.xs:last-child {
 	margin-right: -20px;
 }
 
-.grid .grid-inner > .img-container > .inner.img {
+.grid-container .grid > .img-container > .inner.img {
 	position: relative;
 	height: 100%;
 	cursor: pointer;
 }
 
-.grid .grid-inner .horizontal {
+.grid-container .grid .horizontal {
 	grid-column: span 2;
 	grid-row: span 2;
 }
 
-.grid .grid-inner .vertical {
+.grid-container .grid .vertical {
 	grid-row: span 2;
+}
+
+.grid-container .grid label {
+	position: relative;
+	z-index: 10;
+	top: -2.5em;
+	padding: 5px 10px 5px 5px;
+	background-color: rgb(255, 228, 181);
 }
