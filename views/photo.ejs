@@ -1,10 +1,14 @@
 <%_ include partials/header _%>
 		<div class="row content galleria-init">
-			<%_ galleries.forEach(gallery => { _%>
-			<div class="col-sm-6 col-lg-4 img-container media-container">
-				<div class="inner img" id="<%= gallery.tag %>-<%= gallery.set_id %>" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"></div>
-				<label><%= gallery.label %></label>
+			<div class="grid-container">
+				<div class="grid">
+					<%_ galleries.forEach(gallery => { _%>
+					<div class="img-container media-container" style="opacity: 0">
+						<div class="inner img" id="<%= gallery.tag %>-<%= gallery.set_id %>" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"></div>
+						<label><%= gallery.label %></label>
+					</div>
+					<%_ }) _%>
+				</div>
 			</div>
-			<%_ }) _%>
 		</div>
 <%_ include partials/footer _%>
