@@ -46,26 +46,28 @@ $(function() {
 		$("#gallery_view .iframe").galleria(options);
 	}
 
+	function onImageLoad(e) {
+		let img = this;
+		let i = typeof e.data == "number" ? e.data : e.data.index(img);
+		let landscape = img.width > img.height;
+		let portrait = img.width < img.height;
+		let orientation = portrait ? "vertical" : landscape && (i % 2 == 0) ? "horizontal" : "";
+
+		$(img).parents(".img-container").addClass(orientation).fadeTo(.5, 1, function() { $(this).removeAttr("style") }).children(".inner.img").galleria({
+			imageCrop: true,
+			showImagenav: false
+		});
+	}
+
 	if (pagename === "home") {
 		flickr.set("72157647107363402", function(data) {
 			$(".loader").fadeOut(function(){
 				$(this).remove();
 				data.forEach(function(img, i) {
-					$(".content.galleria-init .grid-inner").append('<div class="img-container media-container" style="opacity: 0"><div class="inner img" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"><img src="'+ img.big +'"></div></div>');
+					$(".content.galleria-init .grid").append('<div class="img-container media-container" style="opacity: 0"><div class="inner img" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"><img src="'+ img.big +'"></div></div>');
 					if (i === data.length-1) $(".content.galleria-init .img").click(onclick);
 				});
-				$(".inner.img img").on("load", function() {
-					let img = this;
-					let i = $(".inner.img").index($(img).parent(".img").get(0));
-					let landscape = img.width > img.height;
-					let portrait = img.width < img.height;
-					let orientation = portrait ? "vertical" : landscape && (i % 2 == 0) ? "horizontal" : "";
-
-					$(img).parents(".img-container").addClass(orientation).fadeTo(.5, 1, function() { $(this).removeAttr("style") }).children(".inner.img").galleria({
-						imageCrop: true,
-						showImagenav: false
-					});
-				});
+				$(".inner.img img").on("load", $(".inner.img img"), onImageLoad);
 			});
 		});
 	} else {
@@ -76,10 +78,9 @@ $(function() {
 
 			if (pagename === "photo") {
 				flickr.tags("nz-"+ id[0] +"-cover", function(data) {
-					$(img).html("<img src="+ data[0].big +">").galleria({
-						imageCrop: true,
-						showImagenav: false
-					})
+					if (data.length) {
+						$(img).html("<img src="+ data[0].big +">").children().on("load", i, onImageLoad);
+					}
 				});
 			}
 			else if (pagename === "design") {
