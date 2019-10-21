@@ -8,6 +8,7 @@ html, body {
 	font-family: 'Poppins', 'Montserrat', 'Century Gothic', sans-serif;
 	color: rgb(25, 25, 25);
 	font-feature-settings: "liga" 0;
+	overflow-x: hidden;
 }
 
 a, a:link, a:visited, a:hover {
