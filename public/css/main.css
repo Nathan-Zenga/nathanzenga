@@ -91,7 +91,7 @@ body:not(#design) .content .media-container > .inner {
 	position: relative;
 }
 
-.content.galleria-init > .img-container > .inner {
+.content.galleria-init .img-container > .inner {
 	background-color: rgba(0,0,0,.1);
 	cursor: pointer;
 }
@@ -116,13 +116,13 @@ body:not(#design) .content .media-container > .inner {
 	}
 
 	@media (orientation: portrait) {
-		.content.galleria-init > .img-container {
+		.content.galleria-init .img-container {
 			padding-left: 0;
 			padding-right: 0;
 			margin: 0 -15px;
 		}
 
-		.content.galleria-init > .img-container label {
+		.content.galleria-init .img-container label {
 			margin-left: 10px;
 			margin-right: 10px;
 		}
@@ -361,39 +361,52 @@ form .row .column.xs:last-child {
 }
 
 .grid-container {
-	max-width: 700px;
+	max-width: 800px;
 	margin-left: auto;
 	margin-right: auto;
 }
 
-.grid-container .grid {
+.grid {
 	display: grid;
-	grid-template-columns: repeat(2, 50%);
+	grid-template-columns: 100%;
 	grid-auto-rows: 200px;
 	grid-auto-flow: dense;
-	margin-left: -20px;
-	margin-right: -20px;
 }
 
-.grid-container .grid > .img-container > .inner.img {
+.grid > .img-container > .inner.img {
 	position: relative;
 	height: 100%;
-	cursor: pointer;
 }
 
-.grid-container .grid .horizontal {
-	grid-column: span 2;
+.grid .vertical {
 	grid-row: span 2;
 }
 
-.grid-container .grid .vertical {
-	grid-row: span 2;
-}
-
-.grid-container .grid label {
+.grid label {
 	position: relative;
 	z-index: 10;
 	top: -2.5em;
 	padding: 5px 10px 5px 5px;
 	background-color: rgb(255, 228, 181);
+}
+
+.grid .media-container {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+@media (min-width: 768px) {
+	.grid {
+		grid-template-columns: repeat(2, 50%);
+		grid-auto-rows: 250px;
+	}
+
+	.grid .horizontal {
+		grid-column: span 2;
+		grid-row: span 2;
+	}
+
+	.grid .media-container {
+		padding: 5px;
+	}
 }

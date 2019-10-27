@@ -1,7 +1,8 @@
 .galleria-theme-classic,
 .galleria-theme-classic .galleria-thumbnails-container,
 .galleria-theme-classic .galleria-thumbnails .galleria-image {
-	background:transparent
+	background:transparent;
+	width: auto!important;
 }
 
 .galleria-theme-classic .galleria-thumbnails-container {
