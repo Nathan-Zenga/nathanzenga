@@ -8,7 +8,7 @@ var ejs = require('ejs');
 var mongoose = require('mongoose');
 var production = (process.env.NODE_ENV === "production");
 
-mongoose.connect(process.env.DB, { useNewUrlParser: true });
+mongoose.connect(process.env.DB, { useNewUrlParser: true, useUnifiedTopology: true });
 
 let conn = mongoose.connection;
 conn.once('open', function() {
