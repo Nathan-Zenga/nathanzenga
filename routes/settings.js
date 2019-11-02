@@ -4,7 +4,7 @@ var nodemailer = require('nodemailer');
 var models = require('../models/models');
 var indexShift = (collection, currentDoc, deletion, cb) => {
 	models[collection].find({index: {$gte: currentDoc.index}}).sort({index: 1}).exec((err, docs) => {
-		if (err) return res.send(err);
+		if (err) return cb ? cb(err) : err;
 		docs.forEach(doc => {
 			doc.index += (deletion ? -1 : 1);
 			doc.save();
@@ -14,7 +14,7 @@ var indexShift = (collection, currentDoc, deletion, cb) => {
 };
 var indexReorder = (collection, id, newIndex, cb) => {
 	models[collection].find().sort({index: 1}).exec((err, docs) => {
-		if (err) return res.send(err);
+		if (err) return cb ? cb(err) : err;
 		let selected_doc = docs.filter(e => e._id == id)[0];
 		docs.splice(selected_doc.index, 1);
 		docs.splice(parseInt(newIndex), 0, selected_doc);
