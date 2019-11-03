@@ -48,6 +48,9 @@ label {
 hr {
 	border-top: 1px solid rgb(25, 25, 25);
 	width: 40%;
+	opacity: 0;
+	margin: 0;
+	padding: 1.5em 0;
 }
 
 .scroll-tracker {
@@ -102,7 +105,7 @@ body:not(#design) .content .media-container > .inner {
 
 .content > .txt-container > .inner {
 	padding: 20px;
-	overflow: auto;
+	height: auto;
 }
 
 @media (max-width: 767px) {
@@ -112,7 +115,6 @@ body:not(#design) .content .media-container > .inner {
 
 	.content > .txt-container > .inner {
 		background-color: transparent;
-		height: auto;
 	}
 
 	@media (orientation: portrait) {
@@ -129,8 +131,8 @@ body:not(#design) .content .media-container > .inner {
 	}
 }
 
-#design .content .media-container:nth-child(even) {
-	margin-bottom: 3em;
+#design .content .img-container .inner {
+	height: 500px;
 }
 
 .menu {
@@ -385,8 +387,9 @@ form .row .column.xs:last-child {
 .grid label {
 	position: relative;
 	z-index: 10;
-	top: -2.5em;
-	padding: 5px 10px 5px 5px;
+	-webkit-transform: translateY(-100%);
+	transform: translateY(-100%);
+	padding: 5px 10px;
 	background-color: rgb(255, 228, 181);
 }
 
