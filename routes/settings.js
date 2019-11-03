@@ -103,7 +103,8 @@ router.post('/design/save', (req, res) => {
 			tools: req.body.tools,
 			description: req.body.description
 		},
-		link: req.body.link
+		link: req.body.link,
+		index: req.body.index
 	});
 	indexShift("design", newDesign, 0, () => {
 		newDesign.save(err => err ? res.send(err) : res.redirect(req.get("referrer")));
