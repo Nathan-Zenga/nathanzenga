@@ -13,14 +13,13 @@ $(function() {
 	var post = $.post('/key');
 	var key = post.status != 404 ? post.responseText : undefined;
 	var flickr = new Galleria.Flickr(key);
-	var isSlideshow;
 
 	$(".content.galleria-init").prepend(pagename === "home" ? "<div class='loader' style='position: relative; top: auto: left: auto;'><div class='spinner'></div></div>" : undefined);
 
 	flickr.setOptions({ max: Infinity });
 
 	function onclick(e) {
-		var isSlideshow = e.data ? e.data.isSlideshow : null;
+		var isSlideshow = this.className.includes("slideshow");
 		var i = $(".content.galleria-init .img").index(this);
 		var id = this.id;
 		var options = {
@@ -74,7 +73,7 @@ $(function() {
 		$(".content.galleria-init .img").each(function(i) {
 			var img = this;
 			var id = img.id.split("-");
-			isSlideshow = this.className.includes("slideshow");
+			var isSlideshow = this.className.includes("slideshow");
 
 			if (pagename === "photo") {
 				flickr.tags("nz-"+ id[0] +"-cover", function(data) {
@@ -91,10 +90,11 @@ $(function() {
 					showImagenav: false,
 					show: img.id ? 0 : i,
 					max: isSlideshow ? undefined : 1,
-					autoplay: isSlideshow ? 4000 : undefined,
+					autoplay: isSlideshow ? 4500 : undefined,
+					transitionSpeed: isSlideshow ? 1000 : undefined,
 					swipe: isSlideshow ? "disabled" : undefined
 				})
 			}
-		}).click(isSlideshow, onclick)
+		}).click(onclick)
 	}
 });
