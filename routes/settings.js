@@ -5,11 +5,8 @@ var models = require('../models/models');
 var indexShift = (collection, currentDoc, deletion, cb) => {
 	models[collection].find({index: {$gte: currentDoc.index}}).sort({index: 1}).exec((err, docs) => {
 		if (err) return err;
-		docs.forEach(doc => {
-			doc.index += (deletion ? -1 : 1);
-			doc.save();
-		});
-		if (cb) cb();
+		docs.forEach((doc, i, arr) => { arr[i].index += (deletion ? -1 : 1) });
+		docs.save(err => { if (cb) cb() });
 	})
 };
 var indexReorder = (collection, id, newIndex, cb) => {
@@ -18,13 +15,8 @@ var indexReorder = (collection, id, newIndex, cb) => {
 		let selected_doc = docs.filter(e => e._id == id)[0];
 		docs.splice(selected_doc.index, 1);
 		docs.splice(parseInt(newIndex), 0, selected_doc);
-		docs.forEach((doc, i) => {
-			if (doc.index != i) {
-				doc.index = i;
-				doc.save();
-			}
-		});
-		if (cb) cb();
+		docs.forEach((doc, i, arr) => { if (arr[i].index != i) arr[i].index = i });
+		docs.save(err => { if (cb) cb() });
 	})
 };
 
@@ -129,6 +121,18 @@ router.post('/design/reorder', (req, res) => {
 	var id = req.body.design_to_reorder;
 	var index = req.body.index;
 	indexReorder("design", id, index, () => res.redirect(req.get("referrer")));
+});
+
+router.post('/design/edit', (req, res) => {
+	var id = req.body.design_to_edit;
+	models.design.findById(id, (err, doc) => {
+		doc.d_id = req.body.d_id || doc.d_id;
+		doc.text.client = req.body.client || doc.text.client;
+		doc.text.tools = req.body.tools || doc.text.tools;
+		doc.text.description = req.body.description || doc.text.description;
+		doc.link = req.body.link || doc.link;
+		doc.save(err => res.redirect(req.get("referrer")));
+	});
 });
 
 module.exports = router;
