@@ -135,6 +135,12 @@ body:not(#design) .content .media-container > .inner {
 	height: 500px;
 }
 
+@media (min-width: 768px) {
+	#design .content .img-container .inner {
+		border-radius: 10px;
+	}
+}
+
 .menu {
 	text-align: center;
 }
@@ -239,17 +245,6 @@ body:not(#design) .content .media-container > .inner {
 .modal .modal-icons .close-view {
 	padding: 0;
 	margin-top: 6px;
-}
-
-.slideshow > div {
-	position: absolute;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	background-size: contain;
-	background-position: center;
-	background-repeat: no-repeat;
 }
 
 #info .info-txt {
