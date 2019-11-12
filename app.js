@@ -1,4 +1,3 @@
-// import modules
 var express = require('express');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -6,6 +5,7 @@ var http = require('http'); // core module
 var path = require('path'); // core module
 var ejs = require('ejs');
 var mongoose = require('mongoose');
+var session = require('express-session');
 var production = (process.env.NODE_ENV === "production");
 
 mongoose.connect(process.env.DB, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -27,6 +27,16 @@ app.use(cookieParser());
 
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Express session
+app.use(session({
+	secret: 'secret',
+	saveUninitialized: true,
+	resave: true,
+	cookie: {
+		secure: false
+	}
+}));
 
 // Global variables
 app.use(function (req, res, next) {
