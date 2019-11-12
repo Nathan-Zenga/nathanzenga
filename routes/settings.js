@@ -22,7 +22,7 @@ var indexReorder = (collection, id, newIndex, cb) => {
 };
 
 router.get('/---', (req, res) => {
-	if (req.session.cookie.maxAge) {
+	if (req.session.isAuthed) {
 		models.gallery.find().sort({index: 1}).exec((err, galleries) => {
 			models.design.find().sort({index: 1}).exec((err, designs) => {
 				models.info_text.find((err, info) => {
@@ -36,7 +36,7 @@ router.get('/---', (req, res) => {
 });
 
 router.get('/access', (req, res) => {
-	if (!req.session.cookie.maxAge) {
+	if (!req.session.isAuthed) {
 		var flash_msg = req.session.flash_msg;
 		res.render('access', { title: "Password Required", pagename: "access", flash_msg }, (err, html) => {
 			req.session.flash_msg = undefined;
@@ -47,11 +47,17 @@ router.get('/access', (req, res) => {
 	}
 });
 
+router.post('/*', (req, res, next) => {
+	if (req.originalUrl !== "/settings/access" && req.session.isAuthed) req.session.cookie.maxAge = 120000;
+	next();
+});
+
 router.post('/access', (req, res) => {
 	models.admin.findOne((err, doc) => {
 		bcrypt.compare(req.body.pass, doc.pass, function(err, match) {
 			if (match) {
-				req.session.cookie.maxAge = 60000;
+				req.session.cookie.maxAge = 120000;
+				req.session.isAuthed = true;
 			} else {
 				req.session.flash_msg = "Invalid Password";
 			}
