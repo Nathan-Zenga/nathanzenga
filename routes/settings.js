@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var nodemailer = require('nodemailer');
 var models = require('../models/models');
+var bcrypt = require('bcryptjs');
 var indexShift = (collection, currentDoc, deletion, cb) => {
 	models[collection].find({index: {$gte: currentDoc.index}}).sort({index: 1}).exec((err, docs) => {
 		if (err) return err;
@@ -21,11 +22,40 @@ var indexReorder = (collection, id, newIndex, cb) => {
 };
 
 router.get('/---', (req, res) => {
-	models.gallery.find().sort({index: 1}).exec((err, galleries) => {
-		models.design.find().sort({index: 1}).exec((err, designs) => {
-			models.info_text.find((err, info) => {
-				res.render('settings', { title: "Settings", pagename: "settings", docs: { galleries, designs, info: info[0] } })
+	if (req.session.cookie.maxAge) {
+		models.gallery.find().sort({index: 1}).exec((err, galleries) => {
+			models.design.find().sort({index: 1}).exec((err, designs) => {
+				models.info_text.find((err, info) => {
+					res.render('settings', { title: "Settings", pagename: "settings", docs: { galleries, designs, info: info[0] } })
+				})
 			})
+		})
+	} else {
+		res.redirect("/settings/access");
+	}
+});
+
+router.get('/access', (req, res) => {
+	if (!req.session.cookie.maxAge) {
+		var flash_msg = req.session.flash_msg;
+		res.render('access', { title: "Password Required", pagename: "access", flash_msg }, (err, html) => {
+			req.session.flash_msg = undefined;
+			res.send(html);
+		})
+	} else {
+		res.redirect("/settings/---")
+	}
+});
+
+router.post('/access', (req, res) => {
+	models.admin.findOne((err, doc) => {
+		bcrypt.compare(req.body.pass, doc.pass, function(err, match) {
+			if (match) {
+				req.session.cookie.maxAge = 60000;
+			} else {
+				req.session.flash_msg = "Invalid Password";
+			}
+			res.redirect("/settings/---");
 		})
 	})
 });
