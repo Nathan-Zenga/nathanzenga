@@ -135,4 +135,8 @@ router.post('/design/edit', (req, res) => {
 	});
 });
 
+router.post('/design/document', (req, res) => {
+	models.design.findById(req.body.id, (err, doc) => res.send(doc));
+});
+
 module.exports = router;

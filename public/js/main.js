@@ -84,23 +84,30 @@ $(function() {
 		})
 	});
 
-	if (document.body.id === "info") {
-		$(".info-txt-carousel > div").first().show();
-		setInterval(function() {
-			$(".info-txt-carousel > div")
-			.first()
-			.slideUp(1500)
-			.next()
-			.slideDown(1500)
-			.end()
-			.appendTo(".info-txt-carousel");
-		}, 1550)
-	}
-
 	if (document.body.id === "settings") {
 		$("#bulk").change(function() {
 			let isRequired = !this.value.trim();
 			$(this).closest("form").find(".details").not(this).attr("required", isRequired);
+		});
+
+		$("form.design-edit-settings select").change(function() {
+			var $form = $(this).parents("form");
+			var data = {id: this.value};
+			$.post("/settings/design/document", data, function(doc) {
+				if (!doc) {
+					$form.find(".details").val("");
+				} else {
+					$.each(doc, function(k, v) {
+						if (typeof v !== "object") {
+							$form.find(".details[name="+ k +"]").val(v);
+						} else {
+							$.each(v, function(k2, v2) {
+								$form.find(".details[name="+ k2 +"]").val(v2);
+							})
+						}
+					})
+				}
+			});
 		})
 	}
 });
