@@ -1,13 +1,15 @@
 var express = require('express');
 var router = express.Router();
-var nodemailer = require('nodemailer');
 var models = require('../models/models');
 var bcrypt = require('bcryptjs');
 var indexShift = (collection, currentDoc, deletion, cb) => {
 	models[collection].find({index: {$gte: currentDoc.index}}).sort({index: 1}).exec((err, docs) => {
 		if (err) return err;
-		docs.forEach((doc, i, arr) => { arr[i].index += (deletion ? -1 : 1) });
-		docs.save(err => { if (cb) cb() });
+		docs.forEach(doc => {
+			doc.index += (deletion ? -1 : 1);
+			doc.save();
+		});
+		if (cb) cb();
 	})
 };
 var indexReorder = (collection, id, newIndex, cb) => {
@@ -16,8 +18,11 @@ var indexReorder = (collection, id, newIndex, cb) => {
 		let selected_doc = docs.filter(e => e._id == id)[0];
 		docs.splice(selected_doc.index, 1);
 		docs.splice(parseInt(newIndex), 0, selected_doc);
-		docs.forEach((doc, i, arr) => { if (arr[i].index != i) arr[i].index = i });
-		docs.save(err => { if (cb) cb() });
+		docs.forEach(doc => {
+			if (doc.index != i) doc.index = i;
+			docs.save();
+		});
+		if (cb) cb();
 	})
 };
 
