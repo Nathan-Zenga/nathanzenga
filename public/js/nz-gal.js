@@ -1,10 +1,16 @@
 $(function() {
 	Galleria.loadTheme("https://cdnjs.cloudflare.com/ajax/libs/galleria/1.5.7/themes/classic/galleria.classic.min.js").configure({ transition: 'fade', showInfo: false, thumbnails: false })
 	.on("loadfinish", function(e) {
-		if (/inner|img/.test(this._target.className) && !e.cached) {
-			$(this._target).append("<div class='expand-icon'><i class='fas fa-expand'></i></div>").find(".expand-icon").fadeTo(0, 1).delay(2000).fadeOut(function() {
+		var target = this._target;
+		if (/inner|img/.test(target.className) && !e.cached) {
+			$(target).append("<div class='expand-icon'><i class='fas fa-expand'></i></div>").find(".expand-icon").fadeTo(0, 1).delay(2500).fadeOut(function() {
 				$(this).removeAttr("style")
 			});
+
+			var $imgContainer = $(target).parents(".img-container");
+			if (parseInt($imgContainer.css("opacity")) === 0) {
+				$imgContainer.fadeTo(500, 1, function() { $(this).removeAttr("style") })
+			}
 		}
 	});
 
@@ -18,7 +24,7 @@ $(function() {
 
 	flickr.setOptions({ max: Infinity });
 
-	function onclick(e) {
+	function loadGalleryView(e) {
 		var isSlideshow = this.className.includes("slideshow");
 		var i = $(".content.galleria-init .img").index(this);
 		var id = this.id;
@@ -54,7 +60,7 @@ $(function() {
 		var portrait = img.width < img.height;
 		var dir = portrait ? "vertical" : landscape && (i % 2 == 0) ? "horizontal" : "";
 
-		$(imgContainer).addClass(dir).fadeTo(.5, 1, function() { $(this).removeAttr("style") }).children(".inner.img").galleria({
+		$(imgContainer).addClass(dir).children(".inner.img").galleria({
 			imageCrop: true,
 			showImagenav: false
 		});
@@ -66,7 +72,7 @@ $(function() {
 				$(this).remove();
 				data.forEach(function(img, i) {
 					$(".content.galleria-init .grid").append('<div class="img-container media-container" style="opacity: 0"><div class="inner img" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"><img src="'+ img.big +'"></div></div>');
-					if (i === data.length-1) $(".content.galleria-init .img").click(onclick);
+					if (i === data.length-1) $(".content.galleria-init .img").click(loadGalleryView);
 				});
 				$(".inner.img img").on("load", orientation);
 			});
@@ -97,6 +103,6 @@ $(function() {
 					swipe: isSlideshow ? "disabled" : undefined
 				})
 			}
-		}).click(onclick)
+		}).click(loadGalleryView)
 	}
 });
