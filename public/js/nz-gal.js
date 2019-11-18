@@ -20,32 +20,33 @@ $(function() {
 	var key = post.status != 404 ? post.responseText : undefined;
 	var flickr = new Galleria.Flickr(key);
 
-	$(".content.galleria-init").prepend(pagename === "home" ? "<div class='loader' style='position: relative; top: auto: left: auto;'><div class='spinner'></div></div>" : undefined);
+	$(".content.galleria-init").prepend(!$(".inner.img").length ? "<div class='loader' style='position: relative; top: auto: left: auto;'><div class='spinner'></div></div>" : undefined);
 
 	flickr.setOptions({ max: Infinity });
 
 	function loadGalleryView(e) {
+		var set = e.data ? e.data.set : null;
 		var isSlideshow = this.className.includes("slideshow");
-		var i = $(".content.galleria-init .img").index(this);
+		var i = $(".inner.img").index(this);
 		var id = this.id;
 		var options = {
 			flickrOptions: { imageSize: isSlideshow ? "original" : imageSize }
 		};
 
 		switch(pagename) {
-			case "home":
-				options.flickr = "set:72157647107363402";
-				options.show = i;
-				break;
-
 			case "photo":
-				var set = id.split("-")[1];
+				set = id.split("-")[1];
 				options.flickr = "set:" + set;
 				break;
-
+				
 			case "design":
 				options.flickr = "tags:nz-designs-" + id;
 				break;
+
+			default:
+				options.flickr = "set:" + set;
+				options.flickrOptions.max = $(".inner.img").length;
+				options.show = i;
 		}
 
 		$("#gallery_view .iframe").galleria(options);
@@ -66,13 +67,18 @@ $(function() {
 		});
 	}
 
-	if (pagename === "home") {
-		flickr.set("72157647107363402", function(data) {
-			$(".loader").fadeOut(function(){
+	if (!$(".inner.img").length) {
+		var set = pagename === "artwork" ? "72157646703093220" : "72157647107363402";
+		flickr.set(set, function(data) {
+			$(".loader").fadeOut(function() {
 				$(this).remove();
+				data = data.filter(function(img) { return !/web|mobile/.test(img.title) });
 				data.forEach(function(img, i) {
-					$(".content.galleria-init .grid").append('<div class="img-container media-container" style="opacity: 0"><div class="inner img" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"><img src="'+ img.big +'"></div></div>');
-					if (i === data.length-1) $(".content.galleria-init .img").click(loadGalleryView);
+					var selector = ".content.galleria-init";
+					var colClassName = !$(".grid").length ? " col-sm-6" : "";
+					selector += $(".grid").length ? " .grid" : "";
+					$(selector).append('<div class="img-container media-container'+ colClassName +'" style="opacity: 0"><div class="inner img" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"><img src="'+ img.big +'"></div></div>');
+					if (i === data.length-1) $(".content.galleria-init .img").click({set}, loadGalleryView);
 				});
 				$(".inner.img img").on("load", orientation);
 			});
@@ -94,10 +100,9 @@ $(function() {
 				$(this).galleria({
 					imageCrop: !isSlideshow,
 					flickr: "tags:nz-designs-" + img.id,
-					flickrOptions: { imageSize: isSlideshow ? "original" : imageSize },
+					flickrOptions: { imageSize: isSlideshow ? "original" : imageSize, max: isSlideshow ? undefined : 1 },
 					showImagenav: false,
 					show: img.id ? 0 : i,
-					max: isSlideshow ? undefined : 1,
 					autoplay: isSlideshow ? 4500 : undefined,
 					transitionSpeed: isSlideshow ? 1000 : undefined,
 					swipe: isSlideshow ? "disabled" : undefined
