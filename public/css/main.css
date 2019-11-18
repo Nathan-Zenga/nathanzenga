@@ -78,20 +78,20 @@ hr {
 	letter-spacing: 3px;
 }
 
-.content {
-	overflow: hidden;
-}
-
 .content .media-container {
 	padding: 5px;
 }
 
 .content .media-container > .inner {
-	height: 350px;
+	height: 500px;
 }
 
 body:not(#design) .content .media-container > .inner {
 	position: relative;
+}
+
+.content.galleria-init {
+	overflow: hidden;
 }
 
 .content.galleria-init .img-container > .inner {
@@ -109,8 +109,12 @@ body:not(#design) .content .media-container > .inner {
 }
 
 @media (max-width: 767px) {
-	.content {
+	.content.galleria-init {
 		overflow: visible;
+	}
+
+	.content .media-container > .inner {
+		height: 350px;
 	}
 
 	.content > .txt-container > .inner {
@@ -249,7 +253,6 @@ body:not(#design) .content .media-container > .inner {
 
 #info .info-txt {
 	margin-bottom: 3em;
-	padding: 0 10px;
 }
 
 #info .info-txt-carousel {
