@@ -20,6 +20,10 @@ router.get('/design', (req, res) => {
 	})
 });
 
+router.get('/artwork', (req, res) => {
+	res.render('artwork', { title: "Artwork", pagename: "artwork" })
+});
+
 router.get('/info', (req, res) => {
 	models.info_text.find((err, txt) => {
 		res.render('info', { title: "Info", pagename: "info", txt: txt[0] })
