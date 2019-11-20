@@ -161,13 +161,15 @@ body:not(#design) .content .media-container > .inner {
 }
 
 .menu.fixed .menu-icon {
-	width: 100%;
+	position: absolute;
+	right: 0;
 }
 
 .menu.fixed .nav-group {
 	position: fixed;
 	top: 0;
 	width: 60px;
+	min-height: 60px;
 	background-color: rgba(255, 228, 181, .9);
 	padding: 15px 0;
 	z-index: 100;
@@ -189,6 +191,7 @@ body:not(#design) .content .media-container > .inner {
 
 	.menu.fixed .nav-group {
 		width: 100%;
+		min-height: auto;
 		transition: none;
 	}
 
