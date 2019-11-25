@@ -176,8 +176,8 @@ router.post('/design/edit', (req, res) => {
 	});
 });
 
-router.post('/design/document', (req, res) => {
-	models.design.findById(req.body.id, (err, doc) => res.send(doc));
+router.post('/design/documents', (req, res) => {
+	models.design.find((err, docs) => res.send(docs));
 });
 
 module.exports = router;

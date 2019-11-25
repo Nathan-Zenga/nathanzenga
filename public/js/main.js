@@ -90,10 +90,11 @@ $(function() {
 			$(this).closest("form").find(".details").not(this).attr("required", isRequired);
 		});
 
-		$("form.design-edit-settings select").change(function() {
-			var $form = $(this).parents("form");
-			var data = {id: this.value};
-			$.post("/settings/design/document", data, function(doc) {
+		$.post("/settings/design/documents", function(docs) {
+			$("form.design-edit-settings select").change(function() {
+				var $form = $(this).parents("form");
+				var id = this.value;
+				var doc = docs.filter(function(doc) { return doc._id == id })[0];
 				if (!doc) {
 					$form.find(".details").val("");
 				} else {
