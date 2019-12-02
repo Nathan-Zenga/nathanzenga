@@ -18,9 +18,9 @@ var indexReorder = (collection, id, newIndex, cb) => {
 		let selected_doc = docs.filter(e => e._id == id)[0];
 		docs.splice(selected_doc.index, 1);
 		docs.splice(parseInt(newIndex), 0, selected_doc);
-		docs.forEach(doc => {
+		docs.forEach((doc, i) => {
 			if (doc.index != i) doc.index = i;
-			docs.save();
+			doc.save();
 		});
 		if (cb) cb();
 	})
