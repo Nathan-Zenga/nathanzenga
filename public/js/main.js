@@ -6,12 +6,12 @@ $(function() {
 	};
 
 	function smoothScroll(scrollTop) {
-		scrollTop = scrollTop.data != undefined ? scrollTop.data : scrollTop;
+		scrollTop = typeof scrollTop.data == "number" ? scrollTop.data : scrollTop;
 		$("html, body").stop().animate({ scrollTop }, 700, 'easeInOutExpo');
 	}
 
 	function toggleClass() {
-		$(".menu").toggleClass("fixed", window.pageYOffset >= $(".row.menu").offset().top - 15);
+		$(".menu").toggleClass("fixed", window.pageYOffset >= $("main").offset().top);
 	};
 
 	function toggleScrollTracker() {
@@ -46,16 +46,20 @@ $(function() {
 
 	$(".menu-icon").click(function() {
 		$(this).toggleClass("is-active");
-		var steps = [
-			(d) => setTimeout(()=> $(".nav-group").css("width", $(this).hasClass("is-active") ? "100%" : ""), d),
-			(d) => setTimeout(()=> $("nav").stop().slideToggle(function() {
-				if ($(this).css("display") == "none") $(this).css("display", "")
-			}), d)
-		];
 		var menuOpen = $(this).hasClass("is-active");
 		var menuFixed = $(".menu").hasClass("fixed");
-		steps[0](!menuOpen && menuFixed ? 400 : 0);
-		steps[1](menuOpen && menuFixed ? 400 : 0);
+		var borderRadius = menuOpen ? "0" : "50%";
+		var top = right = menuOpen ? "0" : "10px";
+		var removeAttr = menuOpen ? null : () => $(".nav-group").removeAttr("style");
+		var posAndRadius = (ms) => setTimeout(() => $(".nav-group").animate({borderRadius, top, right}, 400, removeAttr), ms);
+		var widthToggle  = (ms) => setTimeout(() => $(".nav-group").animate({width: menuOpen ? "100%" : "54px"}, ms), ms);
+		var navToggle    = (ms) => setTimeout(() => $("nav").slideToggle(function() {
+			if ($(this).css("display") == "none") $(this).css("display", "")
+		}), ms);
+		var steps = [ posAndRadius, widthToggle, navToggle ];
+		steps[0](!menuOpen && menuFixed ? 800 : 0);
+		if (menuFixed) steps[1](400);
+		steps[2](menuOpen && menuFixed ? 800 : 0);
 	});
 
 	$(".toTop").click(0, smoothScroll);
