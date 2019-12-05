@@ -10,8 +10,10 @@ $(function() {
 		$("html, body").stop().animate({ scrollTop }, 700, 'easeInOutExpo');
 	}
 
-	function toggleClass() {
-		$(".menu").toggleClass("fixed", window.pageYOffset >= $("main").offset().top);
+	function toggleMenuFix() {
+		var isBelow = window.pageYOffset >= $("main").offset().top;
+		var menuOpen = $(".menu-icon").hasClass("is-active");
+		$(".menu").toggleClass("fixed", isBelow).find(".nav-group").css("width", isBelow && menuOpen ? "100%" : "");
 	};
 
 	function toggleScrollTracker() {
@@ -64,9 +66,9 @@ $(function() {
 
 	$(".toTop").click(0, smoothScroll);
 
-	toggleClass();
+	toggleMenuFix();
 	toggleScrollTracker();
-	$(window).scroll(toggleClass);
+	$(window).scroll(toggleMenuFix);
 	$(window).on("scroll resize", toggleScrollTracker);
 
 	$("#info form").submit(function(e) {
@@ -90,7 +92,7 @@ $(function() {
 
 	if (document.body.id === "settings") {
 		$("#bulk").change(function() {
-			let isRequired = !this.value.trim();
+			var isRequired = !this.value.trim();
 			$(this).closest("form").find(".details").not(this).attr("required", isRequired);
 		});
 
