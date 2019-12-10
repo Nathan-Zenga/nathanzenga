@@ -67,6 +67,14 @@ $(function() {
 		});
 	}
 
+	if ($(".grid").length && !("grid" in document.body.style)) {
+		if ($(".img-container").length) {
+			$(".img-container").unwrap(".grid").unwrap(".grid-container").addClass("col-sm-6");
+		} else {
+			$(".grid, .grid-container").remove();
+		}
+	}
+
 	if (!$(".inner.img").length) {
 		var set = pagename === "artwork" ? "72157646703093220" : "72157647107363402";
 		flickr.set(set, function(data) {
@@ -74,9 +82,8 @@ $(function() {
 				$(this).remove();
 				data = data.filter(function(img) { return !/web|mobile/.test(img.title) });
 				data.forEach(function(img, i) {
-					var selector = ".content.galleria-init";
+					var selector = ".content.galleria-init" + ( $(".grid").length ? " .grid" : "" );
 					var colClassName = !$(".grid").length ? " col-sm-6" : "";
-					selector += $(".grid").length ? " .grid" : "";
 					$(selector).append('<div class="img-container media-container'+ colClassName +'" style="opacity: 0"><div class="inner img" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"><img src="'+ img.big +'"></div></div>');
 					if (i === data.length-1) $(".content.galleria-init .img").click({set}, loadGalleryView);
 				});
@@ -91,9 +98,7 @@ $(function() {
 
 			if (pagename === "photo") {
 				flickr.tags("nz-"+ id[0] +"-cover", function(data) {
-					if (data.length) {
-						$(img).html("<img src="+ data[0].big +">").children().on("load", orientation);
-					}
+					if (data.length) $(img).html("<img src="+ data[0].big +">").children().on("load", orientation);
 				});
 			}
 			else if (pagename === "design") {
