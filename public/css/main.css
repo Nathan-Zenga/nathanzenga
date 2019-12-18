@@ -233,11 +233,6 @@ body:not(#design) .content .media-container > .inner {
 	height: 100%;
 }
 
-.modal .galleria-info-link,
-.modal .galleria-thumbnails-container {
-	display: none;
-}
-
 .modal .galleria-image-nav-left,
 .modal .galleria-image-nav-right {
 	-webkit-filter: invert(1);
@@ -367,12 +362,6 @@ form .row .column.xs:last-child {
 	}
 }
 
-.grid-container {
-	max-width: 800px;
-	margin-left: auto;
-	margin-right: auto;
-}
-
 .grid {
 	display: grid;
 	grid-template-columns: 100%;
@@ -416,5 +405,11 @@ form .row .column.xs:last-child {
 
 	.grid .media-container {
 		padding: 5px;
+	}
+}
+
+@media (min-width: 992px) {
+	.grid {
+		grid-template-columns: repeat(3, 33.333%);
 	}
 }
