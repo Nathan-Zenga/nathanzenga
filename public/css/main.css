@@ -169,12 +169,27 @@ body:not(#design) .content .media-container > .inner {
 	background-color: rgba(255, 228, 181, .9);
 	padding: 15px 0;
 	border-radius: 50%;
-	animation: fadeIn .4s 1;
+	animation: fadeIn .4s 1 backwards;
+	animation-delay: .4s;
 	z-index: 100;
+	transition: .4s;
+	transition-property: border-radius, top, right, width;
 }
 
 @-webkit-keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
 @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+
+@media (max-width: 767px) {
+	.menu.fixed .nav-group.pos-toggle {
+		border-radius: 0;
+		top: 0;
+		right: 0;
+	}
+
+	.menu.fixed .nav-group.width-toggle {
+		width: 100%;
+	}
+}
 
 .menu nav {
 	padding-top: 30px;

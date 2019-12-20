@@ -12,8 +12,7 @@ $(function() {
 
 	function toggleMenuFix() {
 		var isBelow = window.pageYOffset >= $("main").offset().top;
-		var menuOpen = $(".menu-icon").hasClass("is-active");
-		$(".menu").toggleClass("fixed", isBelow).find(".nav-group").css("width", isBelow && menuOpen ? "100%" : "");
+		$(".menu").toggleClass("fixed", isBelow);
 	};
 
 	function toggleScrollTracker() {
@@ -24,7 +23,6 @@ $(function() {
 
 	document.onkeydown = function(e) {
 		e = e || window.event;
-		var shiftKey = e.shiftKey;
 		if (keys[e.keyCode] && $("#gallery_view.in").length) {
 			if (e.preventDefault) e.preventDefault();
 
@@ -47,21 +45,17 @@ $(function() {
 	}
 
 	$(".menu-icon").click(function() {
-		$(this).toggleClass("is-active");
-		var menuOpen = $(this).hasClass("is-active");
-		var menuFixed = $(".menu").hasClass("fixed");
-		var borderRadius = menuOpen ? "0" : "50%";
-		var top = right = menuOpen ? "0" : "10px";
-		var removeAttr = menuOpen ? null : () => $(".nav-group").removeAttr("style");
-		var posAndRadius = (ms) => setTimeout(() => $(".nav-group").animate({borderRadius, top, right}, 400, removeAttr), ms);
-		var widthToggle  = (ms) => setTimeout(() => $(".nav-group").animate({width: menuOpen ? "100%" : "54px"}, ms), ms);
-		var navToggle    = (ms) => setTimeout(() => $("nav").slideToggle(function() {
-			if ($(this).css("display") == "none") $(this).css("display", "")
-		}), ms);
-		var steps = [ posAndRadius, widthToggle, navToggle ];
-		steps[0](!menuOpen && menuFixed ? 800 : 0);
-		if (menuFixed) steps[1](400);
-		steps[2](menuOpen && menuFixed ? 800 : 0);
+		if (!$(".menu :animated").length) {
+			$(this).toggleClass("is-active");
+			var menuOpen = $(this).hasClass("is-active");
+			var menuFixed = $(".menu").hasClass("fixed");
+			var posToggle   = () => $(".nav-group").toggleClass("pos-toggle", menuOpen);
+			var widthToggle = () => $(".nav-group").toggleClass("width-toggle", menuOpen);
+			var navToggle   = () => $("nav").slideToggle(function() { if ($(this).is(":hidden")) $(this).css("display", "") });
+			var steps = [ posToggle, widthToggle, navToggle ];
+			steps = menuOpen ? steps : steps.reverse();
+			steps.forEach((step, i) => { setTimeout(() => step(), menuFixed ? 400 * i : 0) });
+		}
 	});
 
 	$(".toTop").click(0, smoothScroll);
