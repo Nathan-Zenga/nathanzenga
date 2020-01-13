@@ -41,6 +41,7 @@ app.use(session({
 // Global variables
 app.use(function (req, res, next) {
 	res.locals.production = production;
+	res.locals.url = req.originalUrl;
 	next();
 });
 
