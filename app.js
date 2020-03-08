@@ -3,9 +3,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var http = require('http'); // core module
 var path = require('path'); // core module
-var ejs = require('ejs');
 var mongoose = require('mongoose');
 var session = require('express-session');
+var MemoryStore = require('memorystore')(session);
 var production = (process.env.NODE_ENV === "production");
 
 mongoose.connect(process.env.DB, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -33,9 +33,8 @@ app.use(session({
 	secret: 'secret',
 	saveUninitialized: true,
 	resave: true,
-	cookie: {
-		secure: false
-	}
+	cookie: { secure: false },
+	store: new MemoryStore({ checkPeriod: 1000 * 60 * 60 * 12 })
 }));
 
 // Global variables
