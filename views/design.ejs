@@ -18,4 +18,25 @@
 			<%_ if (i < designs.length-1) { _%><hr><%_ } _%>
 			<%_ }) _%>
 		</div>
+
+		<script src="/js/galleria-init.js"></script>
+		<script>
+			var post = $.post('/key');
+			var key = post.status != 404 ? post.responseText : undefined;
+			var flickr = new Galleria.Flickr(key);
+			var imgLength = $(".content.galleria-init .img").length;
+			$(".content.galleria-init .img").each(function(i) {
+				var isSlideshow = this.className.includes("slideshow");
+
+				$(this).galleria({
+					imageCrop: !isSlideshow,
+					flickr: "tags:nz-designs-" + this.id,
+					flickrOptions: { imageSize: isSlideshow ? "original" : imageSize, max: isSlideshow ? undefined : 1 },
+					show: this.id ? 0 : i,
+					autoplay: isSlideshow ? 4500 : undefined,
+					transitionSpeed: isSlideshow ? 1000 : undefined,
+					swipe: isSlideshow ? "disabled" : undefined
+				})
+			}).click(loadGalleryView)
+		</script>
 <%_ include partials/footer _%>

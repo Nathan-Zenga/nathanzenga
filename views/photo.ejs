@@ -11,4 +11,20 @@
 				</div>
 			</div>
 		</div>
+
+		<script src="/js/galleria-init.js"></script>
+		<script>
+			var post = $.post('/key');
+			var key = post.status != 404 ? post.responseText : undefined;
+			var flickr = new Galleria.Flickr(key);
+			var imgLength = $(".content.galleria-init .img").length;
+			$(".content.galleria-init .img").each(function(i) {
+				var img = this;
+				var id = img.id.split("-")[0];
+
+				flickr.tags("nz-"+ id +"-cover", function(data) {
+					if (data.length) $(img).html("<img src="+ data[0].big +">").children().on("load", {imgLength}, imgOrientation);
+				});
+			}).click(loadGalleryView)
+		</script>
 <%_ include partials/footer _%>
