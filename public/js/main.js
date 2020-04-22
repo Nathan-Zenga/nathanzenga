@@ -28,11 +28,11 @@ $(function() {
                     break;
 
                 case 37:
-                    $("#gallery_view .galleria-image-nav-left").click();
+                    $("#gallery_view .iframe").data("galleria").prev();
                     break;
 
                 case 39:
-                    $("#gallery_view .galleria-image-nav-right").click();
+                    $("#gallery_view .iframe").data("galleria").next();
                     break;
             }
 
