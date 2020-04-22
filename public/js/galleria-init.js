@@ -1,15 +1,14 @@
-Galleria.loadTheme("https://cdnjs.cloudflare.com/ajax/libs/galleria/1.5.7/themes/classic/galleria.classic.min.js").configure({ transition: 'fade', showInfo: false, thumbnails: false, showImagenav: false })
+Galleria.loadTheme("https://cdnjs.cloudflare.com/ajax/libs/galleria/1.5.7/themes/classic/galleria.classic.min.js").configure({ transition: 'fade', showInfo: false, thumbnails: false })
 .on("loadfinish", function(e) {
     var target = this._target;
-    var $imgContainer = $(target).parents(".img-container");
+    var i = $(".inner.img").index(target);
     if ($(".loader").length) $(".loader").hide(0).remove();
-    if (/inner|img/.test(target.className) && !e.cached) {
-        $(target).append("<div class='expand-icon'><i class='fas fa-expand'></i></div>").find(".expand-icon").fadeTo(0, 1).delay(2500).fadeOut(function() {
-            $(this).removeAttr("style")
-        });
+    if (i != -1 && !e.cached) {
+        var expandIcon = "<div class='expand-icon'><i class='fas fa-expand'></i></div>";
 
-        var i = $(".img").index(target);
-        $imgContainer.delay(i * 100).fadeTo(500, 1, function() { $(this).removeAttr("style") })
+        $(target).append(expandIcon).find(".expand-icon").fadeTo(0, 1).delay(2500).fadeOut(function() {
+            $(this).removeAttr("style")
+        }).end().closest(".img-container").delay(i * 100).fadeTo(500, 1, function() { $(this).removeAttr("style") })
     }
 });
 
@@ -27,7 +26,7 @@ function imgOrientation(e) {
         $(".horizontal:last").removeClass("horizontal");
     counter += 1;
 
-    if ( finalLoad ) $(".inner.img").galleria({ imageCrop: true });
+    if ( finalLoad ) $(".inner.img").galleria({ imageCrop: true, showImagenav: false });
 }
 
 function loadGalleryView(e) {
@@ -35,16 +34,14 @@ function loadGalleryView(e) {
     var isSlideshow = this.className.includes("slideshow");
     var i = $(".inner.img").index(this);
     var id = this.id;
-    var options = {
-        flickrOptions: { imageSize: isSlideshow ? "original" : "big" }
-    };
+    var options = { flickrOptions: { imageSize: isSlideshow ? "original" : "big" } };
 
     switch(document.body.id) {
         case "photo":
             set = id.split("-")[1];
             options.flickr = "set:" + set;
             break;
-            
+
         case "design":
             options.flickr = "tags:nz-designs-" + id;
             break;
