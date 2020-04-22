@@ -1,51 +1,51 @@
 <%_ include partials/header _%>
-	<div class="row content">
+    <div class="row content">
 
-		<ul class="nav nav-pills">
-			<li class="active"><a data-toggle="pill" href="#galleries">Galleries</a></li>
-			<li><a data-toggle="pill" href="#infotext">Info Text</a></li>
-			<li><a data-toggle="pill" href="#designs">Designs</a></li>
-		</ul>
+        <ul class="nav nav-pills">
+            <li class="active"><a data-toggle="pill" href="#galleries">Galleries</a></li>
+            <li><a data-toggle="pill" href="#infotext">Info Text</a></li>
+            <li><a data-toggle="pill" href="#designs">Designs</a></li>
+        </ul>
 
-		<div class="tab-content">
-			<div id="galleries" class="tab-pane fade in active">
-				<%_ include partials/settings/galleries _%>
-			</div>
+        <div class="tab-content">
+            <div id="galleries" class="tab-pane fade in active">
+                <%_ include partials/settings/galleries _%>
+            </div>
 
-			<div id="infotext" class="tab-pane fade">
-				<%_ include partials/settings/info-text _%>
-			</div>
+            <div id="infotext" class="tab-pane fade">
+                <%_ include partials/settings/info-text _%>
+            </div>
 
-			<div id="designs" class="tab-pane fade">
-				<%_ include partials/settings/designs _%>
-			</div>
-		</div>
+            <div id="designs" class="tab-pane fade">
+                <%_ include partials/settings/designs _%>
+            </div>
+        </div>
 
-		<script>
-			$("#bulk").change(function() {
-				var isRequired = !this.value.trim();
-				$(this).closest("form").find(".details").not(this).attr("required", isRequired);
-			});
+        <script>
+            $("#bulk").change(function() {
+                var isRequired = !this.value.trim();
+                $(this).closest("form").find(".details").not(this).attr("required", isRequired);
+            });
 
-			$.post("/settings/design/documents", function(docs) {
-				$("form.design-edit-settings select").change(function() {
-					var $form = $(this).parents("form");
-					var id = this.value;
-					var doc = docs.filter(function(doc) { return doc._id == id })[0];
-					if (!doc) {
-						$form.find(".details").val("");
-					} else {
-						$.each(doc, function(k, v) {
-							if (typeof v !== "object") {
-								$form.find(".details[name="+ k +"]").val(v);
-							} else {
-								$.each(v, function(k2, v2) {
-									$form.find(".details[name="+ k2 +"]").val(v2);
-								})
-							}
-						})
-					}
-				});
-			})
-		</script>
+            $.post("/settings/design/documents", function(docs) {
+                $("form.design-edit-settings select").change(function() {
+                    var $form = $(this).parents("form");
+                    var id = this.value;
+                    var doc = docs.filter(function(doc) { return doc._id == id })[0];
+                    if (!doc) {
+                        $form.find(".details").val("");
+                    } else {
+                        $.each(doc, function(k, v) {
+                            if (typeof v !== "object") {
+                                $form.find(".details[name="+ k +"]").val(v);
+                            } else {
+                                $.each(v, function(k2, v2) {
+                                    $form.find(".details[name="+ k2 +"]").val(v2);
+                                })
+                            }
+                        })
+                    }
+                });
+            })
+        </script>
 <%_ include partials/footer _%>

@@ -12,7 +12,7 @@ mongoose.connect(process.env.DB, { useNewUrlParser: true, useUnifiedTopology: tr
 
 let conn = mongoose.connection;
 conn.once('open', function() {
-	console.log("Connected to DB")
+    console.log("Connected to DB")
 });
 
 var app = express();
@@ -30,34 +30,34 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Express session
 app.use(session({
-	secret: 'secret',
-	saveUninitialized: true,
-	resave: true,
-	cookie: { secure: false },
-	store: new MemoryStore({ checkPeriod: 1000 * 60 * 60 * 12 })
+    secret: 'secret',
+    saveUninitialized: true,
+    resave: true,
+    cookie: { secure: false },
+    store: new MemoryStore({ checkPeriod: 1000 * 60 * 60 * 12 })
 }));
 
 // Global variables
 app.use(function (req, res, next) {
-	res.locals.production = production;
-	res.locals.url = req.originalUrl;
-	next();
+    res.locals.production = production;
+    res.locals.url = req.originalUrl;
+    next();
 });
 
 app.use('/', require('./routes/index'));
 app.use('/settings', require('./routes/settings'));
 
 app.get("*", (req, res) => {
-	res.status(404).render('index', { title: "Error 404", pagename: "error" });
+    res.status(404).render('index', { title: "Error 404", pagename: "error" });
 });
 
 // Set port + listen for requests
 var port = process.env.PORT || 5678;
 app.listen(port, function() {
-	console.log('Server started on port '+ port);
-	if (production) {
-		setInterval(function() {
-			http.get(process.env.URL);
-		}, 60000 * 25);
-	}
+    console.log('Server started on port '+ port);
+    if (production) {
+        setInterval(function() {
+            http.get(process.env.URL);
+        }, 60000 * 25);
+    }
 });

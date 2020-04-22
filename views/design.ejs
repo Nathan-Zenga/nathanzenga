@@ -1,42 +1,42 @@
 <%_ include partials/header _%>
-		<div class="row content galleria-init">
-			<%_ designs.forEach((item, i) => { _%>
-			<div class="col-sm-8 <%= i % 2 !== 0 ? 'col-sm-push-4' : '' %> img-container media-container">
-				<div class="inner slideshow img" id="<%= item.d_id %>" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"></div>
-			</div>
-			<div class="col-sm-4 <%= i % 2 !== 0 ? 'col-sm-pull-8' : '' %> txt-container media-container">
-				<div class="inner">
-					<p>Client:<br><b><%= item.text.client %></b></p>
-					<br>
-					<p>Primary tools:<br><b><%= item.text.tools %></b></p>
-					<br>
-					<p><%= item.text.description %></p>
-					<br>
-					<a class="btn btn-default" href="<%= item.link %>">View live demo</a>
-				</div>
-			</div>
-			<%_ if (i < designs.length-1) { _%><hr><%_ } _%>
-			<%_ }) _%>
-		</div>
+        <div class="row content galleria-init">
+            <%_ designs.forEach((item, i) => { _%>
+            <div class="col-sm-8 <%= i % 2 !== 0 ? 'col-sm-push-4' : '' %> img-container media-container">
+                <div class="inner slideshow img" id="<%= item.d_id %>" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"></div>
+            </div>
+            <div class="col-sm-4 <%= i % 2 !== 0 ? 'col-sm-pull-8' : '' %> txt-container media-container">
+                <div class="inner">
+                    <p>Client:<br><b><%= item.text.client %></b></p>
+                    <br>
+                    <p>Primary tools:<br><b><%= item.text.tools %></b></p>
+                    <br>
+                    <p><%= item.text.description %></p>
+                    <br>
+                    <a class="btn btn-default" href="<%= item.link %>">View live demo</a>
+                </div>
+            </div>
+            <%_ if (i < designs.length-1) { _%><hr><%_ } _%>
+            <%_ }) _%>
+        </div>
 
-		<script src="/js/galleria-init.js"></script>
-		<script>
-			var post = $.post('/key');
-			var key = post.status != 404 ? post.responseText : undefined;
-			var flickr = new Galleria.Flickr(key);
-			var imgLength = $(".content.galleria-init .img").length;
-			$(".content.galleria-init .img").each(function(i) {
-				var isSlideshow = this.className.includes("slideshow");
+        <script src="/js/galleria-init.js"></script>
+        <script>
+            var post = $.post('/key');
+            var key = post.status != 404 ? post.responseText : undefined;
+            var flickr = new Galleria.Flickr(key);
+            var imgLength = $(".content.galleria-init .img").length;
+            $(".content.galleria-init .img").each(function(i) {
+                var isSlideshow = this.className.includes("slideshow");
 
-				$(this).galleria({
-					imageCrop: !isSlideshow,
-					flickr: "tags:nz-designs-" + this.id,
-					flickrOptions: { imageSize: isSlideshow ? "original" : imageSize, max: isSlideshow ? undefined : 1 },
-					show: this.id ? 0 : i,
-					autoplay: isSlideshow ? 4500 : undefined,
-					transitionSpeed: isSlideshow ? 1000 : undefined,
-					swipe: isSlideshow ? "disabled" : undefined
-				})
-			}).click(loadGalleryView)
-		</script>
+                $(this).galleria({
+                    imageCrop: !isSlideshow,
+                    flickr: "tags:nz-designs-" + this.id,
+                    flickrOptions: { imageSize: isSlideshow ? "original" : imageSize, max: isSlideshow ? undefined : 1 },
+                    show: this.id ? 0 : i,
+                    autoplay: isSlideshow ? 4500 : undefined,
+                    transitionSpeed: isSlideshow ? 1000 : undefined,
+                    swipe: isSlideshow ? "disabled" : undefined
+                })
+            }).click(loadGalleryView)
+        </script>
 <%_ include partials/footer _%>
