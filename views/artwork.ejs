@@ -7,9 +7,8 @@
             var post = $.post('/key');
             var key = post.status != 404 ? post.responseText : undefined;
             var flickr = new Galleria.Flickr(key);
-            flickr.setOptions({ max: Infinity });
 
-            flickr.set(set, function(data) {
+            flickr.setOptions({ max: Infinity }).set(set, function(data) {
                 var imgLength = data.length;
                 data.forEach(function(img, i) {
                     var selector = ".content.galleria-init" + ( $(".grid").length ? " .grid" : "" );
