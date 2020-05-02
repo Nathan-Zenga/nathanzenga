@@ -1,23 +1,24 @@
 <%_ include partials/header _%>
-    <div class="row content">
+    <main class="container">
+        <div class="row content">
+            <ul class="nav nav-pills">
+                <li class="active"><a data-toggle="pill" href="#galleries">Galleries</a></li>
+                <li><a data-toggle="pill" href="#infotext">Info Text</a></li>
+                <li><a data-toggle="pill" href="#designs">Designs</a></li>
+            </ul>
 
-        <ul class="nav nav-pills">
-            <li class="active"><a data-toggle="pill" href="#galleries">Galleries</a></li>
-            <li><a data-toggle="pill" href="#infotext">Info Text</a></li>
-            <li><a data-toggle="pill" href="#designs">Designs</a></li>
-        </ul>
+            <div class="tab-content">
+                <div id="galleries" class="tab-pane fade in active">
+                    <%_ include partials/settings/galleries _%>
+                </div>
 
-        <div class="tab-content">
-            <div id="galleries" class="tab-pane fade in active">
-                <%_ include partials/settings/galleries _%>
-            </div>
+                <div id="infotext" class="tab-pane fade">
+                    <%_ include partials/settings/info-text _%>
+                </div>
 
-            <div id="infotext" class="tab-pane fade">
-                <%_ include partials/settings/info-text _%>
-            </div>
-
-            <div id="designs" class="tab-pane fade">
-                <%_ include partials/settings/designs _%>
+                <div id="designs" class="tab-pane fade">
+                    <%_ include partials/settings/designs _%>
+                </div>
             </div>
         </div>
 
@@ -48,4 +49,5 @@
                 });
             })
         </script>
+    </main>
 <%_ include partials/footer _%>

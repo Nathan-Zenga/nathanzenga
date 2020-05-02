@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var models = require('../models/models');
+var { Gallery, Design, Info_text, Admin } = require('../models/models');
 var bcrypt = require('bcryptjs');
 var indexShift = (collection, currentDoc, deletion, cb) => {
     models[collection].find({index: {$gte: currentDoc.index}}).sort({index: 1}).exec((err, docs) => {
@@ -28,9 +28,9 @@ var indexReorder = (collection, id, newIndex, cb) => {
 
 router.get('/---', (req, res) => {
     if (req.session.isAuthed) {
-        models.gallery.find().sort({index: 1}).exec((err, galleries) => {
-            models.design.find().sort({index: 1}).exec((err, designs) => {
-                models.info_text.find((err, info) => {
+        Gallery.find().sort({index: 1}).exec((err, galleries) => {
+            Design.find().sort({index: 1}).exec((err, designs) => {
+                Info_text.find((err, info) => {
                     res.render('settings', { title: "Settings", pagename: "settings", docs: { galleries, designs, info: info[0] } })
                 })
             })
@@ -58,7 +58,7 @@ router.post('/*', (req, res, next) => {
 });
 
 router.post('/access', (req, res) => {
-    models.admin.findOne((err, doc) => {
+    Admin.findOne((err, doc) => {
         bcrypt.compare(req.body.pass, doc.pass, function(err, match) {
             if (match) {
                 req.session.cookie.maxAge = 120000;
@@ -76,7 +76,7 @@ router.post('/gallery/save', (req, res) => {
 
     function complete (obj) {
         let docs = obj.constructor.name != "Array" ? [obj] : obj;
-        models.gallery.insertMany(docs, (err, result) => {
+        Gallery.insertMany(docs, (err, result) => {
             if (err) return res.send(err);
             res.redirect(req.get("referrer"));
         })
@@ -107,10 +107,10 @@ router.post('/gallery/delete', (req, res) => {
     var cb = err => err ? res.send(err) : res.redirect(req.get("referrer"));
 
     if (all) {
-        models.gallery.deleteMany({}, cb);
+        Gallery.deleteMany({}, cb);
     } else {
-        models.gallery.findOne(query, (err, doc) => {
-            indexShift("gallery", doc, 1, () => models.gallery.deleteOne(query, cb));
+        Gallery.findOne(query, (err, doc) => {
+            indexShift("gallery", doc, 1, () => Gallery.deleteOne(query, cb));
         })
     }
 });
@@ -122,14 +122,14 @@ router.post('/gallery/reorder', (req, res) => {
 });
 
 router.post('/info-text/save', (req, res) => {
-    models.info_text.deleteMany({}, err => {
-        var newInfo = new models.info_text({ text: req.body.text });
+    Info_text.deleteMany({}, err => {
+        var newInfo = new Info_text({ text: req.body.text });
         newInfo.save(err => err ? res.send(err) : res.redirect(req.get("referrer")));
     });
 });
 
 router.post('/design/save', (req, res) => {
-    var newDesign = new models.design({
+    var newDesign = new Design({
         d_id: req.body.d_id,
         text: {
             client: req.body.client,
@@ -150,11 +150,11 @@ router.post('/design/delete', (req, res) => {
     var cb = err => err ? res.send(err) : res.redirect(req.get("referrer"));
 
     if (!all) {
-        models.design.findOne(query, (err, doc) => {
-            indexShift("design", doc, 1, () => models.design.deleteOne(query, cb));
+        Design.findOne(query, (err, doc) => {
+            indexShift("design", doc, 1, () => Design.deleteOne(query, cb));
         })
     } else {
-        models.design.deleteMany({}, cb);
+        Design.deleteMany({}, cb);
     }
 });
 
@@ -166,7 +166,7 @@ router.post('/design/reorder', (req, res) => {
 
 router.post('/design/edit', (req, res) => {
     var id = req.body.design_to_edit;
-    models.design.findById(id, (err, doc) => {
+    Design.findById(id, (err, doc) => {
         doc.d_id = req.body.d_id || doc.d_id;
         doc.text.client = req.body.client || doc.text.client;
         doc.text.tools = req.body.tools || doc.text.tools;
@@ -177,7 +177,7 @@ router.post('/design/edit', (req, res) => {
 });
 
 router.post('/design/documents', (req, res) => {
-    models.design.find((err, docs) => res.send(docs));
+    Design.find((err, docs) => res.send(docs));
 });
 
 module.exports = router;

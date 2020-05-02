@@ -1,22 +1,23 @@
 var express = require('express');
 var router = express.Router();
 var nodemailer = require('nodemailer');
+var cloud = require('cloudinary');
 var { OAuth2 } = require("googleapis").google.auth;
-var models = require('../models/models');
-var { OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_REFRESH_TOKEN, FLICKR_KEY } = process.env;
+var { Gallery, Design, Info_text, Photo } = require('../models/models');
+var { OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_REFRESH_TOKEN } = process.env;
 
 router.get('/', (req, res) => {
     res.render('index', { title: null, pagename: "home" })
 });
 
 router.get('/photo', (req, res) => {
-    models.gallery.find().sort({index: 1}).exec((err, galleries) => {
+    Gallery.find().sort({index: 1}).exec((err, galleries) => {
         res.render('photo', { title: "Photography", pagename: "photo", galleries })
     })
 });
 
 router.get('/design', (req, res) => {
-    models.design.find().sort({index: 1}).exec((err, designs) => {
+    Design.find().sort({index: 1}).exec((err, designs) => {
         res.render('design', { title: "Designs", pagename: "design", designs })
     })
 });
@@ -26,12 +27,29 @@ router.get('/artwork', (req, res) => {
 });
 
 router.get('/info', (req, res) => {
-    models.info_text.find((err, txt) => {
+    Info_text.find((err, txt) => {
         res.render('info', { title: "Info", pagename: "info", txt: txt[0] })
     })
 });
 
-router.post('/key', (req, res) => res.send(FLICKR_KEY));
+router.post('/photo/upload', (req, res) => {
+    var { file, photo_title, photo_set, index } = req.body;
+    var newPhoto = new Photo({ photo_title, photo_set, index });
+    cloud.v2.uploader.upload(file, { public_id: `${photo_set}/${photo_title}`.toLowerCase().replace(/ /g, "_") }, (err, result) => {
+        if (err) return console.error(err), res.send("Error occurred whilst uploading");
+        var { width, height, secure_url } = result;
+        newPhoto.orientation = width > height ? "landscape" : width < height ? "portrait" : "square";
+        newPhoto.photo_url = secure_url;
+        newPhoto.save(() => res.send("Photo saved"));
+    })
+});
+
+router.post('/photos/overview', (req, res) => {
+    var { set, orientation } = req.body;
+    Photo.find({ photo_set: {$regex: new RegExp(set, "i")}, orientation }, (err, photos) => {
+        res.send(photos.map(function(p) { return "<img src='"+ p.photo_url +"'>" }));
+    })
+});
 
 router.post('/send/message', (req, res) => {
     const oauth2Client = new OAuth2( OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, "https://developers.google.com/oauthplayground" );
@@ -60,8 +78,7 @@ router.post('/send/message', (req, res) => {
         to: 'nathanzenga@gmail.com',
         subject: req.body.subject,
         text: `From ${req.body.name} (${req.body.email}):\n\n${req.body.message}`
-    },
-    (err, info) => {
+    }, (err, info) => {
         if (err) return console.log(err), res.send("Could not send message. Error occurred.");
         console.log("The message was sent!");
         console.log(info);

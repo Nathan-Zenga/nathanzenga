@@ -1,5 +1,14 @@
-﻿main {
-    margin-top: 60px;
+﻿header {
+    padding: 40px 0;
+}
+
+#logo {
+    text-align: center;
+    font-size: 1.5em;
+    letter-spacing: 3px;
+}
+
+main {
     padding-bottom: 50px;
 }
 
@@ -42,36 +51,11 @@ label {
 }
 
 hr {
-    border-top: 1px solid rgb(25, 25, 25);
+    border-top: 1px solid rgb(150, 150, 150);
     width: 40%;
     opacity: 0;
     margin: 0;
     padding: 1.5em 0;
-}
-
-.scroll-tracker {
-    position: fixed;
-    top: 0;
-    width: 0;
-    height: 5px;
-    background-color: rgba(25, 25, 25, .5);
-    z-index: 101;
-}
-
-.title {
-    text-align: center;
-}
-
-.title > div {
-    margin-bottom: 30px;
-}
-
-.title .name {
-    font-size: 2em;
-}
-
-.title .occupation {
-    letter-spacing: 3px;
 }
 
 .content .media-container {
@@ -141,87 +125,40 @@ body:not(#design) .content .media-container > .inner {
     }
 }
 
-.menu {
-    text-align: center;
-}
-
-.menu .nav-group {
-    right: 0;
-    float: right;
-    width: 100%;
-}
-
-.menu.fixed {
-    height: 29px;
-}
-
-.menu.fixed .menu-icon {
-    position: absolute;
-    right: 0;
-}
-
-.menu.fixed .nav-group {
+.menu-icon-container {
     position: fixed;
-    top: 10px;
-    right: 10px;
-    width: 54px;
-    min-height: 54px;
-    background-color: rgba(255, 228, 181, .9);
-    padding: 15px 0;
-    border-radius: 50%;
-    animation: fadeIn .4s 1 backwards;
-    animation-delay: .4s;
+    top: 40px;
+    left: 30px;
+    z-index: 110;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    overflow-y: auto;
+    background-color: rgba(30, 30, 30, .9);
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+    transition: .5s transform;
     z-index: 100;
-    transition: .4s;
-    transition-property: border-radius, top, right, width;
 }
 
-@-webkit-keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
-@keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
-
-@media (max-width: 767px) {
-    .menu.fixed .nav-group.pos-toggle {
-        border-radius: 0;
-        top: 0;
-        right: 0;
-    }
-
-    .menu.fixed .nav-group.width-toggle {
-        width: 100%;
-    }
+nav.show {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
 }
 
-.menu nav {
-    padding-top: 30px;
-    text-transform: uppercase;
+nav .link-group {
+    margin-top: 100px;
+    padding: 50px;
+    padding-right: 100px;
 }
 
-.menu.fixed nav {
-    padding-bottom: 30px;
-}
-
-@media (min-width: 768px) {
-    .menu.fixed {
-        height: 20px;
-    }
-
-    .menu.fixed .nav-group {
-        top: 0;
-        right: 0;
-        width: 100%;
-        border-radius: 0;
-        min-height: auto;
-        transition: none;
-    }
-
-    .menu nav {
-        padding-top: 0;
-        text-transform: initial;
-    }
-
-    .menu.fixed nav {
-        padding-bottom: 0;
-    }
+nav a:not(:last-child) {
+    display: block;
+    margin-bottom: 2em;
 }
 
 .modal-backdrop {
@@ -286,8 +223,8 @@ body:not(#design) .content .media-container > .inner {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    border: 4px solid rgba(25, 25, 25, .15);
-    border-top-color: rgb(25, 25, 25);
+    border: 4px solid rgba(150, 150, 150, .15);
+    border-top-color: rgb(150, 150, 150);
     -webkit-animation: spin 1s infinite linear;
     animation: spin 1s infinite linear;
 }
@@ -309,7 +246,7 @@ body:not(#design) .content .media-container > .inner {
     right: 0;
     padding: 5px 10px;
     cursor: pointer;
-    background-color: rgb(255, 228, 181);
+    background-color: rgb(30, 30, 30);
     z-index: 20;
     transition: .5s opacity;
 }
@@ -330,8 +267,8 @@ body:not(#design) .content .media-container > .inner {
 .nav.nav-pills> .active > a,
 .nav.nav-pills> .active > a:focus,
 .nav.nav-pills> .active > a:hover {
-    background-color: rgb(25, 25, 25);
-    color: rgb(255, 228, 181);
+    background-color: rgb(150, 150, 150);
+    color: rgb(30, 30, 30);
     opacity: 1;
 }
 
@@ -389,7 +326,7 @@ form .row .column.xs:last-child {
     -webkit-transform: translateY(-100%);
     transform: translateY(-100%);
     padding: 5px 10px;
-    background-color: rgb(255, 228, 181);
+    background-color: rgb(30, 30, 30);
 }
 
 .grid .media-container {

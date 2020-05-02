@@ -1,14 +1,22 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+var { model, Schema } = require('mongoose');
 
-module.exports.gallery = mongoose.model('Gallery', Schema({
+module.exports.Photo = model('Photo', Schema({
+    photo_title: String,
+    photo_set: String,
+    photo_url: String,
+    orientation: String,
+    index: Number,
+    photo_set_cover: { type: Boolean, default: false }
+}));
+
+module.exports.Gallery = model('Gallery', Schema({
     tag: String,
     set_id: String,
     label: String,
     index: Number
 }));
 
-module.exports.design = mongoose.model('Design', Schema({
+module.exports.Design = model('Design', Schema({
     d_id: { type: String, uppercase: true },
     text: {
         client: { type: String },
@@ -19,13 +27,13 @@ module.exports.design = mongoose.model('Design', Schema({
     index: Number
 }));
 
-module.exports.info_text = mongoose.model('Info_text', Schema({
+module.exports.Info_text = model('Info_text', Schema({
     text: String
 }, {
     capped: { max: 1, size: 1000 }
 }));
 
-module.exports.admin = mongoose.model('Admin', Schema({
+module.exports.Admin = model('Admin', Schema({
     pass: String
 }, {
     capped: { max: 1, size: 1000 }
