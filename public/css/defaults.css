@@ -21,11 +21,11 @@ a:hover {
 }
 
 ::selection {
-    color: rgb(255, 228, 181);
-    background: rgb(25, 25, 25);
+    color: rgb(30, 30, 30);
+    background: rgb(255, 228, 181);
 }
 
-img:not(#logo) {
+img {
     pointer-events: none!important
 }
 
@@ -78,8 +78,9 @@ ul {
     padding: 0;
 }
 
-.btn {
+.nz .btn {
     border: none;
+    color: rgb(30, 30, 30);
 }
 
 .nz .hamburger {

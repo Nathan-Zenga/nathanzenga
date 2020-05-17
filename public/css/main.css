@@ -4,8 +4,12 @@
 
 #logo {
     text-align: center;
-    font-size: 1.5em;
-    letter-spacing: 3px;
+}
+
+#logo img {
+    height: 60px;
+    -webkit-filter: invert(1);
+    filter: invert(1);
 }
 
 main {
@@ -35,6 +39,24 @@ form {
     margin: 0 auto;
 }
 
+form .row .column.xs {
+    padding: 0 .5em;
+}
+
+form .row .column.xs:first-child {
+    padding-left: 0;
+}
+
+form .row .column.xs:last-child {
+    padding-right: 0;
+}
+
+.form-control {
+    margin-bottom: 1em;
+    box-shadow: none;
+    border: none;
+}
+
 textarea,
 textarea.form-control {
     min-width: 100%;
@@ -44,6 +66,20 @@ textarea.form-control {
 
 form.info-text-settings textarea {
     height: 15em
+}
+
+@media (min-width: 768px) {
+    form .row .column.sm {
+        padding: 0 .5em;
+    }
+
+    form .row .column.sm:first-child {
+        padding-left: 0;
+    }
+
+    form .row .column.sm:last-child {
+        padding-right: 0;
+    }
 }
 
 label {
@@ -151,7 +187,7 @@ nav.show {
 }
 
 nav .link-group {
-    margin-top: 100px;
+    margin-top: 60px;
     padding: 50px;
     padding-right: 100px;
 }
@@ -270,38 +306,6 @@ nav a:not(:last-child) {
     background-color: rgb(150, 150, 150);
     color: rgb(30, 30, 30);
     opacity: 1;
-}
-
-.form-control {
-    margin-bottom: 1em;
-    box-shadow: none;
-    border: none;
-}
-
-form .row .column.xs {
-    padding: 0 .5em;
-}
-
-form .row .column.xs:first-child {
-    padding-left: 0;
-}
-
-form .row .column.xs:last-child {
-    padding-right: 0;
-}
-
-@media (min-width: 768px) {
-    form .row .column.sm {
-        padding: 0 .5em;
-    }
-
-    form .row .column.sm:first-child {
-        padding-left: 0;
-    }
-
-    form .row .column.sm:last-child {
-        padding-right: 0;
-    }
 }
 
 .grid {
