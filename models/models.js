@@ -6,25 +6,8 @@ module.exports.Photo = model('Photo', Schema({
     photo_url: String,
     orientation: String,
     index: Number,
-    photo_set_cover: { type: Boolean, default: false }
-}));
-
-module.exports.Gallery = model('Gallery', Schema({
-    tag: String,
-    set_id: String,
-    label: String,
-    index: Number
-}));
-
-module.exports.Design = model('Design', Schema({
-    d_id: { type: String, uppercase: true },
-    text: {
-        client: { type: String },
-        tools: { type: String },
-        description: { type: String }
-    },
-    link: String,
-    index: Number
+    photo_set_cover: Boolean,
+    photo_set_index: Number
 }));
 
 module.exports.Info_text = model('Info_text', Schema({

@@ -3,7 +3,7 @@ var router = express.Router();
 var nodemailer = require('nodemailer');
 var cloud = require('cloudinary');
 var { OAuth2 } = require("googleapis").google.auth;
-var { Gallery, Design, Info_text, Photo } = require('../models/models');
+var { Info_text, Photo } = require('../models/models');
 var { OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_REFRESH_TOKEN } = process.env;
 
 router.get('/', (req, res) => {
@@ -11,15 +11,11 @@ router.get('/', (req, res) => {
 });
 
 router.get('/photo', (req, res) => {
-    Gallery.find().sort({index: 1}).exec((err, galleries) => {
-        res.render('photo', { title: "Photography", pagename: "photo", galleries })
-    })
+    res.render('photo', { title: "Photography", pagename: "photo" })
 });
 
 router.get('/design', (req, res) => {
-    Design.find().sort({index: 1}).exec((err, designs) => {
-        res.render('design', { title: "Designs", pagename: "design", designs })
-    })
+    res.render('design', { title: "Designs", pagename: "design" })
 });
 
 router.get('/artwork', (req, res) => {
@@ -35,7 +31,7 @@ router.get('/info', (req, res) => {
 router.post('/photo/upload', (req, res) => {
     var { file, photo_title, photo_set, index } = req.body;
     var newPhoto = new Photo({ photo_title, photo_set, index });
-    cloud.v2.uploader.upload(file, { public_id: `${photo_set}/${photo_title}`.toLowerCase().replace(/ /g, "_") }, (err, result) => {
+    cloud.v2.uploader.upload(file, { public_id: `${photo_set}/${photo_title}`.toLowerCase().replace(/[ ?&#\\%<>]/g, "_") }, (err, result) => {
         if (err) return console.error(err), res.send("Error occurred whilst uploading");
         var { width, height, secure_url } = result;
         newPhoto.orientation = width > height ? "landscape" : width < height ? "portrait" : "square";
@@ -44,11 +40,11 @@ router.post('/photo/upload', (req, res) => {
     })
 });
 
-router.post('/photos/overview', (req, res) => {
-    var { set, orientation } = req.body;
-    Photo.find({ photo_set: {$regex: new RegExp(set, "i")}, orientation }, (err, photos) => {
-        res.send(photos.map(function(p) { return "<img src='"+ p.photo_url +"'>" }));
-    })
+router.post('/p', (req, res) => {
+    var qry = Object.assign({}, req.body);
+    delete qry.sort;
+    qry.photo_set = {$regex: new RegExp(qry.photo_set, "i")};
+    Photo.find(qry).sort(req.body.sort).exec((err, photos) => res.send(photos))
 });
 
 router.post('/send/message', (req, res) => {
