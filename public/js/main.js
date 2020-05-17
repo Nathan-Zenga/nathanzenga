@@ -34,6 +34,10 @@ $(function() {
         $("nav").toggleClass("show");
     });
 
+    $(document.body).click(function(e) {
+        if (e.pageX > parseInt($("nav.show").css("width"))) $(".menu-icon").click();
+    });
+
     $(".toTop").click(0, smoothScroll);
 
     $("#info form").submit(function(e) {
