@@ -1,18 +1,21 @@
 <%_ include partials/header _%>
     <main>
-        <script src="/js/galleria-init.js"></script>
-        <section id="overview" style="height: 90vh">
+        <div id="overview" style="height: 90vh">
+            <script src="/js/galleria-init.js"></script>
             <script>
-                $.post("/photos/overview", { set: "Assorted", orientation: window.innerWidth < window.innerHeight ? "portrait" : "landscape" }, function(data) {
-                    $("#overview").html(data.join("")).galleria({
+                $.post("/p", {
+                    photo_set: "Assorted",
+                    orientation: window.innerWidth < window.innerHeight ? "portrait" : "landscape"
+                }, function(d) {
+                    $("#overview").html(d.map(function(e) { return "<img src='"+ e.photo_url +"'>" }).join("")).click(loadGalleryView).galleria({
                         imageCrop: true,
                         autoplay: true,
                         showImagenav: false,
                         transitionSpeed: 2000,
                         swipe: "disabled"
-                    })
+                    });
                 });
             </script>
-        </section>
+        </div>
     </main>
 <%_ include partials/footer _%>

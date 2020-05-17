@@ -2,31 +2,27 @@
     <main class="container">
         <div class="row content galleria-init">
             <div class="grid-container">
-                <div class="grid">
-                    <%_ galleries.forEach(gallery => { _%>
-                    <div class="img-container media-container" style="opacity: 0">
-                        <div class="inner img" id="<%= gallery.tag %>-<%= gallery.set_id %>" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"></div>
-                        <label><%= gallery.label %></label>
-                    </div>
-                    <%_ }) _%>
-                </div>
+                <div class="grid"></div>
             </div>
         </div>
 
         <script src="/js/galleria-init.js"></script>
         <script>
-            var post = $.post('/key');
-            var key = post.status != 404 ? post.responseText : undefined;
-            var flickr = new Galleria.Flickr(key);
-            var imgLength = $(".content.galleria-init .img").length;
-            $(".content.galleria-init .img").each(function(i) {
-                var img = this;
-                var id = img.id.split("-")[0];
-
-                flickr.tags("nz-"+ id +"-cover", function(data) {
-                    if (data.length) $(img).html("<img src="+ data[0].big +">").children().on("load", {imgLength}, imgOrientation);
+            $.post("/p", [
+                { name: "photo_set_cover", value: true },
+                { name: "sort", value: { photo_set_index: 1 } }
+            ], function(d) {
+                var imgLength = d.length;
+                d.forEach(function(e) {
+                    $($(".grid").length ? ".grid" : ".galleria-init").append(
+                        '<div class="img-container media-container" style="opacity: 0">'+
+                            '<div class="inner img" id="'+ e.photo_set +'" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"></div>'+
+                            '<label>'+ e.photo_set +'</label>'+
+                        '</div>'
+                    ).find(".img:last").html("<img src="+ e.photo_url +">").children().on("load", {imgLength}, imgOrientation);
                 });
-            }).click(loadGalleryView)
+                $(".img").click(loadGalleryView);
+            });
         </script>
     </main>
 <%_ include partials/footer _%>
