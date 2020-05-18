@@ -1,4 +1,4 @@
-var { model, Schema } = require('mongoose');
+const { model, Schema } = require('mongoose');
 
 module.exports.Photo = model('Photo', Schema({
     photo_title: String,
@@ -6,7 +6,7 @@ module.exports.Photo = model('Photo', Schema({
     photo_url: String,
     orientation: String,
     index: Number,
-    photo_set_cover: Boolean,
+    photo_set_cover: { type: Boolean, default: false },
     photo_set_index: Number
 }));
 
@@ -17,6 +17,10 @@ module.exports.Design = model('Design', Schema({
         tools: { type: String },
         description: { type: String }
     },
+    images: [{
+        photo_url: String,
+        index: Number
+    }],
     link: String,
     index: Number
 }));
