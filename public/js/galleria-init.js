@@ -12,8 +12,8 @@ Galleria.loadTheme("https://cdnjs.cloudflare.com/ajax/libs/galleria/1.5.7/themes
     }
 });
 
-var counter = 0;
 function imgOrientation(e) {
+    if (typeof counter == "undefined") window.counter = 0;
     var img = e.currentTarget;
     var imgContainer = $(img).closest(".img-container").get(0);
     var i = $(".img-container").index(imgContainer);
@@ -22,11 +22,14 @@ function imgOrientation(e) {
     var dir = portrait ? "vertical" : landscape && (i % 2 == 0) ? "horizontal" : "";
     var finalLoad = counter === e.data.imgLength-1;
     $(imgContainer).addClass(dir);
-    if( finalLoad && $(".horizontal:last").offset().top > $(".img-container:last").offset().top )
-        $(".horizontal:last").removeClass("horizontal");
+    if( finalLoad ) {
+        window.counter = undefined;
+        if( $(".horizontal:last").offset().top > $(".img-container:last").offset().top ) {
+            $(".horizontal:last").removeClass("horizontal");
+        }
+        $(".inner.img").galleria({ imageCrop: true, showImagenav: false });
+    }
     counter += 1;
-
-    if ( finalLoad ) $(".inner.img").galleria({ imageCrop: true, showImagenav: false });
 }
 
 function loadGalleryView(e) {
