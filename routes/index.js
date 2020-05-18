@@ -1,10 +1,11 @@
-var express = require('express');
-var router = express.Router();
-var nodemailer = require('nodemailer');
-var cloud = require('cloudinary');
-var { OAuth2 } = require("googleapis").google.auth;
-var { Design, Info_text, Photo } = require('../models/models');
-var { OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_REFRESH_TOKEN } = process.env;
+const express = require('express');
+const router = express.Router();
+const nodemailer = require('nodemailer');
+const cloud = require('cloudinary');
+const { OAuth2 } = require("googleapis").google.auth;
+const { Design, Info_text, Photo } = require('../models/models');
+const { OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_REFRESH_TOKEN } = process.env;
+const { DownsizedImage } = require('../config/config');
 
 router.get('/', (req, res) => {
     res.render('index', { title: null, pagename: "home" })
@@ -35,10 +36,13 @@ router.post('/photo/upload', (req, res) => {
     var newPhoto = new Photo({ photo_title, photo_set, index });
     cloud.v2.uploader.upload(file, { public_id: `${photo_set}/${photo_title}`.toLowerCase().replace(/[ ?&#\\%<>]/g, "_") }, (err, result) => {
         if (err) return console.error(err), res.send("Error occurred whilst uploading");
-        var { width, height, secure_url } = result;
-        newPhoto.orientation = width > height ? "landscape" : width < height ? "portrait" : "square";
-        newPhoto.photo_url = secure_url;
-        newPhoto.save(() => res.send("Photo saved"));
+        DownsizedImage(result, (err, result2) => {
+            if (err) return console.error(err), res.send("Error occurred whilst downscaling image");
+            var { width, height, secure_url } = result2 || result;
+            newPhoto.orientation = width > height ? "landscape" : width < height ? "portrait" : "square";
+            newPhoto.photo_url = secure_url;
+            newPhoto.save(() => res.send("Photo saved"));
+        })
     })
 });
 
