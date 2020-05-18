@@ -3,7 +3,7 @@ var router = express.Router();
 var nodemailer = require('nodemailer');
 var cloud = require('cloudinary');
 var { OAuth2 } = require("googleapis").google.auth;
-var { Info_text, Photo } = require('../models/models');
+var { Design, Info_text, Photo } = require('../models/models');
 var { OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_REFRESH_TOKEN } = process.env;
 
 router.get('/', (req, res) => {
@@ -15,7 +15,9 @@ router.get('/photo', (req, res) => {
 });
 
 router.get('/design', (req, res) => {
-    res.render('design', { title: "Designs", pagename: "design" })
+    Design.find((err, designs) => {
+        res.render('design', { title: "Designs", pagename: "design", designs })
+    })
 });
 
 router.get('/artwork', (req, res) => {

@@ -10,6 +10,17 @@ module.exports.Photo = model('Photo', Schema({
     photo_set_index: Number
 }));
 
+module.exports.Design = model('Design', Schema({
+    d_id: { type: String, uppercase: true },
+    text: {
+        client: { type: String },
+        tools: { type: String },
+        description: { type: String }
+    },
+    link: String,
+    index: Number
+}));
+
 module.exports.Info_text = model('Info_text', Schema({
     text: String
 }, {
