@@ -23,16 +23,18 @@
         <script src="/js/galleria-init.js"></script>
         <script>
             $(".content.galleria-init .img").each(function(i) {
-                var isSlideshow = this.className.includes("slideshow");
-                $(this).galleria({
-                    imageCrop: !isSlideshow,
-                    flickr: "tags:nz-designs-" + this.id,
-                    flickrOptions: { imageSize: isSlideshow ? "original" : imageSize, max: isSlideshow ? undefined : 1 },
-                    show: this.id ? 0 : i,
-                    autoplay: isSlideshow ? 4500 : undefined,
-                    transitionSpeed: isSlideshow ? 1000 : undefined,
-                    swipe: isSlideshow ? "disabled" : undefined,
-                    showImagenav: false
+                var img = this;
+                var isSlideshow = img.className.includes("slideshow");
+                $.post("/p", [
+                    { name: "photo_set", value: "design-" + img.id }
+                ], function(d) {
+                    $(img).html(d.map(function(e) { return "<img src="+ e.photo_url +">" }).join("")).galleria({
+                        imageCrop: !isSlideshow,
+                        autoplay: isSlideshow ? 4500 : undefined,
+                        transitionSpeed: isSlideshow ? 1000 : undefined,
+                        swipe: isSlideshow ? "disabled" : undefined,
+                        showImagenav: false
+                    })
                 })
             }).click(loadGalleryView)
         </script>
