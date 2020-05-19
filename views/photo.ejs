@@ -10,7 +10,7 @@
         <script>
             $.post("/p", [
                 { name: "photo_set_cover", value: true },
-                { name: "sort", value: { photo_set_index: 1 } }
+                { name: "sort", value: '{ "photo_set_index": 1 }' }
             ], function(d) {
                 var imgLength = d.length;
                 d.forEach(function(e) {

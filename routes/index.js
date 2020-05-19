@@ -50,7 +50,7 @@ router.post('/p', (req, res) => {
     var qry = Object.assign({}, req.body);
     delete qry.sort;
     qry.photo_set = {$regex: new RegExp(qry.photo_set, "i")};
-    Photo.find(qry).sort(req.body.sort).exec((err, photos) => res.send(photos))
+    Photo.find(qry).sort(JSON.parse(req.body.sort || "{}")).exec((err, photos) => res.send(photos))
 });
 
 router.post('/send/message', (req, res) => {
