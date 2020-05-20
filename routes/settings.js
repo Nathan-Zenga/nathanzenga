@@ -7,10 +7,10 @@ const { indexShift, indexReorder, photoUploader } = require('../config/config');
 
 router.get('/---', (req, res) => {
     if (req.session.isAuthed) {
-        Gallery.find().sort({index: 1}).exec((err, galleries) => {
+        Photo.find().sort({index: 1}).exec((err, photos) => {
             Design.find().sort({index: 1}).exec((err, designs) => {
-                Info_text.find((err, info) => {
-                    res.render('settings', { title: "Settings", pagename: "settings", docs: { galleries, designs, info: info[0] } })
+                Info_text.findOne((err, info) => {
+                    res.render('settings', { title: "Settings", pagename: "settings", docs: { photos, designs, info } })
                 })
             })
         })
@@ -38,7 +38,7 @@ router.post('/*', (req, res, next) => {
 
 router.post('/access', (req, res) => {
     Admin.findOne((err, doc) => {
-        bcrypt.compare(req.body.pass, doc.pass, function(err, match) {
+        bcrypt.compare(req.body.pass, doc.pass, (err, match) => {
             if (match) {
                 req.session.cookie.maxAge = 120000;
                 req.session.isAuthed = true;
@@ -50,54 +50,45 @@ router.post('/access', (req, res) => {
     })
 });
 
-router.post('/gallery/save', (req, res) => {
-    var obj;
+router.post('/photo/upload', (req, res) => { photoUploader(req.body, err => {
+    res.send(err || "Photo saved");
+})});
 
-    function complete (obj) {
-        let docs = obj.constructor.name != "Array" ? [obj] : obj;
-        Gallery.insertMany(docs, (err, result) => {
-            if (err) return res.send(err);
-            res.redirect(req.get("referrer"));
+router.post('/photo/delete', (req, res) => {
+    var ids = Object.values(req.body);
+    if (!ids.length) return res.send("Nothing selected");
+    ids.forEach((id, i, arr) => {
+        Photo.findByIdAndDelete(id, (err, photo) => {
+            var {photo_set, photo_title} = photo || {};
+            var public_id = `${photo_set}/${photo_title}`.toLowerCase().replace(/[ ?&#\\%<>]/g, "_");
+            cloud.v2.api.delete_resources([public_id], {}, () => {
+                Design.findOne({d_id: photo_set.replace("design-", "")}, (err, design) => {
+                    if (!err && design) {
+                        design.images = design.images.filter(d => d);
+                        design.images.forEach((img, i) => img.index = (i+1));
+                        design.save();
+                    }
+                    if (i === arr.length-1) res.send(`Photo${arr.length > 1 ? "s" : ""} deleted`);
+                })
+            })
         })
-    };
-
-    if (req.body.bulk) {
-        let max_index = parseInt(req.body.max_index);
-        let bulk = req.body.bulk.split("\n").map((gallery, i) => {
-            let e = gallery.split(" -- ");
-            return {
-                tag: e[0].trim(),
-                set_id: e[1].trim(),
-                label: e[2].trim(),
-                index: !e[3].trim() || parseInt(e[3]) > max_index+i ? max_index+i : e[3].trim()
-            }
-        });
-        bulk.forEach(item => indexShift("gallery", item, 0));
-        complete(bulk);
-    } else {
-        obj = { tag: req.body.tag, set_id: req.body.set_id, label: req.body.label, index: req.body.index };
-        indexShift("gallery", obj, 0, () => complete(obj));
-    }
+    })
 });
 
-router.post('/gallery/delete', (req, res) => {
-    var all = req.body.gallery_to_delete === "*";
-    var query = {_id: req.body.gallery_to_delete};
-    var cb = err => err ? res.send(err) : res.redirect(req.get("referrer"));
-
-    if (all) {
-        Gallery.deleteMany({}, cb);
-    } else {
-        Gallery.findOne(query, (err, doc) => {
-            indexShift("gallery", doc, 1, () => Gallery.deleteOne(query, cb));
+router.post('/photo/set/delete', (req, res) => {
+    var { set } = req.body;
+    if (!set) return res.send("Nothing selected");
+    Photo.deleteMany({ photo_set: set }, err => {
+        cloud.v2.api.delete_resources_by_prefix(set, {}, err2 => {
+            if (err || err2) return res.send(err || err2);
+            res.send("Photo deleted successfully");
         })
-    }
+    })
 });
 
-router.post('/gallery/reorder', (req, res) => {
-    var id = req.body.gallery_to_reorder;
-    var index = req.body.index;
-    indexReorder("gallery", id, index, () => res.redirect(req.get("referrer")));
+router.post('/photo/set/reorder', (req, res) => {
+    var { gallery_to_reorder, index } = req.body;
+    indexReorder("gallery", gallery_to_reorder, index, () => res.send("Photo re-ordered"));
 });
 
 router.post('/info-text/save', (req, res) => {
@@ -108,55 +99,66 @@ router.post('/info-text/save', (req, res) => {
 });
 
 router.post('/design/save', (req, res) => {
-    var newDesign = new Design({
-        d_id: req.body.d_id,
-        text: {
-            client: req.body.client,
-            tools: req.body.tools,
-            description: req.body.description
-        },
-        link: req.body.link,
-        index: req.body.index
-    });
-    indexShift("design", newDesign, 0, () => {
-        newDesign.save(err => err ? res.send(err) : res.redirect(req.get("referrer")));
+    var { d_id, client, tools, description, link, index, images } = req.body;
+    var newDesign = new Design({ d_id, text: { client, tools, description }, link, index });
+    indexShift("Design", newDesign, {dec: false}, () => {
+        newDesign.save((err, design) => {
+            try {
+                if (err) throw err;
+                design.images = [];
+                JSON.parse(images).forEach((image, i, arr) => {
+                    var { file, photo_title } = image;
+                    photoUploader({ file, photo_title, photo_set: `design-${design.d_id}`, index: i+1 }, (err, photo) => {
+                        if (err) throw err;
+                        design.images.push({ photo_url: photo.photo_url, index: photo.index });
+                        if (i === arr.length-1) design.save(() => res.send("Design saved"));
+                    });
+                });
+            } catch(e) { console.log(e); res.send("Design saved, but error occured") }
+        });
     });
 });
 
 router.post('/design/delete', (req, res) => {
-    var all = req.body.design_to_delete === "*";
-    var query = {_id: req.body.design_to_delete};
-    var cb = err => err ? res.send(err) : res.redirect(req.get("referrer"));
-
-    if (!all) {
-        Design.findOne(query, (err, doc) => {
-            indexShift("design", doc, 1, () => Design.deleteOne(query, cb));
+    var { id } = req.body;
+    (Array.isArray(id) ? id : [id]).filter(e => e).forEach(id => {
+        Design.findByIdAndDelete(id, (err, design) => {
+            if (err) return res.send(err);
+            var { d_id } = design;
+            Photo.deleteMany({ photo_set: `design-${ d_id }` }, err => {
+                if (err) return res.send(err);
+                cloud.v2.api.delete_resources_by_prefix(`design-${ d_id }`, {}, err => {
+                    if (err) return res.send(err);
+                    res.send("Design deleted successfully");
+                })
+            })
         })
-    } else {
-        Design.deleteMany({}, cb);
-    }
-});
-
-router.post('/design/reorder', (req, res) => {
-    var id = req.body.design_to_reorder;
-    var index = req.body.index;
-    indexReorder("design", id, index, () => res.redirect(req.get("referrer")));
-});
-
-router.post('/design/edit', (req, res) => {
-    var id = req.body.design_to_edit;
-    Design.findById(id, (err, doc) => {
-        doc.d_id = req.body.d_id || doc.d_id;
-        doc.text.client = req.body.client || doc.text.client;
-        doc.text.tools = req.body.tools || doc.text.tools;
-        doc.text.description = req.body.description || doc.text.description;
-        doc.link = req.body.link || doc.link;
-        doc.save(err => res.redirect(req.get("referrer")));
     });
 });
 
-router.post('/design/documents', (req, res) => {
-    Design.find((err, docs) => res.send(docs));
+router.post('/design/reorder', (req, res) => {
+    var {design_to_reorder, index} = req.body;
+    indexReorder("design", design_to_reorder, index, () => res.redirect(req.get("referrer")));
 });
+
+router.post('/design/edit', (req, res) => {
+    var { design_to_edit, d_id, client, tools, description, link } = req.body;
+    Design.findById(design_to_edit, (err, doc) => {
+        doc.text.client = client || doc.text.client;
+        doc.text.tools = tools || doc.text.tools;
+        doc.text.description = description || doc.text.description;
+        doc.link = link || doc.link;
+        if (d_id) {
+            Photo.updateMany({photo_set: `design-${doc.d_id}`}, {photo_set: `design-${d_id}`}, (err, result) => {
+                if (err) return console.error(err), res.send("Error occurred whilst photos updating photo set");
+                console.log(result);
+                if (result.n > 0) doc.d_id = d_id;
+            });
+        }
+        doc.save(err => res.send("Design collection updated"));
+    });
+});
+
+router.post('/design/documents', (req, res) => { Design.find((err, docs) => res.send(docs)) });
 
 module.exports = router;
