@@ -16,11 +16,16 @@ const { Photo } = require('../models/models');
 
  /**
  * Resizing passed image with smaller dimensions
- * @param {UploadApiResponse} result response object from initial media upload
+ * @param {UploadApiResponse} result response object from initial image upload
+ * @param {number} result.width width of initial image upload
+ * @param {number} result.height height of initial image upload
+ * @param {string} result.public_id public ID of initial image upload
  * @param {ResponseCallback} cb callback
  */
 const DownsizedImage = module.exports.DownsizedImage = (result, cb) => {
     var { width, height, public_id } = result;
+    var args = [width, height, public_id];
+    if (args.filter(e => e).length != args.length) return cb(new Error("One or more properties / args missing"));
     if ( width > 1200 || height > 1200 ) {
         var prop = width >= height ? "width" : "height";
         var options = { crop: "scale" }; options[prop] = 1200;
@@ -82,9 +87,9 @@ module.exports.photoUploader = (body, cb) => {
     var { file, photo_title, photo_set, index } = body;
     var newPhoto = new Photo({ photo_title, photo_set, index });
     cloud.v2.uploader.upload(file, { public_id: `${photo_set}/${photo_title}`.toLowerCase().replace(/[ ?&#\\%<>]/g, "_") }, (err, result) => {
-        if (err) return cb("Error occurred whilst uploading");
+        if (err) return console.error(err), cb(new Error("Error occurred whilst uploading"));
         DownsizedImage(result, (err, result2) => {
-            if (err) return cb("Error occurred whilst downscaling image");
+            if (err) return console.error(err), cb(new Error("Error occurred whilst downscaling image"));
             var { width, height, secure_url } = result2 || result;
             newPhoto.orientation = width > height ? "landscape" : width < height ? "portrait" : "square";
             newPhoto.photo_url = secure_url;
