@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const cloud = require('cloudinary');
 const { Photo, Design, Info_text, Admin } = require('../models/models');
 const { indexShift, indexReorder, photoUploader } = require('../config/config');
+const production = process.env.NODE_ENV === "production";
 
 router.get('/---', (req, res) => {
     if (req.session.isAuthed) {
@@ -32,7 +33,7 @@ router.get('/access', (req, res) => {
 });
 
 router.post('/*', (req, res, next) => {
-    if (req.originalUrl !== "/settings/access" && req.session.isAuthed) req.session.cookie.maxAge = 120000;
+    if (req.originalUrl !== "/settings/access" && req.session.isAuthed) req.session.cookie.maxAge = production ? 120000 : Infinity;
     next();
 });
 
