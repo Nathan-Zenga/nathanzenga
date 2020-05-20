@@ -1,30 +1,9 @@
-var express = require('express');
-var router = express.Router();
-var { Gallery, Design, Info_text, Admin } = require('../models/models');
-var bcrypt = require('bcryptjs');
-var indexShift = (collection, currentDoc, deletion, cb) => {
-    models[collection].find({index: {$gte: currentDoc.index}}).sort({index: 1}).exec((err, docs) => {
-        if (err) return err;
-        docs.forEach(doc => {
-            doc.index += (deletion ? -1 : 1);
-            doc.save();
-        });
-        if (cb) cb();
-    })
-};
-var indexReorder = (collection, id, newIndex, cb) => {
-    models[collection].find().sort({index: 1}).exec((err, docs) => {
-        if (err) return err;
-        let selected_doc = docs.filter(e => e._id == id)[0];
-        docs.splice(selected_doc.index, 1);
-        docs.splice(parseInt(newIndex), 0, selected_doc);
-        docs.forEach((doc, i) => {
-            if (doc.index != i) doc.index = i;
-            doc.save();
-        });
-        if (cb) cb();
-    })
-};
+const express = require('express');
+const router = express.Router();
+const bcrypt = require('bcryptjs');
+const cloud = require('cloudinary');
+const { Photo, Design, Info_text, Admin } = require('../models/models');
+const { indexShift, indexReorder, photoUploader } = require('../config/config');
 
 router.get('/---', (req, res) => {
     if (req.session.isAuthed) {
