@@ -7,11 +7,11 @@ const { indexShift, indexReorder, photoUploader } = require('../config/config');
 const production = process.env.NODE_ENV === "production";
 
 router.get('/---', (req, res) => {
-    if (req.session.isAuthed) {
+    if (req.session.isAuthed || !production) {
         Photo.find().sort({index: 1}).exec((err, photos) => {
             Design.find().sort({index: 1}).exec((err, designs) => {
                 Info_text.findOne((err, info) => {
-                    res.render('settings', { title: "Settings", pagename: "settings", docs: { photos, designs, info } })
+                    res.render('settings', { title: "Settings", pagename: "settings", photos, designs, info })
                 })
             })
         })
@@ -21,7 +21,7 @@ router.get('/---', (req, res) => {
 });
 
 router.get('/access', (req, res) => {
-    if (!req.session.isAuthed) {
+    if (!req.session.isAuthed && production) {
         var flash_msg = req.session.flash_msg;
         res.render('access', { title: "Password Required", pagename: "access", flash_msg }, (err, html) => {
             req.session.flash_msg = undefined;
