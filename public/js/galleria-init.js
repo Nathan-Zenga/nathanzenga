@@ -29,17 +29,15 @@ function imgOrientation(e) {
     if ( finalLoad ) $(".inner.img").galleria({ imageCrop: true, showImagenav: false });
 }
 
-function loadGalleryView(e) {
+function loadGalleryView() {
     var opts = {};
+    var g = $("#gallery_view .iframe").data("galleria");
 
-    switch(document.body.id) {
-        case "artwork":
-            opts.show = $(".inner.img").index(this);
-            break;
-    }
+    if (document.body.id === "artwork") opts.show = $(".inner.img").index(this);
 
     $.post("/p", {photo_set: this.id}, function(d) {
-        $("#gallery_view .iframe").html(d.map(function(e) { return "<img src="+ e.photo_url +">" })).galleria(opts);
+        if (g) g.destroy();
+        $("#gallery_view .iframe").html(d.map(function(e) { return "<img src="+ e.photo_url +">" }).join("")).galleria(opts);
     })
 }
 
