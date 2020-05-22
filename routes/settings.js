@@ -51,7 +51,11 @@ router.post('/access', (req, res) => {
     })
 });
 
-router.post('/photo/upload', (req, res) => { photoUploader(req.body, err => { res.send(err || "Photo saved") })});
+router.post('/photo/upload', (req, res) => {
+    photoUploader(req.body, (err, photo) => {
+        indexShift("Photo", photo, { dec: false }, () => res.send(err || "Photo saved"))
+    })
+});
 
 router.post('/photo/delete', (req, res) => {
     var { id } = req.body;
