@@ -75,58 +75,56 @@
                         }
                     });
 
-                    $.post("/p", {}, function(d) {
-                        $("#photo-set-opts").change(function() {
-                            var input = this;
-                            $("#photo-index").attr({ disabled: true, max: 1 }).val(1);
-                            $("#photo-set-new").remove();
-                            if (input.value === "new") {
-                                $("<input>").addClass("form-control").attr({
-                                    type: "text",
-                                    name: "photo_set_new",
-                                    id: "photo-set-new",
-                                    placeholder: "Enter new photo set name"
-                                }).insertAfter(input);
-                                $("#photo-index").attr("disabled", false);
-                            }
-                            else if (input.value) {
-                                var max = d.filter(function(e) { return e.photo_set == input.value }).length + 1;
-                                $("#photo-index").attr({ disabled: false, max }).val(max);
-                            }
-                        });
+                    $("#photo-set-opts").change(function() {
+                        var input = this;
+                        $("#photo-index").attr({ disabled: true, max: 1 }).val(1);
+                        $("#photo-set-new").remove();
+                        if (input.value === "new") {
+                            $("<input>").addClass("form-control").attr({
+                                type: "text",
+                                name: "photo_set_new",
+                                id: "photo-set-new",
+                                placeholder: "Enter new photo set name"
+                            }).insertAfter(input);
+                            $("#photo-index").attr("disabled", false);
+                        }
+                        else if (input.value) {
+                            var max = d.filter(function(e) { return e.photo_set == input.value }).length + 1;
+                            $("#photo-index").attr({ disabled: false, max }).val(max);
+                        }
+                    });
 
-                        var $photoSelectInput = $("#photo-to-delete");
-                        var photoOptions = $photoSelectInput.children("option");
-                        $("#photo-set-filter").change(function(evt) {
-                            var $form = $(this).closest("form");
-                            var $preview = $form.find(".img-preview");
-                            $photoSelectInput.html(photoOptions);
-                            $preview.empty();
-                            try {
-                                d.filter(function(e) {
-                                    return e.photo_set === evt.currentTarget.value
-                                }).forEach(function(img, i) {
-                                    if (i == 0) $photoSelectInput.html(
-                                        "<option value=''>Select image</option>" +
-                                        "<option value='*'>*</option>"
-                                    );
-                                    $photoSelectInput.append("<option value="+ img._id +">"+ img.photo_title +"</option>")
-                                });
-                                $photoSelectInput.find("option:first").prop("selected", true);
-                            } catch(e) {}
-                        });
+                    var $photoSelectInput = $("#photo-to-delete");
+                    var photoOptions = $photoSelectInput.children("option");
+                    $("#photo-set-filter").change(function(evt) {
+                        var $form = $(this).closest("form");
+                        var $preview = $form.find(".img-preview");
+                        $photoSelectInput.html(photoOptions);
+                        $preview.empty();
+                        try {
+                            d.filter(function(e) {
+                                return e.photo_set === evt.currentTarget.value
+                            }).forEach(function(img, i) {
+                                if (i == 0) $photoSelectInput.html(
+                                    "<option value=''>Select image</option>" +
+                                    "<option value='*'>*</option>"
+                                );
+                                $photoSelectInput.append("<option value="+ img._id +">"+ img.photo_title +"</option>")
+                            });
+                            $photoSelectInput.find("option:first").prop("selected", true);
+                        } catch(e) {}
+                    });
 
-                        $("#photo-to-delete").change(function(evt) {
-                            var $form = $(this).closest("form");
-                            var $preview = $form.find(".img-preview");
-                            $preview.empty();
-                            try {
-                                d.filter(function(e) {
-                                    return e._id == evt.currentTarget.value
-                                }).forEach(function(img) {
-                                    $preview.append("<img src='"+ img.photo_url +"'>");
-                                });
-                            } catch(e) {}
-                        });
+                    $("#photo-to-delete").change(function(evt) {
+                        var $form = $(this).closest("form");
+                        var $preview = $form.find(".img-preview");
+                        $preview.empty();
+                        try {
+                            d.filter(function(e) {
+                                return e._id == evt.currentTarget.value
+                            }).forEach(function(img) {
+                                $preview.append("<img src='"+ img.photo_url +"'>");
+                            });
+                        } catch(e) {}
                     });
                 </script>
