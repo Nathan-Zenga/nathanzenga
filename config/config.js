@@ -7,8 +7,8 @@ const { Photo } = require('../models/models');
  * @type {object}
  * 
  * Callback for upload response.
- * @callback ResponseCallback
- * @param {Error} [err]
+ * @callback UploadResponseCallback
+ * @param {object} [err]
  * @param {UploadApiResponse} result
  * 
  * @callback callback
@@ -20,7 +20,7 @@ const { Photo } = require('../models/models');
  * @param {number} result.width width of initial image upload
  * @param {number} result.height height of initial image upload
  * @param {string} result.public_id public ID of initial image upload
- * @param {ResponseCallback} cb callback
+ * @param {UploadResponseCallback|callback} cb callback
  */
 const DownsizedImage = module.exports.DownsizedImage = (result, cb) => {
     var { width, height, public_id } = result;
@@ -36,15 +36,14 @@ const DownsizedImage = module.exports.DownsizedImage = (result, cb) => {
 
 /**
  * increment / decrement 'index' field values of all documents, including specified document, greater than that of specified document
- * @param {string} collection name of db collection
+ * @param {string} model model name of db collection
  * @param {mongoose.Document} currentDoc specified doc from named collection to apply to query
  * @param {object} [args]
  * @param {Boolean} [args.dec] used as a condition for decrementing index field values (usually after a document is deleted). Otherwise, signals the values to be incremented
  * @param {callback} [cb] callback
  */
-module.exports.indexShift = (collection, currentDoc, args, cb) => {
-    var _id = currentDoc._id ? {$ne: currentDoc._id} : {};
-    mongoose.model(collection).find({index: {$gte: currentDoc.index}, _id}).sort({index: 1}).exec((err, docs) => {
+const indexShift = module.exports.indexShift = (model, currentDoc, args, cb) => {
+    mongoose.model(model).find({index: {$gte: currentDoc.index}, _id: {$ne: currentDoc._id}}).sort({index: 1}).exec((err, docs) => {
         docs.forEach(doc => {
             doc.index += ((args || {}).dec ? -1 : 1);
             doc.save();
@@ -79,21 +78,27 @@ module.exports.indexReorder = (collection, id, newIndex, cb) => {
  * @param {object} body custom object or request body in which new image details are contained
  * @param {string} body.file - image url / uri
  * @param {string} body.photo_title - image title
- * @param {string} body.photo_set - set under which the image is categorised
+ * @param {string} body.photo_set - existing set under which the image is categorised
+ * @param {string} [body.photo_set_new] - new set under which the image is categorised
  * @param {number} body.index - image position number
  * @param {callback} [cb] callback
  */
 module.exports.photoUploader = (body, cb) => {
-    var { file, photo_title, photo_set, index } = body;
+    var { file, photo_title, photo_set, photo_set_new, index } = body;
+    photo_set = photo_set_new || photo_set;
     var newPhoto = new Photo({ photo_title, photo_set, index });
-    cloud.v2.uploader.upload(file, { public_id: `${photo_set}/${photo_title}`.toLowerCase().replace(/[ ?&#\\%<>]/g, "_") }, (err, result) => {
-        if (err) return console.error(err), cb(new Error("Error occurred whilst uploading"));
-        DownsizedImage(result, (err, result2) => {
-            if (err) return console.error(err), cb(new Error("Error occurred whilst downscaling image"));
-            var { width, height, secure_url } = result2 || result;
-            newPhoto.orientation = width > height ? "landscape" : width < height ? "portrait" : "square";
-            newPhoto.photo_url = secure_url;
-            newPhoto.save(cb);
+    var public_id = `${photo_set}/${photo_title}`.toLowerCase().replace(/[ ?&#\\%<>]/g, "_");
+    cloud.v2.uploader.upload(file, { public_id }, (err, result) => {
+        if (err) return console.error(err), cb("Error occurred whilst uploading");
+        indexShift("Photo", newPhoto, null, err => {
+            if (err) return console.error(err), cb("Error occurred whilst index shifting process");
+            DownsizedImage(result, (err, result2) => {
+                if (err) return console.error(err), cb("Error occurred whilst downscaling image");
+                var { width, height, secure_url } = result2 || result;
+                newPhoto.orientation = width > height ? "landscape" : width < height ? "portrait" : "square";
+                newPhoto.photo_url = secure_url;
+                newPhoto.save(cb);
+            })
         })
     })
 }

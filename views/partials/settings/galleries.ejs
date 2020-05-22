@@ -1,76 +1,132 @@
-                <form class="form-group gallery-settings" method="post" action="/settings/gallery/save">
+                <form class="form-group" id="photo-upload-form" method="post" action="/settings/photo/upload">
+                    <label for="image-file">Image Upload</label>
                     <div class="row">
-                        <div class="col-sm-10 column sm">
-                            <div class="col-sm-4 column sm">
-                                <label class="sr-only">Label</label>
-                                <input class="form-control details" type="text" id="label" name="label" placeholder="Gallery Name" required>
-                            </div>
-                            <div class="col-sm-4 column sm">
-                                <label class="sr-only">Set ID</label>
-                                <input class="form-control details" type="text" id="set_id" name="set_id" placeholder="Set ID" required>
-                            </div>
-                            <div class="col-sm-4 column sm">
-                                <label class="sr-only">Tag</label>
-                                <input class="form-control details" type="text" id="tag" name="tag" placeholder="Tag" required>
-                            </div>
+                        <div class="col-sm-5 column sm">
+                            <input type="file" id="image-file" name="file" accept=".jpg,.jpeg,.png"><br>
                         </div>
-                        <div class="col-sm-2 column sm">
-                            <div class="col-sm-12">
-                                <label class="sr-only">Index</label>
-                                <select class="form-control details" id="index" name="index" required>
-                                    <option value="">Index</option>
-                                    <%_ docs.galleries.forEach((gallery, i) => { _%>
-                                    <option value="<%= i %>"><%= i %></option>
-                                    <%_ }) _%>
-                                    <option value="<%= docs.galleries.length %>"><%= docs.galleries.length %></option>
-                                </select>
-                            </div>
+                        <div class="col-sm-7 column sm">
+                            <input class="form-control" type="url" id="image-url" name="file" placeholder="Enter image URL (optional)" required>
                         </div>
                     </div>
-                    <label class="sr-only">Bulk</label>
-                    <%_ var placeholder = 'Enter above fields in exact order, separate with a " -- "'; _%>
-                    <textarea class="form-control details" id="bulk" name="bulk" placeholder="<%= placeholder %>"></textarea>
-                    <label class="sr-only">Upper Bound Index</label>
-                    <input type="hidden" id="max_index" name="max_index" value="<%= docs.galleries.length %>" required>
-                    <input class="form-control submit" type="submit" value="Save new gallery">
+                    <label for="photo-title">Title</label>
+                    <input class="form-control" type="text" name="photo_title" id="photo-title" required>
+                    <label for="photo-set-opts">Photo set</label>
+                    <select class="form-control" name="photo_set" id="photo-set-opts" required>
+                        <option value="">Select photo set</option>
+                        <option value="new">*NEW*</option>
+                        <%_ photos.forEach((p, i, a) => {
+                            if (i === 0 || p.photo_set !== a[i-1].photo_set) { _%>
+                        <option value="<%= p.photo_set %>"><%= p.photo_set %></option>
+                        <%_ }}) _%>
+                    </select>
+                    <label for="photo-index">Photo position number</label>
+                    <input class="form-control" type="number" name="index" id="photo-index" min="1" max="1" value="1" disabled required>
+                    <br>
+                    <input class="form-control submit" type="submit" value="Save photo">
                 </form>
 
                 <br><br><br>
 
-                <form class="form-group gallery-delete-settings" method="post" action="/settings/gallery/delete">
-                    <label class="sr-only">Select to delete</label>
-                    <select class="form-control details" id="gallery_to_delete" name="gallery_to_delete" required>
-                        <option value="">Select gallery</option>
-                        <%_ docs.galleries.forEach(gallery => { _%>
-                        <option value="<%= gallery._id %>"><%= gallery.label %></option>
-                        <%_ }) _%>
-                        <option value="*">*</option>
+                <form class="form-group" id="photo-delete-form" method="post" action="/settings/photo/delete">
+                    <label for="photo-set-filter">Select photo set to filter (option)</label>
+                    <select class="form-control" id="photo-set-filter" name="photo_set">
+                        <option value="">Select photo set</option>
+                        <%_ photos.forEach((p, i, a) => {
+                            if (i === 0 || p.photo_set !== a[i-1].photo_set) { _%>
+                        <option value="<%= p.photo_set %>"><%= p.photo_set %></option>
+                        <%_ }}) _%>
                     </select>
+                    <label for="photo-to-delete">Select image to delete</label>
+                    <select class="form-control" id="photo-to-delete" name="id" required>
+                        <option value="">Select image</option>
+                        <option value="*">*</option>
+                        <%_ photos.forEach(p => { _%>
+                        <option value="<%= p._id %>"><%= p.photo_title %></option>
+                        <%_ }) _%>
+                    </select>
+                    <div class="img-preview"></div>
                     <input class="form-control submit btn-danger" type="submit" value="Delete">
                 </form>
 
                 <br><br><br>
 
-                <form class="form-group gallery-reorder-settings" method="post" action="/settings/gallery/reorder">
-                    <div class="row">
-                        <div class="col-sm-10 column sm">
-                            <label class="sr-only">Select to re-order</label>
-                            <select class="form-control details" id="gallery_to_reorder" name="gallery_to_reorder" required>
-                                <option value="">Select gallery</option>
-                                <%_ docs.galleries.forEach(gallery => { _%>
-                                <option value="<%= gallery._id %>"><%= gallery.label %></option>
-                                <%_ }) _%>
-                            </select>
-                        </div>
-                        <div class="col-sm-2 column sm">
-                            <label class="sr-only">Index</label>
-                            <select class="form-control details" id="index" name="index" required>
-                                <option value="">Index</option>
-                                <%_ docs.galleries.forEach((gallery, i) => { _%>
-                                <option value="<%= i %>"><%= i %></option>
-                                <%_ }) _%>
-                            </select>
-                        </div>
-                    </div>
-                    <input class="form-control submit" type="submit" value="Re-order Gallery">
+                <form class="form-group" id="photo-set-delete-form" method="post" action="/settings/photo/set/delete">
+                    <label for="photo-set-to-delete">Select photo set</label>
+                    <select class="form-control" id="photo-set-to-delete" name="photo_set" required>
+                        <option value="">Select photo set</option>
+                        <%_ photos.forEach((p, i, a) => {
+                            if (i === 0 || p.photo_set !== a[i-1].photo_set) { _%>
+                        <option value="<%= p.photo_set %>"><%= p.photo_set %></option>
+                        <%_ }}) _%>
+                    </select>
+                    <input class="form-control submit" type="submit" value="Delete photo set">
                 </form>
+
+                <script>
+                    $("#image-file").change(function() {
+                        var files = this.files;
+                        $("#image-url").attr("disabled", false).val("");
+                        if (files && files.length) {
+                            $.each(files, function(i, file) {
+                                var reader = new FileReader();
+                                reader.onload = function(e) { $("#image-url").attr("disabled", true).val(e.target.result) };
+                                reader.readAsDataURL(file);
+                            })
+                        }
+                    });
+
+                    $.post("/p", {}, function(d) {
+                        $("#photo-set-opts").change(function() {
+                            var input = this;
+                            $("#photo-index").attr({ disabled: true, max: 1 }).val(1);
+                            $("#photo-set-new").remove();
+                            if (input.value === "new") {
+                                $("<input>").addClass("form-control").attr({
+                                    type: "text",
+                                    name: "photo_set_new",
+                                    id: "photo-set-new",
+                                    placeholder: "Enter new photo set name"
+                                }).insertAfter(input);
+                                $("#photo-index").attr("disabled", false);
+                            }
+                            else if (input.value) {
+                                var max = d.filter(function(e) { return e.photo_set == input.value }).length + 1;
+                                $("#photo-index").attr({ disabled: false, max }).val(max);
+                            }
+                        });
+
+                        var $photoSelectInput = $("#photo-to-delete");
+                        var photoOptions = $photoSelectInput.children("option");
+                        $("#photo-set-filter").change(function(evt) {
+                            var $form = $(this).closest("form");
+                            var $preview = $form.find(".img-preview");
+                            $photoSelectInput.html(photoOptions);
+                            $preview.empty();
+                            try {
+                                d.filter(function(e) {
+                                    return e.photo_set === evt.currentTarget.value
+                                }).forEach(function(img, i) {
+                                    if (i == 0) $photoSelectInput.html(
+                                        "<option value=''>Select image</option>" +
+                                        "<option value='*'>*</option>"
+                                    );
+                                    $photoSelectInput.append("<option value="+ img._id +">"+ img.photo_title +"</option>")
+                                });
+                                $photoSelectInput.find("option:first").prop("selected", true);
+                            } catch(e) {}
+                        });
+
+                        $("#photo-to-delete").change(function(evt) {
+                            var $form = $(this).closest("form");
+                            var $preview = $form.find(".img-preview");
+                            $preview.empty();
+                            try {
+                                d.filter(function(e) {
+                                    return e._id == evt.currentTarget.value
+                                }).forEach(function(img) {
+                                    $preview.append("<img src='"+ img.photo_url +"'>");
+                                });
+                            } catch(e) {}
+                        });
+                    });
+                </script>

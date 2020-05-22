@@ -8,7 +8,7 @@ const production = process.env.NODE_ENV === "production";
 
 router.get('/---', (req, res) => {
     if (req.session.isAuthed || !production) {
-        Photo.find().sort({index: 1}).exec((err, photos) => {
+        Photo.find().sort({photo_set: 1, index: 1}).exec((err, photos) => {
             Design.find().sort({index: 1}).exec((err, designs) => {
                 Info_text.findOne((err, info) => {
                     res.render('settings', { title: "Settings", pagename: "settings", photos, designs, info })
@@ -41,7 +41,7 @@ router.post('/access', (req, res) => {
     Admin.findOne((err, doc) => {
         bcrypt.compare(req.body.pass, doc.pass, (err, match) => {
             if (match) {
-                req.session.cookie.maxAge = 120000;
+                req.session.cookie.maxAge = 120000; // 2 mins
                 req.session.isAuthed = true;
             } else {
                 req.session.flash_msg = "Invalid Password";
@@ -51,38 +51,41 @@ router.post('/access', (req, res) => {
     })
 });
 
-router.post('/photo/upload', (req, res) => { photoUploader(req.body, err => {
-    res.send(err || "Photo saved");
-})});
+router.post('/photo/upload', (req, res) => { photoUploader(req.body, err => { res.send(err || "Photo saved") })});
 
 router.post('/photo/delete', (req, res) => {
-    var ids = Object.values(req.body);
-    if (!ids.length) return res.send("Nothing selected");
-    ids.forEach((id, i, arr) => {
-        Photo.findByIdAndDelete(id, (err, photo) => {
-            var {photo_set, photo_title} = photo || {};
-            var public_id = `${photo_set}/${photo_title}`.toLowerCase().replace(/[ ?&#\\%<>]/g, "_");
-            cloud.v2.api.delete_resources([public_id], {}, () => {
-                Design.findOne({d_id: photo_set.replace("design-", "")}, (err, design) => {
-                    if (!err && design) {
-                        design.images = design.images.filter(d => d);
-                        design.images.forEach((img, i) => img.index = (i+1));
-                        design.save();
-                    }
-                    if (i === arr.length-1) res.send(`Photo${arr.length > 1 ? "s" : ""} deleted`);
-                })
+    var { id } = req.body;
+    if (!id) return res.send("Nothing selected");
+    Photo.findByIdAndDelete(id, (err, photo) => {
+        if (err || !photo) return res.send(err || "Photo not found");
+        var { photo_set, photo_title, photo_url } = photo;
+        var public_id = `${photo_set}/${photo_title}`.toLowerCase().replace(/[ ?&#\\%<>]/g, "_");
+        cloud.v2.api.delete_resources([public_id], () => {
+            Design.findOne({d_id: photo_set.replace("design-", "")}, (err, design) => {
+                if (!err && design) {
+                    design.images = design.images.filter(url => url !== photo_url);
+                    design.images.forEach((img, i) => { img.index = i+1 });
+                    design.save();
+                }
+                res.send("Photo deleted");
             })
         })
     })
 });
 
 router.post('/photo/set/delete', (req, res) => {
-    var { set } = req.body;
-    if (!set) return res.send("Nothing selected");
-    Photo.deleteMany({ photo_set: set }, err => {
-        cloud.v2.api.delete_resources_by_prefix(set, {}, err2 => {
+    var { photo_set } = req.body;
+    if (!photo_set) return res.send("Nothing selected");
+    Photo.deleteMany({ photo_set }, err => {
+        cloud.v2.api.delete_resources_by_prefix(photo_set, err2 => {
             if (err || err2) return res.send(err || err2);
-            res.send("Photo deleted successfully");
+            if (photo_set.includes("design-")) {
+                var d_id = photo_set.replace("design-", "");
+                Design.findOneAndDelete({ d_id }, (err, design) => {
+                    if (err || !design) return res.send(err || d_id + " design set not found");
+                    res.send(design.d_id + " design set deleted successfully");
+                })
+            } else { res.send(photo_set + " set deleted successfully") }
         })
     })
 });
@@ -102,10 +105,10 @@ router.post('/info-text/save', (req, res) => {
 router.post('/design/save', (req, res) => {
     var { d_id, client, tools, description, link, index, images } = req.body;
     var newDesign = new Design({ d_id, text: { client, tools, description }, link, index });
-    indexShift("Design", newDesign, {dec: false}, () => {
-        newDesign.save((err, design) => {
+    indexShift("Design", newDesign, {dec: false}, err => {
+        newDesign.save((err2, design) => {
             try {
-                if (err) throw err;
+                if (err || err2) throw err || err2;
                 design.images = [];
                 JSON.parse(images).forEach((image, i, arr) => {
                     var { file, photo_title } = image;
@@ -159,7 +162,5 @@ router.post('/design/edit', (req, res) => {
         doc.save(err => res.send("Design collection updated"));
     });
 });
-
-router.post('/design/documents', (req, res) => { Design.find((err, docs) => res.send(docs)) });
 
 module.exports = router;
