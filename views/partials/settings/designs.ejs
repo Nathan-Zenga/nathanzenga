@@ -18,52 +18,12 @@
                     <label class="sr-only">Index</label>
                     <select class="form-control details" id="index" name="index" required>
                         <option value="">Index</option>
-                        <%_ docs.designs.forEach((design, i) => { _%>
+                        <%_ designs.forEach((design, i) => { _%>
                         <option value="<%= i %>"><%= i %></option>
                         <%_ }) _%>
-                        <option value="<%= docs.designs.length %>"><%= docs.designs.length %></option>
+                        <option value="<%= designs.length %>"><%= designs.length %></option>
                     </select>
                     <input class="form-control submit" type="submit" value="Save">
-                </form>
-
-                <br><br><br>
-
-                <form class="form-group design-delete-settings" method="post" action="/settings/design/delete">
-                    <label class="sr-only">Select to delete</label>
-                    <select class="form-control details" id="gallery_to_delete" name="design_to_delete" required>
-                        <option value="">Select design</option>
-                        <%_ docs.designs.forEach(design => { _%>
-                        <option value="<%= design._id %>"><%= design.text.client %></option>
-                        <%_ }) _%>
-                        <option value="*">*</option>
-                    </select>
-                    <input class="form-control submit btn-danger" type="submit" value="Delete">
-                </form>
-
-                <br><br><br>
-
-                <form class="form-group design-reorder-settings" method="post" action="/settings/design/reorder">
-                    <div class="row">
-                        <div class="col-sm-10 column sm">
-                            <label class="sr-only">Select to re-order</label>
-                            <select class="form-control details" id="design_to_reorder" name="design_to_reorder" required>
-                                <option value="">Select design</option>
-                                <%_ docs.designs.forEach(design => { _%>
-                                <option value="<%= design._id %>"><%= design.text.client %></option>
-                                <%_ }) _%>
-                            </select>
-                        </div>
-                        <div class="col-sm-2 column sm">
-                            <label class="sr-only">Index</label>
-                            <select class="form-control details" id="index" name="index" required>
-                                <option value="">Index</option>
-                                <%_ docs.designs.forEach((design, i) => { _%>
-                                <option value="<%= i %>"><%= i %></option>
-                                <%_ }) _%>
-                            </select>
-                        </div>
-                    </div>
-                    <input class="form-control submit" type="submit" value="Re-order Design">
                 </form>
 
                 <br><br><br>
@@ -72,7 +32,7 @@
                     <label class="sr-only">Select to edit</label>
                     <select class="form-control details" id="design_to_edit" name="design_to_edit" required>
                         <option value="">Select design</option>
-                        <%_ docs.designs.forEach(design => { _%>
+                        <%_ designs.forEach(design => { _%>
                         <option value="<%= design._id %>"><%= design.text.client %></option>
                         <%_ }) _%>
                     </select>
