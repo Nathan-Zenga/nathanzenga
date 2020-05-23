@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const cloud = require('cloudinary');
+const async = require('async');
 const { Photo, Design, Info_text, Admin } = require('../models/models');
 const { indexShift, indexReorder, photoUploader } = require('../config/config');
 const production = process.env.NODE_ENV === "production";
@@ -52,8 +53,19 @@ router.post('/access', (req, res) => {
 });
 
 router.post('/photo/upload', (req, res) => {
+    var { photo_set, photo_url, index } = req.body;
     photoUploader(req.body, (err, photo) => {
-        indexShift("Photo", photo, { dec: false }, () => res.send(err || "Photo saved"))
+        indexShift("Photo", photo, { dec: false }, () => {
+            Design.findOne({ d_id: photo_set.replace("design-", "") }, (err2, design) => {
+                if (!err2 && design) {
+                    index = parseInt(index);
+                    design.images.splice(index-1, 0, { photo_url, index });
+                    for (let i = 0; i < design.images.length; i++) design.images[i].index = i+1;
+                    design.save();
+                }
+                res.send(err || err2 || "Photo saved");
+            })
+        })
     })
 });
 
@@ -68,7 +80,7 @@ router.post('/photo/delete', (req, res) => {
             Design.findOne({d_id: photo_set.replace("design-", "")}, (err, design) => {
                 if (!err && design) {
                     design.images = design.images.filter(url => url !== photo_url);
-                    design.images.forEach((img, i) => { img.index = i+1 });
+                    for (let i = 0; i < design.images.length; i++) design.images[i].index = i+1;
                     design.save();
                 }
                 res.send("Photo deleted");
@@ -111,29 +123,33 @@ router.post('/photo/set/reorder', (req, res) => {
 router.post('/info-text/save', (req, res) => {
     Info_text.deleteMany({}, err => {
         var newInfo = new Info_text({ text: req.body.text });
-        newInfo.save(err => err ? res.send(err) : res.redirect(req.get("referrer")));
+        newInfo.save(err => res.send(err || "Info text saved"));
     });
 });
 
 router.post('/design/save', (req, res) => {
     var { d_id, client, tools, description, link, index, images } = req.body;
     var newDesign = new Design({ d_id, text: { client, tools, description }, link, index });
-    indexShift("Design", newDesign, {dec: false}, err => {
-        newDesign.save((err2, design) => {
-            try {
-                if (err || err2) throw err || err2;
+    Design.findOne({ d_id: {$regex: new RegExp(d_id, "i")} }, (err, found) => {
+        if (err || found) return res.send(err || "Design set already exists");
+        indexShift("Design", newDesign, { dec: false }, err => {
+            newDesign.save((err2, design) => {
+                if (err || err2) res.send(err || err2);
                 design.images = [];
-                JSON.parse(images).forEach((image, i, arr) => {
-                    var { file, photo_title } = image;
-                    photoUploader({ file, photo_title, photo_set: `design-${design.d_id}`, index: i+1 }, (err, photo) => {
-                        if (err) throw err;
+                images = (Array.isArray(images) ? images : [images]).filter(e => e);
+                async.forEachOf(images, (file, i, cb) => {
+                    var photo_set = `design-${design.d_id}`;
+                    var photo_title = `${design.d_id}-web${i ? "-" + (i+1) : ""}`;
+                    var index = i+1;
+                    photoUploader({ file, photo_title, photo_set, index }, (err, photo) => {
+                        if (err) res.send(err);
                         design.images.push({ photo_url: photo.photo_url, index: photo.index });
-                        if (i === arr.length-1) design.save(() => res.send("Design saved"));
+                        design.save(err => cb(err));
                     });
-                });
-            } catch(e) { console.log(e); res.send("Design saved, but error occured") }
+                }, err => { res.send(err || "Design saved") });
+            });
         });
-    });
+    })
 });
 
 router.post('/design/delete', (req, res) => {
@@ -154,8 +170,8 @@ router.post('/design/delete', (req, res) => {
 });
 
 router.post('/design/reorder', (req, res) => {
-    var {design_to_reorder, index} = req.body;
-    indexReorder("design", design_to_reorder, index, () => res.redirect(req.get("referrer")));
+    var { id, index } = req.body;
+    indexReorder("design", id, index, () => res.send("Design set re-ordered"));
 });
 
 router.post('/design/edit', (req, res) => {

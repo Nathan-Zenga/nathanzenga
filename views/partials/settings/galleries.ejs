@@ -1,11 +1,11 @@
                 <form class="form-group" id="photo-upload-form" method="post" action="/settings/photo/upload">
-                    <label for="image-file">Image Upload</label>
-                    <div class="row">
+                    <label for="image-upload-url">Image Upload</label>
+                    <div class="row image-input-group">
                         <div class="col-sm-5 column sm">
-                            <input type="file" id="image-file" name="file" accept=".jpg,.jpeg,.png"><br>
+                            <input type="file" class="image-file" id="image-upload-file" accept=".jpg,.jpeg,.png"><br>
                         </div>
                         <div class="col-sm-7 column sm">
-                            <input class="form-control" type="url" id="image-url" name="file" placeholder="Enter image URL (optional)" required>
+                            <input class="form-control image-url" id="image-upload-url" type="url" name="file" placeholder="Enter image URL (optional)">
                         </div>
                     </div>
                     <label for="photo-title">Title</label>
@@ -28,7 +28,7 @@
                 <br><br><br>
 
                 <form class="form-group" id="photo-delete-form" method="post" action="/settings/photo/delete">
-                    <label for="photo-set-filter">Select photo set to filter (option)</label>
+                    <label for="photo-set-filter">Select photo set to filter (optional)</label>
                     <select class="form-control" id="photo-set-filter" name="photo_set">
                         <option value="">Select photo set</option>
                         <%_ photos.forEach((p, i, a) => {
@@ -63,18 +63,6 @@
                 </form>
 
                 <script>
-                    $("#image-file").change(function() {
-                        var files = this.files;
-                        $("#image-url").attr("disabled", false).val("");
-                        if (files && files.length) {
-                            $.each(files, function(i, file) {
-                                var reader = new FileReader();
-                                reader.onload = function(e) { $("#image-url").attr("disabled", true).val(e.target.result) };
-                                reader.readAsDataURL(file);
-                            })
-                        }
-                    });
-
                     $("#photo-set-opts").change(function() {
                         var input = this;
                         $("#photo-index").attr({ disabled: true, max: 1 }).val(1);

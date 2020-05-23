@@ -26,9 +26,28 @@
     </main>
 
     <script>
+        $(".image-file").change(function() {
+            var files = this.files;
+            var $imageUrl = $(this).closest(".image-input-group").find(".image-url");
+            $imageUrl.attr({disabled: false, title: ""}).val("").not(":first").remove();
+            if (files && files.length) {
+                $.each(files, function(i, file) {
+                    var reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = function(e) {
+                        if (i > 0) {
+                            $imageUrl.clone().attr({disabled: true, title: file.name}).val(e.target.result).insertBefore($imageUrl.last())
+                        } else {
+                            $imageUrl.attr({disabled: true, title: file.name}).val(e.target.result)
+                        }
+                    };
+                })
+            }
+        });
+
         $("form").submit(function(e) {
             e.preventDefault();
-            $(e.target).find("#image-url").attr("disabled", false);
+            $(e.target).find(".image-url").attr("disabled", false);
             $.post(this.action, $(this).serializeArray(), function(res) {
                 $(e.target).find(".img-preview").empty();
                 $(e.target).find("#photo_set_new").remove();

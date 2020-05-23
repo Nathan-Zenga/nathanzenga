@@ -1,35 +1,38 @@
                 <form class="form-group design-settings" method="post" action="/settings/design/save">
                     <div class="row">
                         <div class="col-sm-6 column sm">
-                            <label class="sr-only">ID</label>
-                            <input class="form-control details" type="text" id="d_id" name="d_id" placeholder="ID" required>
+                            <label>ID</label>
+                            <input class="form-control details" type="text" id="d_id" name="d_id" required>
                         </div>
                         <div class="col-sm-6 column sm">
-                            <label class="sr-only">Client</label>
-                            <input class="form-control details" type="text" id="client" name="client" placeholder="Client" required>
+                            <label>Client</label>
+                            <input class="form-control details" type="text" id="client" name="client" required>
                         </div>
                     </div>
-                    <label class="sr-only">Tools</label>
-                    <input class="form-control details" type="text" id="tools" name="tools" placeholder="Tools" required>
-                    <label class="sr-only">Description</label>
-                    <textarea class="form-control details" type="text" id="description" name="description" placeholder="Description" required></textarea>
-                    <label class="sr-only">Link</label>
-                    <input class="form-control details" type="url" id="link" name="link" pattern='^(http|https):\/\/[^ "]+.[a-z]{2}$' placeholder="Link" required>
-                    <label class="sr-only">Index</label>
-                    <select class="form-control details" id="index" name="index" required>
-                        <option value="">Index</option>
-                        <%_ designs.forEach((design, i) => { _%>
-                        <option value="<%= i %>"><%= i %></option>
-                        <%_ }) _%>
-                        <option value="<%= designs.length %>"><%= designs.length %></option>
-                    </select>
+                    <label>Tools</label>
+                    <input class="form-control details" type="text" id="tools" name="tools" required>
+                    <label>Description</label>
+                    <textarea class="form-control details" type="text" id="description" name="description" required></textarea>
+                    <label>Link</label>
+                    <input class="form-control details" type="url" id="link" name="link" pattern='^(http|https):\/\/[^ "]+.[a-z]{2}$' required>
+                    <label>Index</label>
+                    <input class="form-control details" type="number" name="index" id="design_index" min="1" max="<%= designs.length+1 %>" value="<%= designs.length+1 %>" required>
+                    <label for="design-images-url">Upload images</label>
+                    <div class="row image-input-group">
+                        <div class="col-sm-5 column sm">
+                            <input type="file" class="image-file" id="design-images-file" accept=".jpg,.jpeg,.png" multiple><br>
+                        </div>
+                        <div class="col-sm-7 column sm">
+                            <input type="url" class="form-control image-url" id="design-images-url" name="images" placeholder="Enter image URL (optional)">
+                        </div>
+                    </div>
                     <input class="form-control submit" type="submit" value="Save">
                 </form>
 
                 <br><br><br>
 
                 <form class="form-group design-edit-settings" method="post" action="/settings/design/edit">
-                    <label class="sr-only">Select to edit</label>
+                    <label>Select to edit</label>
                     <select class="form-control details" id="design_to_edit" name="design_to_edit" required>
                         <option value="">Select design</option>
                         <%_ designs.forEach(design => { _%>
@@ -39,19 +42,19 @@
                     <label style="margin-bottom: 1em">All fields below are optional</label>
                     <div class="row">
                         <div class="col-sm-6 column sm">
-                            <label class="sr-only">ID</label>
-                            <input class="form-control details" type="text" id="d_id" name="d_id" placeholder="ID">
+                            <label>ID</label>
+                            <input class="form-control details" type="text" id="d_id" name="d_id">
                         </div>
                         <div class="col-sm-6 column sm">
-                            <label class="sr-only">Client</label>
-                            <input class="form-control details" type="text" id="client" name="client" placeholder="Client">
+                            <label>Client</label>
+                            <input class="form-control details" type="text" id="client" name="client">
                         </div>
                     </div>
-                    <label class="sr-only">Tools</label>
-                    <input class="form-control details" type="text" id="tools" name="tools" placeholder="Tools">
-                    <label class="sr-only">Description</label>
-                    <textarea class="form-control details" type="text" id="description" name="description" placeholder="Description"></textarea>
-                    <label class="sr-only">Link</label>
-                    <input class="form-control details" type="url" id="link" name="link" pattern='^(http|https):\/\/[^ "]+.[a-z]{2}$' placeholder="Link">
+                    <label>Tools</label>
+                    <input class="form-control details" type="text" id="tools" name="tools">
+                    <label>Description</label>
+                    <textarea class="form-control details" type="text" id="description" name="description"></textarea>
+                    <label>Link</label>
+                    <input class="form-control details" type="url" id="link" name="link" pattern='^(http|https):\/\/[^ "]+.[a-z]{2}$'>
                     <input class="form-control submit" type="submit" value="Edit Design">
                 </form>
