@@ -63,6 +63,7 @@ router.post('/photo/upload', (req, res) => {
                     for (let i = 0; i < design.images.length; i++) design.images[i].index = i+1;
                     design.save();
                 }
+                if (err || err2) console.log(err || err2);
                 res.send(err || err2 || "Photo saved");
             })
         })
@@ -123,7 +124,10 @@ router.post('/photo/set/reorder', (req, res) => {
 router.post('/info-text/save', (req, res) => {
     Info_text.deleteMany({}, err => {
         var newInfo = new Info_text({ text: req.body.text });
-        newInfo.save(err => res.send(err || "Info text saved"));
+        newInfo.save(err2 => {
+            if (err || err2) console.log(err || err2);
+            res.send(err || err2 || "Info text saved")
+        });
     });
 });
 
@@ -144,9 +148,10 @@ router.post('/design/save', (req, res) => {
                     photoUploader({ file, photo_title, photo_set, index }, (err, photo) => {
                         if (err) res.send(err);
                         design.images.push({ photo_url: photo.photo_url, index: photo.index });
-                        design.save(err => cb(err));
+                        if (i === images.length-1) design.save();
+                        cb(err);
                     });
-                }, err => { res.send(err || "Design saved") });
+                }, err => { if (err) console.log(err); res.send(err || "Design saved") });
             });
         });
     })
@@ -156,12 +161,12 @@ router.post('/design/delete', (req, res) => {
     var { id } = req.body;
     (Array.isArray(id) ? id : [id]).filter(e => e).forEach(id => {
         Design.findByIdAndDelete(id, (err, design) => {
-            if (err) return res.send(err);
+            if (err) return console.error(err), res.send(err);
             var { d_id } = design;
             Photo.deleteMany({ photo_set: `design-${ d_id }` }, err => {
-                if (err) return res.send(err);
+                if (err) return console.error(err), res.send(err);
                 cloud.v2.api.delete_resources_by_prefix(`design-${ d_id }`, {}, err => {
-                    if (err) return res.send(err);
+                    if (err) return console.error(err), res.send(err);
                     res.send("Design deleted successfully");
                 })
             })
