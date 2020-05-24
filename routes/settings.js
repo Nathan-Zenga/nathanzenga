@@ -110,6 +110,8 @@ router.post('/photo/set/delete', (req, res) => {
 router.post('/photo/set/sort-order', (req, res) => {
     var { photo_set, photo_set_index } = req.body;
     Photo.find({photo_set_cover: true}).sort({photo_set_index: 1}).exec((err, photo_set_reps) => {
+        if (err) return console.error(err), res.send("Error occurred during query search"); 
+        if (!photo_set_reps.length) return res.send("Photo set not found or doesn't exit");
         var sets = Object.assign([], photo_set_reps);
         var selected = sets.filter(p => p.photo_set === photo_set)[0];
         sets.splice(selected.photo_set_index-1, 1);

@@ -66,6 +66,8 @@ module.exports.indexShift = (model, currentDoc, args, cb) => {
  */
 module.exports.indexReorder = (collection, id, newIndex, cb) => {
     mongoose.model(collection).find().sort({index: 1}).exec((err, docs) => {
+        if (err) return console.error(err), res.send("Error occurred during query search"); 
+        if (!docs.length) return res.send("Collection not found or doesn't exit");
         var docs_mutable = Object.assign([], docs);
         var selected_doc = docs_mutable.filter(e => e._id == id)[0];
         docs_mutable.splice(selected_doc.index, 1);
