@@ -49,11 +49,13 @@ const DownsizedImage = module.exports.DownsizedImage = (result, cb) => {
  */
 module.exports.indexShift = (model, currentDoc, args, cb) => {
     mongoose.model(model).find({index: {$gte: currentDoc.index}, _id: {$ne: currentDoc._id}}).sort({index: 1}).exec((err, docs) => {
+        if (err) return console.error(err), res.send("Error occurred during query search"); 
+        if (!docs.length) return res.send("Collection not found or doesn't exit");
         docs.forEach(doc => {
             doc.index += ((args || {}).dec ? -1 : 1);
             doc.save();
         });
-        if (cb) cb(err);
+        if (cb) cb();
     })
 };
 
@@ -72,15 +74,14 @@ module.exports.indexReorder = (model, args, cb) => {
     mongoose.model(model).find(qry || {}).sort({index: 1}).exec((err, docs) => {
         if (err) return console.error(err), res.send("Error occurred during query search"); 
         if (!docs.length) return res.send("Collection not found or doesn't exit");
-        var docs_mutable = Object.assign([], docs);
-        var selected_doc = docs_mutable.filter(e => e._id == id)[0];
-        docs_mutable.splice(selected_doc.index-1, 1);
-        docs_mutable.splice(parseInt(newIndex)-1, 0, selected_doc);
+        var index = docs.findIndex(e => e._id == id);
+        var beforeSelectedDoc = docs.slice(0, index);
+        var afterSelectedDoc = docs.slice(index+1, docs.length);
+        var docs_mutable = [...beforeSelectedDoc, ...afterSelectedDoc];
+        docs_mutable.splice(parseInt(newIndex)-1, 0, docs[index]);
         docs_mutable.forEach((doc, i) => {
-            if (doc.index != i+1) {
-                doc.index = i+1;
-                doc.save();
-            }
+            doc.index = i+1;
+            doc.save();
         });
         if (cb) cb();
     })
@@ -102,9 +103,9 @@ module.exports.photoUploader = (body, cb) => {
     var newPhoto = new Photo({ photo_title, photo_set, index });
     var public_id = `${photo_set}/${photo_title}`.toLowerCase().replace(/[ ?&#\\%<>]/g, "_");
     cloud.v2.uploader.upload(file, { public_id }, (err, result) => {
-        if (err) return console.error(err), cb("Error occurred whilst uploading");
+        if (err) return console.error(err), res.send("Error occurred whilst uploading");
         DownsizedImage(result, (err, result2) => {
-            if (err) return console.error(err), cb("Error occurred whilst downscaling image");
+            if (err) return console.error(err), res.send("Error occurred whilst downscaling image");
             var { width, height, secure_url } = result2 || result;
             newPhoto.orientation = width > height ? "landscape" : width < height ? "portrait" : "square";
             newPhoto.photo_url = secure_url;

@@ -90,6 +90,14 @@ router.post('/photo/delete', (req, res) => {
     })
 });
 
+router.post('/photo/sort-order', (req, res) => {
+    var { id, index, photo_set } = req.body;
+    indexReorder("Photo", { id, newIndex: index, qry: { photo_set } }, err => {
+        if (err) return console.error(err), res.send("Error occured");
+        res.send("Photo re-ordered in set: " + photo_set)
+    });
+});
+
 router.post('/photo/set/delete', (req, res) => {
     var { photo_set } = req.body;
     if (!photo_set) return res.send("Nothing selected");
@@ -119,14 +127,15 @@ router.post('/photo/set/delete', (req, res) => {
 
 router.post('/photo/set/sort-order', (req, res) => {
     var { photo_set, photo_set_index } = req.body;
-    Photo.find({photo_set_cover: true}).sort({photo_set_index: 1}).exec((err, photo_set_reps) => {
+    Photo.find({photo_set_cover: true}).sort({photo_set_index: 1}).exec((err, covers) => {
         if (err) return console.error(err), res.send("Error occurred during query search"); 
-        if (!photo_set_reps.length) return res.send("Photo set not found or doesn't exit");
-        var sets = Object.assign([], photo_set_reps);
-        var selected = sets.filter(p => p.photo_set === photo_set)[0];
-        sets.splice(selected.photo_set_index-1, 1);
-        sets.splice(parseInt(photo_set_index)-1, 0, selected);
-        sets.forEach((set, i, a) => {
+        if (!covers.length) return res.send("Photo set not found or doesn't exit");
+        var index = covers.findIndex(e => e.photo_set == photo_set);
+        var beforeSelectedDoc = covers.slice(0, index);
+        var afterSelectedDoc = covers.slice(index+1, covers.length);
+        var docs_mutable = [...beforeSelectedDoc, ...afterSelectedDoc];
+        docs_mutable.splice(parseInt(photo_set_index)-1, 0, docs[index]);
+        docs_mutable.forEach((set, i, a) => {
             set.photo_set_index = i+1;
             set.save(() => { if (i === a.length-1) res.send("Photo set cover reordered") })
         })
