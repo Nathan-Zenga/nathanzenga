@@ -107,16 +107,16 @@ router.post('/photo/set/delete', (req, res) => {
     })
 });
 
-router.post('/photo/set/reorder', (req, res) => {
-    var { id, photo_set_index } = req.body;
+router.post('/photo/set/sort-order', (req, res) => {
+    var { photo_set, photo_set_index } = req.body;
     Photo.find({photo_set_cover: true}).sort({photo_set_index: 1}).exec((err, photo_set_reps) => {
         var sets = Object.assign([], photo_set_reps);
-        var selected = sets.filter(p => p._id === id)[0];
+        var selected = sets.filter(p => p.photo_set === photo_set)[0];
         sets.splice(selected.photo_set_index-1, 1);
         sets.splice(parseInt(photo_set_index)-1, 0, selected);
-        sets.forEach((set, i) => {
+        sets.forEach((set, i, a) => {
             set.photo_set_index = i+1;
-            set.save(() => { if (i === a.length-1) res.send("Item reordered") })
+            set.save(() => { if (i === a.length-1) res.send("Photo set cover reordered") })
         })
     })
 });

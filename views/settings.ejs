@@ -7,6 +7,7 @@
                 <li class="active"><a data-toggle="pill" href="#galleries">Galleries</a></li>
                 <li><a data-toggle="pill" href="#infotext">Info Text</a></li>
                 <li><a data-toggle="pill" href="#designs">Designs</a></li>
+                <li><a data-toggle="pill" href="#sort-order">Sort order</a></li>
             </ul>
 
             <div class="tab-content">
@@ -21,9 +22,21 @@
                 <div id="designs" class="tab-pane fade">
                     <%_ include partials/settings/designs _%>
                 </div>
+
+                <div id="sort-order" class="tab-pane fade">
+                    <%_ include partials/settings/sort-order _%>
+                </div>
             </div>
         </div>
     </main>
+
+    <style>
+        form {
+            border-radius: 7px;
+            background-color: rgba(255, 255, 255, .15);
+            padding: 2em;
+        }
+    </style>
 
     <script>
         $(".image-file").change(function() {

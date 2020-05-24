@@ -1,0 +1,23 @@
+                <form class="form-group" id="photo-set-sort-order" method="post" action="/settings/photo/set/sort-order">
+                    <label for="photo-set-to-sort">Select photo set</label>
+                    <select class="form-control" id="photo-set-to-sort" name="photo_set" required>
+                        <option value="">Select photo set</option>
+                        <%_ var sets = photos.filter(p => p.photo_set_cover === true);
+                            sets.sort((a,b) => a.photo_set_index - b.photo_set_index)
+                                .forEach(p => { _%>
+                        <option value="<%= p.photo_set %>"><%= p.photo_set %></option>
+                        <%_ }) _%>
+                    </select>
+                    <label for="photo-set-index">Photo position number</label>
+                    <input class="form-control details" type="number" name="photo_set_index" id="photo-set-index" min="1" max="<%= sets.length %>" required>
+                    <br>
+                    <input class="form-control submit" type="submit" value="Sort photo set">
+                </form>
+
+                <script>
+                    $("#photo-set-to-sort").change(function() {
+                        var photo_set = this.value;
+                        var set = d.filter(function(e) { return e.photo_set === photo_set && e.photo_set_cover === true })[0];
+                        $("#photo-set-index").val(set ? set.photo_set_index : "");
+                    })
+                </script>
