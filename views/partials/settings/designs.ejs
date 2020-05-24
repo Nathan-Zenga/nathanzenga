@@ -2,7 +2,7 @@
                     <div class="row">
                         <div class="col-sm-6 column sm">
                             <label>ID</label>
-                            <input class="form-control details" type="text" id="d_id" name="d_id" required>
+                            <input class="form-control details" type="text" id="d-id" name="d_id" required>
                         </div>
                         <div class="col-sm-6 column sm">
                             <label>Client</label>
@@ -14,9 +14,9 @@
                     <label>Description</label>
                     <textarea class="form-control details" type="text" id="description" name="description" required></textarea>
                     <label>Link</label>
-                    <input class="form-control details" type="url" id="link" name="link" pattern='^(http|https):\/\/[^ "]+.[a-z]{2}$' required>
+                    <input class="form-control details" type="url" name="link" id="design-link" required>
                     <label>Index</label>
-                    <input class="form-control details" type="number" name="index" id="design_index" min="1" max="<%= designs.length+1 %>" value="<%= designs.length+1 %>" required>
+                    <input class="form-control details" type="number" name="index" id="design-index" min="1" max="<%= designs.length+1 %>" value="<%= designs.length+1 %>" required>
                     <label for="design-images-url">Upload images</label>
                     <div class="row image-input-group">
                         <div class="col-sm-5 column sm">
@@ -33,7 +33,7 @@
 
                 <form class="form-group design-edit-settings" method="post" action="/settings/design/edit">
                     <label>Select to edit</label>
-                    <select class="form-control details" id="design_to_edit" name="design_to_edit" required>
+                    <select class="form-control details" id="design-to-edit" name="id" required>
                         <option value="">Select design</option>
                         <%_ designs.forEach(design => { _%>
                         <option value="<%= design._id %>"><%= design.text.client %></option>
@@ -43,18 +43,37 @@
                     <div class="row">
                         <div class="col-sm-6 column sm">
                             <label>ID</label>
-                            <input class="form-control details" type="text" id="d_id" name="d_id">
+                            <input class="form-control details" type="text" id="d-id-edit" name="d_id">
                         </div>
                         <div class="col-sm-6 column sm">
                             <label>Client</label>
-                            <input class="form-control details" type="text" id="client" name="client">
+                            <input class="form-control details" type="text" id="client-edit" name="client">
                         </div>
                     </div>
                     <label>Tools</label>
-                    <input class="form-control details" type="text" id="tools" name="tools">
+                    <input class="form-control details" type="text" id="tools-edit" name="tools">
                     <label>Description</label>
-                    <textarea class="form-control details" type="text" id="description" name="description"></textarea>
+                    <textarea class="form-control details" type="text" id="description-edit" name="description"></textarea>
                     <label>Link</label>
-                    <input class="form-control details" type="url" id="link" name="link" pattern='^(http|https):\/\/[^ "]+.[a-z]{2}$'>
+                    <input class="form-control details" type="url" id="link-edit" name="link">
                     <input class="form-control submit" type="submit" value="Edit Design">
                 </form>
+
+                <script>
+                    $.post("/settings/design/docs", function(docs) {
+                        $("#design-to-edit").change(function() {
+                            var id = this.value;
+                            var design = docs.filter(function(e) { return e._id == id })[0];
+                            var $form = $(this).closest("form");
+                            if (design) {
+                                $("#d-id-edit").val(design.d_id);
+                                $("#client-edit").val(design.text.client);
+                                $("#tools-edit").val(design.text.tools);
+                                $("#description-edit").val(design.text.description);
+                                $("#link-edit").val(design.link);
+                            } else {
+                                $form.get(0).reset();
+                            }
+                        });
+                    })
+                </script>

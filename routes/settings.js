@@ -180,21 +180,30 @@ router.post('/design/reorder', (req, res) => {
 });
 
 router.post('/design/edit', (req, res) => {
-    var { design_to_edit, d_id, client, tools, description, link } = req.body;
-    Design.findById(design_to_edit, (err, doc) => {
-        doc.text.client = client || doc.text.client;
-        doc.text.tools = tools || doc.text.tools;
-        doc.text.description = description || doc.text.description;
-        doc.link = link || doc.link;
+    var { id, d_id, client, tools, description, link } = req.body;
+    var msg = "";
+    Design.findById(id, (err, doc) => {
+        if (err) return console.error(err), res.send("Error occurred whilst fetching design doc");
+        if (client) doc.text.client = client;
+        if (tools) doc.text.tools = tools;
+        if (description) doc.text.description = description;
+        if (link) doc.link = link;
         if (d_id) {
-            Photo.updateMany({photo_set: `design-${doc.d_id}`}, {photo_set: `design-${d_id}`}, (err, result) => {
+            Photo.updateMany({photo_set: `design-${doc.d_id}`}, {$set: {photo_set: `design-${d_id}`}}, (err, result) => {
                 if (err) return console.error(err), res.send("Error occurred whilst photos updating photo set");
                 console.log(result);
-                if (result.n > 0) doc.d_id = d_id;
+                var { n, nModified } = result;
+                if (n === nModified && nModified > 0) {
+                    doc.d_id = d_id;
+                } else {
+                    msg = ".\nNone or some of the d_id fields were modified";
+                }
+                doc.save(err => res.send("Design collection updated" + msg));
             });
-        }
-        doc.save(err => res.send("Design collection updated"));
+        } else { doc.save(err => res.send("Design collection updated")) }
     });
 });
+
+router.post('/design/docs', (req, res) => Design.find((err, designs) => res.send(designs)));
 
 module.exports = router;
