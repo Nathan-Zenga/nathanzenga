@@ -39,7 +39,6 @@
                     <label for="photo-to-delete">Select image to delete</label>
                     <select class="form-control" id="photo-to-delete" name="id" required>
                         <option value="">Select image</option>
-                        <option value="*">*</option>
                         <%_ photos.forEach(p => { _%>
                         <option value="<%= p._id %>"><%= p.photo_title %></option>
                         <%_ }) _%>
@@ -59,7 +58,7 @@
                         <option value="<%= p.photo_set %>"><%= p.photo_set %></option>
                         <%_ }}) _%>
                     </select>
-                    <input class="form-control submit" type="submit" value="Delete photo set">
+                    <input class="form-control submit btn-danger" type="submit" value="Delete photo set">
                 </form>
 
                 <script>
@@ -72,7 +71,8 @@
                                 type: "text",
                                 name: "photo_set_new",
                                 id: "photo-set-new",
-                                placeholder: "Enter new photo set name"
+                                placeholder: "Enter new photo set name",
+                                required: true
                             }).insertAfter(input);
                             $("#photo-index").attr("disabled", false);
                         }
@@ -93,10 +93,7 @@
                             d.filter(function(e) {
                                 return e.photo_set === evt.currentTarget.value
                             }).forEach(function(img, i) {
-                                if (i == 0) $photoSelectInput.html(
-                                    "<option value=''>Select image</option>" +
-                                    "<option value='*'>*</option>"
-                                );
+                                if (i == 0) $photoSelectInput.html("<option value=''>Select image</option>");
                                 $photoSelectInput.append("<option value="+ img._id +">"+ img.photo_title +"</option>")
                             });
                             $photoSelectInput.find("option:first").prop("selected", true);
