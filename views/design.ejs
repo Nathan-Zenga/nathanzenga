@@ -26,7 +26,8 @@
                 var img = this;
                 var isSlideshow = img.className.includes("slideshow");
                 $.post("/p", [
-                    { name: "photo_set", value: "design-" + img.id }
+                    { name: "photo_set", value: "design-" + img.id },
+                    { name: "sort", value: '{"index": 1}' }
                 ], function(d) {
                     $(img).html(d.map(function(e) { return "<img src="+ e.photo_url +">" }).join("")).galleria({
                         imageCrop: !isSlideshow,
