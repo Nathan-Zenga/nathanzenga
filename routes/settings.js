@@ -53,18 +53,20 @@ router.post('/access', (req, res) => {
 });
 
 router.post('/photo/upload', (req, res) => {
-    var { photo_set, photo_url, index } = req.body;
-    photoUploader(req.body, (err, photo) => {
-        indexShift("Photo", photo, { dec: false }, () => {
-            Design.findOne({ d_id: photo_set.replace("design-", "") }, (err2, design) => {
-                if (!err2 && design) {
+    var { photo_set, photo_set_new, photo_url, index } = req.body;
+    Design.findOne({ d_id: photo_set.replace("design-", "") }, (err, design) => {
+        if (err) return console.error(err), res.send("Error occurred during query search");
+        if (/^design-/.test(photo_set_new || photo_set) && !design) return res.send("Please create Design document first");
+        photoUploader(req.body, (err, photo) => {
+            indexShift("Photo", photo, { dec: false }, () => {
+                if (design) {
                     index = parseInt(index);
                     design.images.splice(index-1, 0, { photo_url, index });
                     for (let i = 0; i < design.images.length; i++) design.images[i].index = i+1;
                     design.save();
                 }
-                if (err || err2) console.log(err || err2);
-                res.send(err || err2 || "Photo saved");
+                if (err) console.log(err);
+                res.send(err || "Photo saved");
             })
         })
     })
