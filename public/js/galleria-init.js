@@ -35,7 +35,7 @@ function loadGalleryView() {
 
     if (document.body.id === "artwork") opts.show = $(".inner.img").index(this);
 
-    $.post("/p", {photo_set: this.id}, function(d) {
+    $.post("/p", {photo_set: this.id, sort: '{"index": 1}'}, function(d) {
         if (g) g.destroy();
         $("#gallery_view .iframe").html(d.map(function(e) { return "<img src="+ e.photo_url +">" }).join("")).galleria(opts);
     })
