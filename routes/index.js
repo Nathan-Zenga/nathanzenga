@@ -14,7 +14,7 @@ router.get('/photo', (req, res) => {
 });
 
 router.get('/design', (req, res) => {
-    Design.find((err, designs) => {
+    Design.find().sort({index: 1}).exec((err, designs) => {
         res.render('design', { title: "Designs", pagename: "design", designs })
     })
 });

@@ -186,9 +186,9 @@ router.post('/design/save', (req, res) => {
 //     });
 // });
 
-router.post('/design/reorder', (req, res) => {
+router.post('/design/sort-order', (req, res) => {
     var { id, index } = req.body;
-    indexReorder("design", id, index, () => res.send("Design set re-ordered"));
+    indexReorder("Design", { id, newIndex: index }, err => { console.log(err || ""); res.send(err ? "Error occured" : "Design set re-ordered") });
 });
 
 router.post('/design/edit', (req, res) => {

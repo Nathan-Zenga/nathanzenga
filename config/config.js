@@ -59,24 +59,30 @@ module.exports.indexShift = (model, currentDoc, args, cb) => {
 
 /**
  * Re-orders document items by index field number
- * @param {string} collection name of db collection
- * @param {(string|mongoose.Schema.Types.ObjectId)} id identifier for specified document to re-order
- * @param {(string|number)} newIndex new position in which specified doc is placed
+ * @param {string} model model name of db collection
+ * @param {object} args
+ * @param {(string|mongoose.Schema.Types.ObjectId)} args.id identifier for specified document to re-order
+ * @param {(string|number)} args.newIndex new position in which specified doc is placed
+ * @param {object} [args.qry] document filtering query object
  * @param {callback} [cb] callback
  */
-module.exports.indexReorder = (collection, id, newIndex, cb) => {
-    mongoose.model(collection).find().sort({index: 1}).exec((err, docs) => {
+module.exports.indexReorder = (model, args, cb) => {
+    var { id, newIndex, qry } = args;
+    if (!id || !newIndex) return res.send("Required args (ID or new index) missing");
+    mongoose.model(model).find(qry || {}).sort({index: 1}).exec((err, docs) => {
         if (err) return console.error(err), res.send("Error occurred during query search"); 
         if (!docs.length) return res.send("Collection not found or doesn't exit");
         var docs_mutable = Object.assign([], docs);
         var selected_doc = docs_mutable.filter(e => e._id == id)[0];
-        docs_mutable.splice(selected_doc.index, 1);
-        docs_mutable.splice(parseInt(newIndex), 0, selected_doc);
+        docs_mutable.splice(selected_doc.index-1, 1);
+        docs_mutable.splice(parseInt(newIndex)-1, 0, selected_doc);
         docs_mutable.forEach((doc, i) => {
-            if (doc.index != i) doc.index = i;
-            doc.save();
+            if (doc.index != i+1) {
+                doc.index = i+1;
+                doc.save();
+            }
         });
-        if (cb) cb(err);
+        if (cb) cb();
     })
 };
 
