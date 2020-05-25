@@ -29,13 +29,23 @@
                     { name: "photo_set", value: "design-" + img.id },
                     { name: "sort", value: '{"index": 1}' }
                 ], function(d) {
-                    $(img).html(d.map(function(e) { return "<img src="+ e.photo_url +">" }).join("")).galleria({
-                        imageCrop: !isSlideshow,
-                        autoplay: isSlideshow ? 4500 : undefined,
-                        transitionSpeed: isSlideshow ? 1000 : undefined,
-                        swipe: isSlideshow ? "disabled" : undefined,
-                        showImagenav: false
-                    })
+                    if (d && d.length) {
+                        $(img).html(d.map(function(e) { return "<img src="+ e.photo_url +">" }).join("")).galleria({
+                            imageCrop: !isSlideshow,
+                            autoplay: isSlideshow ? 4500 : undefined,
+                            transitionSpeed: isSlideshow ? 1000 : undefined,
+                            swipe: isSlideshow ? "disabled" : undefined,
+                            showImagenav: false
+                        })
+                    } else {
+                        $(img).html(
+                            '<div style="width: 100%; height: 100%; display: table;">' +
+                                '<div style="width: 100%; height: 100%; display: table-cell; vertical-align: middle; text-align: center;">' +
+                                    '<p>No images available</p>' +
+                                '</div>' +
+                            '</div>'
+                        )
+                    }
                 })
             }).click(loadGalleryView)
         </script>
