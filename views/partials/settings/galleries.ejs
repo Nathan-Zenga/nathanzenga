@@ -10,8 +10,8 @@
                     </div>
                     <label for="photo-title">Title</label>
                     <input class="form-control" type="text" name="photo_title" id="photo-title" required>
-                    <label for="photo-set-opts">Photo set</label>
-                    <select class="form-control" name="photo_set" id="photo-set-opts" required>
+                    <label for="photo-set-to-save">Photo set</label>
+                    <select class="form-control" name="photo_set" id="photo-set-to-save" required>
                         <option value="">Select photo set</option>
                         <option value="new">*NEW*</option>
                         <%_ photos.forEach((p, i, a) => {
@@ -28,8 +28,8 @@
                 <br><br><br>
 
                 <form class="form-group" id="photo-edit-form" method="post" action="/settings/photo/edit">
-                    <label for="photo-set-edit-opts">Select photo set</label>
-                    <select class="form-control" id="photo-set-edit-opts" required>
+                    <label>Photo set to filter (optional)</label>
+                    <select class="form-control photo-set-opts">
                         <option value="">Select photo set</option>
                         <%_ photos.forEach((p, i, a) => {
                             if (i === 0 || p.photo_set !== a[i-1].photo_set) { _%>
@@ -54,9 +54,32 @@
 
                 <br><br><br>
 
+                <form class="form-group" id="photo-set-cover-form" method="post" action="/settings/photo/set/cover">
+                    <label for="photo_set">Photo set</label>
+                    <select class="form-control photo-set-opts" name="photo_set" required>
+                        <option value="">Select photo set</option>
+                        <%_ photos.forEach((p, i, a) => {
+                            if (i === 0 || p.photo_set !== a[i-1].photo_set) { _%>
+                        <option value="<%= p.photo_set %>"><%= p.photo_set %></option>
+                        <%_ }}) _%>
+                    </select>
+                    <label for="photo-set-cover-choice">Select photo</label>
+                    <select class="form-control" name="id" id="photo-set-cover-choice" required>
+                        <option value="">Select photo</option>
+                        <%_ photos.forEach(p => { _%>
+                        <option value="<%= p._id %>"><%= p.photo_title %></option>
+                        <%_ }) _%>
+                    </select>
+                    <div class="img-preview"></div>
+                    <br>
+                    <input class="form-control submit" type="submit" value="Update photo set cover">
+                </form>
+
+                <br><br><br>
+
                 <form class="form-group" id="photo-delete-form" method="post" action="/settings/photo/delete">
-                    <label for="photo-set-filter">Select photo set to filter (optional)</label>
-                    <select class="form-control" id="photo-set-filter" name="photo_set">
+                    <label>Select photo set to filter (optional)</label>
+                    <select class="form-control photo-set-opts" name="photo_set">
                         <option value="">Select photo set</option>
                         <%_ photos.forEach((p, i, a) => {
                             if (i === 0 || p.photo_set !== a[i-1].photo_set) { _%>
@@ -71,7 +94,7 @@
                         <%_ }) _%>
                     </select>
                     <div class="img-preview"></div>
-                    <input class="form-control submit btn-danger" type="submit" value="Delete">
+                    <input class="form-control submit btn-danger" type="submit" value="Delete photo">
                 </form>
 
                 <br><br><br>
@@ -89,7 +112,7 @@
                 </form>
 
                 <script>
-                    $("#photo-set-opts").change(function() {
+                    $("#photo-set-to-save").change(function() {
                         var input = this;
                         $("#photo-index").attr({ disabled: true, max: 1 }).val(1);
                         $("#photo-set-new").remove();
@@ -109,31 +132,16 @@
                         }
                     });
 
-                    $("#design-to-edit").change(function() {
-                        var id = this.value;
-                        var design = docs.filter(function(e) { return e._id == id })[0];
-                        var $form = $(this).closest("form");
-                        if (design) {
-                            $("#d-id-edit").val(design.d_id);
-                            $("#client-edit").val(design.text.client);
-                            $("#tools-edit").val(design.text.tools);
-                            $("#description-edit").val(design.text.description);
-                            $("#link-edit").val(design.link);
-                        } else {
-                            $form.get(0).reset();
-                        }
-                    });
-
-                    $("#photo-set-filter, #photo-set-edit-opts").change(function() {
+                    $(".photo-set-opts").change(function() {
                         var input = this;
                         var $form = $(this).closest("form");
                         var $preview = $form.find(".img-preview");
-                        var $selectInput = $form.find("#photo-to-delete, #photo-to-edit");
+                        var $selectInput = $form.find("#photo-to-delete, #photo-to-edit, #photo-set-cover-choice");
                         $preview.empty();
                         try {
                             d.filter(function(e) {
                                 return input.value ? e.photo_set === input.value : true
-                            }).forEach(function(img, i) {
+                            }).sort(function(a, b) { return a.index - b.index }).forEach(function(img, i) {
                                 if (i == 0) $selectInput.html("<option value=''>Select image</option>");
                                 $selectInput.append("<option value="+ img._id +">"+ img.photo_title +"</option>")
                             });
@@ -141,7 +149,7 @@
                         } catch(e) {}
                     });
 
-                    $("#photo-to-delete, #photo-to-edit").change(function(evt) {
+                    $("#photo-to-delete, #photo-to-edit, #photo-set-cover-choice").change(function(evt) {
                         var $form = $(this).closest("form");
                         var $preview = $form.find(".img-preview");
                         $preview.empty();
