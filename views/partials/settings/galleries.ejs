@@ -27,6 +27,33 @@
 
                 <br><br><br>
 
+                <form class="form-group" id="photo-edit-form" method="post" action="/settings/photo/edit">
+                    <label for="photo-set-edit-opts">Select photo set</label>
+                    <select class="form-control" id="photo-set-edit-opts" required>
+                        <option value="">Select photo set</option>
+                        <%_ photos.forEach((p, i, a) => {
+                            if (i === 0 || p.photo_set !== a[i-1].photo_set) { _%>
+                        <option value="<%= p.photo_set %>"><%= p.photo_set %></option>
+                        <%_ }}) _%>
+                    </select>
+                    <label for="photo-to-edit">Select photo</label>
+                    <select class="form-control" name="id" id="photo-to-edit" required>
+                        <option value="">Select photo set</option>
+                        <%_ photos.forEach(p => { _%>
+                        <option value="<%= p._id %>"><%= p.photo_title %></option>
+                        <%_ }) _%>
+                    </select>
+                    <div class="img-preview"></div>
+                    <label for="photo-title-edit">Edit Title</label>
+                    <input class="form-control" type="text" name="photo_title" id="photo-title-edit">
+                    <label for="photo-url-edit">Edit Photo set</label>
+                    <input class="form-control" type="text" name="photo_set" id="photo-set-edit">
+                    <br>
+                    <input class="form-control submit" type="submit" value="Edit photo details">
+                </form>
+
+                <br><br><br>
+
                 <form class="form-group" id="photo-delete-form" method="post" action="/settings/photo/delete">
                     <label for="photo-set-filter">Select photo set to filter (optional)</label>
                     <select class="form-control" id="photo-set-filter" name="photo_set">
@@ -82,34 +109,47 @@
                         }
                     });
 
-                    var $photoSelectInput = $("#photo-to-delete");
-                    var photoOptions = $photoSelectInput.children("option");
-                    $("#photo-set-filter").change(function(evt) {
+                    $("#design-to-edit").change(function() {
+                        var id = this.value;
+                        var design = docs.filter(function(e) { return e._id == id })[0];
+                        var $form = $(this).closest("form");
+                        if (design) {
+                            $("#d-id-edit").val(design.d_id);
+                            $("#client-edit").val(design.text.client);
+                            $("#tools-edit").val(design.text.tools);
+                            $("#description-edit").val(design.text.description);
+                            $("#link-edit").val(design.link);
+                        } else {
+                            $form.get(0).reset();
+                        }
+                    });
+
+                    $("#photo-set-filter, #photo-set-edit-opts").change(function() {
+                        var input = this;
                         var $form = $(this).closest("form");
                         var $preview = $form.find(".img-preview");
-                        $photoSelectInput.html(photoOptions);
+                        var $selectInput = $form.find("#photo-to-delete, #photo-to-edit");
                         $preview.empty();
                         try {
                             d.filter(function(e) {
-                                return e.photo_set === evt.currentTarget.value
+                                return input.value ? e.photo_set === input.value : true
                             }).forEach(function(img, i) {
-                                if (i == 0) $photoSelectInput.html("<option value=''>Select image</option>");
-                                $photoSelectInput.append("<option value="+ img._id +">"+ img.photo_title +"</option>")
+                                if (i == 0) $selectInput.html("<option value=''>Select image</option>");
+                                $selectInput.append("<option value="+ img._id +">"+ img.photo_title +"</option>")
                             });
-                            $photoSelectInput.find("option:first").prop("selected", true);
+                            $selectInput.find("option:first").prop("selected", true);
                         } catch(e) {}
                     });
 
-                    $("#photo-to-delete").change(function(evt) {
+                    $("#photo-to-delete, #photo-to-edit").change(function(evt) {
                         var $form = $(this).closest("form");
                         var $preview = $form.find(".img-preview");
                         $preview.empty();
                         try {
-                            d.filter(function(e) {
-                                return e._id == evt.currentTarget.value
-                            }).forEach(function(img) {
-                                $preview.append("<img src='"+ img.photo_url +"'>");
-                            });
+                            var img = d.filter(function(e) { return e._id == evt.currentTarget.value })[0];
+                            $preview.append("<img src='"+ img.photo_url +"'>");
+                            $form.find("#photo-title-edit").val(img.photo_title);
+                            $form.find("#photo-set-edit").val(img.photo_set);
                         } catch(e) {}
                     });
                 </script>

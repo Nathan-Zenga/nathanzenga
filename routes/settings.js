@@ -72,6 +72,36 @@ router.post('/photo/upload', (req, res) => {
     })
 });
 
+router.post('/photo/edit', (req, res) => {
+    var { id, photo_title, photo_set } = req.body;
+    Photo.findById(id, (err, photo) => {
+        if (err) return console.error(err), res.send("Error occurred whilst fetching photo");
+        var prev_photo_set = photo.photo_set;
+        var sameAsPrevPhotoSet = (new RegExp("^"+photo_set+"$", "i")).test(prev_photo_set);
+        if (photo_title) photo.photo_title = photo_title;
+        if (photo_set && !sameAsPrevPhotoSet) photo.photo_set = photo_set;
+        photo.save((err, edited) => {
+            if (photo_set && !sameAsPrevPhotoSet) {
+                Photo.find({ photo_set }).sort({ index: 1 }).exec((err, set) => {
+                    edited.index = set.length + 1;
+                    edited.save();
+                    Photo.find({ photo_set: prev_photo_set }).sort({ index: 1 }).exec((err, photos) => {
+                        photos.forEach((p, i) => {
+                            if (p.index != i+1) {
+                                p.index = i+1;
+                                p.save();
+                            }
+                        });
+                        res.send(`Photo edited and moved to ${photo_set} set successfully`);
+                    })
+                })
+            } else {
+                res.send("Photo edited successfully");
+            }
+        })
+    })
+});
+
 router.post('/photo/delete', (req, res) => {
     var { id } = req.body;
     if (!id) return res.send("Nothing selected");
