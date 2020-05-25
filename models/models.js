@@ -11,7 +11,11 @@ module.exports.Photo = model('Photo', Schema({
 }));
 
 module.exports.Design = model('Design', Schema({
-    d_id: { type: String, uppercase: true },
+    d_id: {
+        type: String,
+        uppercase: true,
+        set: v => v.replace(/[ ._'"]/g, "-")
+    },
     text: {
         client: { type: String },
         tools: { type: String },
