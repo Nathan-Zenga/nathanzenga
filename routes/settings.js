@@ -64,6 +64,17 @@ router.post('/photo/upload', (req, res) => {
                     design.images.splice(index-1, 0, { photo_url, index });
                     for (let i = 0; i < design.images.length; i++) design.images[i].index = i+1;
                     design.save();
+                } else if (photo_set_new) {
+                    photo.photo_set_cover = true;
+                    photo.photo_set_index = 1;
+                    photo.save((err, saved) => {
+                        Photo.find({ photo_set_cover: true, _id: {$ne: saved.id} }).sort({photo_set_index: 1}).exec((err, covers) => {
+                            covers.forEach(cover, i => {
+                                cover.photo_set_index = i+2;
+                                cover.save();
+                            })
+                        })
+                    })
                 }
                 if (err) console.log(err);
                 res.send(err || "Photo saved");
@@ -77,20 +88,27 @@ router.post('/photo/edit', (req, res) => {
     Photo.findById(id, (err, photo) => {
         if (err) return console.error(err), res.send("Error occurred whilst fetching photo");
         var prev_photo_set = photo.photo_set;
-        var sameAsPrevPhotoSet = (new RegExp("^"+photo_set+"$", "i")).test(prev_photo_set);
+        var sameAsPrevPhotoSet = (new RegExp("^"+photo_set.trim()+"$", "i")).test(prev_photo_set);
         if (photo_title) photo.photo_title = photo_title;
         if (photo_set && !sameAsPrevPhotoSet) photo.photo_set = photo_set;
         photo.save((err, edited) => {
             if (photo_set && !sameAsPrevPhotoSet) {
                 Photo.find({ photo_set }).sort({ index: 1 }).exec((err, set) => {
+                    var initial_ps_index = edited.photo_set_index;
+                    if (edited.photo_set_cover && edited.photo_set_index) {
+                        edited.photo_set_cover = false;
+                        edited.photo_set_index = undefined;
+                    }
                     edited.index = set.length + 1;
                     edited.save();
                     Photo.find({ photo_set: prev_photo_set }).sort({ index: 1 }).exec((err, photos) => {
                         photos.forEach((p, i) => {
-                            if (p.index != i+1) {
-                                p.index = i+1;
-                                p.save();
+                            if (i == 0 && edited.photo_set_cover && edited.photo_set_index) {
+                                p.photo_set_cover = true;
+                                p.photo_set_index = initial_ps_index;
                             }
+                            p.index = i+1;
+                            p.save();
                         });
                         res.send(`Photo edited and moved to ${photo_set} set successfully`);
                     })
@@ -107,16 +125,26 @@ router.post('/photo/delete', (req, res) => {
     if (!id) return res.send("Nothing selected");
     Photo.findByIdAndDelete(id, (err, photo) => {
         if (err || !photo) return res.send(err || "Photo not found");
-        var { photo_set, photo_title, photo_url } = photo;
+        var { photo_set, photo_title, photo_url, photo_set_cover, photo_set_index } = photo;
         var public_id = `${photo_set}/${photo_title}`.toLowerCase().replace(/[ ?&#\\%<>]/g, "_");
         cloud.v2.api.delete_resources([public_id], () => {
-            Design.findOne({d_id: photo_set.replace("design-", "")}, (err, design) => {
-                if (!err && design) {
-                    design.images = design.images.filter(url => url !== photo_url);
-                    for (let i = 0; i < design.images.length; i++) design.images[i].index = i+1;
-                    design.save();
-                }
-                res.send("Photo deleted");
+            Photo.find({ photo_set }).sort({ index: 1 }).exec((err, set) => {
+                Design.findOne({ d_id: photo_set.replace("design-", "") }, (err2, design) => {
+                    set.forEach((p, i) => {
+                        if (i === 0 && photo_set_cover && photo_set_index) {
+                            p.photo_set_cover = true;
+                            p.photo_set_index = photo_set_index;
+                        }
+                        p.index = i+1;
+                        p.save();
+                    });
+                    if (!err2 && design) {
+                        design.images = design.images.filter(url => url !== photo_url);
+                        for (let i = 0; i < design.images.length; i++) design.images[i].index = i+1;
+                        design.save();
+                    }
+                    res.send("Photo deleted");
+                })
             })
         })
     })
@@ -229,10 +257,10 @@ router.post('/design/save', (req, res) => {
                     var photo_title = `${design.d_id}-web${i ? "-" + (i+1) : ""}`;
                     var index = i+1;
                     photoUploader({ file, photo_title, photo_set, index }, (err, photo) => {
-                        if (err) res.send(err);
+                        if (err) return cb(err);
                         design.images.push({ photo_url: photo.photo_url, index: photo.index });
                         if (i === images.length-1) design.save();
-                        cb(err);
+                        cb();
                     });
                 }, err => { if (err) console.log(err); res.send(err || "Design saved") });
             });
