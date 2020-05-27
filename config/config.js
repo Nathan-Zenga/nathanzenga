@@ -49,8 +49,8 @@ const DownsizedImage = module.exports.DownsizedImage = (result, cb) => {
  */
 module.exports.indexShift = (model, currentDoc, args, cb) => {
     mongoose.model(model).find({index: {$gte: currentDoc.index}, _id: {$ne: currentDoc._id}}).sort({index: 1}).exec((err, docs) => {
-        if (err) return console.error(err), res.send("Error occurred during query search"); 
-        if (!docs.length) return res.send("Collection not found or doesn't exit");
+        if (err) return console.error(err), cb ? cb("Error occurred during query search") : false;
+        if (!docs.length) return cb ? cb("Collection not found or doesn't exit") : false
         docs.forEach(doc => {
             doc.index += ((args || {}).dec ? -1 : 1);
             doc.save();
@@ -65,15 +65,15 @@ module.exports.indexShift = (model, currentDoc, args, cb) => {
  * @param {object} args
  * @param {(string|mongoose.Schema.Types.ObjectId)} args.id identifier for specified document to re-order
  * @param {(string|number)} args.newIndex new position in which specified doc is placed
- * @param {object} [args.qry] document filtering query object
+ * @param {object} [args.filterQry] document filtering query object
  * @param {callback} [cb] callback
  */
 module.exports.indexReorder = (model, args, cb) => {
-    var { id, newIndex, qry } = args;
-    if (!id || !newIndex) return res.send("Required args (ID or new index) missing");
-    mongoose.model(model).find(qry || {}).sort({index: 1}).exec((err, docs) => {
-        if (err) return console.error(err), res.send("Error occurred during query search"); 
-        if (!docs.length) return res.send("Collection not found or doesn't exit");
+    var { id, newIndex, filterQry } = args;
+    if (!id || !newIndex) return cb ? cb("Required args (ID or new index) missing") : false;
+    mongoose.model(model).find(filterQry || {}).sort({index: 1}).exec((err, docs) => {
+        if (err) return console.error(err), cb ? cb("Error occurred during query search") : false;
+        if (!docs.length) return cb ? cb("Collection not found or doesn't exit") : false;
         var index = docs.findIndex(e => e._id == id);
         var beforeSelectedDoc = docs.slice(0, index);
         var afterSelectedDoc = docs.slice(index+1, docs.length);
@@ -103,9 +103,9 @@ module.exports.photoUploader = (body, cb) => {
     var newPhoto = new Photo({ photo_title, photo_set, index });
     var public_id = `${photo_set}/${photo_title}`.toLowerCase().replace(/[ ?&#\\%<>]/g, "_");
     cloud.v2.uploader.upload(file, { public_id }, (err, result) => {
-        if (err) return console.error(err), res.send("Error occurred whilst uploading");
+        if (err) return console.error(err), cb ? cb("Error occurred whilst uploading image file / url") : false;
         DownsizedImage(result, (err, result2) => {
-            if (err) return console.error(err), res.send("Error occurred whilst downscaling image");
+            if (err) return console.error(err), cb ? cb("Error occurred whilst downscaling image") : false;
             var { width, height, secure_url } = result2 || result;
             newPhoto.orientation = width > height ? "landscape" : width < height ? "portrait" : "square";
             newPhoto.photo_url = secure_url;

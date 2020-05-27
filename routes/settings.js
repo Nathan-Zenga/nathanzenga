@@ -58,7 +58,9 @@ router.post('/photo/upload', (req, res) => {
         if (err) return console.error(err), res.send("Error occurred during query search");
         if (/^design-/.test(photo_set_new || photo_set) && !design) return res.send("Please create Design document first");
         photoUploader(req.body, (err, photo) => {
-            indexShift("Photo", photo, { dec: false }, () => {
+            if (err) return res.send(err);
+            indexShift("Photo", photo, { dec: false }, err => {
+                if (err) return res.send(err);
                 if (design) {
                     index = parseInt(index);
                     design.images.splice(index-1, 0, { photo_url, index });
@@ -127,7 +129,8 @@ router.post('/photo/delete', (req, res) => {
         if (err || !photo) return res.send(err || "Photo not found");
         var { photo_set, photo_title, photo_url, photo_set_cover, photo_set_index } = photo;
         var public_id = `${photo_set}/${photo_title}`.toLowerCase().replace(/[ ?&#\\%<>]/g, "_");
-        cloud.v2.api.delete_resources([public_id], () => {
+        cloud.v2.api.delete_resources([public_id], err => {
+            if (err) return console.log(err), res.send("Error occurred whilst deleting photo");
             Photo.find({ photo_set }).sort({ index: 1 }).exec((err, set) => {
                 Design.findOne({ d_id: photo_set.replace("design-", "") }, (err2, design) => {
                     set.forEach((p, i) => {
@@ -152,8 +155,8 @@ router.post('/photo/delete', (req, res) => {
 
 router.post('/photo/sort-order', (req, res) => {
     var { id, index, photo_set } = req.body;
-    indexReorder("Photo", { id, newIndex: index, qry: { photo_set } }, err => {
-        if (err) return console.error(err), res.send("Error occured");
+    indexReorder("Photo", { id, newIndex: index, filterQry: { photo_set } }, err => {
+        if (err) return res.send(err);
         if (/^design-/.test(photo_set)) {
             Design.findOne({ d_id: photo_set.replace("design-", "") }, (err, design) => {
                 if (err) return console.error(err), res.send("Error occurred during query search"); 
@@ -174,8 +177,9 @@ router.post('/photo/set/delete', (req, res) => {
     var { photo_set } = req.body;
     if (!photo_set) return res.send("Nothing selected");
     Photo.deleteMany({ photo_set }, err => {
-        cloud.v2.api.delete_resources_by_prefix(photo_set, err2 => {
-            if (err || err2) return res.send(err || err2);
+        if (err) return console.log(err), res.send("Error whilst deleting docs");
+        cloud.v2.api.delete_resources_by_prefix(photo_set, err => {
+            if (err) return console.log(err), res.send("Error whilst deleting photo set");
             Photo.find({photo_set_cover: true}).sort({photo_set_index: 1}).exec((err, covers) => {
                 if (/^design-/.test(photo_set)) {
                     var d_id = photo_set.replace("design-", "");
@@ -248,8 +252,8 @@ router.post('/design/save', (req, res) => {
     Design.findOne({ d_id: {$regex: new RegExp(d_id, "i")} }, (err, found) => {
         if (err || found) return res.send(err || "Design set already exists");
         indexShift("Design", newDesign, { dec: false }, err => {
-            newDesign.save((err2, design) => {
-                if (err || err2) res.send(err || err2);
+            if (err) return console.log(err), res.send("Error occured whilst shifting indexes");
+            newDesign.save((err, design) => {
                 design.images = [];
                 images = (Array.isArray(images) ? images : [images]).filter(e => e);
                 async.forEachOf(images, (file, i, cb) => {
