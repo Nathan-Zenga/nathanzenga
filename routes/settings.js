@@ -71,7 +71,7 @@ router.post('/photo/upload', (req, res) => {
                     photo.photo_set_index = 1;
                     photo.save((err, saved) => {
                         Photo.find({ photo_set_cover: true, _id: {$ne: saved.id} }).sort({photo_set_index: 1}).exec((err, covers) => {
-                            covers.forEach(cover, i => {
+                            covers.forEach((cover, i) => {
                                 cover.photo_set_index = i+2;
                                 cover.save();
                             })
@@ -89,35 +89,56 @@ router.post('/photo/edit', (req, res) => {
     var { id, photo_title, photo_set } = req.body;
     Photo.findById(id, (err, photo) => {
         if (err) return console.error(err), res.send("Error occurred whilst fetching photo");
-        var prev_photo_set = photo.photo_set;
-        var sameAsPrevPhotoSet = (new RegExp("^"+photo_set.trim()+"$", "i")).test(prev_photo_set);
-        if (photo_title) photo.photo_title = photo_title;
-        if (photo_set && !sameAsPrevPhotoSet) photo.photo_set = photo_set;
-        photo.save((err, edited) => {
-            if (photo_set && !sameAsPrevPhotoSet) {
-                Photo.find({ photo_set }).sort({ index: 1 }).exec((err, set) => {
-                    var initial_ps_index = edited.photo_set_index;
-                    if (edited.photo_set_cover && edited.photo_set_index) {
-                        edited.photo_set_cover = false;
-                        edited.photo_set_index = undefined;
-                    }
-                    edited.index = set.length + 1;
-                    edited.save();
-                    Photo.find({ photo_set: prev_photo_set }).sort({ index: 1 }).exec((err, photos) => {
-                        photos.forEach((p, i) => {
-                            if (i == 0 && edited.photo_set_cover && edited.photo_set_index) {
-                                p.photo_set_cover = true;
-                                p.photo_set_index = initial_ps_index;
-                            }
-                            p.index = i+1;
-                            p.save();
-                        });
-                        res.send(`Photo edited and moved to ${photo_set} set successfully`);
+        Design.findOne({ d_id: photo_set.replace("design-", "") }, (err, design) => {
+            if (err) console.log(err), res.send("Error occurred whilst checking Design document existence");
+            if (/^design-/.test(photo_set) && !design) return res.send("Design document does not exist, please create one first");
+            var prev_photo_set = photo.photo_set;
+            var sameAsPrevPhotoSet = (new RegExp("^"+photo_set.trim()+"$", "i")).test(prev_photo_set);
+            if (photo_title) photo.photo_title = photo_title;
+            if (photo_set && !sameAsPrevPhotoSet) photo.photo_set = photo_set;
+            photo.save((err, edited) => {
+                if (photo_set && !sameAsPrevPhotoSet) {
+                    Photo.find({ photo_set }).sort({ index: 1 }).exec((err, set) => {
+                        var setCoverPresent = !!set.filter(p => p.photo_set_cover && p.photo_set_index && p.id != edited.id).length;
+                        if (photo.photo_set_cover && photo.photo_set_index && setCoverPresent) {
+                            edited.photo_set_cover = false;
+                            edited.photo_set_index = undefined;
+                        }
+                        edited.index = set.length + 1;
+                        edited.save((err, edited2) => {
+                            Photo.find({ photo_set: prev_photo_set }).sort({ index: 1 }).exec((err, photos) => {
+                                var initial_ps_index = photo.photo_set_index;
+                                photos.forEach((p, i) => {
+                                    if (i == 0 && photo.photo_set_cover && photo.photo_set_index && !/^design-/.test(photo_set)) {
+                                        p.photo_set_cover = true;
+                                        p.photo_set_index = initial_ps_index;
+                                    }
+                                    p.index = i+1;
+                                    p.save();
+                                });
+                                if (/^design-/.test(prev_photo_set)) {
+                                    Design.findOne({ d_id: prev_photo_set.replace("design-", "") }, (err, prev_design) => {
+                                        if (err) { console.log(err) } else if (prev_design) {
+                                            prev_design.images = prev_design.images.filter(e => e.photo_url !== edited2.photo_url);
+                                            for (let i = 0; i < prev_design.images.length; i++) prev_design.images[i].index = i+1;
+                                            prev_design.save();
+                                        }
+                                    })
+                                }
+                                var msg = `Photo edited and moved to ${photo_set} set successfully`;
+                                if (/^design-/.test(photo_set) && design) {
+                                    design.images.push({ photo_url: edited2.photo_url, index: edited2.index });
+                                    design.save(() => res.send(msg));
+                                } else {
+                                    res.send(msg);
+                                }
+                            })
+                        })
                     })
-                })
-            } else {
-                res.send("Photo edited successfully");
-            }
+                } else {
+                    res.send("Photo edited successfully");
+                }
+            })
         })
     })
 });
