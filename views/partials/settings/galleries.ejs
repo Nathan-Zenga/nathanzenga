@@ -47,7 +47,13 @@
                     <label for="photo-title-edit">Edit Title</label>
                     <input class="form-control" type="text" name="photo_title" id="photo-title-edit">
                     <label for="photo-url-edit">Edit Photo set</label>
-                    <input class="form-control" type="text" name="photo_set" id="photo-set-edit">
+                    <select class="form-control" name="photo_set" id="photo-set-edit">
+                        <option value=""></option>
+                        <%_ photos.forEach((p, i, a) => {
+                            if (i === 0 || p.photo_set !== a[i-1].photo_set) { _%>
+                        <option value="<%= p.photo_set %>"><%= p.photo_set %></option>
+                        <%_ }}) _%>
+                    </select>
                     <br>
                     <input class="form-control submit" type="submit" value="Edit photo details">
                 </form>
