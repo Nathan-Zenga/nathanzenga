@@ -4,7 +4,7 @@
 
         <script src="/js/galleria-init.js"></script>
         <script>
-            $.post("/p", {photo_set: "artwork"}, function(d) {
+            $.post("/p", {photo_set: "artwork", sort: '{"index": 1}'}, function(d) {
                 var imgLength = d.length;
                 d.forEach(function(e, i, arr) {
                     $(".content.galleria-init").append('<div class="img-container media-container col-sm-6" style="opacity: 0"><div class="inner img" id="'+ e.photo_set +'" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"><img src="'+ e.photo_url +'"></div></div>');

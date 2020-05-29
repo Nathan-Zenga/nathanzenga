@@ -5,7 +5,8 @@
             <script>
                 $.post("/p", {
                     photo_set: "Assorted",
-                    orientation: window.innerWidth < window.innerHeight ? "portrait" : "landscape"
+                    orientation: window.innerWidth < window.innerHeight ? "portrait" : "landscape",
+                    sort: '{"index": 1}'
                 }, function(d) {
                     $("#overview").html(d.map(function(e) { return "<img src='"+ e.photo_url +"'>" }).join("")).click(loadGalleryView).galleria({
                         imageCrop: true,
