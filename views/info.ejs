@@ -1,26 +1,35 @@
 <%_ include partials/header _%>
-    <div class="col-sm-6 info-txt">
-        <%- txt.text %>
-    </div>
+    <main class="container">
+        <div class="col-sm-6 info-txt">
+            <%- txt.text %>
+        </div>
 
-    <div class="col-sm-6 contact-form">
-        <form class="form-group">
-            <label class="sr-only">Email Address</label>
-            <input class="form-control details" type="email" id="email" name="email" placeholder="Your Email" required>
+        <div class="col-sm-6 contact-form">
+            <form class="form-group" method="post" action="/send/message">
+                <label class="sr-only">Name</label>
+                <input class="form-control details" type="text" id="name" name="name" placeholder="Your Name" required>
 
-            <label class="sr-only">Name</label>
-            <input class="form-control details" type="text" id="name" name="name" placeholder="Your Name" required>
+                <label class="sr-only">Email Address</label>
+                <input class="form-control details" type="email" id="email" name="email" placeholder="Your Email" required>
 
-            <label class="sr-only">Subject</label>
-            <input class="form-control details" type="text" id="subject" name="subject" placeholder="Subject" required>
+                <label class="sr-only">Subject</label>
+                <input class="form-control details" type="text" id="subject" name="subject" placeholder="Subject" required>
 
-            <label class="sr-only">Message</label>
-            <textarea class="form-control details" type="text" id="message" name="message" placeholder="Enter Message" required></textarea>
-            
-            <label class="sr-only">SUBMIT</label>
-            <input class="form-control submit" type="submit" value="Send">
+                <label class="sr-only">Message</label>
+                <textarea class="form-control details" type="text" id="message" name="message" placeholder="Enter Message" required></textarea>
 
-            <div class="result" style="display: none;"></div>
-        </form>
-    </div>
+                <input class="form-control submit" type="submit" value="Send">
+            </form>
+        </div>
+    </main>
+
+    <script>
+        $("form").submit(function(e) {
+            e.preventDefault();
+            $.post(this.action, $(this).serializeArray(), function(msg) {
+                alert(msg);
+                e.target.reset();
+            })
+        })
+    </script>
 <%_ include partials/footer _%>

@@ -32,30 +32,16 @@ function imgOrientation(e) {
     counter += 1;
 }
 
-function loadGalleryView(e) {
-    var set = e.data ? e.data.set : null;
-    var isSlideshow = this.className.includes("slideshow");
-    var i = $(".inner.img").index(this);
-    var id = this.id;
-    var options = { flickrOptions: { imageSize: isSlideshow ? "original" : "big" } };
+function loadGalleryView() {
+    var opts = {};
+    var g = $("#gallery_view .iframe").data("galleria");
 
-    switch(document.body.id) {
-        case "photo":
-            set = id.split("-")[1];
-            options.flickr = "set:" + set;
-            break;
+    if (document.body.id === "artwork") opts.show = $(".inner.img").index(this);
 
-        case "design":
-            options.flickr = "tags:nz-designs-" + id;
-            break;
-
-        default:
-            options.flickr = "set:" + set;
-            options.flickrOptions.max = $(".inner.img").length;
-            options.show = i;
-    }
-
-    $("#gallery_view .iframe").galleria(options);
+    $.post("/p", {photo_set: this.id, sort: '{"index": 1}'}, function(d) {
+        if (g) g.destroy();
+        $("#gallery_view .iframe").html(d.map(function(e) { return "<img src="+ e.photo_url +">" }).join("")).galleria(opts);
+    })
 }
 
 if ($(".grid").length && !("grid" in document.body.style)) {

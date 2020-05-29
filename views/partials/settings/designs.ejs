@@ -1,97 +1,79 @@
                 <form class="form-group design-settings" method="post" action="/settings/design/save">
                     <div class="row">
                         <div class="col-sm-6 column sm">
-                            <label class="sr-only">ID</label>
-                            <input class="form-control details" type="text" id="d_id" name="d_id" placeholder="ID" required>
+                            <label>ID</label>
+                            <input class="form-control details" type="text" id="d-id" name="d_id" required>
                         </div>
                         <div class="col-sm-6 column sm">
-                            <label class="sr-only">Client</label>
-                            <input class="form-control details" type="text" id="client" name="client" placeholder="Client" required>
+                            <label>Client</label>
+                            <input class="form-control details" type="text" id="client" name="client" required>
                         </div>
                     </div>
-                    <label class="sr-only">Tools</label>
-                    <input class="form-control details" type="text" id="tools" name="tools" placeholder="Tools" required>
-                    <label class="sr-only">Description</label>
-                    <textarea class="form-control details" type="text" id="description" name="description" placeholder="Description" required></textarea>
-                    <label class="sr-only">Link</label>
-                    <input class="form-control details" type="url" id="link" name="link" pattern='^(http|https):\/\/[^ "]+.[a-z]{2}$' placeholder="Link" required>
-                    <label class="sr-only">Index</label>
-                    <select class="form-control details" id="index" name="index" required>
-                        <option value="">Index</option>
-                        <%_ docs.designs.forEach((design, i) => { _%>
-                        <option value="<%= i %>"><%= i %></option>
-                        <%_ }) _%>
-                        <option value="<%= docs.designs.length %>"><%= docs.designs.length %></option>
-                    </select>
+                    <label>Tools</label>
+                    <input class="form-control details" type="text" id="tools" name="tools" required>
+                    <label>Description</label>
+                    <textarea class="form-control details" type="text" id="description" name="description" required></textarea>
+                    <label>Link</label>
+                    <input class="form-control details" type="url" name="link" id="design-link" required>
+                    <label>Index</label>
+                    <input class="form-control details" type="number" name="index" id="design-index" min="1" max="<%= designs.length+1 %>" value="<%= designs.length+1 %>" required>
+                    <label for="design-images-url">Upload images</label>
+                    <div class="row image-input-group">
+                        <div class="col-sm-5 column sm">
+                            <input type="file" class="image-file" id="design-images-file" accept=".jpg,.jpeg,.png" multiple><br>
+                        </div>
+                        <div class="col-sm-7 column sm">
+                            <input type="url" class="form-control image-url" id="design-images-url" name="images" placeholder="Enter image URL (optional)">
+                        </div>
+                    </div>
                     <input class="form-control submit" type="submit" value="Save">
                 </form>
 
                 <br><br><br>
 
-                <form class="form-group design-delete-settings" method="post" action="/settings/design/delete">
-                    <label class="sr-only">Select to delete</label>
-                    <select class="form-control details" id="gallery_to_delete" name="design_to_delete" required>
-                        <option value="">Select design</option>
-                        <%_ docs.designs.forEach(design => { _%>
-                        <option value="<%= design._id %>"><%= design.text.client %></option>
-                        <%_ }) _%>
-                        <option value="*">*</option>
-                    </select>
-                    <input class="form-control submit btn-danger" type="submit" value="Delete">
-                </form>
-
-                <br><br><br>
-
-                <form class="form-group design-reorder-settings" method="post" action="/settings/design/reorder">
-                    <div class="row">
-                        <div class="col-sm-10 column sm">
-                            <label class="sr-only">Select to re-order</label>
-                            <select class="form-control details" id="design_to_reorder" name="design_to_reorder" required>
-                                <option value="">Select design</option>
-                                <%_ docs.designs.forEach(design => { _%>
-                                <option value="<%= design._id %>"><%= design.text.client %></option>
-                                <%_ }) _%>
-                            </select>
-                        </div>
-                        <div class="col-sm-2 column sm">
-                            <label class="sr-only">Index</label>
-                            <select class="form-control details" id="index" name="index" required>
-                                <option value="">Index</option>
-                                <%_ docs.designs.forEach((design, i) => { _%>
-                                <option value="<%= i %>"><%= i %></option>
-                                <%_ }) _%>
-                            </select>
-                        </div>
-                    </div>
-                    <input class="form-control submit" type="submit" value="Re-order Design">
-                </form>
-
-                <br><br><br>
-
                 <form class="form-group design-edit-settings" method="post" action="/settings/design/edit">
-                    <label class="sr-only">Select to edit</label>
-                    <select class="form-control details" id="design_to_edit" name="design_to_edit" required>
+                    <label>Select to edit</label>
+                    <select class="form-control details" id="design-to-edit" name="id" required>
                         <option value="">Select design</option>
-                        <%_ docs.designs.forEach(design => { _%>
+                        <%_ designs.forEach(design => { _%>
                         <option value="<%= design._id %>"><%= design.text.client %></option>
                         <%_ }) _%>
                     </select>
                     <label style="margin-bottom: 1em">All fields below are optional</label>
                     <div class="row">
                         <div class="col-sm-6 column sm">
-                            <label class="sr-only">ID</label>
-                            <input class="form-control details" type="text" id="d_id" name="d_id" placeholder="ID">
+                            <label>ID</label>
+                            <input class="form-control details" type="text" id="d-id-edit" name="d_id">
                         </div>
                         <div class="col-sm-6 column sm">
-                            <label class="sr-only">Client</label>
-                            <input class="form-control details" type="text" id="client" name="client" placeholder="Client">
+                            <label>Client</label>
+                            <input class="form-control details" type="text" id="client-edit" name="client">
                         </div>
                     </div>
-                    <label class="sr-only">Tools</label>
-                    <input class="form-control details" type="text" id="tools" name="tools" placeholder="Tools">
-                    <label class="sr-only">Description</label>
-                    <textarea class="form-control details" type="text" id="description" name="description" placeholder="Description"></textarea>
-                    <label class="sr-only">Link</label>
-                    <input class="form-control details" type="url" id="link" name="link" pattern='^(http|https):\/\/[^ "]+.[a-z]{2}$' placeholder="Link">
+                    <label>Tools</label>
+                    <input class="form-control details" type="text" id="tools-edit" name="tools">
+                    <label>Description</label>
+                    <textarea class="form-control details" type="text" id="description-edit" name="description"></textarea>
+                    <label>Link</label>
+                    <input class="form-control details" type="url" id="link-edit" name="link">
                     <input class="form-control submit" type="submit" value="Edit Design">
                 </form>
+
+                <script>
+                    $.post("/settings/design/docs", function(docs) {
+                        $("#design-to-edit").change(function() {
+                            var id = this.value;
+                            var design = docs.filter(function(e) { return e._id == id })[0];
+                            var $form = $(this).closest("form");
+                            if (design) {
+                                $("#d-id-edit").val(design.d_id);
+                                $("#client-edit").val(design.text.client);
+                                $("#tools-edit").val(design.text.tools);
+                                $("#description-edit").val(design.text.description);
+                                $("#link-edit").val(design.link);
+                            } else {
+                                $form.get(0).reset();
+                            }
+                        });
+                    })
+                </script>

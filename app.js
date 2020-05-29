@@ -21,8 +21,8 @@ var app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({ limit: '20mb' }));
+app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use(cookieParser());
 
 // Set static folder
@@ -48,7 +48,7 @@ app.use('/', require('./routes/index'));
 app.use('/settings', require('./routes/settings'));
 
 app.get("*", (req, res) => {
-    res.status(404).render('index', { title: "Error 404", pagename: "error" });
+    res.status(404).render('error', { title: "Error 404", pagename: "error" });
 });
 
 // Set port + listen for requests

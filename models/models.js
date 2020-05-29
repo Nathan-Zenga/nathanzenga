@@ -1,31 +1,41 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const { model, Schema } = require('mongoose');
 
-module.exports.gallery = mongoose.model('Gallery', Schema({
-    tag: String,
-    set_id: String,
-    label: String,
-    index: Number
+module.exports.Photo = model('Photo', Schema({
+    photo_title: String,
+    photo_set: String,
+    photo_url: String,
+    orientation: String,
+    index: Number,
+    photo_set_cover: { type: Boolean, default: false },
+    photo_set_index: Number
 }));
 
-module.exports.design = mongoose.model('Design', Schema({
-    d_id: { type: String, uppercase: true },
+module.exports.Design = model('Design', Schema({
+    d_id: {
+        type: String,
+        uppercase: true,
+        set: v => v.replace(/[ ._'"]/g, "-")
+    },
     text: {
         client: { type: String },
         tools: { type: String },
         description: { type: String }
     },
+    images: [{
+        photo_url: String,
+        index: Number
+    }],
     link: String,
     index: Number
 }));
 
-module.exports.info_text = mongoose.model('Info_text', Schema({
+module.exports.Info_text = model('Info_text', Schema({
     text: String
 }, {
     capped: { max: 1, size: 1000 }
 }));
 
-module.exports.admin = mongoose.model('Admin', Schema({
+module.exports.Admin = model('Admin', Schema({
     pass: String
 }, {
     capped: { max: 1, size: 1000 }

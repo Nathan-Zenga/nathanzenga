@@ -1,0 +1,86 @@
+                <form class="form-group" id="photo-set-sort-order" method="post" action="/settings/photo/set/sort-order">
+                    <label for="photo-set-to-sort">Select photo set</label>
+                    <select class="form-control" id="photo-set-to-sort" name="photo_set" required>
+                        <option value="">Select photo set</option>
+                        <%_ var sets = photos.filter(p => p.photo_set_cover === true);
+                            sets.sort((a,b) => a.photo_set_index - b.photo_set_index)
+                                .forEach(p => { _%>
+                        <option value="<%= p.photo_set %>"><%= p.photo_set_index +" - "+ p.photo_set %></option>
+                        <%_ }) _%>
+                    </select>
+                    <label for="photo-set-index">Photo set position number</label>
+                    <input class="form-control details" type="number" name="photo_set_index" id="photo-set-index" min="1" max="<%= sets.length %>" required>
+                    <br>
+                    <input class="form-control submit" type="submit" value="Sort photo set">
+                </form>
+
+                <br><br><br>
+
+                <form class="form-group" id="design-sort-order" method="post" action="/settings/design/sort-order">
+                    <label for="design-to-sort">Select design</label>
+                    <select class="form-control" id="design-to-sort" name="id" required>
+                        <option value="">Select design collection</option>
+                        <%_ designs.sort((a,b) => a.index - b.index).forEach(d => { _%>
+                        <option value="<%= d._id %>"><%= d.index +" - "+ d.text.client %></option>
+                        <%_ }) _%>
+                    </select>
+                    <label for="design-index">Design position number</label>
+                    <input class="form-control details" type="number" id="design-index" name="index" min="1" max="<%= designs.length %>" required>
+                    <br>
+                    <input class="form-control submit" type="submit" value="Sort design collection">
+                </form>
+
+                <br><br><br>
+
+                <form class="form-group" id="design-sort-order" method="post" action="/settings/photo/sort-order">
+                    <label for="photo-set-select">Select photo set</label>
+                    <select class="form-control" id="photo-set-select" name="photo_set" required>
+                        <option value="">Select photo set</option>
+                        <%_ photos.forEach((p, i, a) => {
+                            if (i === 0 || p.photo_set !== a[i-1].photo_set) { _%>
+                        <option value="<%= p.photo_set %>"><%= p.photo_set %></option>
+                        <%_ }}) _%>
+                    </select>
+                    <label for="photo-to-sort">Select photo</label>
+                    <select class="form-control" id="photo-to-sort" name="id" required>
+                        <option value="">Select image</option>
+                    </select>
+                    <div class="img-preview"></div>
+                    <label for="photo-index">Photo position number</label>
+                    <input class="form-control details" type="number" id="photo-index" name="index" min="1" required>
+                    <br>
+                    <input class="form-control submit" type="submit" value="Sort photo in set">
+                </form>
+
+                <script>
+                    var $photo_to_sort_select = $("#photo-to-sort");
+                    var options = $photo_to_sort_select.children("option");
+                    $("#photo-set-select").change(function() {
+                        var photo_set = this.value;
+                        var $form = $(this).closest("form");
+                        var $preview = $form.find(".img-preview");
+                        $preview.empty();
+                        $photo_to_sort_select.html(options);
+                        try {
+                            var set = d.filter(function(e) { return e.photo_set === photo_set });
+                            set.sort(function(a, b) { return a.index - b.index }).forEach(function(p) {
+                                $photo_to_sort_select.append("<option value='"+ p._id +"'>" +
+                                p.index + " - " + p.photo_title + "</option>");
+                            });
+                            $form.find("#photo-index").attr("max", set.length).val(set.length);
+                        } catch(e) {}
+                    });
+
+                    $("#photo-to-sort").change(function(evt) {
+                        var $form = $(this).closest("form");
+                        var $preview = $form.find(".img-preview");
+                        $preview.empty();
+                        try {
+                            d.filter(function(e) {
+                                return e._id == evt.currentTarget.value
+                            }).forEach(function(p) {
+                                $preview.append("<img src='"+ p.photo_url +"'>");
+                            });
+                        } catch(e) {}
+                    });
+                </script>

@@ -1,16 +1,18 @@
 <%_ include partials/header _%>
-    <div class="row content">
-        <form class="form-group" method="post" action="/settings/access">
-            <div class="row">
-                <div class="col-sm-10 column sm">
-                    <label class="sr-only">Password</label>
-                    <input class="form-control details" type="password" id="pass" name="pass" placeholder="Password" required>
+    <main class="container">
+        <div class="row content">
+            <form class="form-group" method="post" action="/settings/access">
+                <div class="row">
+                    <div class="col-sm-10 column sm">
+                        <label class="sr-only">Password</label>
+                        <input class="form-control details" type="password" id="pass" name="pass" placeholder="Password" required>
+                    </div>
+                    <div class="col-sm-2 column sm">
+                        <input class="form-control submit" type="submit" value="Enter">
+                    </div>
                 </div>
-                <div class="col-sm-2 column sm">
-                    <input class="form-control submit" type="submit" value="Enter">
-                </div>
-            </div>
-        </form>
-        <%- flash_msg ? '<div style="text-align: center;">'+ flash_msg +'</div>' : '' %>
-    </div>
+            </form>
+            <%- flash_msg ? '<div style="text-align: center;">'+ flash_msg +'</div>' : '' %>
+        </div>
+    </main>
 <%_ include partials/footer _%>
