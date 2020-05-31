@@ -1,4 +1,5 @@
 const { model, Schema } = require('mongoose');
+Schema.Types.String.set('trim', true);
 
 module.exports.Photo = model('Photo', Schema({
     photo_title: String,
@@ -14,7 +15,7 @@ module.exports.Design = model('Design', Schema({
     d_id: {
         type: String,
         uppercase: true,
-        set: v => v.replace(/[ ._'"]/g, "-")
+        set: v => v.trim().replace(/[ ._'"]/g, "-")
     },
     text: {
         client: { type: String },
@@ -31,12 +32,8 @@ module.exports.Design = model('Design', Schema({
 
 module.exports.Info_text = model('Info_text', Schema({
     text: String
-}, {
-    capped: { max: 1, size: 1000 }
 }));
 
 module.exports.Admin = model('Admin', Schema({
     pass: String
-}, {
-    capped: { max: 1, size: 1000 }
 }));

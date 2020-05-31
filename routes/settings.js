@@ -184,7 +184,7 @@ router.post('/photo/sort-order', (req, res) => {
                 if (!design) return res.send("Design not found");
                 Photo.find({ photo_set }).sort({ index: 1 }).exec((err, photos) => {
                     design.images = [];
-                    photos.forEach((p, i) => {
+                    photos.forEach(p => {
                         design.images.push({ photo_url: p.photo_url, index: p.index });
                     });
                     design.save(() => res.send("Photo re-ordered in set: " + photo_set));
@@ -258,11 +258,12 @@ router.post('/photo/set/cover', (req, res) => {
 });
 
 router.post('/info-text/save', (req, res) => {
-    Info_text.deleteMany({}, err => {
-        var newInfo = new Info_text({ text: req.body.text });
+    Info_text.findOne((err, info) => {
+        var newInfo = info ? info : new Info_text();
+        newInfo.text = req.body.text;
         newInfo.save(err2 => {
             if (err || err2) console.log(err || err2);
-            res.send(err || err2 || "Info text saved")
+            res.send(err ? "Error occurred whilst fetching info" : err2 ? "Error occurred whilst saving info" : "Info text saved");
         });
     });
 });

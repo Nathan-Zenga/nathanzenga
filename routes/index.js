@@ -24,8 +24,8 @@ router.get('/artwork', (req, res) => {
 });
 
 router.get('/info', (req, res) => {
-    Info_text.find((err, txt) => {
-        res.render('info', { title: "Info", pagename: "info", txt: txt[0] })
+    Info_text.findOne((err, txt) => {
+        res.render('info', { title: "Info", pagename: "info", txt })
     })
 });
 
@@ -42,9 +42,7 @@ router.post('/send/message', (req, res) => {
     const accessToken = oauth2Client.getAccessToken();
     const { name, email, subject } = req.body;
     const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        // port: 465,
-        // secure: true,
+        service: 'gmail', // port: 465, // secure: true,
         auth: {
             type: "OAuth2",
             user: "nathanzenga@gmail.com",
@@ -63,10 +61,9 @@ router.post('/send/message', (req, res) => {
         to: 'nathanzenga@gmail.com',
         subject,
         text: `From ${name} (${email}):\n\n${message}`
-    }, (err, info) => {
-        if (err) return console.log(err), res.send("Could not send message. Error occurred.");
+    }, err => {
+        if (err) return console.error(err), res.send("Could not send message. Error occurred.");
         console.log("The message was sent!");
-        console.log(info);
         res.send('Message sent');
     });
 });
