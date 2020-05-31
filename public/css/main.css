@@ -201,6 +201,9 @@ nav {
     -webkit-transform: translateX(-100%);
     transform: translateX(-100%);
     transition: .5s transform;
+    padding: 50px;
+    padding-top: 110px;
+    padding-right: 100px;
     z-index: 100;
 }
 
@@ -209,13 +212,7 @@ nav.show {
     transform: translateX(0);
 }
 
-nav .link-group {
-    margin-top: 60px;
-    padding: 50px;
-    padding-right: 100px;
-}
-
-nav a:not(:last-child) {
+nav a {
     display: block;
     margin-bottom: 2em;
 }
