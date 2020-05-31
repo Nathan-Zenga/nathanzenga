@@ -27,12 +27,12 @@
                     <label for="design-index">Design position number</label>
                     <input class="form-control details" type="number" id="design-index" name="index" min="1" max="<%= designs.length %>" required>
                     <br>
-                    <input class="form-control submit" type="submit" value="Sort design collection">
+                    <input class="form-control submit" type="submit" value="Sort Design collection">
                 </form>
 
                 <br><br><br>
 
-                <form class="form-group" id="design-sort-order" method="post" action="/settings/photo/sort-order">
+                <form class="form-group" id="photo-sort-order" method="post" action="/settings/photo/sort-order">
                     <label for="photo-set-select">Select photo set</label>
                     <select class="form-control" id="photo-set-select" name="photo_set" required>
                         <option value="">Select photo set</option>

@@ -32,7 +32,7 @@
                     <select class="form-control photo-set-opts">
                         <option value="">Select photo set</option>
                         <%_ photos.forEach((p, i, a) => {
-                            if (i === 0 || p.photo_set !== a[i-1].photo_set) { _%>
+                            if ((i === 0 || p.photo_set !== a[i-1].photo_set) && p.photo_set !== "Assorted") { _%>
                         <option value="<%= p.photo_set %>"><%= p.photo_set %></option>
                         <%_ }}) _%>
                     </select>
@@ -48,9 +48,9 @@
                     <input class="form-control" type="text" name="photo_title" id="photo-title-edit">
                     <label for="photo-url-edit">Edit Photo set</label>
                     <select class="form-control" name="photo_set" id="photo-set-edit">
-                        <option value=""></option>
+                        <option value="">-</option>
                         <%_ photos.forEach((p, i, a) => {
-                            if (i === 0 || p.photo_set !== a[i-1].photo_set) { _%>
+                            if ((i === 0 || p.photo_set !== a[i-1].photo_set) && p.photo_set !== "Assorted") { _%>
                         <option value="<%= p.photo_set %>"><%= p.photo_set %></option>
                         <%_ }}) _%>
                     </select>
@@ -64,8 +64,7 @@
                     <label for="photo_set">Photo set</label>
                     <select class="form-control photo-set-opts" name="photo_set" required>
                         <option value="">Select photo set</option>
-                        <%_ photos.forEach((p, i, a) => {
-                            if (i === 0 || p.photo_set !== a[i-1].photo_set) { _%>
+                        <%_ photos.forEach(p => { if (p.photo_set_cover === true) { _%>
                         <option value="<%= p.photo_set %>"><%= p.photo_set %></option>
                         <%_ }}) _%>
                     </select>
@@ -110,7 +109,7 @@
                     <select class="form-control" id="photo-set-to-delete" name="photo_set" required>
                         <option value="">Select photo set</option>
                         <%_ photos.forEach((p, i, a) => {
-                            if (i === 0 || p.photo_set !== a[i-1].photo_set) { _%>
+                            if ((i === 0 || p.photo_set !== a[i-1].photo_set) && p.photo_set !== "Assorted") { _%>
                         <option value="<%= p.photo_set %>"><%= p.photo_set %></option>
                         <%_ }}) _%>
                     </select>
