@@ -3,42 +3,56 @@
         <div id="overview" style="height: 90vh">
             <script src="/js/galleria-init.js"></script>
             <script>
-                var isLandscape, data, initialHeight = "90vh";
+                var isLandscape, data, device, onImageEventDelay, initialHeight = "90vh";
                 $(window).on("load resize", function() {
-                    if ( isLandscape !== window.innerWidth >= window.innerHeight ) {
-                        var g = $("#overview").data("galleria");
-                        isLandscape = window.innerWidth >= window.innerHeight;
-                        $.post("/p", {
-                            photo_set: "Assorted",
-                            orientation: isLandscape ? "landscape" : undefined,
-                            sort: '{"index": 1}'
-                        }, function(d) {
-                            if (g) g.destroy();
-                            data = d;
-                            $("#overview").html(d.map(function(e) { return "<img src='"+ e.photo_url +"'>" }).join("")).galleria({
-                                imageCrop: isLandscape,
-                                autoplay: true,
-                                showImagenav: false,
-                                transitionSpeed: 1000,
-                                imagePosition: !isLandscape ? "top center" : undefined,
-                                swipe: "disabled"
-                            }).css("height", initialHeight);
-                            var img = new Image();
-                            img.src = d[0] ? d[0].photo_url : "";
-                            img.onload = function() {
-                                var landscape = img.width >= img.height;
-                                var height = !isLandscape ? (img.height / img.width) * window.innerWidth : initialHeight;
-                                $("#overview").css({ height, transition: ".5s height" }).data("galleria").resize({ height }).setOptions({ imageCrop: landscape }).refreshImage();
-                            };
-                        });
-                    }
+                    setTimeout(function() {
+                        var differentDevice = device !== detect.parse(navigator.userAgent).device.type;
+                        if ( differentDevice || isLandscape !== window.innerWidth >= window.innerHeight ) {
+                            var g = $("#overview").data("galleria");
+                            isLandscape = window.innerWidth >= window.innerHeight;
+                            $.post("/p", {
+                                photo_set: "Assorted",
+                                orientation: isLandscape ? "landscape" : undefined,
+                                sort: '{"index": 1}'
+                            }, function(d) {
+                                if (g) g.destroy();
+                                data = d;
+                                $("#overview").html(d.map(function(e) { return "<img src='"+ e.photo_url +"'>" }).join("")).galleria({
+                                    imageCrop: isLandscape,
+                                    autoplay: true,
+                                    showImagenav: false,
+                                    transitionSpeed: 1000,
+                                    imagePosition: !isLandscape ? "top center" : undefined,
+                                    swipe: "disabled"
+                                }).css("height", initialHeight);
+                            });
+                        }
+                    }, 50)
                 });
-                Galleria.on("image", function() {
+                Galleria.ready(function() {
+                    var g = this;
+                    device = detect.parse(navigator.userAgent).device.type;
+                    clearTimeout(onImageEventDelay);
+                    if (device === "Tablet") {
+                        $("#overview").css({ height: "70vh", transition: "none" });
+                        g.resize({ height: "70vh" }).setOptions({ imageCrop: false, imagePosition: "center" }).refreshImage();
+                    } else {
+                        var img = new Image();
+                        img.src = data[0] ? data[0].photo_url : "";
+                        img.onload = function() {
+                            var landscape = img.width >= img.height;
+                            var height = !isLandscape ? (img.height / img.width) * window.innerWidth : initialHeight;
+                            var imagePosition = !isLandscape ? "top center" : undefined;
+                            $("#overview").css({ height, transition: ".5s height" });
+                            g.resize({ height }).setOptions({ imageCrop: landscape, imagePosition }).refreshImage();
+                        };
+                    }
+                }).on("image", function() {
                     var g = this;
                     var i = g.getIndex() !== data.length-1 ? g.getIndex()+1 : 0;
-                    if (!isLandscape) {
+                    if (!isLandscape && device !== "Tablet") {
                         try {
-                            setTimeout(function() {
+                            onImageEventDelay = setTimeout(function() {
                                 var img = new Image();
                                 img.src = data[i] ? data[i].photo_url : "";
                                 img.onload = function() {
