@@ -3,20 +3,26 @@
         <div id="overview" style="height: 90vh">
             <script src="/js/galleria-init.js"></script>
             <script>
-                var isLandscape, data, device, onImageEventDelay, initialHeight = "90vh";
+                var isLandscape, galleryLoadTimeout, initialHeight = "90vh";
+                Galleria.ready(function() {
+                    var g = this;
+                    if (!isLandscape) {
+                        $("#overview").css({ height: "70vh", transition: "none" });
+                        g.resize({ height: "70vh" }).setOptions({ imageCrop: false, imagePosition: "center" }).refreshImage();
+                    }
+                });
                 $(window).on("load resize", function() {
-                    setTimeout(function() {
-                        var differentDevice = device !== detect.parse(navigator.userAgent).device.type;
-                        if ( differentDevice || isLandscape !== window.innerWidth >= window.innerHeight ) {
-                            var g = $("#overview").data("galleria");
+                    clearTimeout(galleryLoadTimeout);
+                    galleryLoadTimeout = setTimeout(function() {
+                        if ( isLandscape !== window.innerWidth >= window.innerHeight ) {
+                            var gd = $("#overview").data("galleria");
                             isLandscape = window.innerWidth >= window.innerHeight;
                             $.post("/p", {
                                 photo_set: "Assorted",
                                 orientation: isLandscape ? "landscape" : undefined,
                                 sort: '{"index": 1}'
                             }, function(d) {
-                                if (g) g.destroy();
-                                data = d;
+                                if (gd) gd.destroy();
                                 $("#overview").html(d.map(function(e) { return "<img src='"+ e.photo_url +"'>" }).join("")).galleria({
                                     imageCrop: isLandscape,
                                     autoplay: true,
@@ -29,42 +35,6 @@
                         }
                     }, 50)
                 });
-                Galleria.ready(function() {
-                    var g = this;
-                    device = detect.parse(navigator.userAgent).device.type;
-                    clearTimeout(onImageEventDelay);
-                    if (device === "Tablet") {
-                        $("#overview").css({ height: "70vh", transition: "none" });
-                        g.resize({ height: "70vh" }).setOptions({ imageCrop: false, imagePosition: "center" }).refreshImage();
-                    } else {
-                        var img = new Image();
-                        img.src = data[0] ? data[0].photo_url : "";
-                        img.onload = function() {
-                            var landscape = img.width >= img.height;
-                            var height = !isLandscape ? (img.height / img.width) * window.innerWidth : initialHeight;
-                            var imagePosition = !isLandscape ? "top center" : undefined;
-                            $("#overview").css({ height, transition: ".5s height" });
-                            g.resize({ height }).setOptions({ imageCrop: landscape, imagePosition }).refreshImage();
-                        };
-                    }
-                }).on("image", function() {
-                    var g = this;
-                    var i = g.getIndex() !== data.length-1 ? g.getIndex()+1 : 0;
-                    if (!isLandscape && device !== "Tablet") {
-                        try {
-                            onImageEventDelay = setTimeout(function() {
-                                var img = new Image();
-                                img.src = data[i] ? data[i].photo_url : "";
-                                img.onload = function() {
-                                    var landscape = img.width >= img.height;
-                                    var height = (img.height / img.width) * window.innerWidth;
-                                    $("#overview").css({ height, transition: ".5s height" });
-                                    g.resize({ height }).setOptions({ imageCrop: landscape }).refreshImage();
-                                };
-                            }, 4000)
-                        } catch(err) {}
-                    }
-                })
             </script>
         </div>
     </main>
