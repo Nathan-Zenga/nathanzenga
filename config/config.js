@@ -21,11 +21,11 @@ const { Photo } = require('../models/models');
 
  /**
  * Resizing passed image with smaller dimensions
- * @param {UploadApiResponse} result response object from initial image upload
+ * @param {(UploadApiResponse|object)} result response object from initial image upload
  * @param {number} result.width width of initial image upload
  * @param {number} result.height height of initial image upload
  * @param {string} result.public_id public ID of initial image upload
- * @param {UploadResponseCallback|callback} cb callback
+ * @param {(UploadResponseCallback|callback)} cb callback
  */
 const DownsizedImage = module.exports.DownsizedImage = (result, cb) => {
     var { width, height, public_id } = result;
@@ -63,7 +63,7 @@ module.exports.indexShift = (model, currentDoc, args, cb) => {
  * Re-orders document items by index field number
  * @param {string} model model name of db collection
  * @param {object} args
- * @param {(string|mongoose.Schema.Types.ObjectId)} args.id identifier for specified document to re-order
+ * @param {(string|mongoose.Types.ObjectId)} args.id identifier for specified document to re-order
  * @param {(string|number)} args.newIndex new position in which specified doc is placed
  * @param {object} [args.filterQry] document filtering query object
  * @param {callback} [cb] callback
@@ -103,9 +103,9 @@ module.exports.photoUploader = (body, cb) => {
     var newPhoto = new Photo({ photo_title, photo_set, index });
     var public_id = `${photo_set}/${photo_title}`.toLowerCase().replace(/[ ?&#\\%<>]/g, "_");
     cloud.v2.uploader.upload(file, { public_id }, (err, result) => {
-        if (err) return console.error(err), cb ? cb("Error occurred whilst uploading image file / url") : false;
+        if (err) return console.error(err), cb ? cb("Unabled to save image. Error occurred whilst uploading image file / url") : false;
         DownsizedImage(result, (err, result2) => {
-            if (err) return console.error(err), cb ? cb("Error occurred whilst downscaling image") : false;
+            if (err) return console.error(err), cb ? cb("Unabled to save image. Error occurred whilst downscaling image") : false;
             var { width, height, secure_url } = result2 || result;
             newPhoto.orientation = width > height ? "landscape" : width < height ? "portrait" : "square";
             newPhoto.photo_url = secure_url;
