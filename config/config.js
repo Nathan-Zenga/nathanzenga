@@ -42,19 +42,21 @@ const DownsizedImage = module.exports.DownsizedImage = (result, cb) => {
 /**
  * increment / decrement 'index' field values of all documents, including specified document, greater than that of specified document
  * @param {string} model model name of db collection
- * @param {mongoose.Document} currentDoc specified doc from named collection to apply to query
+ * @param {mongoose.Document} doc specified doc from named collection to apply to query
  * @param {object} [args]
- * @param {Boolean} [args.dec] used as a condition for decrementing index field values (usually after a document is deleted). Otherwise, signals the values to be incremented
+ * @param {boolean} [args.dec] used as a condition for decrementing index field values (usually after a document is deleted). Otherwise, signals the values to be incremented
  * @param {callback} [cb] callback
  */
-module.exports.indexShift = (model, currentDoc, args, cb) => {
-    mongoose.model(model).find({index: {$gte: currentDoc.index}, _id: {$ne: currentDoc._id}}).sort({index: 1}).exec((err, docs) => {
+module.exports.indexShift = (model, doc, args, cb) => {
+    const conditions = {}, num = (args || {}).dec ? -1 : 1;
+    if (doc.photo_set) conditions.photo_set = doc.photo_set;
+    conditions.index = { $gte: doc.index };
+    conditions._id = { $ne: doc.id };
+    mongoose.model(model).find(conditions).sort({index: 1}).exec((err, docs) => {
         if (err) return console.error(err), cb ? cb("Error occurred during query search") : false;
-        if (!docs.length) return cb ? cb("Collection not found or doesn't exit") : false
-        docs.forEach(doc => {
-            doc.index += ((args || {}).dec ? -1 : 1);
-            doc.save();
-        });
+        const noneFoundMsg = "Collection not found or doesn't exit";
+        if (!docs.length) return console.error(noneFoundMsg), cb ? cb(noneFoundMsg) : false;
+        docs.forEach(d => { d.index += num; d.save() });
         if (cb) cb();
     })
 };
@@ -93,13 +95,11 @@ module.exports.indexReorder = (model, args, cb) => {
  * @param {string} body.file - image url / uri
  * @param {string} body.photo_title - image title
  * @param {string} body.photo_set - existing set under which the image is categorised
- * @param {string} [body.photo_set_new] - new set under which the image is categorised
  * @param {number} body.index - image position number
  * @param {DocumentSaveCallback} [cb] callback
  */
 module.exports.photoUploader = (body, cb) => {
-    var { file, photo_title, photo_set, photo_set_new, index } = body;
-    photo_set = photo_set_new || photo_set;
+    var { file, photo_title, photo_set, index } = body;
     var newPhoto = new Photo({ photo_title, photo_set, index });
     var public_id = `${photo_set}/${photo_title}`.toLowerCase().replace(/[ ?&#\\%<>]/g, "_");
     cloud.v2.uploader.upload(file, { public_id }, (err, result) => {
