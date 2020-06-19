@@ -1,41 +1,38 @@
 <%_ include partials/header _%>
-    <main>
-        <div id="overview" style="height: 90vh">
-            <script src="/js/galleria-init.js"></script>
-            <script>
-                var isLandscape, galleryLoadTimeout, initialHeight = "90vh";
-                Galleria.ready(function() {
-                    var g = this;
-                    if (!isLandscape) {
-                        $("#overview").css({ height: "70vh", transition: "none" });
-                        g.resize({ height: "70vh" }).setOptions({ imageCrop: false, imagePosition: "center" }).refreshImage();
+    <main class="row">
+        <div class="col-md-12 overview mb-view-md" style="height: 70vh"></div>
+        <div class="col-md-4 overview dt-view-md" data-orientation="portrait" style="padding-right: 10px; height: 90vh"></div>
+        <div class="col-md-8 overview dt-view-md" data-orientation="landscape" style="padding-left: 10px; height: 90vh"></div>
+        <script src="/js/galleria-init.js"></script>
+        <script>
+            var isWidescreen, timeout;
+            $(window).on("load resize", function() {
+                clearTimeout(timeout);
+                $(".overview").css("height", window.innerWidth >= window.innerHeight ? "90vh" : "70vh");
+                timeout = setTimeout(function() {
+                    if ( isWidescreen !== window.innerWidth >= 992 ) {
+                        $(".overview").each(function(i, overview) {
+                            isWidescreen = window.innerWidth >= 992;
+                            var gd = $(overview).data("galleria");
+                            if (gd) gd.destroy(), $(overview).empty();
+                            if ($(overview).is(":visible")) {
+                                $.post("/p", {
+                                    photo_set: "Assorted",
+                                    orientation: $(overview).data("orientation"),
+                                    sort: JSON.stringify({index: 1})
+                                }, function(d) {
+                                    $(overview).html(d.map(function(e) { return "<img src='"+ e.photo_url +"'>" }).join("")).galleria({
+                                        autoplay: true,
+                                        showImagenav: false,
+                                        transitionSpeed: 1000,
+                                        swipe: "disabled"
+                                    });
+                                });
+                            }
+                        })
                     }
-                });
-                $(window).on("load resize", function() {
-                    clearTimeout(galleryLoadTimeout);
-                    galleryLoadTimeout = setTimeout(function() {
-                        if ( isLandscape !== window.innerWidth >= window.innerHeight ) {
-                            var gd = $("#overview").data("galleria");
-                            isLandscape = window.innerWidth >= window.innerHeight;
-                            $.post("/p", {
-                                photo_set: "Assorted",
-                                orientation: isLandscape ? "landscape" : undefined,
-                                sort: '{"index": 1}'
-                            }, function(d) {
-                                if (gd) gd.destroy();
-                                $("#overview").html(d.map(function(e) { return "<img src='"+ e.photo_url +"'>" }).join("")).galleria({
-                                    imageCrop: isLandscape,
-                                    autoplay: true,
-                                    showImagenav: false,
-                                    transitionSpeed: 1000,
-                                    imagePosition: !isLandscape ? "top center" : undefined,
-                                    swipe: "disabled"
-                                }).css("height", initialHeight);
-                            });
-                        }
-                    }, 50)
-                });
-            </script>
-        </div>
+                }, 50)
+            });
+        </script>
     </main>
 <%_ include partials/footer _%>
