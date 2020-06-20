@@ -12,10 +12,11 @@
                 { name: "photo_set_cover", value: true },
                 { name: "sort", value: '{ "photo_set_index": 1 }' }
             ], function(d) {
+                var gridClass = !$(".grid").length ? " col-sm-6" : "";
                 var imgLength = d.length;
                 d.forEach(function(e) {
                     $($(".grid").length ? ".grid" : ".galleria-init").append(
-                        '<div class="img-container media-container" style="opacity: 0">'+
+                        '<div class="img-container media-container'+ gridClass +'" style="opacity: 0">'+
                             '<div class="inner img" id="'+ e.photo_set +'" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"></div>'+
                             '<label>'+ e.photo_set +'</label>'+
                         '</div>'
