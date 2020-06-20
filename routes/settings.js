@@ -240,7 +240,7 @@ router.post('/photo/set/sort-order', (req, res) => {
         var beforeSelectedDoc = covers.slice(0, index);
         var afterSelectedDoc = covers.slice(index+1, covers.length);
         var docs_mutable = [...beforeSelectedDoc, ...afterSelectedDoc];
-        docs_mutable.splice(parseInt(photo_set_index)-1, 0, docs[index]);
+        docs_mutable.splice(parseInt(photo_set_index)-1, 0, covers[index]);
         docs_mutable.forEach((set, i, a) => {
             set.photo_set_index = i+1;
             set.save(() => { if (i === a.length-1) res.send("Photo set cover reordered") })
