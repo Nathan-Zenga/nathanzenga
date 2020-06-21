@@ -37,34 +37,34 @@ router.post('/p', (req, res) => {
 });
 
 router.post('/send/message', (req, res) => {
+    const { name, email, subject, message } = req.body;
     const oauth2Client = new OAuth2( OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, "https://developers.google.com/oauthplayground" );
     oauth2Client.setCredentials({ refresh_token: OAUTH_REFRESH_TOKEN });
-    const accessToken = oauth2Client.getAccessToken();
-    const { name, email, subject } = req.body;
-    const transporter = nodemailer.createTransport({
-        service: 'gmail', // port: 465, // secure: true,
-        auth: {
-            type: "OAuth2",
-            user: "nathanzenga@gmail.com",
-            clientId: OAUTH_CLIENT_ID,
-            clientSecret: OAUTH_CLIENT_SECRET,
-            refreshToken: OAUTH_REFRESH_TOKEN,
-            accessToken
-        },
-        tls: {
-            rejectUnauthorized: true
-        }
-    });
+    oauth2Client.getAccessToken((err, accessToken) => {
+        if (err) return console.error(err), res.send(err.message || "Error getting access token");
+        const transporter = nodemailer.createTransport({
+            service: 'gmail', // port: 465, // secure: true,
+            auth: {
+                type: "OAuth2",
+                user: "nathanzenga@gmail.com",
+                clientId: OAUTH_CLIENT_ID,
+                clientSecret: OAUTH_CLIENT_SECRET,
+                refreshToken: OAUTH_REFRESH_TOKEN,
+                accessToken
+            },
+            tls: { rejectUnauthorized: true }
+        });
 
-    transporter.sendMail({
-        from: { name, address: email },
-        to: 'nathanzenga@gmail.com',
-        subject,
-        text: `From ${name} (${email}):\n\n${message}`
-    }, err => {
-        if (err) return console.error(err), res.send("Could not send message. Error occurred.");
-        console.log("The message was sent!");
-        res.send('Message sent');
+        transporter.sendMail({
+            from: { name, address: email },
+            to: 'nathanzenga@gmail.com',
+            subject,
+            text: `From ${name} (${email}):\n\n${message}`
+        }, err => {
+            if (err) return console.error(err), res.send("Could not send message. Error occurred.");
+            console.log("The message was sent!");
+            res.send('Message sent');
+        });
     });
 });
 
