@@ -54,8 +54,6 @@ module.exports.indexShift = (model, doc, args, cb) => {
     conditions._id = { $ne: doc.id };
     mongoose.model(model).find(conditions).sort({index: 1}).exec((err, docs) => {
         if (err) return console.error(err), cb ? cb("Error occurred during query search") : false;
-        const noneFoundMsg = "Collection not found or doesn't exit";
-        if (!docs.length) return console.error(noneFoundMsg), cb ? cb(noneFoundMsg) : false;
         docs.forEach(d => { d.index += num; d.save() });
         if (cb) cb();
     })
