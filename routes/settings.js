@@ -61,7 +61,7 @@ router.post('/photo/upload', (req, res) => {
         photoUploader(req.body, (err, photo) => {
             if (err) return res.send(err);
             indexShift("Photo", photo, { dec: false }, err => {
-                if (err) return console.log(err), res.send(err);
+                if (err) return console.error(err), res.send(err);
                 if (design) {
                     index = parseInt(index);
                     design.images.splice(index-1, 0, { photo_url, index });
@@ -278,7 +278,7 @@ router.post('/info-text/save', (req, res) => {
 });
 
 router.post('/design/save', (req, res) => {
-    var { d_id, client, tools, description, link, index, images } = req.body;
+    var { d_id, client, tools, description, link, index, media } = req.body;
     var newDesign = new Design({ d_id, text: { client, tools, description }, link, index });
     Design.findOne({ d_id: {$regex: new RegExp(d_id, "i")} }, (err, found) => {
         if (err || found) return res.send(err || "Design set already exists");
@@ -286,8 +286,8 @@ router.post('/design/save', (req, res) => {
             if (err) return console.log(err), res.send(err);
             newDesign.save((err, design) => {
                 design.images = [];
-                images = (Array.isArray(images) ? images : [images]).filter(e => e);
-                async.forEachOf(images, (file, i, cb) => {
+                media = (Array.isArray(media) ? media : [media]).filter(e => e);
+                async.forEachOf(media, (file, i, cb) => {
                     var photo_set = `design-${design.d_id}`;
                     var photo_title = `${design.d_id}-web${i ? "-" + (i+1) : ""}`;
                     var index = i+1;
@@ -297,7 +297,7 @@ router.post('/design/save', (req, res) => {
                         if (i === images.length-1) design.save();
                         cb();
                     });
-                }, err => { if (err) console.log(err); res.send(err || "Design saved") });
+                }, err => { if (err) console.log(err); res.send(err.message || err || "Design saved") });
             });
         });
     })

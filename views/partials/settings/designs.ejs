@@ -17,13 +17,21 @@
                     <input class="form-control details" type="url" name="link" id="design-link" required>
                     <label>Index</label>
                     <input class="form-control details" type="number" name="index" id="design-index" min="1" max="<%= designs.length+1 %>" value="<%= designs.length+1 %>" required>
-                    <label for="design-images-url">Upload images</label>
-                    <div class="row image-input-group">
-                        <div class="col-sm-5 column sm">
-                            <input type="file" class="image-file" id="design-images-file" accept=".jpg,.jpeg,.png" multiple><br>
-                        </div>
-                        <div class="col-sm-7 column sm">
-                            <input type="url" class="form-control image-url" id="design-images-url" name="images" placeholder="Enter image URL (optional)">
+                    <label>Upload images</label>
+                    <div class="image-input-group-container">
+                        <div class="image-input-group row" style="margin-bottom: 1.5em;">
+                            <div class="col-sm-5 column sm">
+                                <input type="file" class="image-file-input" accept="image/*,video/*"><br>
+                            </div>
+                            <div class="col-sm-7 column sm">
+                                <input type="url" class="form-control image-url" name="media" placeholder="Enter image / video URL (optional)">
+                                <input type="hidden" name="media" disabled>
+                            </div>
+                            <div class="col-sm-12" style="text-align: right; padding: 0 .5em">
+                                <a class="image-input-group-btn" data-opt="add">Add</a>
+                                <a class="image-input-group-btn" data-opt="remove" style="margin-left: 20px">Remove</a>
+                                <a class="image-input-group-btn" data-opt="clear" style="margin-left: 20px">Clear Input</a>
+                            </div>
                         </div>
                     </div>
                     <input class="form-control submit" type="submit" value="Save">
