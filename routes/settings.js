@@ -54,33 +54,36 @@ router.post('/access', (req, res) => {
 
 router.post('/photo/upload', (req, res) => {
     var { photo_set, photo_set_new, photo_url, index } = req.body;
-    Design.findOne({ d_id: photo_set.replace("design-", "") }, (err, design) => {
-        if (err) return console.error(err), res.send("Error occurred during query search");
-        if (/^design-/.test(photo_set_new || photo_set) && !design) return res.send("Please create Design document first");
-        req.body.photo_set = photo_set_new || photo_set;
-        photoUploader(req.body, (err, photo) => {
-            if (err) return res.send(err);
-            indexShift("Photo", photo, { dec: false }, err => {
-                if (err) return console.error(err), res.send(err);
-                if (design) {
-                    index = parseInt(index);
-                    design.images.splice(index-1, 0, { photo_url, index });
-                    for (let i = 0; i < design.images.length; i++) design.images[i].index = i+1;
-                    design.save();
-                } else if (photo_set_new) {
-                    photo.photo_set_cover = true;
-                    photo.photo_set_index = 1;
-                    photo.save((err, saved) => {
-                        Photo.find({ photo_set_cover: true, _id: {$ne: saved.id} }).sort({photo_set_index: 1}).exec((err, covers) => {
-                            covers.forEach((cover, i) => {
-                                cover.photo_set_index = i+2;
-                                cover.save();
+    Design.findOne({ d_id: photo_set.replace("design-", "") }, (err1, design) => {
+        Photo.find({ photo_set: {$regex: new RegExp(`^${photo_set.trim()}$`, "i")} }, (err2, existingSet) => {
+            if (err1 || err2) return console.error(err1 || err2), res.send("Error occurred during query search");
+            if (/^design-/i.test(photo_set_new || photo_set) && !design) return res.send("Please create Design document first");
+            if (existingSet.length) return res.send("Set already exists. Please specify a different one");
+            req.body.photo_set = photo_set_new || photo_set;
+            photoUploader(req.body, (err, photo) => {
+                if (err) return res.send(err);
+                indexShift("Photo", photo, { dec: false }, err => {
+                    if (err) return console.error(err), res.send(err);
+                    if (design) {
+                        index = parseInt(index);
+                        design.images.splice(index-1, 0, { photo_url, index });
+                        for (let i = 0; i < design.images.length; i++) design.images[i].index = i+1;
+                        design.save();
+                    } else if (photo_set_new) {
+                        photo.photo_set_cover = true;
+                        photo.photo_set_index = 1;
+                        photo.save((err, saved) => {
+                            Photo.find({ photo_set_cover: true, _id: {$ne: saved.id} }).sort({photo_set_index: 1}).exec((err, covers) => {
+                                covers.forEach((cover, i) => {
+                                    cover.photo_set_index = i+2;
+                                    cover.save();
+                                })
                             })
                         })
-                    })
-                }
-                if (err) console.log(err);
-                res.send(err || "Photo saved");
+                    }
+                    if (err) console.error(err);
+                    res.send(err || "Photo saved");
+                })
             })
         })
     })
@@ -91,14 +94,14 @@ router.post('/photo/edit', (req, res) => {
     Photo.findById(id, (err, photo) => {
         if (err) return console.error(err), res.send("Error occurred whilst fetching photo");
         Design.findOne({ d_id: photo_set.replace("design-", "") }, (err, design) => {
-            if (err) return console.log(err), res.send("Error occurred whilst checking Design document existence");
+            if (err) return console.error(err), res.send("Error occurred whilst checking Design document existence");
             if (/^design-/.test(photo_set) && !design) return res.send("Design document does not exist, please create one first");
             var prev_photo_set = photo.photo_set;
             var sameAsPrevPhotoSet = (new RegExp("^"+photo_set.trim()+"$", "i")).test(prev_photo_set);
             if (photo_set === "Assorted" && !sameAsPrevPhotoSet) {
                 let { photo_url, photo_title, index } = photo;
                 photoUploader({ photo_title, index, file: photo_url, photo_set: "Assorted" }, (err, saved) => {
-                    if (err) return console.log(err), res.send("Error occurred whilst uploading to Assorted");
+                    if (err) return console.error(err), res.send("Error occurred whilst uploading to Assorted");
                     indexShift("Photo", saved, null, err => res.send(err || `Image (${saved.photo_title}) saved in Assorted set`));
                 })
             } else {
@@ -126,7 +129,7 @@ router.post('/photo/edit', (req, res) => {
                                     });
                                     if (/^design-/.test(prev_photo_set)) {
                                         Design.findOne({ d_id: prev_photo_set.replace("design-", "") }, (err, prev_design) => {
-                                            if (err) { console.log(err) } else if (prev_design) {
+                                            if (err) { console.error(err) } else if (prev_design) {
                                                 prev_design.images = prev_design.images.filter(e => e.photo_url !== edited2.photo_url);
                                                 for (let i = 0; i < prev_design.images.length; i++) prev_design.images[i].index = i+1;
                                                 prev_design.save();
@@ -160,7 +163,7 @@ router.post('/photo/delete', (req, res) => {
         var { photo_set, photo_title, photo_url, photo_set_cover, photo_set_index } = photo;
         var public_id = `${photo_set}/${photo_title}`.toLowerCase().replace(/[ ?&#\\%<>]/g, "_");
         cloud.v2.api.delete_resources([public_id], err => {
-            if (err) return console.log(err), res.send("Error occurred whilst deleting photo");
+            if (err) return console.error(err), res.send("Error occurred whilst deleting photo");
             Photo.find({ photo_set }).sort({ index: 1 }).exec((err, set) => {
                 Design.findOne({ d_id: photo_set.replace("design-", "") }, (err2, design) => {
                     set.forEach((p, i) => {
@@ -207,9 +210,9 @@ router.post('/photo/set/delete', (req, res) => {
     var { photo_set } = req.body;
     if (!photo_set) return res.send("Nothing selected");
     Photo.deleteMany({ photo_set }, err => {
-        if (err) return console.log(err), res.send("Error whilst deleting docs");
+        if (err) return console.error(err), res.send("Error whilst deleting docs");
         cloud.v2.api.delete_resources_by_prefix(photo_set, err => {
-            if (err) return console.log(err), res.send("Error whilst deleting photo set");
+            if (err) return console.error(err), res.send("Error whilst deleting photo set");
             Photo.find({photo_set_cover: true}).sort({photo_set_index: 1}).exec((err, covers) => {
                 if (/^design-/.test(photo_set)) {
                     var d_id = photo_set.replace("design-", "");
@@ -283,7 +286,7 @@ router.post('/design/save', (req, res) => {
     Design.findOne({ d_id: {$regex: new RegExp(d_id, "i")} }, (err, found) => {
         if (err || found) return res.send(err || "Design set already exists");
         indexShift("Design", newDesign, { dec: false }, err => {
-            if (err) return console.log(err), res.send(err);
+            if (err) return console.error(err), res.send(err);
             newDesign.save((err, design) => {
                 design.images = [];
                 media = (Array.isArray(media) ? media : [media]).filter(e => e);
@@ -297,7 +300,7 @@ router.post('/design/save', (req, res) => {
                         if (i === images.length-1) design.save();
                         cb();
                     });
-                }, err => { if (err) console.log(err); res.send(err.message || err || "Design saved") });
+                }, err => { if (err) console.error(err); res.send(err.message || err || "Design saved") });
             });
         });
     })
