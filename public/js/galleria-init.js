@@ -1,4 +1,4 @@
-Galleria.loadTheme("https://cdnjs.cloudflare.com/ajax/libs/galleria/1.5.7/themes/classic/galleria.classic.min.js").configure({ transition: 'fade', showInfo: false, thumbnails: false })
+Galleria.loadTheme("https://cdnjs.cloudflare.com/ajax/libs/galleria/1.6.1/themes/classic/galleria.classic.min.js").configure({ transition: 'fade', showInfo: false, thumbnails: false })
 .on("loadfinish", function(e) {
     var target = this._target;
     var i = $(".inner.img").index(target);
