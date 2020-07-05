@@ -35,7 +35,7 @@ const DownsizedImage = module.exports.DownsizedImage = (result, cb) => {
         var prop = width >= height ? "width" : "height";
         var options = { crop: "scale" }; options[prop] = 1200;
         var image = cloud.v2.url(public_id, options);
-        cloud.v2.uploader.upload(image, { public_id }, cb);
+        cloud.v2.uploader.upload(image, { public_id, resource_type: "auto" }, cb);
     } else { cb() }
 };
 
@@ -100,6 +100,7 @@ module.exports.photoUploader = (body, cb) => {
     var { file, photo_title, photo_set, index } = body;
     var newPhoto = new Photo({ photo_title, photo_set, index });
     var public_id = `${photo_set}/${photo_title}`.toLowerCase().replace(/[ ?&#\\%<>]/g, "_");
+    cloud.v2.uploader.upload(file, { public_id, resource_type: "auto" }, (err, result) => {
         if (err) return cb ? cb(err.message || "Unable to save image. Error occurred whilst uploading image file / url") : false;
         DownsizedImage(result, (err, result2) => {
             if (err) return cb ? cb(err.message || err || "Unable to save image. Error occurred whilst downscaling image") : false;

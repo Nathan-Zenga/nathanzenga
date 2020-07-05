@@ -211,10 +211,11 @@ router.post('/photo/set/delete', (req, res) => {
     if (!photo_set) return res.send("Nothing selected");
     Photo.deleteMany({ photo_set }, err => {
         if (err) return console.error(err), res.send("Error whilst deleting docs");
-        cloud.v2.api.delete_resources_by_prefix(photo_set, err => {
+        var prefix = photo_set.toLowerCase().replace(/[ ?&#\\%<>]/g, "_");
+        cloud.v2.api.delete_resources_by_prefix(prefix, err => {
             if (err) return console.error(err), res.send("Error whilst deleting photo set");
             Photo.find({photo_set_cover: true}).sort({photo_set_index: 1}).exec((err, covers) => {
-                if (/^design-/.test(photo_set)) {
+                if (/^design-/i.test(photo_set)) {
                     var d_id = photo_set.replace("design-", "");
                     Design.findOneAndDelete({ d_id }, (err, design) => {
                         if (err || !design) return res.send(err || d_id + " design set not found");
@@ -285,11 +286,16 @@ router.post('/design/save', (req, res) => {
     var newDesign = new Design({ d_id, text: { client, tools, description }, link, index });
     Design.findOne({ d_id: {$regex: new RegExp(d_id, "i")} }, (err, found) => {
         if (err || found) return res.send(err.message || "Design set already exists");
-            newDesign.save((err, design) => {
-                design.images = [];
+        newDesign.save((err, design) => {
+            indexShift("Design", design, { dec: false }, err => {
+                if (err) return res.send(err);
                 media = (Array.isArray(media) ? media : [media]).filter(e => e);
+                design.images = [];
+                if (!media.length) return res.send("Design saved");
                 async.forEachOf(media, (file, i, cb) => {
                     var photo_set = `design-${design.d_id}`;
+                    var photo_title = `${design.d_id}-web${i+1}`;
+                    photoUploader({ file, photo_title, photo_set, index: i+1 }, (err, photo) => {
                         if (err) return cb(err.message || err);
                         design.images.push({ photo_url: photo.photo_url, index: photo.index });
                         cb();
@@ -297,27 +303,11 @@ router.post('/design/save', (req, res) => {
                 }, err => {
                     if (err) return res.send(err.message);
                     design.save(() => res.send("Design saved"))
+                });
             });
         });
     })
 });
-
-// router.post('/design/delete', (req, res) => {
-//     var { id } = req.body;
-//     (Array.isArray(id) ? id : [id]).filter(e => e).forEach(id => {
-//         Design.findByIdAndDelete(id, (err, design) => {
-//             if (err) return console.error(err), res.send(err);
-//             var { d_id } = design;
-//             Photo.deleteMany({ photo_set: `design-${ d_id }` }, err => {
-//                 if (err) return console.error(err), res.send(err);
-//                 cloud.v2.api.delete_resources_by_prefix(`design-${ d_id }`, {}, err => {
-//                     if (err) return console.error(err), res.send(err);
-//                     res.send("Design deleted successfully");
-//                 })
-//             })
-//         })
-//     });
-// });
 
 router.post('/design/sort-order', (req, res) => {
     var { id, index } = req.body;
