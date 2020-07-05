@@ -30,7 +30,7 @@ const { Photo } = require('../models/models');
 const DownsizedImage = module.exports.DownsizedImage = (result, cb) => {
     var { width, height, public_id } = result;
     var args = [width, height, public_id];
-    if (args.filter(e => e).length != args.length) return cb(new Error("One or more properties / args missing"));
+    if (args.filter(e => e).length != args.length) return cb("One or more properties / args missing");
     if ( width > 1200 || height > 1200 ) {
         var prop = width >= height ? "width" : "height";
         var options = { crop: "scale" }; options[prop] = 1200;
@@ -100,10 +100,9 @@ module.exports.photoUploader = (body, cb) => {
     var { file, photo_title, photo_set, index } = body;
     var newPhoto = new Photo({ photo_title, photo_set, index });
     var public_id = `${photo_set}/${photo_title}`.toLowerCase().replace(/[ ?&#\\%<>]/g, "_");
-    cloud.v2.uploader.upload(file, { public_id }, (err, result) => {
-        if (err) return console.error(err), cb ? cb("Unabled to save image. Error occurred whilst uploading image file / url") : false;
+        if (err) return cb ? cb(err.message || "Unable to save image. Error occurred whilst uploading image file / url") : false;
         DownsizedImage(result, (err, result2) => {
-            if (err) return console.error(err), cb ? cb("Unabled to save image. Error occurred whilst downscaling image") : false;
+            if (err) return cb ? cb(err.message || err || "Unable to save image. Error occurred whilst downscaling image") : false;
             var { width, height, secure_url } = result2 || result;
             newPhoto.orientation = width > height ? "landscape" : width < height ? "portrait" : "square";
             newPhoto.photo_url = secure_url;

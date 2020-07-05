@@ -284,23 +284,19 @@ router.post('/design/save', (req, res) => {
     var { d_id, client, tools, description, link, index, media } = req.body;
     var newDesign = new Design({ d_id, text: { client, tools, description }, link, index });
     Design.findOne({ d_id: {$regex: new RegExp(d_id, "i")} }, (err, found) => {
-        if (err || found) return res.send(err || "Design set already exists");
-        indexShift("Design", newDesign, { dec: false }, err => {
-            if (err) return console.error(err), res.send(err);
+        if (err || found) return res.send(err.message || "Design set already exists");
             newDesign.save((err, design) => {
                 design.images = [];
                 media = (Array.isArray(media) ? media : [media]).filter(e => e);
                 async.forEachOf(media, (file, i, cb) => {
                     var photo_set = `design-${design.d_id}`;
-                    var photo_title = `${design.d_id}-web${i ? "-" + (i+1) : ""}`;
-                    var index = i+1;
-                    photoUploader({ file, photo_title, photo_set, index }, (err, photo) => {
-                        if (err) return cb(err);
+                        if (err) return cb(err.message || err);
                         design.images.push({ photo_url: photo.photo_url, index: photo.index });
-                        if (i === images.length-1) design.save();
                         cb();
                     });
-                }, err => { if (err) console.error(err); res.send(err.message || err || "Design saved") });
+                }, err => {
+                    if (err) return res.send(err.message);
+                    design.save(() => res.send("Design saved"))
             });
         });
     })
