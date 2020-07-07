@@ -22,11 +22,9 @@ module.exports.Design = model('Design', Schema({
         tools: { type: String },
         description: { type: String }
     },
-    images: [{
-        photo_url: String,
-        index: Number
-    }],
+    images: [{ photo_url: String, index: Number }],
     link: String,
+    hidden: { type: Boolean, default: false },
     index: Number
 }));
 

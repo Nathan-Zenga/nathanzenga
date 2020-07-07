@@ -15,7 +15,8 @@ router.get('/photo', (req, res) => {
 
 router.get('/design', (req, res) => {
     const { tools } = req.query;
-    Design.find(tools ? { "text.tools": new RegExp(tools, "i") } : {}).sort({index: 1}).exec((err, designs) => {
+    const filter = Object.assign({ hidden: false }, tools ? { "text.tools": new RegExp(tools, "i") } : {});
+    Design.find(filter).sort({index: 1}).exec((err, designs) => {
         res.render('design', { title: "Designs", pagename: "design", designs })
     })
 });
@@ -31,7 +32,7 @@ router.get('/info', (req, res) => {
 });
 
 router.post('/p', (req, res) => {
-    var qry = Object.assign({}, req.body);
+    const qry = Object.assign({}, req.body);
     delete qry.sort;
     qry.photo_set = {$regex: new RegExp(qry.photo_set, "i")};
     Photo.find(qry).sort(JSON.parse(req.body.sort || "{}")).exec((err, photos) => res.send(photos))

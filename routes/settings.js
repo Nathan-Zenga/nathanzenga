@@ -282,8 +282,8 @@ router.post('/info-text/save', (req, res) => {
 });
 
 router.post('/design/save', (req, res) => {
-    var { d_id, client, tools, description, link, index, media } = req.body;
-    var newDesign = new Design({ d_id, text: { client, tools, description }, link, index });
+    var { d_id, client, tools, description, link, index, media, hidden } = req.body;
+    var newDesign = new Design({ d_id, text: { client, tools, description }, link, index, hidden });
     Design.findOne({ d_id: {$regex: new RegExp(d_id, "i")} }, (err, found) => {
         if (err || found) return res.send(err.message || "Design set already exists");
         newDesign.save((err, design) => {
@@ -315,24 +315,22 @@ router.post('/design/sort-order', (req, res) => {
 });
 
 router.post('/design/edit', (req, res) => {
-    var { id, d_id, client, tools, description, link } = req.body;
-    var msg = "";
-    Design.findById(id, (err, doc) => {
-        if (err) return console.error(err), res.send("Error occurred whilst fetching design doc");
+    var { id, d_id, client, tools, description, link, hidden } = req.body;
+    var filter = Object.assign({ _id: id }, d_id ? { d_id } : {});
+    Design.findOne(filter, (err, doc) => {
+        if (err || !doc) return console.error(err), res.send(err ? "Error occurred whilst fetching design doc" : "Design item not found");
         if (client) doc.text.client = client;
         if (tools) doc.text.tools = tools;
         if (description) doc.text.description = description;
         if (link) doc.link = link;
-        if (d_id) {
+        doc.hidden = !!hidden;
+        if (d_id && doc.d_id !== d_id) {
             Photo.updateMany({photo_set: `design-${doc.d_id}`}, {$set: {photo_set: `design-${d_id}`}}, (err, result) => {
-                if (err) return console.error(err), res.send("Error occurred whilst photos updating photo set");
+                if (err) return console.error(err), res.send(err.message || "Error occurred whilst photos updating photo set");
                 console.log(result);
                 var { n, nModified } = result;
-                if (n === nModified && nModified > 0) {
-                    doc.d_id = d_id;
-                } else {
-                    msg = ".\nNone or some of the d_id fields were modified";
-                }
+                var msg = n === nModified && nModified > 0 ? "" : ".\nNone or some of the d_id fields were modified";
+                if (n === nModified && nModified > 0) doc.d_id = d_id;
                 doc.save(err => res.send("Design collection updated" + msg));
             });
         } else { doc.save(err => res.send("Design collection updated")) }

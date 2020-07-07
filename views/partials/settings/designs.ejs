@@ -17,6 +17,10 @@
                     <input class="form-control details" type="url" name="link" id="design-link" required>
                     <label>Index</label>
                     <input class="form-control details" type="number" name="index" id="design-index" min="1" max="<%= designs.length+1 %>" value="<%= designs.length+1 %>" required>
+                    <div class="row">
+                        <label class="col-xs-2"> Hidden? </label>
+                        <div class="col-xs-10"> <input type="checkbox" name="hidden" value="true" id="make-hidden"> </div>
+                    </div><br>
                     <label>Upload images</label>
                     <div class="image-input-group-container">
                         <div class="image-input-group row" style="margin-bottom: 1.5em;">
@@ -64,6 +68,10 @@
                     <textarea class="form-control details" type="text" id="description-edit" name="description"></textarea>
                     <label>Link</label>
                     <input class="form-control details" type="url" id="link-edit" name="link">
+                    <div class="row">
+                        <label class="col-xs-2"> Hidden? </label>
+                        <div class="col-xs-10"> <input type="checkbox" name="hidden" value="true" id="make-hidden-change"> </div>
+                    </div>
                     <input class="form-control submit" type="submit" value="Edit Design">
                 </form>
 
@@ -72,16 +80,13 @@
                         $("#design-to-edit").change(function() {
                             var id = this.value;
                             var design = docs.filter(function(e) { return e._id == id })[0];
-                            var $form = $(this).closest("form");
-                            if (design) {
-                                $("#d-id-edit").val(design.d_id);
-                                $("#client-edit").val(design.text.client);
-                                $("#tools-edit").val(design.text.tools);
-                                $("#description-edit").val(design.text.description);
-                                $("#link-edit").val(design.link);
-                            } else {
-                                $form.get(0).reset();
-                            }
+                            if (!design) { $(this).closest("form").get(0).reset(); return false };
+                            $("#d-id-edit").val(design.d_id);
+                            $("#client-edit").val(design.text.client);
+                            $("#tools-edit").val(design.text.tools);
+                            $("#description-edit").val(design.text.description);
+                            $("#link-edit").val(design.link);
+                            $("#make-hidden-change").prop("checked", design.hidden);
                         });
                     })
                 </script>
