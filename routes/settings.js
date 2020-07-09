@@ -55,7 +55,7 @@ router.post('/access', (req, res) => {
 router.post('/photo/upload', (req, res) => {
     var { photo_set, photo_set_new, photo_url, index } = req.body;
     Design.findOne({ d_id: photo_set.replace("design-", "") }, (err1, design) => {
-        Photo.find({ photo_set: {$regex: new RegExp(`^${photo_set.trim()}$`, "i")} }, (err2, existingSet) => {
+        Photo.find({ photo_set: {$regex: new RegExp(`^${(photo_set_new || "").trim()}$`, "i")} }, (err2, existingSet) => {
             if (err1 || err2) return console.error(err1 || err2), res.send("Error occurred during query search");
             if (/^design-/i.test(photo_set_new || photo_set) && !design) return res.send("Please create Design document first");
             if (existingSet.length) return res.send("Set already exists. Please specify a different one");
