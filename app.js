@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const http = require('http'); // core module
 const path = require('path'); // core module
 const mongoose = require('mongoose');
 const session = require('express-session');
@@ -47,9 +46,7 @@ app.get("*", (req, res) => {
     res.status(404).render('error', { title: "Error 404", pagename: "error" });
 });
 
-// Set port + listen for requests
 const port = process.env.PORT || 5678;
 app.listen(port, () => {
-    console.log('Server started on port '+ port);
-    if (production) setInterval(() => { http.get(process.env.URL) }, 60000 * 25);
+    console.log('Server started on port '+ (production ? "" : port));
 });
