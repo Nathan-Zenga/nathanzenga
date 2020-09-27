@@ -1,4 +1,4 @@
-<%_ include partials/header _%>
+<%- include ('partials/header') -%>
     <script> var d = null; $.post("/p", {}, function(r) { d = r }); </script>
 
     <main class="container">
@@ -12,19 +12,19 @@
 
             <div class="tab-content">
                 <div id="galleries" class="tab-pane fade in active">
-                    <%_ include partials/settings/galleries _%>
+                    <%- include ('partials/settings/galleries') -%>
                 </div>
 
                 <div id="infotext" class="tab-pane fade">
-                    <%_ include partials/settings/info-text _%>
+                    <%- include ('partials/settings/info-text') -%>
                 </div>
 
                 <div id="designs" class="tab-pane fade">
-                    <%_ include partials/settings/designs _%>
+                    <%- include ('partials/settings/designs') -%>
                 </div>
 
                 <div id="sort-order" class="tab-pane fade">
-                    <%_ include partials/settings/sort-order _%>
+                    <%- include ('partials/settings/sort-order') -%>
                 </div>
             </div>
         </div>
@@ -77,4 +77,4 @@
             })
         })
     </script>
-<%_ include partials/footer _%>
+<%- include ('partials/footer') -%>

@@ -1,4 +1,4 @@
-<%_ include partials/header _%>
+<%- include ('partials/header') -%>
     <main class="container">
         <div class="row content">
             <form class="form-group" method="post" action="/settings/access">
@@ -15,4 +15,4 @@
             <%- flash_msg ? '<div style="text-align: center;">'+ flash_msg +'</div>' : '' %>
         </div>
     </main>
-<%_ include partials/footer _%>
+<%- include ('partials/footer') -%>
