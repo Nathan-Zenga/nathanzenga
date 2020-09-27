@@ -39,16 +39,4 @@ $(function() {
     });
 
     $(".toTop").click(0, smoothScroll);
-
-    $("#info form").submit(function(e) {
-        e.preventDefault();
-        var form = this;
-        $(form).append("<div class='loader' style='display:none'><div class='spinner'></div></div>").find(".loader").stop().fadeIn();
-
-        $.post("/send/message", $(this).serializeArray(), function(res) {
-            $(".loader").stop().fadeOut();
-            if (res.includes("sent")) $(form).find(".details").val("");
-            alert(res);
-        })
-    });
 });

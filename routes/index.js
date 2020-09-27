@@ -43,7 +43,7 @@ router.post('/send/message', (req, res) => {
     const oauth2Client = new OAuth2( OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, "https://developers.google.com/oauthplayground" );
     oauth2Client.setCredentials({ refresh_token: OAUTH_REFRESH_TOKEN });
     oauth2Client.getAccessToken((err, accessToken) => {
-        if (err) return res.send(err.message);
+        if (err) return res.status(500).send(err.message);
         const transporter = nodemailer.createTransport({
             service: 'gmail', // port: 465, // secure: true,
             auth: {
@@ -63,7 +63,7 @@ router.post('/send/message', (req, res) => {
             subject,
             text: `From ${name} (${email}):\n\n${message}`
         }, err => {
-            if (err) return res.send(err.message);
+            if (err) return res.status(500).send(err.message);
             console.log("The message was sent!");
             res.send('Message sent');
         });
