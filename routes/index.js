@@ -9,11 +9,11 @@ router.get('/', (req, res) => {
     res.render('index', { title: null, pagename: "home" })
 });
 
-router.get('/photo', (req, res) => {
+router.get('/photography', (req, res) => {
     res.render('photo', { title: "Photography", pagename: "photo" })
 });
 
-router.get('/design', (req, res) => {
+router.get('/designs', (req, res) => {
     const { tools } = req.query;
     const filter = Object.assign({ hidden: false }, tools ? { "text.tools": new RegExp(tools, "i") } : {});
     Design.find(filter).sort({index: 1}).exec((err, designs) => {
