@@ -41,6 +41,8 @@ app.use((req, res, next) => {
 
 app.use('/', require('./routes/index'));
 app.use('/settings', require('./routes/settings'));
+app.use('/settings/photo', require('./routes/photo-settings'));
+app.use('/settings/design', require('./routes/design-settings'));
 
 app.get("*", (req, res) => {
     res.status(404).render('error', { title: "Error 404", pagename: "error" });
