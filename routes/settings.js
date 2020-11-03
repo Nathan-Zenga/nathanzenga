@@ -44,7 +44,7 @@ router.post('/info-text/save', async (req, res) => {
     const newInfo = info ? info : new Info_text();
     newInfo.text = req.body.text;
     newInfo.save(err => {
-        if (err) return console.log(err), res.send(err.message);
+        if (err) return console.log(err), res.status(500).send(err.message);
         res.send("Info text saved");
     });
 });

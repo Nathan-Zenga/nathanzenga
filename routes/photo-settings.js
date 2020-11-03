@@ -7,13 +7,13 @@ router.post('/upload', async (req, res) => {
     const { photo_set, photo_set_new, photo_url, index } = req.body;
     const design = await Design.findOne({ d_id: photo_set.replace("design-", "") });
     const existingSet = await Photo.find({ photo_set: {$regex: new RegExp(`^${(photo_set_new || "").trim()}$`, "i")} });
-    if (/^design-/i.test(photo_set_new || photo_set) && !design) return res.send("Please create Design document first");
-    if (existingSet.length) return res.send("Set already exists. Please specify a different one");
+    if (/^design-/i.test(photo_set_new || photo_set) && !design) return res.status(400).send("Please create Design document first");
+    if (existingSet.length) return res.status(400).send("Set already exists. Please specify a different one");
     req.body.photo_set = photo_set_new || photo_set;
     photoUploader(req.body, (err, photo) => {
         if (err) return res.send(err);
         indexShift("Photo", photo, { dec: false }, err => {
-            if (err) return console.error(err), res.send(err);
+            if (err) return console.error(err), res.status(500).send(err);
             if (design) {
                 index = parseInt(index);
                 design.images.splice(index-1, 0, { photo_url, index });
@@ -41,8 +41,7 @@ router.post('/edit', async (req, res) => {
     const { id, photo_title, photo_set } = req.body;
     const photo = await Photo.findById(id);
     const design = await Design.findOne({ d_id: photo_set.replace("design-", "") });
-    if (err) return console.error(err), res.send("Error occurred whilst checking Design document existence");
-    if (/^design-/.test(photo_set) && !design) return res.send("Design document does not exist, please create one first");
+    if (/^design-/.test(photo_set) && !design) return res.status(404).send("Design document does not exist, please create one first");
     const prev_photo_set = photo.photo_set;
     const sameAsPrevPhotoSet = (new RegExp("^"+photo_set.trim()+"$", "i")).test(prev_photo_set);
     if (photo_set === "Assorted" && !sameAsPrevPhotoSet) {
@@ -105,7 +104,7 @@ router.post('/delete', async (req, res) => {
     const set = await Photo.find({ photo_set }).sort({ index: 1 }).exec();
     const design = await Design.findOne({ d_id: photo_set.replace("design-", "") });
     cloud.v2.api.delete_resources([public_id], err => {
-        if (err) return console.error(err), res.send("Error occurred whilst deleting photo");
+        if (err) return console.error(err), res.status(500).send("Error occurred whilst deleting photo");
         set.forEach((p, i) => {
             if (i === 0 && photo_set_cover && photo_set_index) {
                 p.photo_set_cover = true;
@@ -126,7 +125,7 @@ router.post('/delete', async (req, res) => {
 router.post('/sort-order', (req, res) => {
     const { id, index, photo_set } = req.body;
     indexReorder("Photo", { id, newIndex: index, filterQry: { photo_set } }, err => {
-        if (err) return res.send(err);
+        if (err) return res.status(500).send(err);
         if (/^design-/.test(photo_set)) {
             Design.findOne({ d_id: photo_set.replace("design-", "") }, (err, design) => {
                 if (err) return console.error(err), res.send("Error occurred during query search"); 
@@ -147,15 +146,16 @@ router.post('/set/delete', (req, res) => {
     const { photo_set } = req.body;
     if (!photo_set) return res.send("Nothing selected");
     Photo.deleteMany({ photo_set }, err => {
-        if (err) return console.error(err), res.send("Error whilst deleting docs");
+        if (err) return console.error(err), res.status(500).send("Error whilst deleting docs");
         const prefix = photo_set.toLowerCase().replace(/[ ?&#\\%<>]/g, "_");
         cloud.v2.api.delete_resources_by_prefix(prefix, err => {
-            if (err) return console.error(err), res.send("Error whilst deleting photo set");
+            if (err) return console.error(err), res.status(500).send("Error whilst deleting photo set");
             Photo.find({photo_set_cover: true}).sort({photo_set_index: 1}).exec((err, covers) => {
                 if (/^design-/i.test(photo_set)) {
                     const d_id = photo_set.replace("design-", "");
                     Design.findOneAndDelete({ d_id }, (err, design) => {
-                        if (err || !design) return res.send(err || d_id + " design set not found");
+                        if (err) return res.status(500).send(err.message);
+                        if (!design) return res.status(404).send(d_id + " design set not found");
                         res.send(design.d_id + " design set deleted successfully");
                     })
                 } else {
@@ -172,29 +172,28 @@ router.post('/set/delete', (req, res) => {
     })
 });
 
-router.post('/set/sort-order', (req, res) => {
+router.post('/set/sort-order', async (req, res) => {
     const { photo_set, photo_set_index } = req.body;
-    Photo.find({photo_set_cover: true}).sort({photo_set_index: 1}).exec((err, covers) => {
-        if (err) return console.error(err), res.send("Error occurred during query search"); 
-        if (!covers.length) return res.send("Photo set not found or doesn't exit");
-        const index = covers.findIndex(e => e.photo_set == photo_set);
-        const beforeSelectedDoc = covers.slice(0, index);
-        const afterSelectedDoc = covers.slice(index+1, covers.length);
-        const docs_mutable = [...beforeSelectedDoc, ...afterSelectedDoc];
-        docs_mutable.splice(parseInt(photo_set_index)-1, 0, covers[index]);
-        docs_mutable.forEach((set, i, a) => {
-            set.photo_set_index = i+1;
-            set.save(() => { if (i === a.length-1) res.send("Photo set cover reordered") })
-        })
+    const covers = await Photo.find({photo_set_cover: true}).sort({photo_set_index: 1}).exec();
+    if (!covers.length) return res.status(404).send("No photosets present to process this request");
+    const index = covers.findIndex(e => e.photo_set == photo_set);
+    if (index < 0) return res.status(404).send("Photoset not found or doesn't exit"); 
+    const beforeSelectedDoc = covers.slice(0, index);
+    const afterSelectedDoc = covers.slice(index+1, covers.length);
+    const docs_mutable = [...beforeSelectedDoc, ...afterSelectedDoc];
+    docs_mutable.splice(parseInt(photo_set_index)-1, 0, covers[index]);
+    docs_mutable.forEach((set, i, a) => {
+        set.photo_set_index = i+1;
+        set.save(() => { if (i === a.length-1) res.send("Photo set cover reordered") })
     })
 });
 
 router.post('/set/cover', async (req, res) => {
     const { id, photo_set } = req.body;
-    if (!id || !photo_set) return res.send("Required field(s) missing");
+    if (!id || !photo_set) return res.status(400).send("Required field(s) missing");
     const oldCover = await Photo.findOne({ photo_set, photo_set_cover: true });
     const newCover = await Photo.findById(id);
-    if (!oldCover || !newCover) return res.send("Old / new cover image not found");
+    if (!oldCover || !newCover) return res.status(404).send("Old / new cover image not found");
     newCover.photo_set_cover = true;
     newCover.photo_set_index = oldCover.photo_set_index;
     newCover.save();

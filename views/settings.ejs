@@ -74,6 +74,8 @@
                 $(e.target).find("#photo_set_new").remove();
                 e.target.reset();
                 alert(res);
+            }).fail(function(err) {
+                alert(err.responseText);
             })
         })
     </script>
