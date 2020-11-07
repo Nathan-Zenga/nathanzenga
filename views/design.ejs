@@ -1,6 +1,6 @@
 <%- include ('partials/header') -%>
-    <main class="container">
-        <div class="row content galleria-init">
+    <main>
+        <div class="container content galleria-init">
             <%_ designs.forEach((item, i) => { _%>
             <div class="col-md-8 <%= i % 2 !== 0 ? 'col-md-push-4' : '' %> img-container media-container">
                 <div class="inner slideshow img" id="<%= item.d_id %>" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"></div>

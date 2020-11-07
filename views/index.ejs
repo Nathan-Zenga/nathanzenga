@@ -1,8 +1,10 @@
 <%- include ('partials/header') -%>
-    <main class="row">
-        <div class="col-md-12 overview mb-view-md" style="height: 70vh"></div>
-        <div class="col-md-4 overview dt-view-md" data-orientation="portrait" style="padding-right: 10px; height: 90vh"></div>
-        <div class="col-md-8 overview dt-view-md" data-orientation="landscape" style="padding-left: 10px; height: 90vh"></div>
+    <main class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 overview mb-view-md" style="height: 70vh"></div>
+            <div class="col-md-4 overview dt-view-md" data-orientation="portrait" style="height: 90vh"></div>
+            <div class="col-md-8 overview dt-view-md" data-orientation="landscape" style="height: 90vh"></div>
+        </div>
         <script src="/js/galleria-init.js"></script>
         <script>
             var isWidescreen, timeout;

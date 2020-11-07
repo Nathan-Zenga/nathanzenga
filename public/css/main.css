@@ -154,7 +154,6 @@ body:not(#design) .content .media-container > .inner {
         .content.galleria-init .img-container {
             padding-left: 0;
             padding-right: 0;
-            margin: 0 -15px;
         }
 
         .content.galleria-init .img-container label {
@@ -260,10 +259,6 @@ nav a {
     left: 120px;
 }
 
-#info .info-txt > div > div {
-    display: none;
-}
-
 .loader {
     position: absolute;
     left: 50%;
@@ -326,12 +321,17 @@ nav a {
     grid-auto-flow: dense;
 }
 
-.grid > .img-container > .inner.img {
+.grid > .media-container {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.grid > .media-container > .inner.img {
     position: relative;
     height: 100%;
 }
 
-.grid .vertical {
+.grid > .vertical {
     grid-row: span 2;
 }
 
@@ -344,24 +344,24 @@ nav a {
     background-color: rgb(30, 30, 30);
 }
 
-.grid .media-container {
-    padding-left: 0;
-    padding-right: 0;
-}
-
 @media (min-width: 768px) {
     .grid {
         grid-template-columns: repeat(2, 50%);
-        grid-auto-rows: 250px;
+        grid-auto-rows: 50px;
     }
 
-    .grid .horizontal {
-        grid-column: span 2;
-        grid-row: span 2;
-    }
-
-    .grid .media-container {
+    .grid > .media-container {
         padding: 5px;
+        grid-row: span 4;
+    }
+
+    .grid > .vertical {
+        grid-row: span 10;
+    }
+
+    .grid > .horizontal {
+        grid-column: span 2;
+        grid-row: span 10;
     }
 }
 
