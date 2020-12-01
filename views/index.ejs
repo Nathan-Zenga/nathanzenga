@@ -1,40 +1,31 @@
 <%- include ('partials/header') -%>
-    <main class="container-fluid">
-        <div class="row">
-            <div class="col-md-12 overview mb-view-md" style="height: 70vh"></div>
-            <div class="col-md-4 overview dt-view-md" data-orientation="portrait" style="height: 90vh"></div>
-            <div class="col-md-8 overview dt-view-md" data-orientation="landscape" style="height: 90vh"></div>
-        </div>
+    <main>
+        <div id="overview-carousel"><div id="img-container"></div></div>
         <script src="/js/galleria-init.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/async/3.2.0/async.min.js" integrity="sha512-6K6+H87tLdCWvY5ml9ZQXLRlPlDEt8uXmtELhuJRgFyEDv6JvndWHg3jadJuBVGPEhhA2AAt+ROMC2V7EvTIWw==" crossorigin="anonymous"></script>
         <script>
-            var isWidescreen, timeout;
-            $(window).on("load resize", function() {
+            var timeout, q = { photo_set: "Assorted", sort: '{"index": 1}' }, gallery_run = function(p) {
                 clearTimeout(timeout);
-                $(".overview").css("height", window.innerWidth >= window.innerHeight ? "90vh" : "70vh");
+                $("#overview-carousel #img-container").empty();
                 timeout = setTimeout(function() {
-                    if ( isWidescreen !== window.innerWidth >= 992 ) {
-                        $(".overview").each(function(i, overview) {
-                            isWidescreen = window.innerWidth >= 992;
-                            var gd = $(overview).data("galleria");
-                            if (gd) gd.destroy(), $(overview).empty();
-                            if ($(overview).is(":visible")) {
-                                $.post("/p", {
-                                    photo_set: "Assorted",
-                                    orientation: $(overview).data("orientation"),
-                                    sort: JSON.stringify({index: 1})
-                                }, function(d) {
-                                    $(overview).html(d.map(function(e) { return "<img src='"+ e.photo_url +"'>" }).join("")).galleria({
-                                        autoplay: true,
-                                        showImagenav: false,
-                                        transitionSpeed: 1000,
-                                        swipe: "disabled"
-                                    });
-                                });
-                            }
-                        })
-                    }
+                    async.forEach(p, function(img, cb) {
+                        var image = new Image();
+                        image.src = img.photo_url;
+                        image.onload = function() {
+                            var $img_new = $("<div>").addClass("img").appendTo("#overview-carousel #img-container");
+                            var aspect_ratio = image.naturalWidth / image.naturalHeight;
+                            var width = $("#overview-carousel").height() * aspect_ratio;
+                            var showImagenav = false;
+                            var imageCrop = "width";
+                            var swipe = "disabled";
+                            var transitionSpeed = 1000;
+                            $img_new.html(image).css({ width, maxWidth: "100vw" }).galleria({ showImagenav, imageCrop, swipe, transitionSpeed });
+                            cb()
+                        }
+                    })
                 }, 50)
-            });
+            };
+            $.post("/p", q, function(p) { gallery_run(p); $(window).on("resize", gallery_run.bind(null, p)) })
         </script>
     </main>
 <%- include ('partials/footer') -%>

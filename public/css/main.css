@@ -107,6 +107,33 @@ hr {
     padding: 1.5em 0;
 }
 
+#overview-carousel {
+    position: relative;
+    overflow: auto;
+    -ms-overflow-style: none;
+}
+
+#overview-carousel::-webkit-scrollbar {
+    height: 0px;
+}
+
+#overview-carousel::-webkit-scrollbar-thumb {
+    background-color: transparent;
+}
+
+#overview-carousel #img-container {
+    height: 80vh;
+    white-space: nowrap;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#overview-carousel .img {
+    display: inline-block;
+    height: 100%;
+    transition: .5s opacity;
+}
+
 .content .media-container {
     padding: 5px;
 }
