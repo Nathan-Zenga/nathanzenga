@@ -126,12 +126,15 @@ hr {
     white-space: nowrap;
     margin-top: 10px;
     margin-bottom: 10px;
+    margin-left: 100vw;
+    transition: 1s margin-left;
 }
 
 #overview-carousel .img {
     display: inline-block;
     height: 100%;
     transition: .5s opacity;
+    cursor: pointer;
 }
 
 .content .media-container {

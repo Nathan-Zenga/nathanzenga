@@ -7,23 +7,22 @@
             var timeout, q = { photo_set: "Assorted", sort: '{"index": 1}' }, gallery_run = function(p) {
                 clearTimeout(timeout);
                 $("#overview-carousel #img-container").empty();
-                timeout = setTimeout(function() {
-                    async.forEach(p, function(img, cb) {
-                        var image = new Image();
-                        image.src = img.photo_url;
-                        image.onload = function() {
-                            var $img_new = $("<div>").addClass("img").appendTo("#overview-carousel #img-container");
-                            var aspect_ratio = image.naturalWidth / image.naturalHeight;
-                            var width = $("#overview-carousel").height() * aspect_ratio;
-                            var showImagenav = false;
-                            var imageCrop = "width";
-                            var swipe = "disabled";
-                            var transitionSpeed = 1000;
-                            $img_new.html(image).css({ width, maxWidth: "100vw" }).galleria({ showImagenav, imageCrop, swipe, transitionSpeed });
-                            cb()
-                        }
-                    })
-                }, 50)
+                async.forEach(p, function(img, cb) {
+                    var image = new Image();
+                    var attr = { "data-id": "Assorted", "data-toggle": "modal", "data-target": "#gallery_view", oncontextmenu: "return false" };
+                    var $img_new = $("<div>").addClass("img").attr(attr).appendTo("#overview-carousel #img-container");
+                    image.src = img.photo_url;
+                    image.onload = function() {
+                        var aspect_ratio = image.naturalWidth / image.naturalHeight;
+                        var width = $("#overview-carousel").height() * aspect_ratio;
+                        var showImagenav = false;
+                        var imageCrop = "width";
+                        var swipe = "disabled";
+                        var transitionSpeed = 1000;
+                        $img_new.html(image).css({ width, maxWidth: "100vw" }).galleria({ showImagenav, imageCrop, swipe, transitionSpeed });
+                        cb()
+                    }
+                }, function() { $(".img").click(loadGalleryView); $("#img-container").css("margin-left", 0) })
             };
             $.post("/p", q, function(p) { gallery_run(p); $(window).on("resize", gallery_run.bind(null, p)) })
         </script>
