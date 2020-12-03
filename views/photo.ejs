@@ -1,11 +1,6 @@
 <%- include ('partials/header') -%>
     <main>
-        <div class="container content galleria-init">
-            <div class="grid-container row">
-                <div class="grid"></div>
-            </div>
-        </div>
-
+        <div class="container content galleria-init"><div class="grid-container row"><div class="grid"></div></div></div>
         <script src="/js/galleria-init.js"></script>
         <script>
             $.post("/p", [
@@ -22,7 +17,7 @@
                         '</div>'
                     ).find(".img:last").html("<img src="+ e.photo_url +">").children().on("load", {imgLength}, imgOrientation);
                 });
-                $(".img").click(loadGalleryView);
+                $(".img").click(loadGalleryView).next("label").click(function() { $(this).prev().click() });
             });
         </script>
     </main>

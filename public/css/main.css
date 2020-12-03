@@ -138,6 +138,7 @@ hr {
 }
 
 .content .media-container {
+    position: relative;
     padding: 5px;
 }
 
@@ -158,13 +159,30 @@ body:not(#design) .content .media-container > .inner {
     cursor: pointer;
 }
 
-.content.galleria-init .img-container label {
-    margin: 5px 0;
-}
-
 .content > .txt-container > .inner {
     padding: 20px;
     height: auto;
+}
+
+@media (min-width: 992px) {
+    .content.galleria-init .img-container label {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: .5s opacity;
+        font-size: 2em;
+        font-weight: 500;
+        text-align: center;
+        margin: 0;
+        z-index: 20;
+    }
+
+    .content.galleria-init .img-container:hover label {
+        opacity: 1;
+    }
 }
 
 @media (max-width: 767px) {
@@ -365,13 +383,17 @@ nav a {
     grid-row: span 2;
 }
 
-.grid label {
-    position: relative;
-    z-index: 10;
-    -webkit-transform: translateY(-100%);
-    transform: translateY(-100%);
-    padding: 5px 10px;
-    background-color: rgb(30, 30, 30);
+@media (max-width: 991px) {
+    .grid label {
+        position: relative;
+        z-index: 10;
+        -webkit-transform: translateY(-100%);
+        transform: translateY(-100%);
+        padding: 5px 10px;
+        background-color: rgb(30, 30, 30);
+        font-size: 1.2em;
+        font-weight: 500;
+    }
 }
 
 @media (min-width: 768px) {
