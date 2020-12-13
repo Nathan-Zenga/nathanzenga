@@ -1,53 +1,71 @@
 <%- include ('partials/header') -%>
     <main>
-        <div class="container content galleria-init">
-            <%_ designs.forEach((item, i) => { _%>
-            <div class="col-md-8 <%= i % 2 !== 0 ? 'col-md-push-4' : '' %> img-container media-container">
-                <div class="inner slideshow img" id="<%= item.d_id %>" data-toggle="modal" data-target="#gallery_view" oncontextmenu="return false"></div>
-            </div>
-            <div class="col-md-4 <%= i % 2 !== 0 ? 'col-md-pull-8' : '' %> txt-container media-container">
-                <div class="inner">
-                    <p>Client:<br><b><%= item.text.client %></b></p>
-                    <br>
-                    <p>Primary tools:<br><b><%= item.text.tools %></b></p>
-                    <br>
-                    <p><%= item.text.description %></p>
-                    <br>
-                    <a class="btn btn-default" href="<%= item.link %>">View live demo</a>
+        <div class="content">
+            <div id="designs-carousel" class="carousel slide">
+                <ol class="carousel-indicators">
+                    <%_ designs.forEach((item, i) => { _%>
+                    <li data-target="#designs-carousel" data-slide-to="<%= i %>" class="<%= i === 0 ? ' active' : '' %>"></li>
+                    <%_ }) _%>
+                </ol>
+                <div class="carousel-inner">
+                    <%_ designs.forEach((item, i) => { _%>
+                    <div class="item design-item<%= i == 0 ? ' active' : '' %>" id="<%= item.photo_set %>">
+                        <div class="design-info container">
+                            <p><%= item.text.client %></p>
+                            <p><%= item.text.description %></p>
+                            <p><a class="link" href="<%= item.link %>" target="_blank">View live demo</a></p>
+                        </div>
+
+                        <div class="design-img-dt-container">
+                            <div class="container">
+                                <div class="design-img-dt slideshow">
+                                    <%_ design_docs.filter(d => d.photo_set.includes(item.d_id) && d.orientation === "landscape").forEach(doc => {
+                                        if (/\.(jpe?g|png|gif)$/.test(doc.photo_url)) { _%>
+                                    <img src="<%= doc.photo_url %>" alt="<%= doc.photo_title %>">
+                                    <%_ } else { _%>
+                                    <video playsinline autoplay muted loop><source src="<%= doc.photo_url %>"></video>
+                                    <%_ }}) _%>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="design-img-mb-container">
+                            <div class="container">
+                                <div class="col-xs-5 col-xs-push-7">
+                                    <div class="design-img-mb slideshow">
+                                        <%_ design_docs.filter(d => d.photo_set.includes(item.d_id) && d.orientation === "portrait").forEach(doc => {
+                                            if (/\.(jpe?g|png|gif)$/.test(doc.photo_url)) { _%>
+                                        <img src="<%= doc.photo_url %>" alt="<%= doc.photo_title %>">
+                                        <%_ } else { _%>
+                                        <video playsinline autoplay muted loop><source src="<%= doc.photo_url %>"></video>
+                                        <%_ }}) _%>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <%_ }) _%>
                 </div>
             </div>
-            <%_ if (i < designs.length-1) { _%><hr><%_ } _%>
-            <%_ }) _%>
         </div>
 
         <script src="/js/galleria-init.js"></script>
         <script>
-            $(".content.galleria-init .img").each(function(i) {
-                var img = this;
-                var isSlideshow = img.className.includes("slideshow");
-                $.post("/p", [
-                    { name: "photo_set", value: "design-" + img.id },
-                    { name: "sort", value: '{"index": 1}' }
-                ], function(d) {
-                    if (d && d.length) {
-                        $(img).html(d.map(function(e) { return "<img src="+ e.photo_url +">" }).join("")).galleria({
-                            imageCrop: !isSlideshow,
-                            autoplay: isSlideshow ? 4500 : undefined,
-                            transitionSpeed: isSlideshow ? 1000 : undefined,
-                            swipe: isSlideshow ? "disabled" : undefined,
-                            showImagenav: false
-                        })
-                    } else {
-                        $(img).html(
-                            '<div style="width: 100%; height: 100%; display: table;">' +
-                                '<div style="width: 100%; height: 100%; display: table-cell; vertical-align: middle; text-align: center;">' +
-                                    '<p>No images available</p>' +
-                                '</div>' +
-                            '</div>'
-                        )
-                    }
-                })
-            }).click(loadGalleryView)
+            $(".slideshow").each(function() {
+                var slideshow = this;
+                if ($(slideshow).children("img").length > 1) {
+                    $(slideshow).children("img:gt(0)").fadeTo(0, 0);
+                    setInterval(function() {
+                        $(slideshow).children('img:first')
+                        .fadeTo(500, 0)
+                        .dequeue()
+                        .next()
+                        .fadeTo(500, 1)
+                        .end()
+                        .appendTo(slideshow);
+                    }, 4000);
+                }
+            });
         </script>
     </main>
 <%- include ('partials/footer') -%>

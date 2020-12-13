@@ -13,12 +13,12 @@ router.get('/photography', (req, res) => {
     res.render('photo', { title: "Photography", pagename: "photo" })
 });
 
-router.get('/designs', (req, res) => {
+router.get('/designs', async (req, res) => {
     const { tools } = req.query;
     const filter = Object.assign({ hidden: false }, tools ? { "text.tools": new RegExp(tools, "i") } : {});
-    Design.find(filter).sort({index: 1}).exec((err, designs) => {
-        res.render('design', { title: "Designs", pagename: "design", designs })
-    })
+    const designs = await Design.find(filter).sort({ index: 1 }).exec();
+    const design_docs = await Photo.find({ photo_set: /^design-/ }).sort({ photo_set: 1, orientation: 1, index: 1 }).exec();
+    res.render('design', { title: "Designs", pagename: "design", designs, design_docs });
 });
 
 router.get('/artwork', (req, res) => {
