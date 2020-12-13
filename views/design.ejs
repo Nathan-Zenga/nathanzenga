@@ -21,9 +21,9 @@
                                 <div class="design-img-dt slideshow">
                                     <%_ design_docs.filter(d => d.photo_set.includes(item.d_id) && d.orientation === "landscape").forEach(doc => {
                                         if (/\.(jpe?g|png|gif)$/.test(doc.photo_url)) { _%>
-                                    <img src="<%= doc.photo_url %>" alt="<%= doc.photo_title %>">
+                                    <img class="img" src="<%= doc.photo_url %>" alt="<%= doc.photo_title %>">
                                     <%_ } else { _%>
-                                    <video playsinline autoplay muted loop><source src="<%= doc.photo_url %>"></video>
+                                    <video class="img" playsinline autoplay muted loop><source src="<%= doc.photo_url %>"></video>
                                     <%_ }}) _%>
                                 </div>
                             </div>
@@ -35,9 +35,9 @@
                                     <div class="design-img-mb slideshow">
                                         <%_ design_docs.filter(d => d.photo_set.includes(item.d_id) && d.orientation === "portrait").forEach(doc => {
                                             if (/\.(jpe?g|png|gif)$/.test(doc.photo_url)) { _%>
-                                        <img src="<%= doc.photo_url %>" alt="<%= doc.photo_title %>">
+                                        <img class="img" src="<%= doc.photo_url %>" alt="<%= doc.photo_title %>">
                                         <%_ } else { _%>
-                                        <video playsinline autoplay muted loop><source src="<%= doc.photo_url %>"></video>
+                                        <video class="img" playsinline autoplay muted loop><source src="<%= doc.photo_url %>"></video>
                                         <%_ }}) _%>
                                     </div>
                                 </div>
@@ -53,10 +53,10 @@
         <script>
             $(".slideshow").each(function() {
                 var slideshow = this;
-                if ($(slideshow).children("img").length > 1) {
-                    $(slideshow).children("img:gt(0)").fadeTo(0, 0);
+                if ($(slideshow).children(".img").length > 1) {
+                    $(slideshow).children(".img:gt(0)").fadeTo(0, 0);
                     setInterval(function() {
-                        $(slideshow).children('img:first')
+                        $(slideshow).children('.img:first')
                         .fadeTo(500, 0)
                         .dequeue()
                         .next()

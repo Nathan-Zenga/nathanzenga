@@ -288,7 +288,8 @@ body:not(#design) .content .media-container > .inner {
     height: 225px;
 }
 
-.design-img-mb img {
+.design-img-mb img,
+.design-img-mb video {
     display: table;
     margin: 0 auto;
     height: inherit;

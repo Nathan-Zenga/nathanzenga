@@ -28,10 +28,10 @@ const { Photo } = require('../models/models');
  * @param {(UploadResponseCallback|callback)} cb callback
  */
 const DownsizedImage = module.exports.DownsizedImage = (result, cb) => {
-    var { width, height, public_id } = result;
+    var { width, height, public_id, resource_type } = result;
     var args = [width, height, public_id];
     if (args.filter(e => e).length != args.length) return cb("One or more properties / args missing");
-    if ( width > 1200 || height > 1200 ) {
+    if ( resource_type === "image" && (width > 1200 || height > 1200) ) {
         var prop = width >= height ? "width" : "height";
         var options = { crop: "scale" }; options[prop] = 1200;
         var image = cloud.v2.url(public_id, options);

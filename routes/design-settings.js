@@ -3,7 +3,7 @@ const async = require('async');
 const { Photo, Design } = require('../models/models');
 const { indexShift, indexReorder, photoUploader } = require('../config/config');
 
-router.post('/design/save', async (req, res) => {
+router.post('/save', async (req, res) => {
     const { d_id, client, tools, description, link, index, media, hidden } = req.body;
     const newDesign = new Design({ d_id, text: { client, tools, description }, link, index, hidden });
     const found = await Design.findOne({ d_id: {$regex: new RegExp(d_id, "i")} });
@@ -11,10 +11,10 @@ router.post('/design/save', async (req, res) => {
     const design = await newDesign.save();
     indexShift("Design", design, { dec: false }, err => {
         if (err) return res.status(500).send(err);
-        media = (Array.isArray(media) ? media : [media]).filter(e => e);
+        const files = (Array.isArray(media) ? media : [media]).filter(e => e);
         design.images = [];
-        if (!media.length) return res.send("Design saved");
-        async.forEachOf(media, (file, i, cb) => {
+        if (!files.length) return res.send("Design saved");
+        async.forEachOf(files, (file, i, cb) => {
             const photo_set = `design-${design.d_id}`;
             const photo_title = `${design.d_id}-web${i+1}`;
             photoUploader({ file, photo_title, photo_set, index: i+1 }, (err, photo) => {
@@ -23,13 +23,13 @@ router.post('/design/save', async (req, res) => {
                 cb();
             });
         }, err => {
-            if (err) return res.status(500).send(err.message);
+            if (err) return res.status(500).send(err.message || err);
             design.save(() => res.send("Design saved"))
         });
     });
 });
 
-router.post('/design/sort-order', (req, res) => {
+router.post('/sort-order', (req, res) => {
     const { id, index } = req.body;
     indexReorder("Design", { id, newIndex: index }, err => {
         if (err) return res.status(500).send(err.message || err);
@@ -37,7 +37,7 @@ router.post('/design/sort-order', (req, res) => {
     });
 });
 
-router.post('/design/edit', async (req, res) => {
+router.post('/edit', async (req, res) => {
     const { id, d_id, client, tools, description, link, hidden } = req.body;
     const filter = Object.assign({ _id: id }, d_id ? { d_id } : {});
     const doc = await Design.findOne(filter);
@@ -59,6 +59,6 @@ router.post('/design/edit', async (req, res) => {
     } else { doc.save(err => res.send("Design collection updated")) }
 });
 
-router.post('/design/docs', (req, res) => Design.find((err, designs) => res.send(designs)));
+router.post('/docs', (req, res) => Design.find((err, designs) => res.send(designs)));
 
 module.exports = router;
