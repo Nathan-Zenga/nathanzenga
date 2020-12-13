@@ -1,21 +1,18 @@
 <%- include ('partials/header') -%>
     <main>
         <div class="content">
-            <div id="designs-carousel" class="carousel slide">
-                <ol class="carousel-indicators">
-                    <%_ designs.forEach((item, i) => { _%>
-                    <li data-target="#designs-carousel" data-slide-to="<%= i %>" class="<%= i === 0 ? ' active' : '' %>"></li>
-                    <%_ }) _%>
-                </ol>
+            <div id="designs-carousel" class="carousel slide" data-interval="false">
+                <div class="carousel-controls">
+                    <a class="fal fa-angle-left control left"></a>
+                    <span class="sr-only">Previous</span>
+
+                    <a class="fal fa-angle-right control right"></a>
+                    <span class="sr-only">Next</span>
+                </div>
+
                 <div class="carousel-inner">
                     <%_ designs.forEach((item, i) => { _%>
                     <div class="item design-item<%= i == 0 ? ' active' : '' %>" id="<%= item.photo_set %>">
-                        <div class="design-info container">
-                            <p><%= item.text.client %></p>
-                            <p><%= item.text.description %></p>
-                            <p><a class="link" href="<%= item.link %>" target="_blank">View live demo</a></p>
-                        </div>
-
                         <div class="design-img-dt-container">
                             <div class="container">
                                 <div class="design-img-dt slideshow">
@@ -43,6 +40,12 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="design-info container">
+                            <p><%= item.text.client %></p>
+                            <p><a class="link" href="<%= item.link %>" target="_blank">View live demo</a></p>
+                            <p><%= item.text.description %></p>
+                        </div>
                     </div>
                     <%_ }) _%>
                 </div>
@@ -51,8 +54,7 @@
 
         <script src="/js/galleria-init.js"></script>
         <script>
-            $(".slideshow").each(function() {
-                var slideshow = this;
+            $(".slideshow").each(function(i, slideshow) {
                 if ($(slideshow).children(".img").length > 1) {
                     $(slideshow).children(".img:gt(0)").fadeTo(0, 0);
                     setInterval(function() {
@@ -66,6 +68,9 @@
                     }, 4000);
                 }
             });
+
+            $(".control.left").click(function() { $(this).closest(".carousel").carousel("prev") });
+            $(".control.right").click(function() { $(this).closest(".carousel").carousel("next") });
         </script>
     </main>
 <%- include ('partials/footer') -%>

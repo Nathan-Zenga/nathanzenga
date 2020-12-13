@@ -232,6 +232,16 @@ body:not(#design) .content .media-container > .inner {
     margin-right: 5px;
 }
 
+#designs-carousel .carousel-controls {
+    text-align: center;
+    padding-bottom: 1.5em;
+}
+
+#designs-carousel .carousel-controls .control {
+    font-size: 2.5em;
+    padding: 0 40px;
+}
+
 .design-info {
     padding-top: 2em;
     padding-bottom: 2em;
@@ -240,7 +250,8 @@ body:not(#design) .content .media-container > .inner {
 }
 
 .design-info .link {
-    padding: 10px;
+    display: inline-block;
+    padding: 0 10px 10px;
     border-bottom: 1.5px solid rgb(255, 228, 181);
     font-size: .8em;
 }
@@ -285,15 +296,19 @@ body:not(#design) .content .media-container > .inner {
 }
 
 .design-img-mb {
+    position: relative;
     height: 225px;
 }
 
 .design-img-mb img,
 .design-img-mb video {
-    display: table;
+    position: absolute;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
     margin: 0 auto;
     height: inherit;
-    border-radius: 5px;
+    border-radius: 15px;
 }
 
 @media (min-width: 768px) {
@@ -359,12 +374,6 @@ nav a {
 
 .gallery-modal .modal-body {
     height: 100%;
-}
-
-.modal .galleria-image-nav-left,
-.modal .galleria-image-nav-right {
-    -webkit-filter: invert(1);
-    filter: invert(1);
 }
 
 .modal .modal-icons {
