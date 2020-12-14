@@ -180,6 +180,7 @@ body:not(#design) .content .media-container > .inner {
         position: absolute;
         top: 50%;
         left: 50%;
+        -moz-transform: translate(-50%, -50%);
         -webkit-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);
         opacity: 0;
@@ -284,6 +285,7 @@ body:not(#design) .content .media-container > .inner {
     position: absolute;
     top: 50%;
     left: 50%;
+    -moz-transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     max-width: 100%;
@@ -304,6 +306,7 @@ body:not(#design) .content .media-container > .inner {
 .design-img-mb video {
     position: absolute;
     left: 50%;
+    -moz-transform: translateX(-50%);
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
     margin: 0 auto;
@@ -333,6 +336,7 @@ nav {
     max-width: 100%;
     overflow-y: auto;
     background-color: rgba(30, 30, 30, .9);
+    -moz-transform: translateX(-100%);
     -webkit-transform: translateX(-100%);
     transform: translateX(-100%);
     transition: .5s transform;
@@ -343,6 +347,7 @@ nav {
 }
 
 nav.show {
+    -moz-transform: translateX(0);
     -webkit-transform: translateX(0);
     transform: translateX(0);
 }
@@ -411,13 +416,13 @@ nav a {
 }
 
 @-webkit-keyframes spin {
-    from { -webkit-transform: translateX(-50%) rotate(0deg); transform: translateX(-50%) rotate(0deg) }
-    to { -webkit-transform: translateX(-50%) rotate(360deg); transform: translateX(-50%) rotate(360deg) }
+    from { -moz-transform: translateX(-50%); -webkit-transform: translateX(-50%) rotate(0deg); transform: translateX(-50%) rotate(0deg) }
+    to { -moz-transform: translateX(-50%); -webkit-transform: translateX(-50%) rotate(360deg); transform: translateX(-50%) rotate(360deg) }
 }
 
 @keyframes spin {
-    from { transform: translate(-50%, -50%) rotate(0deg) }
-    to { transform: translate(-50%, -50%) rotate(360deg) }
+    from { -moz-transform: translate(-50%, -50%); -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%) rotate(0deg) }
+    to { -moz-transform: translate(-50%, -50%); -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%) rotate(360deg) }
 }
 
 .expand-icon {
@@ -478,6 +483,7 @@ nav a {
     .grid label {
         position: relative;
         z-index: 10;
+        -moz-transform: translateY(-100%);
         -webkit-transform: translateY(-100%);
         transform: translateY(-100%);
         padding: 5px 10px;
