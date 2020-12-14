@@ -28,14 +28,14 @@
     <script>
         $("form").submit(function(e) {
             e.preventDefault();
-            $(this).append("<div class='loader' style='display:none'><div class='spinner'></div></div>").find(".loader").stop().fadeIn();
+            var btnControl = new submitBtnController(this);
             $.post(this.action, $(this).serializeArray(), function(msg) {
                 alert(msg);
                 e.target.reset();
             }).fail(function(err) {
                 alert(err.responseText);
             }).always(function() {
-                $(".loader").stop().fadeOut();
+                btnControl.finish();
             })
         })
     </script>
