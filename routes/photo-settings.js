@@ -2,6 +2,7 @@ const router = require('express').Router();
 const cloud = require('cloudinary');
 const { Photo, Design } = require('../models/models');
 const { indexShift, indexReorder, photoUploader } = require('../config/config');
+const { each } = require('async');
 
 router.post('/upload', async (req, res) => {
     const { photo_set, photo_set_new, photo_url, index } = req.body;
@@ -99,27 +100,24 @@ router.post('/delete', async (req, res) => {
     if (!id) return res.send("Nothing selected");
     const photo_deleted = await Photo.findByIdAndDelete(id);
     if (!photo_deleted) return res.send("Photo not found");
-    const { photo_set, photo_title, photo_url, photo_set_cover, photo_set_index } = photo_deleted;
-    const public_id = `${photo_set}/${photo_title}`.toLowerCase().replace(/[ ?&#\\%<>]/g, "_");
+    const { photo_set, photo_url, photo_set_cover, photo_set_index } = photo_deleted;
     const set = await Photo.find({ photo_set }).sort({ index: 1 }).exec();
     const design = await Design.findOne({ d_id: photo_set.replace("design-", "") });
-    cloud.v2.api.delete_resources([public_id], err => {
-        if (err) return console.error(err), res.status(500).send("Error occurred whilst deleting photo");
-        set.forEach((p, i) => {
-            if (i === 0 && photo_set_cover && photo_set_index) {
-                p.photo_set_cover = true;
-                p.photo_set_index = photo_set_index;
-            }
-            p.index = i+1;
-            p.save();
-        });
-        if (design) {
-            design.images = design.images.filter(url => url !== photo_url);
-            for (let i = 0; i < design.images.length; i++) design.images[i].index = i+1;
-            design.save();
+    await cloud.v2.api.delete_resources([photo_deleted.p_id]);
+    set.forEach((p, i) => {
+        if (i === 0 && photo_set_cover && photo_set_index) {
+            p.photo_set_cover = true;
+            p.photo_set_index = photo_set_index;
         }
-        res.send("Photo deleted");
-    })
+        p.index = i+1;
+        p.save();
+    });
+    if (design) {
+        design.images = design.images.filter(url => url !== photo_url);
+        for (let i = 0; i < design.images.length; i++) design.images[i].index = i+1;
+        design.save();
+    }
+    res.send("Photo deleted");
 });
 
 router.post('/sort-order', (req, res) => {
@@ -142,34 +140,32 @@ router.post('/sort-order', (req, res) => {
     });
 });
 
-router.post('/set/delete', (req, res) => {
+router.post('/set/delete', async (req, res) => {
     const { photo_set } = req.body;
     if (!photo_set) return res.send("Nothing selected");
-    Photo.deleteMany({ photo_set }, err => {
-        if (err) return console.error(err), res.status(500).send("Error whilst deleting docs");
-        const prefix = photo_set.toLowerCase().replace(/[ ?&#\\%<>]/g, "_");
-        cloud.v2.api.delete_resources_by_prefix(prefix, err => {
-            if (err) return console.error(err), res.status(500).send("Error whilst deleting photo set");
-            Photo.find({photo_set_cover: true}).sort({photo_set_index: 1}).exec((err, covers) => {
-                if (/^design-/i.test(photo_set)) {
-                    const d_id = photo_set.replace("design-", "");
-                    Design.findOneAndDelete({ d_id }, (err, design) => {
-                        if (err) return res.status(500).send(err.message);
-                        if (!design) return res.status(404).send(d_id + " design set not found");
-                        res.send(design.d_id + " design set deleted successfully");
-                    })
-                } else {
-                    covers.forEach((cover, i) => {
-                        if (cover.photo_set_index != i+1) {
-                            cover.photo_set_index = i+1;
-                            cover.save();
-                        }
-                    });
-                    res.send(photo_set + " set deleted successfully")
-                }
-            })
-        })
-    })
+
+    try {
+        const photos = await Photo.find({ photo_set });
+        await cloud.v2.api.delete_resources(photos.map(photo => photo.p_id));
+        await Photo.deleteMany({ photo_set });
+    } catch(err) { return res.status(err.http_code || 500).send(err.message) }
+
+    const covers = await Photo.find({photo_set_cover: true}).sort({photo_set_index: 1}).exec();
+    const design_set = /^design-/i.test(photo_set);
+    if (design_set) {
+        const d_id = photo_set.replace("design-", "");
+        const design = await Design.findOneAndDelete({ d_id });
+        if (!design) return res.status(404).send(d_id + " design set not found");
+        res.send(design.d_id + " design set deleted successfully");
+    } else {
+        covers.forEach((cover, i) => {
+            if (cover.photo_set_index != i+1) {
+                cover.photo_set_index = i+1;
+                cover.save();
+            }
+        });
+        res.send(photo_set + " set deleted successfully")
+    }
 });
 
 router.post('/set/sort-order', async (req, res) => {

@@ -17,7 +17,7 @@
                             <div class="container">
                                 <div class="design-img-dt slideshow">
                                     <%_ design_docs.filter(d => d.photo_set.includes(item.d_id) && d.orientation === "landscape").forEach(doc => {
-                                        if (/\.(jpe?g|png|gif)$/.test(doc.photo_url)) { _%>
+                                        if (doc.r_type === "image") { _%>
                                     <img class="img" src="<%= doc.photo_url %>" alt="<%= doc.photo_title %>">
                                     <%_ } else { _%>
                                     <video class="img" playsinline autoplay muted loop><source src="<%= doc.photo_url %>"></video>
@@ -31,7 +31,7 @@
                                 <div class="col-xs-5 col-xs-push-7">
                                     <div class="design-img-mb slideshow">
                                         <%_ design_docs.filter(d => d.photo_set.includes(item.d_id) && d.orientation === "portrait").forEach(doc => {
-                                            if (/\.(jpe?g|png|gif)$/.test(doc.photo_url)) { _%>
+                                            if (doc.r_type === "image") { _%>
                                         <img class="img" src="<%= doc.photo_url %>" alt="<%= doc.photo_title %>">
                                         <%_ } else { _%>
                                         <video class="img" playsinline autoplay muted loop><source src="<%= doc.photo_url %>"></video>
@@ -52,7 +52,6 @@
             </div>
         </div>
 
-        <script src="/js/galleria-init.js"></script>
         <script>
             $(".slideshow").each(function(i, slideshow) {
                 if ($(slideshow).children(".img").length > 1) {
@@ -62,8 +61,10 @@
                         .fadeTo(500, 0)
                         .dequeue()
                         .next()
+                        .trigger($(slideshow).closest(".item").hasClass("active") ? "play" : "pause")
                         .fadeTo(500, 1)
                         .end()
+                        .trigger("pause")
                         .appendTo(slideshow);
                     }, 4000);
                 }
@@ -71,6 +72,9 @@
 
             $(".control.left").click(function() { $(this).closest(".carousel").carousel("prev") });
             $(".control.right").click(function() { $(this).closest(".carousel").carousel("next") });
+
+            $("#designs-carousel").on("slide.bs.carousel", function() { $("video").trigger("pause") });
+            $("#designs-carousel").on("slid.bs.carousel", function() { $(".design-item.active video").trigger("play") });
         </script>
     </main>
 <%- include ('partials/footer') -%>

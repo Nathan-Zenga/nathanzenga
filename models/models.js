@@ -5,6 +5,8 @@ module.exports.Photo = model('Photo', Schema({
     photo_title: String,
     photo_set: String,
     photo_url: String,
+    p_id: String,
+    r_type: { type: String, enum: ["image", "video"], default: "image" },
     orientation: String,
     index: Number,
     photo_set_cover: { type: Boolean, default: false },
