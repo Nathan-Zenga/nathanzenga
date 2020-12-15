@@ -45,13 +45,13 @@ $(function() {
         }
     }
 
-    $(".menu-icon").click(function() {
+    $("#menu-icon").click(function() {
         $(this).toggleClass("is-active");
         $("nav").toggleClass("show");
     });
 
     $(window).click(function(e) {
-        if (e.pageX > parseInt($("nav.show").css("width"))) $(".menu-icon").click();
+        if (e.pageX > parseInt($("nav.show").css("width"))) $("#menu-icon").click();
     });
 
     $(".toTop").click(0, smoothScroll);

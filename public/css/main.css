@@ -321,7 +321,7 @@ body:not(#design) .content .media-container > .inner {
     }
 }
 
-.menu-icon-container {
+#menu-icon-container {
     position: fixed;
     top: 40px;
     left: 30px;
