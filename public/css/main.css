@@ -30,6 +30,10 @@ footer .socials {
     font-size: 2em;
 }
 
+footer .socials a:not(:last-child) {
+    margin-right: 30px;
+}
+
 footer .toTop {
     top: .5em;
     cursor: pointer;
