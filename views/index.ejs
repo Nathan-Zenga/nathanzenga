@@ -1,15 +1,22 @@
 <%- include ('partials/header') -%>
     <main>
+        <div id="overview-carousel-controls">
+            <a class="fal fa-angle-left control left"></a>
+            <span class="sr-only">Previous</span>
+
+            <a class="fal fa-angle-right control right"></a>
+            <span class="sr-only">Next</span>
+        </div>
         <div id="overview-carousel"><div id="img-container"></div></div>
         <script src="/js/galleria-init.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/async/3.2.0/async.min.js" integrity="sha512-6K6+H87tLdCWvY5ml9ZQXLRlPlDEt8uXmtELhuJRgFyEDv6JvndWHg3jadJuBVGPEhhA2AAt+ROMC2V7EvTIWw==" crossorigin="anonymous"></script>
         <script>
-            var timeout, browser_height, q = { photo_set: "Assorted", sort: '{"index": 1}' }, gallery_run = function(p) {
+            var timeout, browser_size, q = { photo_set: "Assorted", sort: '{"index": 1}' }, gallery_run = function(p) {
                 var mobile = window.innerWidth < 768;
                 clearTimeout(timeout);
                 timeout = setTimeout(function() {
-                    if (browser_height !== window.outerWidth) {
-                        browser_height = window.outerWidth;
+                    if (browser_size !== window.outerWidth * window.outerHeight) {
+                        browser_size = window.outerWidth * window.outerHeight;
                         $("#overview-carousel #img-container").empty();
                         async.forEach(p, function(img, cb) {
                             var image = new Image();
@@ -29,11 +36,19 @@
                                 $img_new.html(image).css(css).galleria({ showImagenav, imageCrop, swipe, transitionSpeed });
                                 cb()
                             }
-                        }, function() { $(".img").click(loadGalleryView); $("#img-container").css("margin-left", 0) })
+                        }, function() { $(".img").click(loadGalleryView) })
                     }
                 }, 50);
             };
-            $.post("/p", q, function(p) { gallery_run(p); $(window).on("resize", gallery_run.bind(null, p)) })
+            $.post("/p", q, function(p) { gallery_run(p); $(window).on("resize", gallery_run.bind(null, p)) });
+
+            $("#overview-carousel-controls .control.left").click(function() {
+                $("#overview-carousel").stop().animate({ scrollLeft: "-=" + ($("#overview-carousel").width() * .75) }, 700, 'easeOutQuart');
+            });
+
+            $("#overview-carousel-controls .control.right").click(function() {
+                $("#overview-carousel").stop().animate({ scrollLeft: "+=" + ($("#overview-carousel").width() * .75) }, 700, 'easeOutQuart');
+            });
         </script>
     </main>
 <%- include ('partials/footer') -%>

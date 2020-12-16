@@ -126,6 +126,33 @@ hr {
     position: relative;
 }
 
+#overview-carousel-controls {
+    position: relative;
+    display: none;
+    top: 10px;
+    text-align: center;
+    z-index: 10;
+}
+
+#overview-carousel-controls .control {
+    position: absolute;
+    top: 40vh;
+    font-size: 3em;
+    padding: 30px;
+    text-shadow: 0 0 10px black;
+    -moz-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+#overview-carousel-controls .control.left {
+    left: 0;
+}
+
+#overview-carousel-controls .control.right {
+    right: 0;
+}
+
 #overview-carousel::-webkit-scrollbar {
     height: 0px;
 }
@@ -137,8 +164,6 @@ hr {
 #overview-carousel #img-container {
     margin-top: 10px;
     margin-bottom: 10px;
-    margin-left: 100vw;
-    transition: 1s margin-left;
 }
 
 #overview-carousel .img {
@@ -154,6 +179,10 @@ hr {
         overflow: auto;
     }
 
+    #overview-carousel-controls {
+        display: block;
+    }
+    
     #overview-carousel #img-container {
         height: 80vh;
         white-space: nowrap;
