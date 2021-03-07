@@ -7,7 +7,7 @@
                 { name: "photo_set_cover", value: true },
                 { name: "sort", value: '{ "photo_set_index": 1 }' }
             ], function(d) {
-                var gridClass = !$(".grid").length ? " col-sm-6" : "";
+                var gridClass = !$(".grid").length ? " col-sm-6 float-left" : "";
                 var imgLength = d.length;
                 d.forEach(function(e) {
                     $($(".grid").length ? ".grid" : ".galleria-init").append(

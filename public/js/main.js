@@ -24,18 +24,16 @@ $(function() {
 
     document.onkeydown = function(e) {
         e = e || window.event;
-        if (keys[e.keyCode] && $("#gallery_view.in").length) {
+        if (keys[e.keyCode] && $("#gallery_view.show").length) {
             if (e.preventDefault) e.preventDefault();
 
             switch(e.keyCode) {
                 case 27:
-                    $(".close-view").click();
+                    $("#gallery_view .close").click();
                     break;
-
                 case 37:
                     $("#gallery_view .iframe").data("galleria").prev();
                     break;
-
                 case 39:
                     $("#gallery_view .iframe").data("galleria").next();
                     break;

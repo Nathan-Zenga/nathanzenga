@@ -1,11 +1,11 @@
 <%- include ('partials/header') -%>
     <main class="container">
         <div class="row">
-            <div class="col-sm-6 info-txt">
+            <div class="col-sm-6 float-left info-txt">
                 <%- txt.text %>
             </div>
 
-            <div class="col-sm-6 contact-form">
+            <div class="col-sm-6 float-left contact-form">
                 <form class="form-group" method="post" action="/send/message">
                     <label class="sr-only">Name</label>
                     <input class="form-control details" type="text" id="name" name="name" placeholder="Your Name" required>

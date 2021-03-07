@@ -12,7 +12,7 @@
 
                 <div class="carousel-inner">
                     <%_ designs.forEach((item, i) => { _%>
-                    <div class="item design-item<%= i == 0 ? ' active' : '' %>" id="<%= item.photo_set %>">
+                    <div class="carousel-item design-item<%= i == 0 ? ' active' : '' %>" id="<%= item.photo_set %>">
                         <div class="design-img-dt-container">
                             <div class="container">
                                 <div class="design-img-dt slideshow">
@@ -28,15 +28,18 @@
 
                         <div class="design-img-mb-container">
                             <div class="container">
-                                <div class="col-xs-5 col-xs-push-7">
-                                    <div class="design-img-mb slideshow">
-                                        <%_ design_docs.filter(d => d.photo_set.includes(item.d_id) && d.orientation === "portrait").forEach(doc => {
-                                            if (doc.r_type === "image") { _%>
-                                        <img class="img" src="<%= doc.photo_url %>" alt="<%= doc.photo_title %>">
-                                        <%_ } else { _%>
-                                        <video class="img" playsinline autoplay muted loop><source src="<%= doc.photo_url %>"></video>
-                                        <%_ }}) _%>
+                                <div class="row">
+                                    <div class="col-5 order-last">
+                                        <div class="design-img-mb slideshow">
+                                            <%_ design_docs.filter(d => d.photo_set.includes(item.d_id) && d.orientation === "portrait").forEach(doc => {
+                                                if (doc.r_type === "image") { _%>
+                                            <img class="img" src="<%= doc.photo_url %>" alt="<%= doc.photo_title %>">
+                                            <%_ } else { _%>
+                                            <video class="img" playsinline autoplay muted loop><source src="<%= doc.photo_url %>"></video>
+                                            <%_ }}) _%>
+                                        </div>
                                     </div>
+                                    <div class="col-7 order-first"></div>
                                 </div>
                             </div>
                         </div>
@@ -61,7 +64,7 @@
                         .fadeTo(500, 0)
                         .dequeue()
                         .next()
-                        .trigger($(slideshow).closest(".item").hasClass("active") ? "play" : "pause")
+                        .trigger($(slideshow).closest(".carousel-item").hasClass("active") ? "play" : "pause")
                         .fadeTo(500, 1)
                         .end()
                         .trigger("pause")

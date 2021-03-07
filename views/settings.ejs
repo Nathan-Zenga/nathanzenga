@@ -3,15 +3,15 @@
 
     <main>
         <div class="container content">
-            <ul class="nav nav-pills">
-                <li class="active"><a data-toggle="pill" href="#galleries">Galleries</a></li>
-                <li><a data-toggle="pill" href="#infotext">Info Text</a></li>
-                <li><a data-toggle="pill" href="#designs">Designs</a></li>
-                <li><a data-toggle="pill" href="#sort-order">Sort order</a></li>
-            </ul>
+            <div class="nav nav-pills justify-content-center">
+                <a class="nav-link active" data-toggle="pill" href="#galleries">Galleries</a>
+                <a class="nav-link" data-toggle="pill" href="#infotext">Info Text</a>
+                <a class="nav-link" data-toggle="pill" href="#designs">Designs</a>
+                <a class="nav-link" data-toggle="pill" href="#sort-order">Sort order</a>
+            </div>
 
             <div class="tab-content">
-                <div id="galleries" class="tab-pane fade in active">
+                <div id="galleries" class="tab-pane fade show active">
                     <%- include ('partials/settings/galleries') -%>
                 </div>
 

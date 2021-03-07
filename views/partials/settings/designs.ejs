@@ -1,10 +1,10 @@
                 <form class="form-group design-settings" method="post" action="/settings/design/save">
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 float-left">
                             <label>ID</label>
                             <input class="form-control details" type="text" id="d-id" name="d_id" required>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 float-left">
                             <label>Client</label>
                             <input class="form-control details" type="text" id="client" name="client" required>
                         </div>
@@ -18,20 +18,20 @@
                     <label>Index</label>
                     <input class="form-control details" type="number" name="index" id="design-index" min="1" max="<%= designs.length+1 %>" value="<%= designs.length+1 %>" required>
                     <div class="row">
-                        <label class="col-xs-2"> Hidden? </label>
-                        <div class="col-xs-10"> <input type="checkbox" name="hidden" value="true" id="make-hidden"> </div>
+                        <label class="col-2 float-left"> Hidden? </label>
+                        <div class="col-10 float-left"> <input type="checkbox" name="hidden" value="true" id="make-hidden"> </div>
                     </div><br>
                     <label>Upload images</label>
                     <div class="image-input-group-container">
                         <div class="image-input-group row" style="margin-bottom: 1.5em;">
-                            <div class="col-sm-5">
+                            <div class="col-sm-5 float-left">
                                 <input type="file" class="image-file-input" accept="image/*,video/*"><br>
                             </div>
-                            <div class="col-sm-7">
+                            <div class="col-sm-7 float-left">
                                 <input type="url" class="form-control image-url" name="media" placeholder="Enter image / video URL (optional)">
                                 <input type="hidden" name="media" disabled>
                             </div>
-                            <div class="col-sm-12" style="text-align: right">
+                            <div class="col-sm-12 float-left" style="text-align: right">
                                 <a class="image-input-group-btn" data-opt="add">Add</a>
                                 <a class="image-input-group-btn" data-opt="remove" style="margin-left: 20px">Remove</a>
                                 <a class="image-input-group-btn" data-opt="clear" style="margin-left: 20px">Clear Input</a>
@@ -53,11 +53,11 @@
                     </select>
                     <label style="margin-bottom: 1em">All fields below are optional</label>
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 float-left">
                             <label>ID</label>
                             <input class="form-control details" type="text" id="d-id-edit" name="d_id">
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 float-left">
                             <label>Client</label>
                             <input class="form-control details" type="text" id="client-edit" name="client">
                         </div>
@@ -69,8 +69,8 @@
                     <label>Link</label>
                     <input class="form-control details" type="url" id="link-edit" name="link">
                     <div class="row">
-                        <label class="col-xs-2"> Hidden? </label>
-                        <div class="col-xs-10"> <input type="checkbox" name="hidden" value="true" id="make-hidden-change"> </div>
+                        <label class="col-2 float-left"> Hidden? </label>
+                        <div class="col-10 float-left"> <input type="checkbox" name="hidden" value="true" id="make-hidden-change"> </div>
                     </div>
                     <input class="form-control submit" type="submit" value="Edit Design">
                 </form>

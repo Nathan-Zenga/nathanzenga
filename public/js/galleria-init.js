@@ -46,8 +46,10 @@ function loadGalleryView() {
 
 if ($(".grid").length && !("grid" in document.body.style)) {
     if ($(".img-container").length) {
-        $(".img-container").unwrap(".grid").unwrap(".grid-container").addClass("col-sm-6");
+        $(".img-container").unwrap(".grid").unwrap(".grid-container").addClass("col-sm-6 float-left");
     } else {
         $(".grid, .grid-container").remove();
     }
+} else {
+    $(".grid-container").removeClass("row");
 }

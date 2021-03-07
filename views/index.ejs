@@ -12,7 +12,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/async/3.2.0/async.min.js" integrity="sha512-6K6+H87tLdCWvY5ml9ZQXLRlPlDEt8uXmtELhuJRgFyEDv6JvndWHg3jadJuBVGPEhhA2AAt+ROMC2V7EvTIWw==" crossorigin="anonymous"></script>
         <script>
             var timeout, browser_size, q = { photo_set: "Assorted", sort: '{"index": 1}' }, gallery_run = function(p) {
-                var mobile = window.innerWidth < 768;
+                var mobile = window.innerWidth < 576;
                 clearTimeout(timeout);
                 timeout = setTimeout(function() {
                     if (browser_size !== window.outerWidth * window.outerHeight) {
