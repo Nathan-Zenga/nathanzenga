@@ -203,10 +203,6 @@ hr {
     padding: 5px;
 }
 
-.content .media-container > .inner {
-    height: 500px;
-}
-
 body:not(#design) .content .media-container > .inner {
     position: relative;
 }
@@ -218,6 +214,10 @@ body:not(#design) .content .media-container > .inner {
 .content.galleria-init .img-container > .inner {
     background-color: rgba(0,0,0,.1);
     cursor: pointer;
+}
+
+.content.galleria-init .img-container label {
+    margin: 5px 0 0;
 }
 
 .content > .txt-container > .inner {
@@ -250,10 +250,6 @@ body:not(#design) .content .media-container > .inner {
 @media (max-width: 767px) {
     .content.galleria-init {
         overflow: visible;
-    }
-
-    .content .media-container > .inner {
-        height: 350px;
     }
 
     .content > .txt-container > .inner {
