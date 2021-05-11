@@ -1,24 +1,17 @@
 {
   "name": "nathanzenga_com",
-  "version": "8.0.0",
+  "version": "9.0.0",
   "description": "portfolio site",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "concurrently \"cd ui && npm run build\" \"cd server && npm run build\"",
+    "heroku-postbuild": "npm run build",
+    "install": "cd ui && npm install && cd ../server && npm install",
+    "start": "concurrently \"cd ui && npm run start\" \"cd server && npm run start\"",
+    "start:prod": "cd server && npm run start:prod"
   },
   "dependencies": {
-    "async": "^3.2.0",
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.19.0",
-    "cloudinary": "^1.23.0",
-    "cookie-parser": "^1.4.5",
-    "ejs": "^3.1.5",
-    "express": "^4.17.1",
-    "express-session": "^1.17.1",
-    "googleapis": "^60.0.1",
-    "memorystore": "^1.6.2",
-    "mongoose": "^5.10.7",
-    "nodemailer": "^6.4.11"
+    "concurrently": "^6.1.0"
   },
   "engines": {
     "node": "*",
