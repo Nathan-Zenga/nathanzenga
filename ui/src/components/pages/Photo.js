@@ -12,15 +12,18 @@ class Photo extends Component {
     this.setState({ photos });
 
     const $imgContainer = $("#photo-page .img-container");
-    if (!("grid" in document.body.style)) {
-      if ($imgContainer.length) $imgContainer.unwrap(".grid").unwrap(".grid-container").addClass("col-sm-6 float-left");
-      else $(".grid, .grid-container").remove();
-    } else {
-      $(".grid-container").removeClass("row");
-    }
+    if ($imgContainer.length) {
+      if (!("grid" in document.body.style)) {
+        $imgContainer.unwrap(".grid");
+        $imgContainer.closest(".row").removeClass("grid-container");
+        $imgContainer.addClass("col-sm-6 float-left").find(".inner.img").css("padding-top", "100%");
+      } else {
+        $(".grid-container").removeClass("row");
+      }
 
-    if ($(".horizontal:last").offset().top > $imgContainer.last().offset().top) {
-      $(".horizontal:last").removeClass("horizontal");
+      if ($(".horizontal:last").offset().top > $imgContainer.last().offset().top) {
+        $(".horizontal:last").removeClass("horizontal");
+      }
     }
 
     this.state.photos.forEach((p, i) => {
