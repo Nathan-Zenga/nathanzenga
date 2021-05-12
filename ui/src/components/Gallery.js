@@ -4,6 +4,7 @@ class Gallery extends Component {
   state = { photos: [] };
 
   async componentDidMount() {
+    const { index = 0 } = this.props.location.state || {};
     const url = new URL(location.href);
     const photo_set = url.searchParams.get("set");
     document.title = `${photo_set} - Gallery - Nathan Zenga`;
@@ -13,16 +14,17 @@ class Gallery extends Component {
     const photos = await $.post("/p", { photo_set, sort: '{ "index": 1 }' });
     this.setState({ photos });
 
-    this.state.photos.forEach((p, i, arr) => {
+    photos.forEach((p, i) => {
       const $carousel = $("#gallery-carousel .carousel-inner");
-      const $item = $("<div>").addClass("carousel-item" + (i == 0 ? " active" : "")).appendTo($carousel);
+      const activeClass = i == index ? "active" : "";
+      const $item = $("<div>").addClass("carousel-item " + activeClass).appendTo($carousel);
       const $image = $("<img>").fadeTo(0, 0).appendTo($item).on("load", e => {
         $(e.target).fadeTo(500, 1);
         URL.revokeObjectURL(e.target.src);
       });
 
       $("#gallery-carousel .carousel-indicators").append(() => {
-        return `<li data-target="#gallery-carousel" data-slide-to="${i}" class="${i == 0 ? "active" : ""}"></li>`;
+        return `<li data-target="#gallery-carousel" data-slide-to="${i}" class="${activeClass}"></li>`;
       });
 
       fetch(p.photo_url).then(res => res.blob()).then(blob => {

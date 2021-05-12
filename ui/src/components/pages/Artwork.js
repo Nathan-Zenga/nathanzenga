@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class Artwork extends Component {
   state = { artworks: [] }
@@ -24,9 +25,14 @@ class Artwork extends Component {
   render() {
     return (
       <div className="container content img-set"> {
-        this.state.artworks.map(a => (
+        this.state.artworks.map((a, i) => (
           <div key={a._id} className="img-container media-container col-sm-6 float-left" style={{ display: "none" }}>
-            <div className="inner img" id={a.photo_set} onContextMenu={() => false}></div>
+            <Link
+              className="inner img"
+              id={a.photo_set}
+              to={{ pathname: "/gallery", search: `?set=Artwork`, state: { index: i } }}
+              onContextMenu={() => false}
+            ></Link>
           </div>
         ))
       } </div>
