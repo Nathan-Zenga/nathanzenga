@@ -6,7 +6,7 @@ const path = require('path'); // core module
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MemoryStore = require('memorystore')(session);
-const production = (process.env.NODE_ENV === "production");
+const production = process.env.NODE_ENV === "production";
 
 mongoose.connect(process.env.DB, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connection.once('open', () => { console.log("Connected to DB") });
