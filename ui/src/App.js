@@ -17,7 +17,7 @@ class App extends Component {
         <main>
           <Switch>
             <Route path="/" exact component={Home} />
-            <Route path="/photo" component={Photo} />
+            <Route path="/photography" component={Photo} />
             <Route path="/artwork" component={Artwork} />
             <Route path="/designs" component={Design} />
             <Route path="/info" component={Info} />

@@ -15,7 +15,7 @@ class Header extends Component {
               </button>
               <nav>
                 <NavLink className="container" activeClassName="current" exact to="/">Overview</NavLink>
-                <NavLink className="container" activeClassName="current" to="/photo">Photography</NavLink>
+                <NavLink className="container" activeClassName="current" to="/photography">Photography</NavLink>
                 <NavLink className="container" activeClassName="current" to="/artwork">Artwork</NavLink>
                 <NavLink className="container" activeClassName="current" to="/designs">Designs</NavLink>
                 <NavLink className="container" activeClassName="current" to="/info">Info</NavLink>

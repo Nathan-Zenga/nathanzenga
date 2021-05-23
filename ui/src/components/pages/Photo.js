@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
 class Photo extends Component {
@@ -8,7 +8,7 @@ class Photo extends Component {
     document.title = "Photography - Nathan Zenga";
     document.body.id = "photo-page";
 
-    const photos = await $.post('/p', { photo_set_cover: true, sort: `{ "photo_set_index": 1 }` });
+    const photos = await $.post('/p', { photo_set_cover: true, sort: '{ "photo_set_index": 1 }' });
     this.setState({ photos });
 
     const $imgContainer = $("#photo-page .img-container");
