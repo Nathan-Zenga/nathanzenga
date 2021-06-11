@@ -40,7 +40,7 @@ footer .toTop {
 }
 
 .carousel {
-    padding-bottom: 23px;
+    padding-bottom: 50px;
 }
 
 .carousel .carousel-indicators {
@@ -49,7 +49,7 @@ footer .toTop {
 
 .carousel .carousel-control-next,
 .carousel .carousel-control-prev {
-    bottom: 23px;
+    bottom: 50px;
 }
 
 .carousel .carousel-control-next-icon,
@@ -141,84 +141,9 @@ hr {
     padding: 1.5em 0;
 }
 
-#overview-carousel {
-    position: relative;
-}
-
-#overview-carousel-controls {
-    position: relative;
-    display: none;
-    top: 10px;
-    text-align: center;
-    z-index: 10;
-}
-
-#overview-carousel-controls .control {
-    position: absolute;
-    top: 250px;
-    font-size: 3em;
-    padding: 30px;
-    text-shadow: 0 0 10px black;
-    -moz-transform: translateY(-50%);
-    -webkit-transform: translateY(-50%);
-    transform: translateY(-50%);
-}
-
-#overview-carousel-controls .control.left {
-    left: 0;
-}
-
-#overview-carousel-controls .control.right {
-    right: 0;
-}
-
-#overview-carousel::-webkit-scrollbar {
-    height: 0px;
-}
-
-#overview-carousel::-webkit-scrollbar-thumb {
-    background-color: transparent;
-}
-
-#overview-carousel #img-container {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-#overview-carousel .img {
-    display: inline-block;
-    max-width: 100vw;
-    cursor: pointer;
-    margin-bottom: 10px;
-}
-
-@media (min-width: 768px) {
-    #overview-carousel {
-        overflow: auto;
-    }
-
-    #overview-carousel-controls {
-        display: block;
-    }
-    
-    #overview-carousel #img-container {
-        height: 500px;
-        white-space: nowrap;
-    }
-
-    #overview-carousel .img {
-        height: 100%;
-        margin-bottom: 0;
-    }
-
-    #overview-carousel .img:not(:last-child) {
-        margin-right: 10px;
-    }
-}
-
 .content .media-container {
     position: relative;
-    padding: 5px;
+    padding: 15px;
 }
 
 body:not(#design) .content .media-container > .inner {
@@ -607,7 +532,7 @@ nav a {
     }
 
     .grid > .media-container {
-        padding: 5px;
+        padding: 15px;
         grid-row: span 4;
     }
 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 
 class Home extends Component {
   state = { photos: [] }; mobile;
@@ -10,51 +11,58 @@ class Home extends Component {
     const photos = await $.post('/p', { photo_set: "Assorted", sort: '{ "index": 1 }' });
     this.setState({ photos });
 
-    const galleryRender = () => {
-      if (this.mobile === window.innerWidth < 576) { return false; }
-      this.mobile = window.innerWidth < 576;
-      const $carousel = $("#overview-carousel").children().empty().end();
-      this.state.photos.forEach((img, i) => {
-        const width = this.mobile ? "100vw" : "auto";
-        const height = this.mobile ? "auto" : "100%";
-        const $img = $("<img>").addClass("img").fadeTo(0, 0).appendTo($carousel.children()).css({ width, height });
+    const $imgContainer = $("#home-page .img-container");
+    if ($imgContainer.length) {
+      if (!("grid" in document.body.style)) {
+        $imgContainer.unwrap(".grid");
+        $imgContainer.closest(".row").removeClass("grid-container");
+        $imgContainer.addClass("col-sm-6 float-left").find(".inner.img").css("padding-top", "100%");
+      } else {
+        $(".grid-container").removeClass("row");
+      }
 
-        fetch(img.photo_url).then(res => res.blob()).then(blob => {
-          const objURL = URL.createObjectURL(blob);
-          $img.attr("src", objURL).on("load", e => {
-            URL.revokeObjectURL(objURL);
-            $img.delay(i * 200).fadeTo(1000, 1);
-          });
-        });
-      })
+      if ($(".horizontal:last").offset().top > $imgContainer.last().offset().top) {
+        $(".horizontal:last").removeClass("horizontal");
+      }
     }
 
-    galleryRender(); $(window).off("resize").on("resize", () => galleryRender());
-
-    $("#overview-carousel-controls .control.left").on("click", () => {
-      $("#overview-carousel").stop().animate({ scrollLeft: "-=" + ($("#overview-carousel").width() * .75) }, 700);
-    });
-
-    $("#overview-carousel-controls .control.right").on("click", () => {
-      $("#overview-carousel").stop().animate({ scrollLeft: "+=" + ($("#overview-carousel").width() * .75) }, 700);
+    this.state.photos.forEach((p, i) => {
+      const $img = $(".inner.img").eq(i);
+      const image = new Image();
+      image.onload = e => URL.revokeObjectURL(e.target.src);
+      fetch(p.photo_url).then(res => res.blob()).then(blob => {
+        const objURL = URL.createObjectURL(blob);
+        $($img).css("background-image", "url("+objURL+")").closest(".img-container").delay(i * 200).fadeTo(500, 1);
+        setTimeout(() => { image.src = objURL }, 100);
+      });
     });
   }
 
   render() {
     return (
-      <>
-        <div id="overview-carousel-controls">
-          <a className="fal fa-angle-left control left"></a>
-          <span className="sr-only">Previous</span>
+      <div className="container content img-set">
+        <div className="grid-container row">
+          <div className="grid"> {
+            this.state.photos.map((p, i) => {
+              switch (p.orientation) {
+                case "portrait": var dir = " vertical"; break;
+                case "landscape": var dir = i % 2 == 0 ? " horizontal" : ""; break;
+              }
 
-          <a className="fal fa-angle-right control right"></a>
-          <span className="sr-only">Next</span>
+              return (
+                <div key={p._id} className={"img-container media-container" + dir} style={{ opacity: 0 }}>
+                  <Link
+                    className="inner img"
+                    id={p.photo_set}
+                    to={{ pathname: "/gallery", search: `?set=${p.photo_set}`, state: { index: i } }}
+                    onContextMenu={() => false}
+                  ></Link>
+                </div>
+              )
+            })
+          } </div>
         </div>
-
-        <div id="overview-carousel">
-          <div id="img-container"></div>
-        </div>
-      </>
+      </div>
     );
   }
 }
