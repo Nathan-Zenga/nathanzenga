@@ -141,20 +141,20 @@ hr {
     padding: 1.5em 0;
 }
 
-.content .media-container {
+.media-set {
+    overflow: hidden;
+}
+
+.media-set .media-container {
     position: relative;
     padding: 15px;
 }
 
-body:not(#design) .content .media-container > .inner {
+.media-set .media-container > .inner {
     position: relative;
 }
 
-.content.img-set {
-    overflow: hidden;
-}
-
-.content.img-set .img-container > .inner {
+.media-set .img-container > .inner {
     display: block;
     background-color: rgba(0,0,0,.1);
     background-position: center;
@@ -162,17 +162,12 @@ body:not(#design) .content .media-container > .inner {
     cursor: pointer;
 }
 
-.content.img-set .img-container label {
+.media-set .img-container label {
     margin: 5px 0 0;
 }
 
-.content > .txt-container > .inner {
-    padding: 20px;
-    height: auto;
-}
-
 @media (min-width: 992px) {
-    .content.img-set .img-container label {
+    .media-set .img-container label {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -188,27 +183,23 @@ body:not(#design) .content .media-container > .inner {
         z-index: 20;
     }
 
-    .content.img-set .img-container:hover label {
+    .media-set .img-container:hover label {
         opacity: 1;
     }
 }
 
 @media (max-width: 767px) {
-    .content.img-set {
+    .media-set {
         overflow: visible;
     }
 
-    .content > .txt-container > .inner {
-        background-color: transparent;
-    }
-
     @media (orientation: portrait) {
-        .content.img-set .img-container {
+        .media-set .img-container {
             padding-left: 0;
             padding-right: 0;
         }
 
-        .content.img-set .img-container label {
+        .media-set .img-container label {
             margin-left: 10px;
             margin-right: 10px;
         }

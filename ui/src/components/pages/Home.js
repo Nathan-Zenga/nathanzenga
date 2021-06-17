@@ -40,7 +40,7 @@ class Home extends Component {
 
   render() {
     return (
-      <div className="container content img-set">
+      <div className="container media-set">
         <div className="grid-container row">
           <div className="grid"> {
             this.state.photos.map((p, i) => {

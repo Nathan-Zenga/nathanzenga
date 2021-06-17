@@ -24,7 +24,7 @@ class Artwork extends Component {
 
   render() {
     return (
-      <div className="container content img-set"> {
+      <div className="container media-set"> {
         this.state.artworks.map((a, i) => (
           <div key={a._id} className="img-container media-container col-sm-6 float-left" style={{ display: "none" }}>
             <Link
