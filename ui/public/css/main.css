@@ -152,6 +152,8 @@ hr {
 
 .media-set .media-container > .inner {
     position: relative;
+    -webkit-filter: contrast(.825);
+    filter: contrast(.825);
 }
 
 .media-set .img-container > .inner {
@@ -559,4 +561,6 @@ nav a {
     transform: translate(-50%, -50%);
     max-width: 100%;
     max-height: 100%;
+    -webkit-filter: contrast(.825);
+    filter: contrast(.825);
 }
