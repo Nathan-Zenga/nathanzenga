@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Statcounter from '../Statcounter';
 
 class Artwork extends Component {
   state = { artworks: [] }
@@ -10,6 +11,8 @@ class Artwork extends Component {
 
     const artworks = await $.post('/p', { photo_set: "Artwork", sort: `{ "index": 1 }` });
     this.setState({ artworks });
+    Statcounter();
+
     this.state.artworks.forEach((a, i) => {
       const $img = $("<img>").css("width", "100%").appendTo($(".inner.img").eq(i));
       fetch(a.photo_url).then(res => res.blob()).then(blob => {

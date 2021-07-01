@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import Statcounter from '../Statcounter';
 
 class Photo extends Component {
   state = { photos: [] }
@@ -10,6 +11,7 @@ class Photo extends Component {
 
     const photos = await $.post('/p', { photo_set_cover: true, sort: '{ "photo_set_index": 1 }' });
     this.setState({ photos });
+    Statcounter();
 
     const $imgContainer = $("#photo-page .img-container");
     if ($imgContainer.length) {

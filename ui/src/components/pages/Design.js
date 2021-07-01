@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Statcounter from '../Statcounter';
 
 class Design extends Component {
   state = { designs: [], design_docs: [] }
@@ -11,6 +12,7 @@ class Design extends Component {
 
     const { designs, design_docs } = await $.get("/designs/-");
     this.setState({ designs, design_docs });
+    Statcounter();
 
     this.state.designs.forEach((item, i) => {
       this.state.design_docs.forEach(d => {

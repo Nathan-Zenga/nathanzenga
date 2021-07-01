@@ -5,7 +5,6 @@
   "main": "app.js",
   "scripts": {
     "build": "concurrently \"cd ui && npm run build\" \"cd server && npm run build\"",
-    "heroku-prebuild": "cat ui/public/index.prod.html > ui/public/index.html && rm ui/public/index.prod.html",
     "heroku-postbuild": "npm run build",
     "install": "cd ui && npm install && cd ../server && npm install",
     "start": "concurrently \"cd ui && npm run start\" \"cd server && npm run start\"",

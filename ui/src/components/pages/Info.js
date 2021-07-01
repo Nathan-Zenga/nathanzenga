@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Statcounter from '../Statcounter';
 
 class Info extends Component {
   state = { text: "" }
@@ -9,9 +10,10 @@ class Info extends Component {
 
     const doc = await $.get('/info/-');
     this.setState({ text: doc.text });
+    Statcounter();
+
     $("#info-text").html(this.state.text);
     $("#info-text, #contact").each((i, e) => $(e).delay(i * 500).fadeTo(1000, 1));
-
     $("form").on("submit", e => {
       e.preventDefault();
       const form = e.target;

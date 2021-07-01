@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Statcounter from './Statcounter';
 
 class Gallery extends Component {
   state = { photos: [] };
@@ -13,6 +14,7 @@ class Gallery extends Component {
     if (!photo_set) return;
     const photos = await $.post("/p", { photo_set, sort: '{ "index": 1 }' });
     this.setState({ photos });
+    Statcounter();
 
     photos.forEach((p, i) => {
       const $carousel = $("#gallery-carousel .carousel-inner");
