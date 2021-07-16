@@ -4,13 +4,15 @@ header {
 
 #logo {
     display: table;
-    margin: 0 0 0 auto;
 }
 
 #logo img {
     height: 55px;
     -webkit-filter: invert(1);
     filter: invert(1);
+    -moz-transform: rotate(10deg);
+    -webkit-transform: rotate(10deg);
+    transform: rotate(10deg);
 }
 
 main {
@@ -183,7 +185,12 @@ hr {
         text-align: center;
         margin: 0;
         z-index: 20;
+        -webkit-animation: label-entrance 2s 1s backwards;
+        animation: label-entrance 2s 1s backwards;
     }
+
+    @-webkit-keyframes label-entrance { from { opacity: 1 } }
+    @keyframes label-entrance { from { opacity: 1 } }
 
     .media-set .img-container:hover label {
         opacity: 1;
@@ -547,8 +554,7 @@ nav a {
 
 #gallery-carousel .carousel-item {
     position: relative;
-    height: 90vh;
-    max-height: 600px;
+    height: 600px;
     background-color: rgb(30, 30, 30);
 }
 

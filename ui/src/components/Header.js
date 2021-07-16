@@ -7,7 +7,7 @@ class Header extends Component {
       <header>
         <div className="container">
           <div className="row">
-            <div className="col-6" id="nav-wrapper">
+            <div className="col-2 col-sm-1" id="nav-wrapper">
               <button className="hamburger hamburger--spin" id="menu-icon" type="button">
                 <span className="hamburger-box">
                   <span className="hamburger-inner"></span>
@@ -21,7 +21,7 @@ class Header extends Component {
                 <NavLink className="container" activeClassName="current" to="/info">Info</NavLink>
               </nav>
             </div>
-            <div className="col-6" id="logo-wrapper">
+            <div className="col" id="logo-wrapper">
               <Link id="logo" to="/"><img src="/img/logo.png" alt="Logo" /></Link>
             </div>
           </div>
