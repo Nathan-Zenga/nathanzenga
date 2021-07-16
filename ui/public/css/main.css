@@ -364,6 +364,7 @@ nav {
     opacity: 0;
     transition: transform 0s .4s, opacity .3s;
     padding-top: 45px;
+    padding-left: 50px;
     z-index: 100;
 }
 
@@ -378,16 +379,12 @@ nav.show {
 nav a {
     display: block;
     margin-bottom: 2em;
-    text-align: center;
 }
 
 @media (min-width: 576px) {
     nav {
         padding-top: 110px;
-    }
-
-    nav a {
-        text-align: left;
+        padding-left: 0;
     }
 }
 
@@ -558,7 +555,9 @@ nav a {
 
 #gallery-carousel .carousel-item {
     position: relative;
-    height: 600px;
+    min-height: 600px;
+    max-height: 900px;
+    height:90vh;
     background-color: rgb(30, 30, 30);
 }
 
