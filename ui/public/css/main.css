@@ -170,6 +170,10 @@ hr {
     margin: 5px 0 0;
 }
 
+.media-set .img-container label a:hover {
+    opacity: 1;
+}
+
 @media (min-width: 992px) {
     .media-set .img-container label {
         position: absolute;

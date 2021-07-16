@@ -50,16 +50,17 @@ class Photo extends Component {
                 case "portrait": var dir = " vertical"; break;
                 case "landscape": var dir = i % 2 == 0 ? " horizontal" : ""; break;
               }
+              const href = { pathname: "/gallery", search: `?set=${p.photo_set}` };
 
               return (
                 <div key={p._id} className={"img-container media-container" + dir} style={{ opacity: 0 }}>
                   <Link
                     className="inner img"
                     id={p.photo_set}
-                    to={{ pathname: "/gallery", search: `?set=${p.photo_set}` }}
+                    to={href}
                     onContextMenu={() => false}
                   ></Link>
-                  <label>{p.photo_set}</label>
+                  <label><Link to={href}>{p.photo_set}</Link></label>
                 </div>
               )
             })
