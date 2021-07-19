@@ -21,7 +21,7 @@ class App extends Component {
             <Route path="/artwork" component={Artwork} />
             <Route path="/designs" component={Design} />
             <Route path="/info" component={Info} />
-            <Route path="/gallery" component={Gallery} />
+            <Route path="/gallery" exact component={Gallery} />
             <Route path="*" render={ () => <h1 style={{ textAlign: "center" }}>SORRY, PAGE NOT FOUND</h1> } />
           </Switch>
         </main>

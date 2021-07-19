@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import Statcounter from './Statcounter';
 
 class Gallery extends Component {
-  state = { photos: [] };
+  state = {
+    photos: null,
+    photo_set: (new URL(location.href)).searchParams.get("set")
+  };
 
   async componentDidMount() {
+    const { photo_set } = this.state;
     const { index = 0 } = this.props.location.state || {};
-    const url = new URL(location.href);
-    const photo_set = url.searchParams.get("set");
     document.title = `${photo_set} - Gallery - Nathan Zenga`;
     document.body.id = "gallery-page";
 
@@ -36,6 +39,7 @@ class Gallery extends Component {
   }
 
   render() {
+    if (!this.state.photo_set || this.state.photos != null && !this.state.photos.length) return <Redirect to="/gallery/not-found" />
     return (
       <div className="container" style={{ padding: 0 }}>
         <div id="gallery-carousel" className="carousel slide carousel-fade" onContextMenu={() => false}>
