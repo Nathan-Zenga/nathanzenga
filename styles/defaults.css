@@ -1,0 +1,107 @@
+@import url('https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css');
+@import url('https://kathirr007.github.io/FA-MD-Icons-Updated/css/pro.css');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700,800|Arvo|Questrial|Poppins:200,300,400,500,600,700,800');
+
+body {
+    background-color: rgb(30, 30, 30);
+    font-family: 'Poppins', 'Montserrat', 'Century Gothic', sans-serif;
+    font-size: 15px;
+    color: rgb(255, 228, 181);
+    font-feature-settings: "liga" 0;
+}
+
+a, a:link, a:visited, a:hover {
+    cursor: pointer;
+    color: inherit;
+    text-decoration: none;
+    transition: .5s opacity;
+}
+
+a:hover {
+    opacity: .5;
+}
+
+::selection {
+    color: rgb(30, 30, 30);
+    background: rgb(255, 228, 181);
+}
+
+img {
+    pointer-events: none!important
+}
+
+ul {
+    list-style:none;
+    padding: 0
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgb(100, 100, 100);
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+@media (min-width: 576px) {
+    .mb-view {
+        display: none!important;
+    }
+}
+
+@media (max-width: 575px) {
+    .dt-view {
+        display: none!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .mb-view-md {
+        display: none!important;
+    }
+}
+
+@media (max-width: 767px) {
+    .dt-view-md {
+        display: none!important;
+    }
+}
+
+.nz .btn {
+    border: none;
+    color: rgb(30, 30, 30);
+}
+
+.nz .hamburger {
+    padding: 0;
+    outline: none;
+}
+
+.nz .hamburger:hover,
+.nz .hamburger.is-active:hover {
+    opacity: 1;
+}
+
+.nz .hamburger-box {
+    width: 24px;
+}
+
+.nz .hamburger-inner:before,
+.nz .hamburger-inner:after,
+.nz .hamburger-inner {
+    width: 100%;
+    height: 2px;
+}
+
+.nz .hamburger-inner:before,
+.nz .hamburger-inner:after,
+.nz .hamburger-inner,
+.nz .hamburger.is-active .hamburger-inner:before,
+.nz .hamburger.is-active .hamburger-inner:after,
+.nz .hamburger.is-active .hamburger-inner {
+    background-color: rgb(255, 228, 181);
+}
