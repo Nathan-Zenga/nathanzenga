@@ -1,4 +1,5 @@
 import GalleryImage from '../../../components/GalleryCarouselImage';
+import { getPhotos } from '../../../services/fetchData';
 
 const Gallery = ({ photos }) => {
   return (
@@ -7,7 +8,7 @@ const Gallery = ({ photos }) => {
         <ol className="carousel-indicators"></ol>
 
         <div className="carousel-inner">{
-          photos.map((p, i) => <GalleryImage active={!i} key={p._id} image={p} index={i} />)
+          photos.map((p, i) => <GalleryImage active={!i} key={p._id} image={p} />)
         }</div>
 
         <a className="carousel-control-prev" href="#gallery-carousel" role="button" data-slide="prev">
@@ -24,21 +25,15 @@ const Gallery = ({ photos }) => {
   );
 }
 
-export const getStaticProps = async _ => {
-  const headers = {'Content-Type': 'application/json'};
-  const sort = JSON.stringify({ index: 1 });
-  const body = JSON.stringify({ photo_set: "Assorted", sort });
-  const data = await fetch('http://localhost:5678/api/p', { method: "POST", headers, body });
-  const photos = await data.json();
+export const getStaticProps = async ctx => {
+  const photos = await getPhotos({ photo_set: ctx.params.set, sort: '{ "index": 1 }' });
   return { props: { photos } };
 }
 
 export const getStaticPaths = async _ => {
-  const headers = { "Content-Type": "application/json" };
-  const body = JSON.stringify({ photo_set: "Assorted", sort: '{ "index": 1 }' });
-  const data = await fetch('http://localhost:5678/api/p', { method: "POST", headers, body });
-  const photos = await data.json();
-  return { paths: photos.map((p, i) => ({ params: { id: `${i}` } })), fallback: false };
+  const photos = await getPhotos({ sort: '{ "photo_set": 1, "index": 1 }' });
+  const paths = photos.map(p => ({ params: { set: p.photo_set.toLowerCase() } }));
+  return { paths, fallback: false };
 }
 
 export default Gallery;
