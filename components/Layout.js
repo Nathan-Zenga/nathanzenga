@@ -3,6 +3,7 @@ import Meta from './Meta'
 import Header from './Header'
 import Footer from './Footer'
 import styles from '../styles/Layout.module.css';
+import Statcounter from '../services/Statcounter';
 
 const Layout = ({ children }) => {
   const [displayChildren, setDisplayChildren] = useState(children);
@@ -10,11 +11,13 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     setTransitionStage("fadeIn")
+    Statcounter();
   }, []);
 
   useEffect(() => {
     if (children.type.name !== displayChildren.type.name) {
       setTransitionStage("fadeOut");
+      Statcounter();
     }
   }, [children, setDisplayChildren, displayChildren]);
 
