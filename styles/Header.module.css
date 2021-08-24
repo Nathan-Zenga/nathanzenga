@@ -2,33 +2,33 @@
   padding: 30px 0 40px;
 }
 
-.nz .hamburger {
+#header .hamburger {
   padding: 0;
   outline: none;
 }
 
-.nz .hamburger:hover,
-.nz .hamburger.is-active:hover {
+#header .hamburger:hover,
+#header .hamburger.is-active:hover {
   opacity: 1;
 }
 
-.nz .hamburger-box {
+#header .hamburger-box {
   width: 24px;
 }
 
-.nz .hamburger-inner:before,
-.nz .hamburger-inner:after,
-.nz .hamburger-inner {
+#header .hamburger-inner:before,
+#header .hamburger-inner:after,
+#header .hamburger-inner {
   width: 100%;
   height: 2px;
 }
 
-.nz .hamburger-inner:before,
-.nz .hamburger-inner:after,
-.nz .hamburger-inner,
-.nz .hamburger.is-active .hamburger-inner:before,
-.nz .hamburger.is-active .hamburger-inner:after,
-.nz .hamburger.is-active .hamburger-inner {
+#header .hamburger-inner:before,
+#header .hamburger-inner:after,
+#header .hamburger-inner,
+#header .hamburger.is-active .hamburger-inner:before,
+#header .hamburger.is-active .hamburger-inner:after,
+#header .hamburger.is-active .hamburger-inner {
   background-color: rgb(255, 228, 181);
 }
 
