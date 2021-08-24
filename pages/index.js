@@ -1,6 +1,7 @@
 import PhotoThumb from '../components/PhotoThumb';
+import { getPhotos } from '../services/fetchData';
 
-const Home = ({ photos }) => {
+const HomePage = ({ photos }) => {
   return (
     <div className="container media-set">
       <div className="grid-container">
@@ -13,11 +14,8 @@ const Home = ({ photos }) => {
 }
 
 export const getStaticProps = async _ => {
-  console.log(_);
-  const headers = { "Content-Type": "application/json" };
-  const body = JSON.stringify({ photo_set: "Assorted", sort: '{ "index": 1 }' });
-  const data = await fetch("http://localhost:5678/api/p", { method: "POST", headers, body });
-  return { props: { photos: await data.json() } };
+  const photos = await getPhotos({ photo_set: "Assorted", sort: '{ "index": 1 }' });
+  return { props: { photos } };
 }
 
-export default Home;
+export default HomePage;

@@ -5,7 +5,7 @@ class PhotoThumb extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { image: props.image, index: props.index, imageObjectURL: "" };
+    this.state = { ...props, imageObjectURL: "" };
   }
 
   async componentDidMount() {
@@ -28,17 +28,18 @@ class PhotoThumb extends Component {
   }
 
   render() {
-    const { image, index, imageObjectURL } = this.state;
+    const { image, index, imageObjectURL, label } = this.state;
     const imageContainerClass = "img-container media-container" + this.imageOrientation(index);
     return (
       <div className={imageContainerClass}>
-        <Link href={`/gallery/${image.photo_set}/${!isNaN(index) ? index + 1 : ""}`}>
+        <Link href={`/gallery/${image.photo_set.toLowerCase()}/${!isNaN(index) ? index + 1 : ""}`}>
           <a className="inner img"
              id={image.photo_set}
              style={{ backgroundImage: `url(${imageObjectURL})` }}
-             onContextMenu={_ => false}>
+             onContextMenu={e => false}>
           </a>
         </Link>
+        { label ? <label>{image.photo_set}</label> : <></> }
       </div>
     )
   }
