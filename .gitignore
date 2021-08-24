@@ -4,4 +4,5 @@ out
 build
 .next
 .DS_Store
+.vscode
 .vercel

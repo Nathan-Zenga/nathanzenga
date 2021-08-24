@@ -1,14 +1,11 @@
 {
   "name": "nathanzenga_com",
-  "version": "9.0.0",
+  "version": "10.0.0",
   "description": "portfolio site",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "build": "concurrently \"cd ui && npm run build\" \"cd server && npm run build\"",
-    "heroku-postbuild": "npm run build",
-    "install": "cd ui && npm install && cd ../server && npm install",
-    "start": "concurrently \"cd ui && npm run start\" \"cd server && npm run start\"",
-    "start:prod": "cd server && npm run start:prod"
+    "build": "next build && next export",
+    "start": "node server.js"
   },
   "dependencies": {
     "async": "^3.2.1",
