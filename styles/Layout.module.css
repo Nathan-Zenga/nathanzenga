@@ -1,0 +1,8 @@
+.main-content {
+    opacity: 0;
+    transition: .75s opacity;
+}
+
+.fadeIn {
+    opacity: 1;
+}
