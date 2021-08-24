@@ -17,6 +17,7 @@ header {
 
 main {
     padding-bottom: 50px;
+    overflow: hidden;
 }
 
 footer {
@@ -52,6 +53,7 @@ footer .toTop {
 .carousel .carousel-control-next,
 .carousel .carousel-control-prev {
     bottom: 50px;
+    text-shadow: 0 0 10px rgb(30, 30, 30), 0 0 10px rgb(30, 30, 30);
 }
 
 .carousel .carousel-control-next-icon,
