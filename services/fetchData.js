@@ -5,21 +5,21 @@ const fetchData = async (url, method, bodyData) => {
   const headers = method === "POST" ? { 'Content-Type': 'application/json' } : undefined;
   const body = bodyData ? JSON.stringify(bodyData) : undefined;
   const res = await fetch(url, { method, headers, body });
-  const data = (await Promise.allSettled([res.json(), res.text()])).find(r => r.status === "fulfilled");
+  const data = (await Promise.allSettled([res.json(), res.text()])).find(r => r.status === "fulfilled") || {};
   return data.value;
 }
 
 export const getPhotos = async bodyData => {
   const photos = await fetchData(`${location_origin}/api/p`, "POST", bodyData);
-  return photos;
+  return photos || [];
 }
 
 export const getInfoText = async () => {
   const { text } = await fetchData(`${location_origin}/api/info`, "GET");
-  return text;
+  return text || "";
 }
 
 export const getDesignWork = async () => {
-  const { designs, design_docs } = await fetchData(`${location_origin}/api/designs`, "GET");
+  const { designs = [], design_docs = [] } = await fetchData(`${location_origin}/api/designs`, "GET");
   return { designs, design_docs };
 }

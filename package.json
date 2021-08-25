@@ -4,7 +4,8 @@
   "description": "portfolio site",
   "main": "server.js",
   "scripts": {
-    "build": "next build && next export",
+    "build": "next build",
+    "heroku-postbuild": "npm run build",
     "start": "node server.js"
   },
   "dependencies": {
