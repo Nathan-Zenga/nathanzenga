@@ -36,10 +36,10 @@ server.use((req, res, next) => {
 });
 
 app.prepare().then(() => {
-  server.use('/api/', require('./routes/index'));
-  server.use('/api/settings', require('./routes/settings'));
-  server.use('/api/settings/photo', require('./routes/photo-settings'));
-  server.use('/api/settings/design', require('./routes/design-settings'));
+  server.use('/', require('./routes/index'));
+  server.use('/settings', require('./routes/settings'));
+  server.use('/settings/photo', require('./routes/photo-settings'));
+  server.use('/settings/design', require('./routes/design-settings'));
   server.post('*', (req, res) => res.status(400).send("Sorry, your request currently cannot be processed"));
   server.all('*', (req, res) => handle(req, res));
   server.listen(port, () => { console.log(`Server started ${!dev ? "" : "on port " + port}`) });

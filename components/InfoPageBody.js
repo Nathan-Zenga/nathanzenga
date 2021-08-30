@@ -30,7 +30,7 @@ class InfoPageBody extends Component {
         </div>
 
         <div className="col-sm-6 float-left" id="contact">
-          <form className="form-group" method="post" action="/api/send/message" onSubmit={this.onFormSubmit}>
+          <form className="form-group" method="post" action="/send/message" onSubmit={this.onFormSubmit}>
             <label className="sr-only">Name</label>
             <input className="form-control details" type="text" id="name" name="name" placeholder="Your Name" required />
 

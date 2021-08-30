@@ -10,16 +10,16 @@ const fetchData = async (url, method, bodyData) => {
 }
 
 export const getPhotos = async bodyData => {
-  const photos = await fetchData(`${location_origin}/api/p`, "POST", bodyData);
+  const photos = await fetchData(`${location_origin}/p`, "POST", bodyData);
   return photos;
 }
 
 export const getInfoText = async () => {
-  const { text } = await fetchData(`${location_origin}/api/info`, "GET");
+  const { text } = await fetchData(`${location_origin}/info/-`, "GET");
   return text;
 }
 
 export const getDesignWork = async () => {
-  const { designs, design_docs } = await fetchData(`${location_origin}/api/designs`, "GET");
+  const { designs, design_docs } = await fetchData(`${location_origin}/designs/-`, "GET");
   return { designs, design_docs };
 }

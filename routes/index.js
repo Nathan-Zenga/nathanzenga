@@ -5,7 +5,7 @@ const { OAuth2 } = (require("googleapis")).google.auth;
 const { Design, Info_text, Photo } = require('../models/models');
 const { OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_REFRESH_TOKEN } = process.env;
 
-router.get('/designs', async (req, res) => {
+router.get('/designs/-', async (req, res) => {
     const { tools } = req.query;
     const filter = Object.assign({ hidden: false }, tools ? { "text.tools": new RegExp(tools, "i") } : {});
     const designs = await Design.find(filter).sort({ index: 1 }).exec();
@@ -13,7 +13,7 @@ router.get('/designs', async (req, res) => {
     res.send({ designs, design_docs });
 });
 
-router.get('/info', (req, res) => {
+router.get('/info/-', (req, res) => {
     Info_text.findOne((err, txt) => res.send(txt))
 });
 
