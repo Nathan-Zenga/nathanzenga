@@ -30,9 +30,11 @@ class PhotoThumb extends Component {
   render() {
     const { image, index, imageObjectURL, label } = this.state;
     const imageContainerClass = "img-container media-container" + this.imageOrientation(index);
+    const query = { set: image.photo_set.toLowerCase() };
+    if (!isNaN(index)) query.image = index + 1;
     return (
       <div className={imageContainerClass}>
-        <Link href={`/gallery/${image.photo_set.toLowerCase()}/${!isNaN(index) ? index + 1 : ""}`}>
+        <Link href={{ pathname: "/gallery", query }}>
           <a className="inner img"
              id={image.photo_set}
              style={{ backgroundImage: `url(${imageObjectURL})` }}

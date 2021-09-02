@@ -1,11 +1,16 @@
-import GalleryImage from '../../../../components/GalleryCarouselImage';
-import { getPhotos } from '../../../../services/fetchData';
+import GalleryImage from '../components/GalleryCarouselImage';
+import { getPhotos } from '../services/fetchData';
 
 const Gallery = ({ photos, position }) => {
   return (
     <div className="container" style={{ padding: 0 }}>
       <div id="gallery-carousel" className="carousel slide carousel-fade" onContextMenu={() => false}>
-        <ol className="carousel-indicators"></ol>
+        <ol className="carousel-indicators">{
+          photos.map((p, i) => {
+            const active = (i+1) === parseInt(position) ? "active" : "";
+            return <li data-target="#gallery-carousel" data-slide-to={i} className={active}></li>
+          })
+        }</ol>
 
         <div className="carousel-inner">{
           photos.map((p, i) => <GalleryImage active={(i+1) === parseInt(position)} key={p._id} image={p} />)
@@ -25,17 +30,9 @@ const Gallery = ({ photos, position }) => {
   );
 }
 
-export const getStaticProps = async ctx => {
-  const photos = await getPhotos({ photo_set: ctx.params.set, sort: '{ "index": 1 }' });
-  return { props: { photos, position: ctx.params.position } };
-}
-
-export const getStaticPaths = async _ => {
-  const photos = await getPhotos({ sort: '{ "photo_set": 1, "index": 1 }' });
-  const paths = photos.map(p => ({
-    params: { set: p.photo_set.toLowerCase(), position: `${p.index}` }
-  }));
-  return { paths, fallback: false };
+export const getServerSideProps = async ctx => {
+  const photos = await getPhotos({ photo_set: ctx.query.set, sort: '{ "index": 1 }' });
+  return { props: { photos, position: ctx.query.image || 1 } };
 }
 
 export default Gallery;

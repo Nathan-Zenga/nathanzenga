@@ -1,8 +1,11 @@
 .main-content {
-    opacity: 0;
-    transition: .75s opacity;
+    transition: .5s opacity;
 }
 
 .fadeIn {
     opacity: 1;
+}
+
+.fadeOut {
+    opacity: 0;
 }

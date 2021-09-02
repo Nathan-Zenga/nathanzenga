@@ -21,9 +21,11 @@ class ArtworkThumb extends Component {
   render() {
     const { image, index, imageObjectURL } = this.state;
     const imageContainerClass = "img-container media-container col-sm-6 float-left";
+    const query = { set: image.photo_set.toLowerCase() };
+    if (!isNaN(index)) query.image = index + 1;
     return (
       <div className={imageContainerClass}>
-        <Link href={`/gallery/artwork/${!isNaN(index) ? index + 1 : ""}`}>
+        <Link href={{ pathname: "/gallery", query }}>
           <a className="inner img"
              id={image.photo_set}
              onContextMenu={e => false}>
