@@ -8,12 +8,12 @@ const Gallery = ({ photos, position }) => {
         <ol className="carousel-indicators">{
           photos.map((p, i) => {
             const active = (i+1) === parseInt(position) ? "active" : "";
-            return <li data-target="#gallery-carousel" data-slide-to={i} className={active}></li>
+            return <li key={"image-" + i} data-target="#gallery-carousel" data-slide-to={i} className={active}></li>
           })
         }</ol>
 
         <div className="carousel-inner">{
-          photos.map((p, i) => <GalleryImage active={(i+1) === parseInt(position)} key={p._id} image={p} />)
+          photos.map((p, i) => <GalleryImage key={p._id} active={(i+1) === parseInt(position)} image={p} />)
         }</div>
 
         <a className="carousel-control-prev" href="#gallery-carousel" role="button" data-slide="prev">

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { motion } from "framer-motion";
 
 class InfoPageBody extends Component {
   constructor(props) {
@@ -25,11 +26,21 @@ class InfoPageBody extends Component {
   render() {
     return (
       <>
-        <div className="col-sm-6 float-left" id="info-text">
+        <motion.div
+          className="col-sm-6 float-left" id="info-text"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
           {/* Text inserted here */}
-        </div>
+        </motion.div>
 
-        <div className="col-sm-6 float-left" id="contact">
+        <motion.div
+          className="col-sm-6 float-left" id="contact"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: .5 }}
+        >
           <form className="form-group" method="post" action="/send/message" onSubmit={this.onFormSubmit}>
             <label className="sr-only">Name</label>
             <input className="form-control details" type="text" id="name" name="name" placeholder="Your Name" required />
@@ -45,7 +56,7 @@ class InfoPageBody extends Component {
 
             <input className="form-control submit" type="submit" value="Send" />
           </form>
-        </div>
+        </motion.div>
       </>
     );
   }

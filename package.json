@@ -3,7 +3,10 @@
   "version": "10.0.0",
   "description": "portfolio site",
   "main": "server.js",
-  "cacheDirectories": ["node_modules", ".next/cache"],
+  "cacheDirectories": [
+    "node_modules",
+    ".next/cache"
+  ],
   "scripts": {
     "build": "next build",
     "heroku-postbuild": "npm run build",
@@ -17,6 +20,7 @@
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
+    "framer-motion": "^4.1.17",
     "googleapis": "^84.0.0",
     "memorystore": "^1.6.6",
     "mongoose": "^5.13.7",

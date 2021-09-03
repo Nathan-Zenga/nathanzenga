@@ -4,7 +4,7 @@ import { getPhotos } from '../services/fetchData';
 const ArtworkPage = ({ artwork }) => {
   return (
     <div className="container media-set">{
-      artwork.map((p, i) => <ArtworkThumb key={p._id} image={p} index={i} />)
+      artwork.map((p, i) => <ArtworkThumb key={p._id} image={p} index={i} delayExponent={i} />)
     }</div>
   );
 }

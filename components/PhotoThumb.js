@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React, { Component } from 'react';
+import { motion } from "framer-motion";
 
 class PhotoThumb extends Component {
 
@@ -28,12 +29,17 @@ class PhotoThumb extends Component {
   }
 
   render() {
-    const { image, index, imageObjectURL, label } = this.state;
+    const { image, imageObjectURL, label, index, delayExponent } = this.state;
     const imageContainerClass = "img-container media-container" + this.imageOrientation(index);
     const query = { set: image.photo_set.toLowerCase() };
     if (!isNaN(index)) query.image = index + 1;
     return (
-      <div className={imageContainerClass}>
+      <motion.div
+        className={imageContainerClass}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: .25 * (!isNaN(delayExponent) ? delayExponent : 1) }}
+      >
         <Link href={{ pathname: "/gallery", query }}>
           <a className="inner img"
              id={image.photo_set}
@@ -42,7 +48,7 @@ class PhotoThumb extends Component {
           </a>
         </Link>
         { label ? <label>{image.photo_set}</label> : <></> }
-      </div>
+      </motion.div>
     )
   }
 }
