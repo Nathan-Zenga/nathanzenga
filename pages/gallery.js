@@ -1,8 +1,12 @@
+import Meta from '../components/Meta';
 import GalleryImage from '../components/GalleryCarouselImage';
 import { getPhotos } from '../services/fetchData';
 
-const Gallery = ({ photos, position }) => {
+const Gallery = ({ photos, position, set = "Missing Gallery" }) => {
+  const { title, ogTitle } = Meta.defaultProps;
   return (
+    <>
+    <Meta title={`${set} - ${title}`} ogTitle={`${set} - ${ogTitle}`} />
     <div className="container" style={{ padding: 0 }}>
       <div id="gallery-carousel" className="carousel slide carousel-fade" onContextMenu={() => false}>
         <ol className="carousel-indicators">{
@@ -27,12 +31,13 @@ const Gallery = ({ photos, position }) => {
         </a>
       </div>
     </div>
+    </>
   );
 }
 
 export const getServerSideProps = async ctx => {
   const photos = await getPhotos({ photo_set: ctx.query.set, sort: '{ "index": 1 }' });
-  return { props: { photos, position: ctx.query.image || 1 } };
+  return { props: { photos, position: ctx.query.image || 1, set: (photos[0] || {}).photo_set } };
 }
 
 export default Gallery;

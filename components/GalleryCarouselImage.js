@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { motion } from "framer-motion";
 
 class GalleryCarouselImage extends Component {
 
@@ -21,14 +20,9 @@ class GalleryCarouselImage extends Component {
   render() {
     const { active, imageObjectURL: url } = this.state;
     return (
-      <motion.div
-        className={"carousel-item " + (active ? "active" : "")}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
+      <div className={"carousel-item " + (active ? "active" : "")}>
         <img src={url} />
-      </motion.div>
+      </div>
     )
   }
 }
