@@ -1,4 +1,9 @@
+import { useEffect } from "react";
+import Statcounter from "../services/Statcounter";
+
 const Footer = () => {
+  useEffect(() => { Statcounter() });
+
   return (
     <>
     <footer>
