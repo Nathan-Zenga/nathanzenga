@@ -15,7 +15,9 @@ const Header = () => {
             <Nav />
           </div>
           <div className="col" id="logo-wrapper">
-            <Link href="/"><a id="logo"><img src="/img/logo.png" alt="Logo" /></a></Link>
+            <Link href="/" scroll={false}>
+              <a id="logo"><img src="/img/logo.png" alt="Logo" /></a>
+            </Link>
           </div>
         </div>
       </div>

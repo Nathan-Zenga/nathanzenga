@@ -41,7 +41,7 @@ class InfoPageBody extends Component {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1, delay: .5 }}
+          transition={{ duration: .5, delay: .5 }}
         >
           <form className="form-group" method="post" action="/send/message" onSubmit={this.onFormSubmit}>
             <label className="sr-only">Name</label>

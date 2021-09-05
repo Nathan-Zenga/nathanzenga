@@ -41,7 +41,7 @@ class PhotoThumb extends Component {
         exit={{ opacity: 0 }}
         transition={{ duration: .5 }}
       >
-        <Link href={{ pathname: "/gallery", query }}>
+        <Link href={{ pathname: "/gallery", query }} scroll={false}>
           <a className="inner img"
              id={image.photo_set}
              style={{ backgroundImage: `url(${imageObjectURL})` }}
