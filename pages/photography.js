@@ -10,7 +10,7 @@ const PhotographyPage = ({ photos }) => {
     <div className="container media-set">
       <div className="grid-container">
         <div className="grid"> {
-          photos.map((p, i) => <PhotoThumb key={p._id} image={p} label={true} delayExponent={i} />)
+          photos.map((p, i) => <PhotoThumb key={p._id} image={p} label={true} />)
         } </div>
       </div>
     </div>

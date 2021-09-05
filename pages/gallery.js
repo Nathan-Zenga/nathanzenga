@@ -28,7 +28,8 @@ const Gallery = ({ photos, position }) => {
       style={{ padding: 0 }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: .5 }}
     >
       <div id="gallery-carousel" className="carousel slide carousel-fade" onContextMenu={() => false}>
         <ol className="carousel-indicators">{

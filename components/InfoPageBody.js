@@ -30,7 +30,8 @@ class InfoPageBody extends Component {
           className="col-sm-6 float-left" id="info-text"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: .5 }}
         >
           {/* Text inserted here */}
         </motion.div>
@@ -39,6 +40,7 @@ class InfoPageBody extends Component {
           className="col-sm-6 float-left" id="contact"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
           transition={{ duration: 1, delay: .5 }}
         >
           <form className="form-group" method="post" action="/send/message" onSubmit={this.onFormSubmit}>

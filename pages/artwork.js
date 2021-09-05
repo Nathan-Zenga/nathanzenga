@@ -8,7 +8,7 @@ const ArtworkPage = ({ artwork }) => {
     <>
     <Meta title={`Artwork - ${title}`} ogTitle={`Artwork - ${ogTitle}`} />
     <div className="container media-set">{
-      artwork.map((p, i) => <ArtworkThumb key={p._id} image={p} index={i} delayExponent={i} />)
+      artwork.map((p, i) => <ArtworkThumb key={p._id} image={p} index={i} />)
     }</div>
     </>
   );

@@ -1,9 +1,11 @@
+import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 import DesignWorkSlide from '../components/DesignWorkSlide';
 import Meta from '../components/Meta';
 import { getDesignWork } from '../services/fetchData';
 
 const DesignsPage = ({ designs, design_docs }) => {
+
   useEffect(() => {
     $(".slideshow").each((i, slideshow) => {
       if ($(slideshow).children(".img").length > 1) {
@@ -31,7 +33,13 @@ const DesignsPage = ({ designs, design_docs }) => {
   return (
     <>
     <Meta title={`Designs - ${title}`} ogTitle={`Designs - ${ogTitle}`} />
-    <div className="carousel-container container">
+    <motion.div
+      className="carousel-container container"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: .5 }}
+    >
       <div id="designs-carousel" className="carousel slide carousel-fade" data-interval="false" style={{ opacity: 0 }}>
         <div className="carousel-inner"> {
           designs.map((item, i) => {
@@ -53,7 +61,7 @@ const DesignsPage = ({ designs, design_docs }) => {
           <span className="sr-only">Next</span>
         </a>
       </div>
-    </div>
+    </motion.div>
     </>
   );
 }

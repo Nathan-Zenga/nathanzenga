@@ -20,7 +20,7 @@ class ArtworkThumb extends Component {
   }
 
   render() {
-    const { image, imageObjectURL, index, delayExponent } = this.state;
+    const { image, imageObjectURL, index } = this.state;
     const imageContainerClass = "img-container media-container col-sm-6 float-left";
     const query = { set: image.photo_set.toLowerCase() };
     if (!isNaN(index)) query.image = index + 1;
@@ -29,7 +29,8 @@ class ArtworkThumb extends Component {
         className={imageContainerClass}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: .25 * (!isNaN(delayExponent) ? delayExponent : 1) }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: .5 }}
       >
         <Link href={{ pathname: "/gallery", query }}>
           <a className="inner img"

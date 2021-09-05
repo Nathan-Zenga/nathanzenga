@@ -1,13 +1,13 @@
 import Layout from '../components/Layout'
-import { AnimateSharedLayout } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, router }) {
   return (
-    <AnimateSharedLayout>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </AnimateSharedLayout>
+    <Layout>
+      <AnimatePresence exitBeforeEnter>
+        <Component key={router.route} {...pageProps} />
+      </AnimatePresence>
+    </Layout>
   )
 }
 
