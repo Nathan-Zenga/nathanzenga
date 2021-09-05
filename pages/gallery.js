@@ -10,7 +10,10 @@ const Gallery = ({ photos, position }) => {
   const set = photos.length ? photos[0].photo_set : "Missing Gallery";
   const router = useRouter();
 
-  useEffect(() => { photos.length || router.replace("/404") }, [photos]);
+  useEffect(() => {
+    if (router.pathname !== "/gallery") return;
+    (router.query.set && photos.length) || router.replace("/404")
+  });
 
   const showFirst = (index, array) => {
     let pos = !isNaN(position) ? parseInt(position) : 0;
