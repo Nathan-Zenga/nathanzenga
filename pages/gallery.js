@@ -1,19 +1,14 @@
-import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { motion } from "framer-motion";
 import Meta from '../components/Meta';
 import GalleryImage from '../components/GalleryCarouselImage';
 import { getPhotos } from '../services/fetchData';
+import ErrorPage from './404';
 
 const Gallery = ({ photos, position }) => {
   const { title, ogTitle } = Meta.defaultProps;
   const set = photos.length ? photos[0].photo_set : "Missing Gallery";
   const router = useRouter();
-
-  useEffect(() => {
-    if (router.pathname !== "/gallery") return;
-    (router.query.set && photos.length) || router.replace("/404")
-  });
 
   const showFirst = (index, array) => {
     let pos = !isNaN(position) ? parseInt(position) : 0;
@@ -22,6 +17,8 @@ const Gallery = ({ photos, position }) => {
     showFirst = showFirst || (index == array.length-1 && pos > array.length);
     return showFirst;
   }
+
+  if (router.pathname === "/gallery" && (!router.query.set || !photos.length)) return <ErrorPage message="NO GALLERY FOUND" />
 
   return (
     <>
