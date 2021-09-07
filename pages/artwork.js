@@ -1,15 +1,16 @@
 import Meta from '../components/Meta';
 import ArtworkThumb from '../components/ArtworkThumb';
 import { getPhotos } from '../services/fetchData';
+import MediaSetLayout from '../components/MediaSetLayout';
 
 const ArtworkPage = ({ artwork }) => {
   const { title, ogTitle } = Meta.defaultProps;
   return (
     <>
     <Meta title={`Artwork - ${title}`} ogTitle={`Artwork - ${ogTitle}`} />
-    <div className="container media-set">{
-      artwork.map((p, i) => <ArtworkThumb key={p._id} image={p} index={i} />)
-    }</div>
+    <MediaSetLayout>
+      { artwork.map((img, i) => <ArtworkThumb key={img._id} image={img} index={i} />) }
+    </MediaSetLayout>
     </>
   );
 }

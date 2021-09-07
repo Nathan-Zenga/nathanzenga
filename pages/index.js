@@ -1,15 +1,12 @@
+import MediaSetLayout from '../components/MediaSetLayout';
 import PhotoThumb from '../components/PhotoThumb';
 import { getPhotos } from '../services/fetchData';
 
 const HomePage = ({ photos }) => {
   return (
-    <div className="container media-set">
-      <div className="grid-container">
-        <div className="grid"> {
-          photos.map((p, i) => <PhotoThumb key={p._id} image={p} index={i} />)
-        } </div>
-      </div>
-    </div>
+    <MediaSetLayout applyGridCSS={true}>
+      { photos.map((p, i) => <PhotoThumb key={p._id} image={p} index={i} />) }
+    </MediaSetLayout>
   );
 }
 

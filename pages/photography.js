@@ -1,3 +1,4 @@
+import MediaSetLayout from '../components/MediaSetLayout';
 import Meta from '../components/Meta';
 import PhotoThumb from '../components/PhotoThumb';
 import { getPhotos } from '../services/fetchData';
@@ -7,13 +8,9 @@ const PhotographyPage = ({ photos }) => {
   return (
     <>
     <Meta title={`Photography - ${title}`} ogTitle={`Photography - ${ogTitle}`} />
-    <div className="container media-set">
-      <div className="grid-container">
-        <div className="grid"> {
-          photos.map((p, i) => <PhotoThumb key={p._id} image={p} label={true} />)
-        } </div>
-      </div>
-    </div>
+    <MediaSetLayout applyGridCSS={true}>
+      { photos.map(p => <PhotoThumb key={p._id} image={p} label={true} />) }
+    </MediaSetLayout>
     </>
   );
 }

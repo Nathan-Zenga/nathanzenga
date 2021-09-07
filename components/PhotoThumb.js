@@ -10,9 +10,8 @@ class PhotoThumb extends Component {
   }
 
   async componentDidMount() {
-    const { image } = this.state;
     const img = new Image();
-    const blob = await fetch(image.photo_url).then(res => res.blob());
+    const blob = await fetch(this.state.image.photo_url).then(res => res.blob());
     const objURL = URL.createObjectURL(blob);
     img.onload = e => URL.revokeObjectURL(e.target.src);
     this.setState({ imageObjectURL: objURL });
