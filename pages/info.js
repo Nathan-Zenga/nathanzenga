@@ -70,7 +70,7 @@ const InfoPage = ({ text }) => {
 
 export const getStaticProps = async _ => {
   const text = await getInfoText();
-  return { props: { text } };
+  return { props: { text }, revalidate: 60 };
 }
 
 export default InfoPage;

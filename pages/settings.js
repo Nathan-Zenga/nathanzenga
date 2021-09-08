@@ -100,8 +100,8 @@ const SettingsPage = ({ photos, designs, text }) => {
 export const getStaticProps = async _ => {
   const photos = await getPhotos({ sort: JSON.stringify({ photo_set: 1, index: 1 }) });
   const { designs } = await getDesignWork();
-  const text = await getInfoText()
-  return { props: { photos, designs, text } };
+  const text = await getInfoText();
+  return { props: { photos, designs, text }, revalidate: 60 };
 }
 
 export default SettingsPage

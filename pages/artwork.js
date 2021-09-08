@@ -17,7 +17,7 @@ const ArtworkPage = ({ artwork }) => {
 
 export const getStaticProps = async _ => {
   const artwork = await getPhotos({ photo_set: "Artwork", sort: '{ "index": 1 }' });
-  return { props: { artwork } };
+  return { props: { artwork }, revalidate: 60 };
 }
 
 export default ArtworkPage;

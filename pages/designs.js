@@ -65,7 +65,7 @@ const DesignsPage = ({ designs, design_docs }) => {
 
 export const getStaticProps = async _ => {
   const { designs, design_docs } = await getDesignWork({ hidden: false });
-  return { props: { designs, design_docs } };
+  return { props: { designs, design_docs }, revalidate: 60 };
 }
 
 export default DesignsPage;

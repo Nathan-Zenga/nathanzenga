@@ -13,7 +13,7 @@ const HomePage = ({ photos }) => {
 
 export const getStaticProps = async _ => {
   const photos = await getPhotos({ photo_set: "Assorted", sort: '{ "index": 1 }' });
-  return { props: { photos } };
+  return { props: { photos }, revalidate: 60 };
 }
 
 export default HomePage;
