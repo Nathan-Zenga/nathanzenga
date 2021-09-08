@@ -14,22 +14,15 @@ submitBtnController.prototype.finish = function() {
     this.submitBtn[this.method](this.originalVal).attr("disabled", false);
 };
 
-function smoothScroll(scrollTop) {
-    scrollTop = typeof scrollTop.data == "number" ? scrollTop.data : scrollTop;
-    $("html, body").stop().animate({ scrollTop }, 700, 'easeInOutExpo');
-}
-
 $("#menu-icon").click(function() {
     $(this).toggleClass("is-active");
     $("nav").toggleClass("show");
 });
 
 $("nav a").click(function() {
-    !$(this).hasClass("current") && $("#menu-icon").click()
+    $("nav").hasClass("show") && $("#menu-icon").click()
 });
 
 $(window).click(function(e) {
     if (e.pageX > parseInt($("nav.show").css("width"))) $("#menu-icon").click();
 });
-
-$(".toTop").click(0, smoothScroll);
