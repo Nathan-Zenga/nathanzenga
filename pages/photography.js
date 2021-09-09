@@ -1,15 +1,16 @@
 import MediaSetLayout from '../components/MediaSetLayout';
 import Meta from '../components/Meta';
-import PhotoThumb from '../components/PhotoThumb';
+import ImageThumb from '../components/ImageThumb';
 import { getPhotos } from '../services/fetchData';
 
 const PhotographyPage = ({ photos }) => {
+  const isGrid = true;
   const { title, ogTitle } = Meta.defaultProps;
   return (
     <>
     <Meta title={`Photography - ${title}`} ogTitle={`Photography - ${ogTitle}`} />
-    <MediaSetLayout applyGridCSS={true}>
-      { photos.map(p => <PhotoThumb key={p._id} image={p} label={true} />) }
+    <MediaSetLayout applyGridCSS={isGrid}>
+      { photos.map(p => <ImageThumb key={p._id} image={p} label={true} gridCSSApplied={isGrid} />) }
     </MediaSetLayout>
     </>
   );

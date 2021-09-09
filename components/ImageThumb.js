@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { motion, useAnimation } from "framer-motion";
 
-const ArtworkThumb = ({ image, index }) => {
+const ImageThumb = ({ image, label, index, gridCSSApplied, extraImgCSS }) => {
 
   const [ imageObjectURL, setImageObjectURL ] = useState("");
   const animation = useAnimation();
@@ -15,11 +15,22 @@ const ArtworkThumb = ({ image, index }) => {
     img.onload = e => URL.revokeObjectURL(e.target.src);
     setImageObjectURL(objURL);
     setTimeout(() => { img.src = objURL }, 100);
-  }, [imageObjectURL]);
+  }, []);
 
-  const imageContainerClass = "img-container media-container col-sm-6 float-left";
+  const imageOrientation = index => {
+    var dir = "";
+    switch (image.orientation) {
+      case "portrait": dir = " vertical"; break;
+      case "landscape": dir = index % 2 == 0 ? " horizontal" : ""; break;
+    }
+    return dir
+  }
+
+  const isGrid = gridCSSApplied ? imageOrientation(index) : " col-sm-6 float-left";
+  const imageContainerClass = "img-container media-container" + isGrid;
   const query = { set: image.photo_set.toLowerCase() };
   if (!isNaN(index)) query.image = index + 1;
+
   return (
     <motion.div
       className={imageContainerClass}
@@ -34,14 +45,15 @@ const ArtworkThumb = ({ image, index }) => {
             onContextMenu={e => false}>
           <motion.img
             src={imageObjectURL}
-            style={{ width: "100%", opacity: 0 }}
+            style={{ opacity: 0, ...extraImgCSS }}
             animate={animation}
             onLoad={async e => { await animation.start({ opacity: 1 }) }}
           />
         </a>
       </Link>
+      { label ? <label>{image.photo_set}</label> : <></> }
     </motion.div>
   )
 }
 
-export default ArtworkThumb;
+export default ImageThumb;

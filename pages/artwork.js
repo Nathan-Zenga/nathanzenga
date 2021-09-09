@@ -1,5 +1,5 @@
 import Meta from '../components/Meta';
-import ArtworkThumb from '../components/ArtworkThumb';
+import ImageThumb from '../components/ImageThumb';
 import { getPhotos } from '../services/fetchData';
 import MediaSetLayout from '../components/MediaSetLayout';
 
@@ -9,7 +9,7 @@ const ArtworkPage = ({ artwork }) => {
     <>
     <Meta title={`Artwork - ${title}`} ogTitle={`Artwork - ${ogTitle}`} />
     <MediaSetLayout>
-      { artwork.map((img, i) => <ArtworkThumb key={img._id} image={img} index={i} />) }
+      { artwork.map((img, i) => <ImageThumb key={img._id} image={img} index={i} extraImgCSS={{ height: "auto" }} />) }
     </MediaSetLayout>
     </>
   );

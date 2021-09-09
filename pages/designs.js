@@ -43,11 +43,8 @@ const DesignsPage = ({ designs, design_docs }) => {
       <div id="designs-carousel" className="carousel slide carousel-fade" data-interval="false" style={{ opacity: 0 }}>
         <div className="carousel-inner"> {
           designs.map((item, i) => {
-            return <DesignWorkSlide
-                    key={item._id}
-                    item={item}
-                    design_docs={design_docs.filter(d => d.photo_set.includes(item.d_id))}
-                    index={i} />
+            const docs = design_docs.filter(d => d.photo_set.includes(item.d_id));
+            return <DesignWorkSlide key={item._id} item={item} design_docs={docs} index={i} />
           })
         } </div>
 
