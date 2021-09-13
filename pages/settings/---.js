@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import Meta from "../components/Meta";
-import DesignsTabContent from "../components/settings-page/panes/designs/DesignsTabContent";
-import GalleriesTabContent from "../components/settings-page/panes/galleries/GalleriesTabContent";
-import InfoTextTabContent from "../components/settings-page/panes/info-text/InfoTextTabContent";
-import SortOrderTabContent from "../components/settings-page/panes/sort-order/SortOrderTabContent";
-import { getDesignWork, getInfoText, getPhotos } from "../services/fetchData";
-import "../styles/SettingsPage.module.css";
+import Meta from "../../components/Meta";
+import DesignsTabContent from "../../components/settings-page/panes/designs/DesignsTabContent";
+import GalleriesTabContent from "../../components/settings-page/panes/galleries/GalleriesTabContent";
+import InfoTextTabContent from "../../components/settings-page/panes/info-text/InfoTextTabContent";
+import SortOrderTabContent from "../../components/settings-page/panes/sort-order/SortOrderTabContent";
+import { getDesignWork, getInfoText, getPhotos } from "../../services/fetchData";
+import "../../styles/SettingsPage.module.css";
 
 const SettingsPage = ({ photos, designs, text }) => {
 
@@ -97,11 +97,13 @@ const SettingsPage = ({ photos, designs, text }) => {
   )
 }
 
-export const getStaticProps = async _ => {
+export const getServerSideProps = async ({ req, res }) => {
+  const { production } = res.locals;
+  if (!req.user && production) return { redirect: { destination: '/settings/access?redirect=true', permanent: false } };
   const photos = await getPhotos({ sort: JSON.stringify({ photo_set: 1, index: 1 }) });
   const { designs } = await getDesignWork();
   const text = await getInfoText();
-  return { props: { photos, designs, text }, revalidate: 60 };
+  return { props: { photos, designs, text } };
 }
 
 export default SettingsPage

@@ -5,38 +5,44 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const passport = require('passport');
 const MemoryStore = require('memorystore')(session);
 const port = process.env.PORT || 5678;
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-mongoose.connect(process.env.DB, { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connection.once('open', _ => { console.log("Connected to DB") });
-
-server.use(bodyParser.json({ limit: "200mb" }));
-server.use(bodyParser.urlencoded({ limit: "200mb", extended: false }));
-server.use(cookieParser());
-
-// Express session
-server.use(session({
-  secret: "secret",
-  name: "session" + Math.round(Math.random()*1000000),
-  saveUninitialized: true,
-  resave: true,
-  cookie: { secure: false },
-  store: new MemoryStore({ checkPeriod: 1000 * 60 * 60 * 12 })
-}));
-
-// Global variables
-server.use((req, res, next) => {
-  res.locals.production = !dev;
-  res.locals.user = req.user;
-  res.locals.url = req.originalUrl;
-  next();
-});
-
 app.prepare().then(() => {
+  mongoose.connect(process.env.DB, { useNewUrlParser: true, useUnifiedTopology: true });
+  mongoose.connection.once('open', _ => { console.log("Connected to DB") });
+
+  server.use(bodyParser.json({ limit: "200mb" }));
+  server.use(bodyParser.urlencoded({ limit: "200mb", extended: false }));
+  server.use(cookieParser());
+
+  // Express session
+  server.use(session({
+    secret: "secret",
+    name: "sesh" + require("crypto").randomBytes(20).toString("hex"),
+    saveUninitialized: true,
+    resave: true,
+    // cookie: { secure: false },
+    store: new MemoryStore({ checkPeriod: 1000 * 60 * 60 * 12 })
+  }));
+
+  // Passport config
+  server.use(passport.initialize());
+  server.use(passport.session());
+
+  // Global variables
+  server.use((req, res, next) => {
+    if (/^\/(_|\.)next/.test(req.originalUrl)) return next();
+    res.locals.production = !dev;
+    res.locals.user = req.user;
+    res.locals.url = req.originalUrl;
+    next();
+  });
+
   server.use('/', require('./routes/index'));
   server.use('/settings', require('./routes/settings'));
   server.use('/settings/photo', require('./routes/photo-settings'));
