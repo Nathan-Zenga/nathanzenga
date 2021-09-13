@@ -53,10 +53,10 @@ const Gallery = ({ photos, position }) => {
   );
 }
 
-export const getServerSideProps = async ctx => {
-  const photos = await getPhotos({ photo_set: ctx.query.set, sort: '{ "index": 1 }' });
-  if (ctx.resolvedUrl === "/gallery" && (!ctx.query.set || !photos.length)) return { notFound: true };
-  return { props: { photos, position: ctx.query.image || 1 } };
+export const getServerSideProps = async ({ resolvedUrl, query }) => {
+  const photos = await getPhotos({ photo_set: query.set, sort: '{ "index": 1 }' });
+  if (resolvedUrl === "/gallery" && (!query.set || !photos.length)) return { notFound: true };
+  return { props: { photos, position: query.image || 1 } };
 }
 
 export default Gallery;

@@ -31,6 +31,7 @@ server.use(session({
 // Global variables
 server.use((req, res, next) => {
   res.locals.production = !dev;
+  res.locals.user = req.user;
   res.locals.url = req.originalUrl;
   next();
 });
