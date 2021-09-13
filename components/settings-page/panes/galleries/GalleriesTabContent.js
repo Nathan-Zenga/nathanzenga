@@ -25,7 +25,7 @@ const GalleriesTabContent = ({ photos }) => {
     const $form = $(e.target).closest("form");
     const $preview = $form.find(".img-preview");
     const img = photos.find(p => p._id == e.target.value);
-    $preview.empty().append("<img src='"+ img.photo_url +"'>");
+    $preview.empty().append(img ? "<img src='"+ img.photo_url +"'>" : "");
     $form.find("#photo-title-edit").val(img.photo_title);
     $form.find("#photo-set-edit").val(img.photo_set);
   }
