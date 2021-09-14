@@ -13,9 +13,9 @@ router.get('/designs/-', async (req, res) => {
     res.send({ designs, design_docs });
 });
 
-router.get('/info/-', (req, res) => {
-    Info_text.findOne((err, txt) => res.send(txt))
-});
+router.get('/info/-', (req, res) => Info_text.findOne((err, txt) => res.send(txt)));
+
+router.post('/logout', (req, res) => { req.logout(); res.send("/") });
 
 router.post('/p', async (req, res) => {
     const qry = { ...req.body, sort: undefined };

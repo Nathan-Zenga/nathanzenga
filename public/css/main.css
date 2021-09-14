@@ -389,6 +389,13 @@ nav a {
     margin-bottom: 2em;
 }
 
+#logout-link {
+    display: block;
+    width: 100%;
+    padding: 15px 0;
+    text-align: right;
+}
+
 @media (min-width: 576px) {
     nav {
         padding-top: 110px;
