@@ -1,5 +1,7 @@
 const Statcounter = () => {
-    if (process.env.NODE_ENV !== "production") return false;
+    const development = process.env.NODE_ENV !== "production";
+    const settingsUrl = /^\/settings/.test(location.pathname);
+    if (development || settingsUrl) return false;
 
     var existingContainer = document.getElementById("statcounter-container");
     var container = document.createElement("div");
