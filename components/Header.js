@@ -1,15 +1,25 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Nav from './Nav';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-const Header = ({ loggedIn = false }) => {
+const Header = () => {
 
+  const [ session, inSession ] = useState(false);
   const router = useRouter();
+
+  useEffect(async () => {
+    if (session) return;
+    const { data: loggedIn } = await axios.get("/api/loggedIn");
+    loggedIn && inSession(true);
+  }, [session]);
 
   const logout = e => {
     e.preventDefault();
     $.post(e.target.href, null, redirectURL => {
-      router.push(redirectURL)
+      inSession(false);
+      router.push(redirectURL, null, { scroll: false });
     }).fail(err => {
       alert(err.responseText);
     })
@@ -33,7 +43,7 @@ const Header = ({ loggedIn = false }) => {
             </Link>
           </div>
           {
-            loggedIn &&
+            session &&
             <div className="col-3 col-sm-2" id="logout-link-wrapper">
               <a id="logout-link" href="/logout" onClick={logout}>LOGOUT</a>
             </div>
@@ -43,7 +53,5 @@ const Header = ({ loggedIn = false }) => {
     </header>
   );
 }
-
-export const getServerSideProps = ({ req }) => ({ props: { loggedIn: !!req.user } });
 
 export default Header;
