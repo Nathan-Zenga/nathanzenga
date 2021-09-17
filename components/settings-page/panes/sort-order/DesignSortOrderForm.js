@@ -1,7 +1,7 @@
 const DesignSortOrderForm = ({ designs }) => {
 
   return (
-    <form className="form-group" id="design-sort-order" method="post" action="/settings/design/sort-order">
+    <form className="form-group" id="design-sort-order" method="post" action="/api/settings/design/sort-order">
       <label htmlFor="design-to-sort">Select design</label>
       <select className="form-control" id="design-to-sort" name="id" required>
         <option value="">Select design collection</option>

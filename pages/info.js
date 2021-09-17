@@ -12,7 +12,7 @@ const InfoPage = ({ text }) => {
     e.preventDefault();
     const form = e.target;
     const btnControl = new submitBtnController(form);
-    $.post(form.action, $(form).serializeArray(), msg => {
+    $.post("/api/send-message", $(form).serializeArray(), msg => {
       alert(msg);
       form.reset();
     }).fail(err => {

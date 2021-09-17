@@ -11,13 +11,13 @@ const Header = () => {
 
   useEffect(async () => {
     if (session) return;
-    const { data: loggedIn } = await axios.get("/api/loggedIn");
+    const { data: loggedIn } = await axios.get("/api/logged-in");
     loggedIn && inSession(true);
   }, [session]);
 
   const logout = e => {
     e.preventDefault();
-    $.post(e.target.href, null, redirectURL => {
+    $.post("/api/logout", null, redirectURL => {
       inSession(false);
       router.push(redirectURL, null, { scroll: false });
     }).fail(err => {

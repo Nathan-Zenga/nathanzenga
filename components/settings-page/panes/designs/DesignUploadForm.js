@@ -1,7 +1,7 @@
 const DesignUploadForm = ({ designs }) => {
 
   return (
-    <form className="form-group design-settings" method="post" action="/settings/design/save">
+    <form className="form-group design-settings" method="post" action="/api/settings/design/save">
       <div className="row">
         <div className="col-sm-6 float-left">
           <label>ID</label>

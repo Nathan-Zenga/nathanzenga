@@ -5,7 +5,7 @@ const PhotoSetSortOrderForm = ({ photos }) => {
   const options = p => <option key={p._id} value={p.photo_set}>{p.photo_set_index +" - "+ p.photo_set}</option>;
 
   return (
-    <form className="form-group" id="photo-set-sort-order" method="post" action="/settings/photo/set/sort-order">
+    <form className="form-group" id="photo-set-sort-order" method="post" action="/api/settings/photo/set/sort-order">
       <label htmlFor="photo-set-to-sort">Select photo set</label>
       <select className="form-control" id="photo-set-to-sort" name="photo_set" required>
         <option value="">Select photo set</option>

@@ -13,7 +13,7 @@ const DesignEditForm = ({ designs }) => {
   }
 
   return (
-    <form className="form-group design-edit-settings" method="post" action="/settings/design/edit">
+    <form className="form-group design-edit-settings" method="post" action="/api/settings/design/edit">
       <label>Select to edit</label>
       <select className="form-control details" id="design-to-edit" name="id" onChange={onSelectedDesign} required>
         <option value="">Select design</option>

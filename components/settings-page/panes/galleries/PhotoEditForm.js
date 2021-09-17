@@ -1,7 +1,7 @@
 const PhotoEditForm = ({ photos, onPhotoSetOptsChanged, selectPhoto }) => {
 
   return (
-    <form className="form-group" id="photo-edit-form" method="post" action="/settings/photo/edit">
+    <form className="form-group" id="photo-edit-form" method="post" action="/api/settings/photo/edit">
       <label>Photo set to filter (optional)</label>
       <select className="form-control photo-set-opts" onChange={onPhotoSetOptsChanged}>
         <option value="">Select photo set</option>

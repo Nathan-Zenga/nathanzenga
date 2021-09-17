@@ -20,7 +20,7 @@ const PhotoUploadForm = ({ photos }) => {
   }
 
   return (
-    <form className="form-group" id="photo-upload-form" method="post" action="/settings/photo/upload">
+    <form className="form-group" id="photo-upload-form" method="post" action="/api/settings/photo/upload">
       <label>Image Upload</label>
       <div className="image-input-group-container">
         <div className="image-input-group row" style={{ marginBottom: "1.5em" }}>

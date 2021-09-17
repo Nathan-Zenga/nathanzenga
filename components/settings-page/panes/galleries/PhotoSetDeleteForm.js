@@ -1,7 +1,7 @@
 const PhotoSetDeleteForm = ({ photos }) => {
 
   return (
-    <form className="form-group" id="photo-set-delete-form" method="post" action="/settings/photo/set/delete">
+    <form className="form-group" id="photo-set-delete-form" method="post" action="/api/settings/photo/set/delete">
       <label htmlFor="photo-set-to-delete">Select photo set</label>
       <select className="form-control" id="photo-set-to-delete" name="photo_set" required>
         <option value="">Select photo set</option>

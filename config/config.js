@@ -1,6 +1,6 @@
 const cloud = require('cloudinary');
 const mongoose = require('mongoose');
-const { Photo } = require('../models/models');
+const { model } = require('mongoose');
 
 /**
  * Saves the document (derived from mongoose Document.save method).
@@ -89,7 +89,7 @@ module.exports.indexReorder = (model, args, cb) => {
  */
 module.exports.photoUploader = (body, cb) => {
     const { file, photo_title, photo_set, index } = body;
-    const newPhoto = new Photo({ photo_title, photo_set, index });
+    const newPhoto = new model("Photo")({ photo_title, photo_set, index });
     const public_id = `${photo_set}/${photo_title}`.toLowerCase().replace(/[ ?&#\\%<>]/g, "_");
     cloud.v2.uploader.upload(file, { public_id, resource_type: "auto" }, (err, result) => {
         if (err) return cb ? cb(err.message || "Unable to save image. Error occurred whilst uploading image file / url") : false;

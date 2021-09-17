@@ -25,7 +25,7 @@ const PhotoSortOrderForm = ({ photos }) => {
   }
 
   return (
-    <form className="form-group" id="photo-sort-order" method="post" action="/settings/photo/sort-order">
+    <form className="form-group" id="photo-sort-order" method="post" action="/api/settings/photo/sort-order">
       <label htmlFor="photo-set-select">Select photo set</label>
       <select className="form-control" id="photo-set-select" name="photo_set" onChange={photoSetSelect} required>
         <option value="">Select photo set</option>

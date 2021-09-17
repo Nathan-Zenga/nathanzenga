@@ -1,7 +1,7 @@
 const PhotoDeleteForm = ({ photos, onPhotoSetOptsChanged, selectPhoto }) => {
 
   return (
-    <form className="form-group" id="photo-delete-form" method="post" action="/settings/photo/delete">
+    <form className="form-group" id="photo-delete-form" method="post" action="/api/settings/photo/delete">
       <label>Select photo set to filter (optional)</label>
       <select className="form-control photo-set-opts" name="photo_set" onChange={onPhotoSetOptsChanged}>
         <option value="">Select photo set</option>
