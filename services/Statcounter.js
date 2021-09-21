@@ -1,9 +1,10 @@
 const Statcounter = () => {
     const development = process.env.NODE_ENV !== "production";
     const settingsUrl = /^\/settings/.test(location.pathname);
+    var existingContainer = document.getElementById("statcounter-container");
+    if (existingContainer) existingContainer.remove();
     if (development || settingsUrl) return false;
 
-    var existingContainer = document.getElementById("statcounter-container");
     var container = document.createElement("div");
     var statcounterDiv = document.createElement("div");
     var a = document.createElement("a");
@@ -14,7 +15,6 @@ const Statcounter = () => {
     window.sc_invisible = 1;
     window.sc_security = "1bbd0017";
 
-    if (existingContainer) existingContainer.remove();
     document.body.appendChild(container);
     container.appendChild(script);
     container.id = "statcounter-container";

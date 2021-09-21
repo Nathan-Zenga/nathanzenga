@@ -12,6 +12,7 @@ const AdminAccessPage = ({ flashMessage }) => {
     const form = e.target;
     const btnControl = new submitBtnController(form);
     $.post(form.action, $(form).serializeArray(), redirectUrl => {
+      $("#logout-link").removeClass("visible");
       router.push(redirectUrl);
     }).fail(err => {
       setMessage(err.responseText);
@@ -42,8 +43,8 @@ const AdminAccessPage = ({ flashMessage }) => {
   )
 }
 
-export const getServerSideProps = async ({ req }) => {
-  if (req.user) return { redirect: { destination: '/settings/---', permanent: false } };
+export const getServerSideProps = ({ req }) => {
+  if (req.isAuthenticated()) return { redirect: { destination: '/settings/---', permanent: false } };
   const flashMessage = req.query.redirect === "true" ? "Not logged in" : "";
   return { props: { flashMessage } }
 }
