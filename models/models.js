@@ -1,7 +1,23 @@
-const { model, models, Schema } = require('mongoose');
+import { model, models, Schema } from 'mongoose';
+import { openConnection, closeConnection } from './dbConnect';
 Schema.Types.String.set('trim', true);
 
-module.exports.Photo = models.Photo || model('Photo', Schema({
+/**
+ * Prepares 'pre' and 'post' hooks for handling DB connections for each mongo query
+ * @param {object} definition Schema definition for model fields
+ * @returns {Schema} Schema instance with defined hooks
+ */
+const newSchema = definition => {
+    const schema = new Schema(definition);
+    const queries = ["find", "findOne", "findOneAndDelete", "findById", "findByIdAndDelete", "deleteMany", "updateMany", "save"];
+    for (const query of queries) {
+        schema.pre(query, async next => { await openConnection(); next() });
+        schema.post(query, async () => { await closeConnection() });
+    }
+    return schema;
+}
+
+module.exports.Photo = models.Photo || model('Photo', newSchema({
     photo_title: String,
     photo_set: String,
     photo_url: String,
@@ -13,7 +29,7 @@ module.exports.Photo = models.Photo || model('Photo', Schema({
     photo_set_index: Number
 }));
 
-module.exports.Design = models.Design || model('Design', Schema({
+module.exports.Design = models.Design || model('Design', newSchema({
     d_id: {
         type: String,
         uppercase: true,
@@ -30,10 +46,10 @@ module.exports.Design = models.Design || model('Design', Schema({
     index: Number
 }));
 
-module.exports.Info_text = models.Info_text || model('Info_text', Schema({
+module.exports.Info_text = models.Info_text || model('Info_text', newSchema({
     text: String
 }));
 
-module.exports.Admin = models.Admin || model('Admin', Schema({
+module.exports.Admin = models.Admin || model('Admin', newSchema({
     pass: String
 }));

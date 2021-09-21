@@ -3,7 +3,6 @@ const server = express();
 const next = require('next');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
 const MemoryStore = require('memorystore')(session);
@@ -13,8 +12,6 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
-  mongoose.connect(process.env.DB).then(() => { console.log("Connected to DB") });
-
   server.use(bodyParser.json({ limit: "200mb" }));
   server.use(bodyParser.urlencoded({ limit: "200mb", extended: false }));
   server.use(cookieParser());
