@@ -98,7 +98,7 @@ const SettingsPage = ({ photos, designs, text }) => {
 }
 
 export const getServerSideProps = async ({ req, res }) => {
-  const { production } = res.locals;
+  const production = process.env.NODE_ENV === "production";
   if (!req.user && production) return { redirect: { destination: '/settings/access?redirect=true', permanent: false } };
   const photos = await getPhotos({ sort: JSON.stringify({ photo_set: 1, index: 1 }) });
   const { designs } = await getDesignWork();

@@ -1,11 +1,5 @@
-const prod = process.env.NODE_ENV === "production";
-const { Photo, Info_text, Design } = require('../models/models');
-
-// connection handlers mainly used for build stage
-const { connect, disconnect, connection } = require('mongoose');
-const connectOpts = { useNewUrlParser: true, useUnifiedTopology: true };
-const openConnection = async () => prod && connection.readyState === 0 ? await connect(process.env.DB, connectOpts) : null;
-const closeConnection = async () => prod && connection.readyState === 1 ? await disconnect() : null;
+import { Photo, Info_text, Design } from '../models/models';
+import { openConnection, closeConnection } from '../services/dbConnect';
 
 export const getPhotos = async body => {
   await openConnection();
