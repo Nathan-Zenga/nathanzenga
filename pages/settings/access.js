@@ -2,17 +2,17 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Meta from "../../components/Meta";
 
-const AdminAccessPage = ({ flashMessage }) => {
+const AdminAccessPage = ({ flashMessage, inSession }) => {
 
-  const [message, setMessage] = useState(flashMessage);
+  const [ message, setMessage ] = useState(flashMessage);
   const router = useRouter();
 
-  const loginFormSubmit = e => {
+  const login = e => {
     e.preventDefault();
     const form = e.target;
     const btnControl = new submitBtnController(form);
     $.post(form.action, $(form).serializeArray(), redirectUrl => {
-      $("#logout-link").removeClass("visible");
+      inSession(true);
       router.push(redirectUrl);
     }).fail(err => {
       setMessage(err.responseText);
@@ -26,7 +26,7 @@ const AdminAccessPage = ({ flashMessage }) => {
     <>
     <Meta title={`Password Required - ${title}`} ogTitle={`Password Required - ${ogTitle}`} />
     <div className="container content">
-      <form className="form-group" method="post" action="/api/settings/access" onSubmit={loginFormSubmit}>
+      <form className="form-group" method="post" action="/api/settings/access" onSubmit={login}>
         <div className="row">
           <div className="col-sm-10 float-left">
             <label className="sr-only">Password</label>
@@ -44,7 +44,7 @@ const AdminAccessPage = ({ flashMessage }) => {
 }
 
 export const getServerSideProps = ({ req }) => {
-  if (req.isAuthenticated()) return { redirect: { destination: '/settings/---', permanent: false } };
+  if (req.user) return { redirect: { destination: '/settings/---', permanent: false } };
   const flashMessage = req.query.redirect === "true" ? "Not logged in" : "";
   return { props: { flashMessage } }
 }

@@ -390,18 +390,10 @@ nav a {
 }
 
 #logout-link {
-    display: none;
+    display: block;
     width: 100%;
     padding: 15px 0;
     text-align: right;
-    opacity: 0;
-    transition: opacity 1s, display 0s 1.1s;
-}
-
-#logout-link.visible {
-    display: block;
-    opacity: 1;
-    transition: opacity 1s, display 0s;
 }
 
 @media (min-width: 576px) {
