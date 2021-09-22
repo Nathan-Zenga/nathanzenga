@@ -1,21 +1,6 @@
 import { model, models, Schema } from 'mongoose';
-import { openConnection, closeConnection } from './dbConnect';
+import newSchema from './newSchema';
 Schema.Types.String.set('trim', true);
-
-/**
- * Prepares 'pre' and 'post' hooks for handling DB connections for each mongo query
- * @param {object} definition Schema definition for model fields
- * @returns {Schema} Schema instance with defined hooks
- */
-const newSchema = definition => {
-    const schema = new Schema(definition);
-    const queries = ["find", "findOne", "findOneAndDelete", "findById", "findByIdAndDelete", "deleteMany", "updateMany", "save"];
-    for (const query of queries) {
-        schema.pre(query, async next => { await openConnection(); next() });
-        schema.post(query, async () => { await closeConnection() });
-    }
-    return schema;
-}
 
 module.exports.Photo = models.Photo || model('Photo', newSchema({
     photo_title: String,
