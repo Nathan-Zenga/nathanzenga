@@ -2,6 +2,7 @@ const { Photo, Design } = require('../../../../models/models');
 const { indexReorder } = require('../../../../config/config');
 
 export default function handler(req, res) {
+    if (!req.user) return res.status(403).send("Not logged in");
     const { id, index, photo_set } = req.body;
     indexReorder("Photo", { id, newIndex: index, filterQry: { photo_set } }, err => {
         if (err) return res.status(500).send(err);

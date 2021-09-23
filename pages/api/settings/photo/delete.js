@@ -3,6 +3,7 @@ const { Photo, Design } = require('../../../../models/models');
 
 export default async function handler(req, res) {
     const { id } = req.body;
+    if (!req.user) return res.status(403).send("Not logged in");
     if (!id) return res.send("Nothing selected");
     const photo_deleted = await Photo.findByIdAndDelete(id);
     if (!photo_deleted) return res.send("Photo not found");

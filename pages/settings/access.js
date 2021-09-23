@@ -26,7 +26,7 @@ const AdminAccessPage = ({ flashMessage, inSession }) => {
     <>
     <Meta title={`Password Required - ${title}`} ogTitle={`Password Required - ${ogTitle}`} />
     <div className="container content">
-      <form className="form-group" method="post" action="/api/settings/access" onSubmit={login}>
+      <form className="form-group" method="post" action="/api/settings/login" onSubmit={login}>
         <div className="row">
           <div className="col-sm-10 float-left">
             <label className="sr-only">Password</label>

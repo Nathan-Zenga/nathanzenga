@@ -2,9 +2,10 @@ const cloud = require('cloudinary');
 const { Photo, Design } = require('../../../../../models/models');
 
 export default async function handler(req, res) {
+    if (!req.user) return res.status(403).send("Not logged in");
+
     const { photo_set } = req.body;
     if (!photo_set) return res.send("Nothing selected");
-
     try {
         const photos = await Photo.find({ photo_set });
         await cloud.v2.api.delete_resources(photos.map(photo => photo.p_id));

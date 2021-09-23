@@ -2,6 +2,7 @@ const passport = require('../../../config/passport');
 
 export default async function handler(req, res) {
   return new Promise((resolve, reject) => {
+    if (req.user) return res.status(400).send("Already logged in"), reject();
     req.body.username = "admin";
     passport.authenticate("admin-login", { session: true }, (err, user, info) => {
       if (err) return res.status(500).send(err.message || err), reject();
