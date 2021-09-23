@@ -31,6 +31,5 @@ app.prepare().then(() => {
   server.use(passport.session());
 
   server.all('*', (req, res) => handle(req, res));
-  server.post('*', (req, res) => res.status(400).send("Sorry, your request currently cannot be processed"));
   server.listen(port, () => { console.log(`Server started ${!dev ? "" : "on port " + port}`) });
 })
