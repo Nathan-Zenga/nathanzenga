@@ -2,7 +2,7 @@ import { model, models, Schema } from 'mongoose';
 import newSchema from './newSchema';
 Schema.Types.String.set('trim', true);
 
-module.exports.Photo = models.Photo || model('Photo', newSchema({
+export const Photo = models.Photo || model('Photo', newSchema({
     photo_title: String,
     photo_set: String,
     photo_url: String,
@@ -14,7 +14,7 @@ module.exports.Photo = models.Photo || model('Photo', newSchema({
     photo_set_index: Number
 }));
 
-module.exports.Design = models.Design || model('Design', newSchema({
+export const Design = models.Design || model('Design', newSchema({
     d_id: {
         type: String,
         uppercase: true,
@@ -31,10 +31,10 @@ module.exports.Design = models.Design || model('Design', newSchema({
     index: Number
 }));
 
-module.exports.Info_text = models.Info_text || model('Info_text', newSchema({
+export const Info_text = models.Info_text || model('Info_text', newSchema({
     text: String
 }));
 
-module.exports.Admin = models.Admin || model('Admin', newSchema({
+export const Admin = models.Admin || model('Admin', newSchema({
     pass: String
 }));
