@@ -10,11 +10,12 @@ export default async function handler(req, res) {
     const prev_photo_set = photo.photo_set;
     const sameAsPrevPhotoSet = (new RegExp("^"+photo_set.trim()+"$", "i")).test(prev_photo_set);
     if (photo_set === "Assorted" && !sameAsPrevPhotoSet) {
-        let { photo_url, photo_title, index } = photo;
-        photoUploader({ photo_title, index, file: photo_url, photo_set: "Assorted" }, (err, saved) => {
-            if (err) return console.error(err), res.send("Error occurred whilst uploading to Assorted");
-            indexShift("Photo", saved, null, err => res.send(err || `Image (${saved.photo_title}) saved in Assorted set`));
-        })
+        try {
+            let { photo_url, photo_title, index } = photo;
+            const saved = await photoUploader({ photo_title, index, file: photo_url, photo_set: "Assorted" });
+            await indexShift("Photo", saved, null);
+            res.send(`Image (${saved.photo_title}) saved in Assorted set`);
+        } catch (err) { res.status(err.http_code || 500).send(err.message) }
     } else {
         if (photo_title) photo.photo_title = photo_title;
         if (photo_set && !sameAsPrevPhotoSet) photo.photo_set = photo_set;
