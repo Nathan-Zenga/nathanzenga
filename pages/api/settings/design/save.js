@@ -3,7 +3,7 @@ const { Design } = require('../../../../models/models');
 const { indexShift, photoUploader } = require('../../../../config/config');
 
 export default async function handler(req, res) {
-    if (!req.user) return res.status(403).send("Not logged in");
+    if (!req.user) return res.status(401).send("Not logged in");
     const { d_id, client, tools, description, link, index, media, hidden } = req.body;
     const newDesign = new Design({ d_id, text: { client, tools, description }, link, index, hidden });
     const found = await Design.findOne({ d_id: {$regex: new RegExp(d_id, "i")} });

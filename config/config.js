@@ -1,21 +1,9 @@
 const { v2: cloud, UploadApiResponse } = require('cloudinary');
 const { model, Document: MongooseDocument, Types } = require('mongoose');
 
-/**
- * Saves the document (derived from mongoose Document.save method).
- * @callback DocumentSaveCallback
- * @param {object} [err] error message / object
- * @param {MongooseDocument} [document] saved document
- * 
- * @callback callback
- */
-
  /**
  * Resizing passed image with smaller dimensions
  * @param {UploadApiResponse} result response object from initial image upload
- * @param {number} result.width width of initial image upload
- * @param {number} result.height height of initial image upload
- * @param {string} result.public_id public ID of initial image upload
  * @return {Promise<UploadApiResponse>}
  */
 const DownsizedImage = module.exports.DownsizedImage = async result => {
@@ -73,7 +61,6 @@ module.exports.indexReorder = async (modelName, args) => {
  * @param {string} body.photo_title - image title
  * @param {string} body.photo_set - existing set under which the image is categorised
  * @param {number} body.index - image position number
- * @param {DocumentSaveCallback} [cb] callback
  */
 module.exports.photoUploader = async body => {
     const { file, photo_title, photo_set, index } = body;

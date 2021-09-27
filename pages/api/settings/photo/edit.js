@@ -2,7 +2,7 @@ const { Photo, Design } = require('../../../../models/models');
 const { indexShift, photoUploader } = require('../../../../config/config');
 
 export default async function handler(req, res) {
-    if (!req.user) return res.status(403).send("Not logged in");
+    if (!req.user) return res.status(401).send("Not logged in");
     const { id, photo_title, photo_set } = req.body;
     const photo = await Photo.findById(id);
     const design = await Design.findOne({ d_id: photo_set.replace("design-", "") });

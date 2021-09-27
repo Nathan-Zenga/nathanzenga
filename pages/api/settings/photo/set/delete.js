@@ -2,7 +2,7 @@ const cloud = require('cloudinary');
 const { Photo, Design } = require('../../../../../models/models');
 
 export default async function handler(req, res) {
-    if (!req.user) return res.status(403).send("Not logged in");
+    if (!req.user) return res.status(401).send("Not logged in");
 
     const { photo_set } = req.body;
     if (!photo_set) return res.send("Nothing selected");

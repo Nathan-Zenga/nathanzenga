@@ -2,7 +2,7 @@ const { Photo, Design } = require('../../../../models/models');
 const { indexReorder } = require('../../../../config/config');
 
 export default async function handler(req, res) {
-    if (!req.user) return res.status(403).send("Not logged in");
+    if (!req.user) return res.status(401).send("Not logged in");
     const { id, index, photo_set } = req.body;
     try {
         await indexReorder("Photo", { id, newIndex: index, filterQry: { photo_set } });
