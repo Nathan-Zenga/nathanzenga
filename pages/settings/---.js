@@ -5,7 +5,6 @@ import GalleriesTabContent from "../../components/settings-page/panes/galleries/
 import InfoTextTabContent from "../../components/settings-page/panes/info-text/InfoTextTabContent";
 import SortOrderTabContent from "../../components/settings-page/panes/sort-order/SortOrderTabContent";
 import { getDesignWork, getInfoText, getPhotos } from "../../services/fetchData";
-import "../../styles/SettingsPage.module.css";
 
 const SettingsPage = ({ photos, designs, text }) => {
 
