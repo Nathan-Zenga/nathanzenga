@@ -3,6 +3,7 @@ const { OAuth2 } = (require("googleapis")).google.auth;
 const { OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_REFRESH_TOKEN } = process.env;
 
 export default async function handler(req, res) {
+  if (req.method !== "POST") return req.next();
   const { name, email, subject, message } = req.body;
   const from = { name, address: email };
   const to = "nathanzenga@gmail.com";

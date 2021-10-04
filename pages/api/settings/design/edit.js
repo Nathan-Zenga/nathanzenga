@@ -1,6 +1,7 @@
 const { Photo, Design } = require('../../../../models/models');
 
 export default async function handler(req, res) {
+    if (req.method !== "POST") return req.next();
     if (!req.user) return res.status(401).send("Not logged in");
     const { id, d_id, client, tools, description, link, hidden } = req.body;
     const filter = Object.assign({ _id: id }, d_id ? { d_id } : {});

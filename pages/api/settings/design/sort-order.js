@@ -1,6 +1,7 @@
 const { indexReorder } = require('../../../../config/config');
 
 export default function handler(req, res) {
+    if (req.method !== "POST") return req.next();
     if (!req.user) return res.status(401).send("Not logged in");
     const { id, index } = req.body;
     indexReorder("Design", { id, newIndex: index })

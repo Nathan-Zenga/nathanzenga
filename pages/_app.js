@@ -10,7 +10,7 @@ function MyApp({ Component, pageProps, router }) {
 
   useEffect(async () => {
     if (session) return;
-    const { data: loggedIn } = await axios.get("/api/logged-in");
+    const { data: loggedIn } = await axios.post("/api/logged-in");
     loggedIn && inSession(true);
   }, []);
 

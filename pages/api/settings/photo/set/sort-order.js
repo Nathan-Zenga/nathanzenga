@@ -1,6 +1,7 @@
 const { Photo } = require('../../../../../models/models');
 
 export default async function handler(req, res) {
+    if (req.method !== "POST") return req.next();
     if (!req.user) return res.status(401).send("Not logged in");
     const { photo_set, photo_set_index } = req.body;
     const covers = await Photo.find({photo_set_cover: true}).sort({photo_set_index: 1}).exec();
