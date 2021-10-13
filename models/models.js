@@ -1,8 +1,7 @@
-import { model, models, Schema } from 'mongoose';
-import newSchema from './newSchema';
-Schema.Types.String.set('trim', true);
+import { model, models } from 'mongoose';
+import Schema from './newSchema';
 
-export const Photo = models.Photo || model('Photo', newSchema({
+export const Photo = models.Photo || model('Photo', Schema({
     photo_title: String,
     photo_set: String,
     photo_url: String,
@@ -14,7 +13,7 @@ export const Photo = models.Photo || model('Photo', newSchema({
     photo_set_index: Number
 }));
 
-export const Design = models.Design || model('Design', newSchema({
+export const Design = models.Design || model('Design', Schema({
     d_id: {
         type: String,
         uppercase: true,
@@ -31,10 +30,10 @@ export const Design = models.Design || model('Design', newSchema({
     index: Number
 }));
 
-export const Info_text = models.Info_text || model('Info_text', newSchema({
+export const Info_text = models.Info_text || model('Info_text', Schema({
     text: String
 }));
 
-export const Admin = models.Admin || model('Admin', newSchema({
+export const Admin = models.Admin || model('Admin', Schema({
     pass: String
 }));

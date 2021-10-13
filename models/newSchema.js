@@ -1,4 +1,5 @@
-const { connect, connection, Schema } = require('mongoose');
+import { connect, connection, Schema } from 'mongoose';
+Schema.Types.String.set('trim', true);
 
 const openConnection = async () => connection.readyState === 0 ? await connect(process.env.DB) : null;
 
