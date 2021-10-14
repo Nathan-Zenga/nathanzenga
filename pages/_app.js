@@ -1,7 +1,6 @@
 import Layout from '../components/Layout'
 import { AnimatePresence } from 'framer-motion'
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 
 function MyApp({ Component, pageProps, router }) {
 
@@ -10,7 +9,8 @@ function MyApp({ Component, pageProps, router }) {
 
   useEffect(async () => {
     if (session) return;
-    const { data: loggedIn } = await axios.post("/api/logged-in");
+    const res = await fetch(`${location.origin}/api/logged-in`, { method: "post" });
+    const loggedIn = await res.json();
     loggedIn && inSession(true);
   }, []);
 

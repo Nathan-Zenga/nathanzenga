@@ -29,7 +29,7 @@ const ImageThumb = ({ image, label, index, gridCSSApplied, extraImgCSS }) => {
   const isGrid = gridCSSApplied ? imageOrientation(index) : " col-sm-6 float-left";
   const imageContainerClass = "img-container media-container" + isGrid;
   const query = { set: image.photo_set.toLowerCase() };
-  if (!isNaN(index)) query.image = index + 1;
+  !isNaN(index) && (query.image = index + 1);
 
   return (
     <motion.div

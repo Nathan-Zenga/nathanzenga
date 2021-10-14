@@ -78,26 +78,13 @@ form {
     margin: 0 auto;
 }
 
-form .row .column.xs {
-    padding: 0 .5em;
-}
-
-form .row .column.xs:first-child {
-    padding-left: 0;
-}
-
-form .row .column.xs:last-child {
-    padding-right: 0;
-}
-
 .form-control {
     margin-bottom: 1em;
     box-shadow: none;
     border: none;
 }
 
-textarea,
-textarea.form-control {
+textarea, textarea.form-control {
     min-width: 100%;
     max-width: 100%;
     height: 6em
@@ -117,11 +104,6 @@ form input[type=submit] {
     padding-right: 30px;
     margin-left: auto;
     margin-right: auto;
-}
-
-form .input-grp button.add,
-form .input-grp button.remove {
-    border: 1px solid rgb(30, 30, 30);
 }
 
 form .img-preview {
@@ -225,10 +207,6 @@ hr {
             margin-right: 10px;
         }
     }
-}
-
-#design-page main {
-    overflow-x: hidden;
 }
 
 #designs-carousel .carousel-indicators {
@@ -403,93 +381,8 @@ nav a {
     }
 }
 
-.modal-backdrop {
-    background-color: inherit;
-}
-
-.modal-backdrop.show {
-    opacity: 1;
-}
-
-.modal-open .modal {
-    padding: 0!important;
-}
-
-.modal .modal-dialog {
-    max-width: none!important;
-}
-
-.gallery-modal .modal-dialog {
-    height: 100%;
-}
-
-.modal .modal-content {
-    background-color: transparent;
-    border: none;
-}
-
-.modal .modal-body {
-    padding: 0;
-}
-
-.modal .modal-body, .modal .iframe {
-    height: 100%;
-}
-
-.modal .modal-icons {
-    position: fixed;
-    right: 15px;
-    top: 10px;
-    font-size: 1.75em;
-    overflow: hidden;
-    z-index: 96;
-}
-
-.modal .modal-icons .close {
-    padding: 0;
-    margin-top: 6px;
-}
-
 #info #info-text {
     margin-bottom: 3em;
-}
-
-.loader {
-    position: absolute;
-    left: 50%;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    border: 4px solid rgba(150, 150, 150, .15);
-    border-top-color: rgb(150, 150, 150);
-    -webkit-animation: spin 1s infinite linear;
-    animation: spin 1s infinite linear;
-}
-
-@-webkit-keyframes spin {
-    from { -moz-transform: translateX(-50%); -webkit-transform: translateX(-50%) rotate(0deg); transform: translateX(-50%) rotate(0deg) }
-    to { -moz-transform: translateX(-50%); -webkit-transform: translateX(-50%) rotate(360deg); transform: translateX(-50%) rotate(360deg) }
-}
-
-@keyframes spin {
-    from { -moz-transform: translate(-50%, -50%); -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%) rotate(0deg) }
-    to { -moz-transform: translate(-50%, -50%); -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%) rotate(360deg) }
-}
-
-.expand-icon {
-    position: absolute;
-    opacity: 0;
-    top: 0;
-    right: 0;
-    padding: 5px 10px;
-    cursor: pointer;
-    background-color: rgb(30, 30, 30);
-    z-index: 20;
-    transition: .5s opacity;
-}
-
-.img:hover .expand-icon {
-    opacity: 1;
 }
 
 .tab-content {
