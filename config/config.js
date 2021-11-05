@@ -67,7 +67,8 @@ module.exports.photoUploader = async body => {
     const newPhoto = new model("Photo")({ photo_title, photo_set, index });
     const public_id = `${photo_set}/${photo_title}`.toLowerCase().replace(/[ ?&#\\%<>]/g, "_");
     const result = await cloud.uploader.upload(file, { public_id, resource_type: "auto" });
-    const result2 = await DownsizedImage(result);
+    const result2 = await DownsizedImage(result).catch(err => ({ err }));
+    if (result2.err) { await cloud.api.delete_resources([result.public_id]); throw result2.err }
     const { width, height, secure_url, public_id: p_id, resource_type } = result2 || result;
     newPhoto.orientation = width > height ? "landscape" : width < height ? "portrait" : "square";
     newPhoto.photo_url = secure_url;
