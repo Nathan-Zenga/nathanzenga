@@ -27,10 +27,9 @@ export default async function handler(req, res) {
             newDesign.images.push({ photo_url: photo.photo_url, index: photo.index });
             cb();
         }).catch(err => cb(err));
-    }, err => {
+    }, async err => {
         if (!err) return newDesign.save(() => res.send("Design saved"));
         await cloud.api.delete_resources(saved_p_ids).catch(() => null);
-        await Design.findByIdAndDelete(newDesign.id);
         res.status(err.http_code || 500).send(err.message || err);
     });
 }
