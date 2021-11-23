@@ -25,7 +25,7 @@ const DownsizedImage = module.exports.DownsizedImage = async result => {
  * @param {boolean} [args.dec] used as a condition for decrementing index field values (usually after a document is deleted). Otherwise, signals the values to be incremented
  */
 module.exports.indexShift = async (modelName, doc, args) => {
-    const conditions = {}, num = (args || {}).dec ? -1 : 1;
+    const conditions = {}, num = args && args.dec ? -1 : 1;
     if (doc.photo_set) conditions.photo_set = doc.photo_set;
     conditions.index = { $gte: doc.index };
     conditions._id = { $ne: doc.id };
