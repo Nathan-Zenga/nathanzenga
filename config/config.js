@@ -11,9 +11,7 @@ const DownsizedImage = module.exports.DownsizedImage = async result => {
     const args = [width, height, public_id];
     if (args.filter(e => e).length != args.length) throw Error("One or more properties / args missing");
     if (width < 1200 && height < 1200) return null;
-    const options = { crop: "scale", resource_type };
-    options[width >= height ? "width" : "height"] = 1200;
-    const image = cloud.url(public_id, options);
+    const image = cloud.url(public_id, { crop: "scale", resource_type, [width >= height ? "width" : "height"]: 1200 });
     return await cloud.uploader.upload(image, { public_id, resource_type });
 };
 
@@ -68,7 +66,7 @@ module.exports.photoUploader = async body => {
     const public_id = `${photo_set}/${photo_title}`.toLowerCase().replace(/[ ?&#\\%<>]/g, "_");
     const result = await cloud.uploader.upload(file, { public_id, resource_type: "auto" });
     const result2 = await DownsizedImage(result).catch(err => ({ err }));
-    if (result2.err) { await cloud.api.delete_resources([result.public_id]); throw result2.err }
+    if (result2 && result2.err) { await cloud.api.delete_resources([result.public_id]); throw result2.err }
     const { width, height, secure_url, public_id: p_id, resource_type } = result2 || result;
     newPhoto.orientation = width > height ? "landscape" : width < height ? "portrait" : "square";
     newPhoto.photo_url = secure_url;
