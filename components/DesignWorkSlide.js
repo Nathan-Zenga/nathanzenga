@@ -45,7 +45,7 @@ class SlideMedia extends Component {
   render() {
     const { doc } = this.props;
     const img = <img className="img" src={doc.photo_url} alt={doc.photo_title} />;
-    const video = <video className="img" playsInline autoPlay muted loop><source src={doc.photo_url} /></video>;
+    const video = <video className="img" playsInline autoPlay muted loop src={doc.photo_url} />;
     return (doc.r_type === "image") ? img : (doc.r_type === "video") ? video : "";
   }
 }

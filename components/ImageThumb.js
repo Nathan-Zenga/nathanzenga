@@ -22,14 +22,15 @@ const ImageThumb = ({ image, label, index, gridCSSApplied, extraImgCSS }) => {
     switch (image.orientation) {
       case "portrait": dir = " vertical"; break;
       case "landscape": dir = index % 2 == 0 ? " horizontal" : ""; break;
+      case "square": dir = " square"; break;
     }
     return dir
   }
 
   const isGrid = gridCSSApplied ? imageOrientation(index) : " col-sm-6 float-left";
   const imageContainerClass = "img-container media-container" + isGrid;
-  const query = { set: image.photo_set.toLowerCase() };
-  !isNaN(index) && (query.image = index + 1);
+  const idx = !isNaN(index) ? { image: index + 1 } : {};
+  const query = { set: image.photo_set.toLowerCase(), ...idx };
 
   return (
     <motion.div

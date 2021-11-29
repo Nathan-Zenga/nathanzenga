@@ -14,8 +14,7 @@ export default async function handler(req, res) {
     try {
         await indexShift("Design", newDesign, { dec: false });
         const files = (Array.isArray(media) ? media : [media]).filter(e => e);
-        if (!files.length) { await newDesign.save(); return res.send("Design saved") }
-        await forEachOf(files, (file, i, cb) => {
+        if (files.length) await forEachOf(files, (file, i, cb) => {
             const photo_set = `design-${newDesign.d_id}`;
             const photo_title = `${newDesign.d_id}-web${i+1}`;
             photoUploader({ file, photo_title, photo_set, index: i+1 }).then(photo => {
