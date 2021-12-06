@@ -157,7 +157,7 @@ hr {
 }
 
 .media-set .img-container label {
-    margin: 5px 0 0;
+    margin: 0;
 }
 
 .media-set .img-container label a:hover {
@@ -177,7 +177,6 @@ hr {
         font-size: 2em;
         font-weight: 500;
         text-align: center;
-        margin: 0;
         z-index: 20;
         -webkit-animation: label-entrance 2s 1s backwards;
         animation: label-entrance 2s 1s backwards;
@@ -400,7 +399,6 @@ nav a {
 }
 
 .grid {
-    display: grid;
     grid-template-columns: 100%;
     grid-auto-rows: 20px;
     grid-auto-flow: dense;
@@ -427,11 +425,9 @@ nav a {
 
 @media (max-width: 991px) {
     .grid label {
-        position: relative;
+        position: absolute;
+        bottom: 15px;
         z-index: 10;
-        -moz-transform: translateY(-100%);
-        -webkit-transform: translateY(-100%);
-        transform: translateY(-100%);
         padding: 5px 10px;
         background-color: rgb(30, 30, 30);
         font-size: 1.2em;
@@ -441,6 +437,7 @@ nav a {
 
 @media (min-width: 768px) {
     .grid {
+        display: grid;
         grid-template-columns: repeat(2, 50%);
     }
 
