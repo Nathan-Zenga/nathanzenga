@@ -27,6 +27,18 @@ const DesignsPage = ({ designs, design_docs }) => {
     $("#designs-carousel").delay(250).fadeTo(400, 1);
     $("#designs-carousel").on("slide.bs.carousel", () => { $("video").trigger("pause") });
     $("#designs-carousel").on("slid.bs.carousel", () => { $(".design-item.active video").trigger("play") });
+
+    $(window).on("touchstart", function() {
+      $(".design-item.active video").each((i, video) => {
+        var playing = video.currentTime > 0 && !video.paused && !video.ended && video.readyState > 2;
+        if (!playing) video.play();
+      });
+    });
+
+    return function cleanup() {
+      $("#designs-carousel").off("slide.bs.carousel slid.bs.carousel");
+      $(window).off("touchstart");
+    }
   }, []);
 
   const { title, ogTitle } = Meta.defaultProps;
