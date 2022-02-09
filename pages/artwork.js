@@ -1,3 +1,4 @@
+import Script from 'next/script';
 import Meta from '../components/Meta';
 import ImageThumb from '../components/ImageThumb';
 import { getPhotos } from '../services/fetchData';
@@ -12,6 +13,11 @@ const ArtworkPage = ({ artwork }) => {
     <MediaSetLayout applyGridCSS={isGrid}>
       { artwork.map((img, i) => <ImageThumb key={img._id} image={img} index={i} gridCSSApplied={isGrid} />) }
     </MediaSetLayout>
+
+    {process.env.NODE_ENV !== "production" && <>
+      <Script id="statcounter-config" type="text/javascript" strategy="beforeInteractive" src="/js/statcounter-config.js" />
+      <Script id="statcounter-script" type="text/javascript" strategy="beforeInteractive" src="https://www.statcounter.com/counter/counter.js" async />
+    </>}
     </>
   );
 }

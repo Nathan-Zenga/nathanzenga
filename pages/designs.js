@@ -1,3 +1,4 @@
+import Script from 'next/script';
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 import DesignWorkSlide from '../components/DesignWorkSlide';
@@ -71,6 +72,11 @@ const DesignsPage = ({ designs, design_docs }) => {
         </a>
       </div>
     </motion.div>
+
+    {process.env.NODE_ENV !== "production" && <>
+      <Script id="statcounter-config" type="text/javascript" strategy="beforeInteractive" src="/js/statcounter-config.js" />
+      <Script id="statcounter-script" type="text/javascript" strategy="beforeInteractive" src="https://www.statcounter.com/counter/counter.js" async />
+    </>}
     </>
   );
 }

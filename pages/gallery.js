@@ -1,3 +1,4 @@
+import Script from 'next/script';
 import { motion } from "framer-motion";
 import Meta from '../components/Meta';
 import GalleryImage from '../components/GalleryCarouselImage';
@@ -49,6 +50,11 @@ const Gallery = ({ photos, position }) => {
         </a>
       </div>
     </motion.div>
+
+    {process.env.NODE_ENV !== "production" && <>
+      <Script id="statcounter-config" type="text/javascript" strategy="beforeInteractive" src="/js/statcounter-config.js" />
+      <Script id="statcounter-script" type="text/javascript" strategy="beforeInteractive" src="https://www.statcounter.com/counter/counter.js" async />
+    </>}
     </>
   );
 }
