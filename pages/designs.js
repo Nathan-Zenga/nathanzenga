@@ -5,7 +5,7 @@ import DesignWorkSlide from '../components/DesignWorkSlide';
 import Meta from '../components/Meta';
 import { getDesignWork } from '../services/fetchData';
 
-const DesignsPage = ({ designs, design_docs }) => {
+const DesignsPage = ({ designs, design_sets }) => {
 
   useEffect(() => {
     $(".slideshow").each((i, slideshow) => {
@@ -56,8 +56,8 @@ const DesignsPage = ({ designs, design_docs }) => {
       <div id="designs-carousel" className="carousel slide carousel-fade" data-interval="false" style={{ opacity: 0 }}>
         <div className="carousel-inner"> {
           designs.map((item, i) => {
-            const docs = design_docs.filter(d => d.photo_set.includes(item.d_id));
-            return <DesignWorkSlide key={item._id} item={item} design_docs={docs} index={i} />
+            const docs = design_sets.filter(d => d.photo_set.includes(item.d_id));
+            return <DesignWorkSlide key={item._id} item={item} design_sets={docs} index={i} />
           })
         } </div>
 
@@ -79,8 +79,8 @@ const DesignsPage = ({ designs, design_docs }) => {
 }
 
 export const getStaticProps = async _ => {
-  const { designs, design_docs } = await getDesignWork({ hidden: false });
-  return { props: { designs, design_docs }, revalidate: 60 };
+  const { designs, design_sets } = await getDesignWork({ hidden: false });
+  return { props: { designs, design_sets }, revalidate: 60 };
 }
 
 export default DesignsPage;

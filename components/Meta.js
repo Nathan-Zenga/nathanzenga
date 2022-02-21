@@ -20,11 +20,6 @@ const Meta = ({ title, keywords, description, twitter, ogTitle }) => {
       <meta property="og:title" content={ogTitle} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content="" />
-
-      <link rel="stylesheet" type="text/css" href="/css/defaults.css" />
-      <link rel="stylesheet" type="text/css" href="/css/main.css" />
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
     </Head>
   )
 }

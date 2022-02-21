@@ -15,6 +15,6 @@ export const getInfoText = async () => {
 
 export const getDesignWork = async () => {
   const designs = JSON.stringify(await Design.find({ hidden: false }).lean().sort({ index: 1 }).exec());
-  const design_docs = JSON.stringify(await Photo.find({ photo_set: /^design-/ }).lean().sort({ photo_set: 1, orientation: 1, index: 1 }).exec());
-  return { designs: JSON.parse(designs), design_docs: JSON.parse(design_docs) };
+  const design_sets = JSON.stringify(await Photo.find({ photo_set: /^design-/ }).lean().sort({ photo_set: 1, orientation: 1, index: 1 }).exec());
+  return { designs: JSON.parse(designs), design_sets: JSON.parse(design_sets) };
 }

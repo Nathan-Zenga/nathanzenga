@@ -1,10 +1,10 @@
-const DesignWorkSlide = ({ item, design_docs, index: i }) => {
+const DesignWorkSlide = ({ item, design_sets, index: i }) => {
 
   return <div className={`carousel-item design-item${i == 0 ? " active" : ""}`} id={item.d_id}>
     <div className="design-img-dt-container">
       <div className="container">
         <div className="design-img-dt slideshow">{
-          design_docs.map(d => d.orientation === "landscape" ? <SlideMedia key={d._id} doc={d} /> : null)
+          design_sets.map(d => d.orientation === "landscape" ? <SlideMedia key={d._id} doc={d} /> : null)
         }</div>
       </div>
     </div>
@@ -14,7 +14,7 @@ const DesignWorkSlide = ({ item, design_docs, index: i }) => {
         <div className="row">
           <div className="col-5 order-last">
             <div className="design-img-mb slideshow">{
-              design_docs.map(d => d.orientation === "portrait" ? <SlideMedia key={d._id} doc={d} /> : null)
+              design_sets.map(d => d.orientation === "portrait" ? <SlideMedia key={d._id} doc={d} /> : null)
             }</div>
           </div>
           <div className="col-7 order-first"></div>
