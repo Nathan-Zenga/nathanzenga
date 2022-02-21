@@ -1,3 +1,4 @@
+import Statcounter from '../components/Statcounter';
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 import DesignWorkSlide from '../components/DesignWorkSlide';
@@ -71,6 +72,8 @@ const DesignsPage = ({ designs, design_docs }) => {
         </a>
       </div>
     </motion.div>
+
+    <Statcounter />
     </>
   );
 }

@@ -1,3 +1,4 @@
+import Statcounter from '../components/Statcounter';
 import { motion } from "framer-motion";
 import Meta from '../components/Meta';
 import GalleryImage from '../components/GalleryCarouselImage';
@@ -49,6 +50,8 @@ const Gallery = ({ photos, position }) => {
         </a>
       </div>
     </motion.div>
+
+    <Statcounter />
     </>
   );
 }

@@ -1,3 +1,4 @@
+import Statcounter from '../components/Statcounter';
 import Meta from '../components/Meta';
 import { motion } from 'framer-motion';
 import { getInfoText } from '../services/fetchData';
@@ -64,6 +65,8 @@ const InfoPage = ({ text }) => {
 
       </div>
     </div>
+
+    <Statcounter />
     </>
   );
 }

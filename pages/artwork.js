@@ -1,3 +1,4 @@
+import Statcounter from '../components/Statcounter';
 import Meta from '../components/Meta';
 import ImageThumb from '../components/ImageThumb';
 import { getPhotos } from '../services/fetchData';
@@ -12,6 +13,8 @@ const ArtworkPage = ({ artwork }) => {
     <MediaSetLayout applyGridCSS={isGrid}>
       { artwork.map((img, i) => <ImageThumb key={img._id} image={img} index={i} gridCSSApplied={isGrid} />) }
     </MediaSetLayout>
+
+    <Statcounter />
     </>
   );
 }

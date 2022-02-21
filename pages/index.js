@@ -1,3 +1,4 @@
+import Statcounter from '../components/Statcounter';
 import MediaSetLayout from '../components/MediaSetLayout';
 import ImageThumb from '../components/ImageThumb';
 import { getPhotos } from '../services/fetchData';
@@ -5,9 +6,12 @@ import { getPhotos } from '../services/fetchData';
 const HomePage = ({ photos }) => {
   const isGrid = true;
   return (
+    <>
     <MediaSetLayout applyGridCSS={isGrid}>
       { photos.map((p, i) => <ImageThumb key={p._id} image={p} index={i} gridCSSApplied={isGrid} />) }
     </MediaSetLayout>
+    <Statcounter />
+    </>
   );
 }
 
