@@ -5,8 +5,9 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
+const sendMail = require('./config/send-mail');
 const MemoryStore = require('memorystore')(session);
-const port = process.env.PORT || 5678;
+const { PORT = 5678, TEST_EMAIL } = process.env;
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
@@ -31,5 +32,15 @@ app.prepare().then(() => {
   server.use(passport.session());
 
   server.all('*', (req, res) => handle(req, res));
-  server.listen(port, () => { console.log(`Server started ${!dev ? "" : "on port " + port}`) });
+  server.listen(PORT, async () => {
+    console.log(`Server started${dev ? " on port " + PORT : ""}`);
+
+    if (!dev) try {
+      const email = "nathanzenga@gmail.com";
+      const recipient_email = TEST_EMAIL;
+      const subject = "Re: NZ test email";
+      const message = "This is a test email message";
+      await sendMail({ email, recipient_email, subject, message });
+    } catch (err) { console.error(err.message) }
+  });
 })
