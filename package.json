@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "build": "next build",
-    "heroku-postbuild": "npm run build",
+    "heroku-postbuild": "npm run build && npm run scss-compile",
+    "scss-compile": "sass public/css/main.scss public/css/main.css --no-source-map",
     "start": "node server.js"
   },
   "dependencies": {
@@ -29,7 +30,8 @@
     "passport": "^0.5.2",
     "passport-local": "^1.0.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "sass": "^1.50.0"
   },
   "engines": {
     "node": "^16.x.x",
