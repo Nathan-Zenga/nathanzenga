@@ -1,18 +1,18 @@
 $prefixes: ms moz webkit;
 
-@mixin transform($prop) {
-    @each $p in $prefixes { #{"-#{$p}-transform"}: $prop }
-    transform: $prop;
+@mixin transform($value) {
+    @each $p in $prefixes { #{"-#{$p}-transform"}: $value }
+    transform: $value;
 }
 
-@mixin filter($prop) {
-    @each $p in $prefixes { #{"-#{$p}-filter"}: $prop }
-    filter: $prop;
+@mixin filter($value) {
+    @each $p in $prefixes { #{"-#{$p}-filter"}: $value }
+    filter: $value;
 }
 
-@mixin background-image($prop) {
-    @each $p in $prefixes { background-image: #{"-#{$p}-#{$prop}"} }
-    background-image: $prop;
+@mixin background-image($value) {
+    @each $p in $prefixes { background-image: #{"-#{$p}-#{$value}"} }
+    background-image: $value;
 }
 
 header {
@@ -21,12 +21,12 @@ header {
 
 #logo {
     display: table;
-}
 
-#logo img {
-    height: 55px;
-    @include filter(invert(1));
-    @include transform(rotate(10deg));
+    img {
+        height: 55px;
+        @include filter(invert(1));
+        @include transform(rotate(10deg));
+    }
 }
 
 main {
@@ -44,10 +44,10 @@ footer {
 
     .socials {
         font-size: 2em;
-    }
 
-    .socials a:not(:last-child) {
-        margin-right: 30px;
+        a:not(:last-child) {
+            margin-right: 30px;
+        }
     }
 
     .toTop {
@@ -59,29 +59,26 @@ footer {
 .carousel {
     padding-bottom: 50px;
 
-    .carousel-indicators {
+    &-indicators {
         margin-bottom: 0;
     }
 
-    .carousel-control-next,
-    .carousel-control-prev {
+    &-control-next, &-control-prev {
         bottom: 50px;
         text-shadow: 0 0 10px rgb(30, 30, 30), 0 0 10px rgb(30, 30, 30);
     }
 
-    .carousel-control-next-icon,
-    .carousel-control-prev-icon {
+    &-control-next-icon, &-control-prev-icon {
         position: relative;
         background-image: none;
         font-size: 2.5em;
-    }
 
-    .carousel-control-next-icon:before,
-    .carousel-control-prev-icon:before {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        @include transform(translate(-50%, -50%));
+        &:before {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            @include transform(translate(-50%, -50%));
+        }
     }
 }
 
@@ -108,10 +105,10 @@ form {
     .img-preview {
         margin-bottom: 1em;
         text-align: center;
-    }
 
-    .img-preview img {
-        height: 200px;
+        img {
+            height: 200px;
+        }
     }
 }
 
@@ -145,56 +142,60 @@ hr {
     .media-container {
         position: relative;
         padding: 15px;
+
+        > .inner {
+            position: relative;
+            @include filter(contrast(.825));
+        }
     }
 
-    .media-container > .inner {
-        position: relative;
-        @include filter(contrast(.825));
-    }
+    .img-container {
+        > .inner {
+            display: block;
+            background-color: rgba(0,0,0,.1);
+            background-position: center;
+            background-size: cover;
+            cursor: pointer;
 
-    .img-container > .inner {
-        display: block;
-        background-color: rgba(0,0,0,.1);
-        background-position: center;
-        background-size: cover;
-        cursor: pointer;
-    }
-
-    .img-container > .inner > img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .img-container label {
-        margin: 0;
-    }
-
-    .img-container label a:hover {
-        opacity: 1;
-    }
-
-    @media (min-width: 992px) {
-        .img-container label {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            @include transform(translate(-50%, -50%));
-            opacity: 0;
-            transition: .5s opacity;
-            font-size: 2em;
-            font-weight: 500;
-            text-align: center;
-            z-index: 20;
-            -webkit-animation: label-entrance 2s 1s backwards;
-            animation: label-entrance 2s 1s backwards;
+            > img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
         }
 
-        @-webkit-keyframes label-entrance { from { opacity: 1 } }
-        @keyframes label-entrance { from { opacity: 1 } }
+        label {
+            margin: 0;
 
-        .img-container:hover label {
-            opacity: 1;
+            a:hover {
+                opacity: 1;
+            }
+
+            @media (min-width: 992px) {
+                & {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    @include transform(translate(-50%, -50%));
+                    opacity: 0;
+                    transition: .5s opacity;
+                    font-size: 2em;
+                    font-weight: 500;
+                    text-align: center;
+                    z-index: 20;
+                    -webkit-animation: label-entrance 2s 1s backwards;
+                    animation: label-entrance 2s 1s backwards;
+                }
+
+                @-webkit-keyframes label-entrance { from { opacity: 1 } }
+                @keyframes label-entrance { from { opacity: 1 } }
+            }
+        }
+
+        @media (min-width: 992px) {
+            &:hover label {
+                opacity: 1;
+            }
         }
     }
 
@@ -222,36 +223,36 @@ hr {
         position: static;
         bottom: auto;
         margin: 1em auto;
-    }
 
-    .carousel-indicators li:not(:last-child) {
-        margin-right: 5px;
+        li:not(:last-child) {
+            margin-right: 5px;
+        }
     }
 
     .carousel-control-next, .carousel-control-prev {
         height: 81px;
         bottom: auto;
+
+        @media (min-width: 768px) {
+            & {
+                height: 400px;
+            }
+        }
     }
 
     &.carousel-fade .carousel-inner {
         overflow: visible;
-    }
 
-    &.carousel-fade .carousel-item:before {
-        position: absolute;
-        display: block;
-        content: " ";
-        left: 50%;
-        width: 100vw;
-        height: 100%;
-        @include background-image(linear-gradient(to bottom, rgb(30, 30, 30) 40px, rgb(86, 80, 68) 40px, rgb(86, 80, 68) 360px, rgb(30, 30, 30) 360px));
-        @include transform(translateX(-50%));
-        z-index: -1;
-    }
-
-    @media (min-width: 768px) {
-        .carousel-control-next, .carousel-control-prev {
-            height: 400px;
+        .carousel-item:before {
+            position: absolute;
+            display: block;
+            content: " ";
+            left: 50%;
+            width: 100vw;
+            height: 100%;
+            @include background-image(linear-gradient(to bottom, rgb(30, 30, 30) 40px, rgb(86, 80, 68) 40px, rgb(86, 80, 68) 360px, rgb(30, 30, 30) 360px));
+            @include transform(translateX(-50%));
+            z-index: -1;
         }
     }
 }
@@ -270,7 +271,6 @@ hr {
     }
 }
 
-// _config.scss
 $design-container-max-width: 850px;
 
 .design-img-dt-container {
@@ -278,18 +278,20 @@ $design-container-max-width: 850px;
     margin-bottom: 30px;
 
     .container {
-        max-width: $design-container-max-width;
-    }
-
-    .container {
         position: relative;
         height: inherit;
+        max-width: $design-container-max-width;
         padding: 0;
     }
 }
 
-.design-img-mb-container .container {
-    max-width: $design-container-max-width;
+.design-img-mb-container {
+    position: relative;
+    margin-top: -200px;
+
+    .container {
+        max-width: $design-container-max-width;
+    }
 }
 
 .design-img-dt {
@@ -304,18 +306,13 @@ $design-container-max-width: 850px;
         @include transform(translate(-50%, -50%));
         max-width: 100%;
         max-height: 100%;
-    }
 
-    @media (min-width: 768px) {
-        img, video {
-            border-radius: 10px;
+        @media (min-width: 768px) {
+            & {
+                border-radius: 10px;
+            }
         }
     }
-}
-
-.design-img-mb-container {
-    position: relative;
-    margin-top: -200px;
 }
 
 .design-img-mb {
@@ -331,7 +328,6 @@ $design-container-max-width: 850px;
         border-radius: 15px;
     }
 }
-
 
 #menu-icon {
     position: fixed;
@@ -407,19 +403,19 @@ nav {
         padding-left: 0;
         padding-right: 0;
         grid-row: span 11;
-    }
 
-    > .media-container > .inner.img {
-        position: relative;
-        height: 100%;
-    }
+        > .inner.img {
+            position: relative;
+            height: 100%;
+        }
 
-    > .vertical {
-        grid-row: span 25!important;
-    }
+        &.vertical {
+            grid-row: span 25!important;
+        }
 
-    > .square {
-        grid-row: span 19;
+        &.square {
+            grid-row: span 19;
+        }
     }
 
     @media (max-width: 991px) {
@@ -442,15 +438,15 @@ nav {
 
         > .media-container {
             padding: 15px;
-        }
 
-        > .horizontal {
-            grid-column: span 2;
-            grid-row: span 18;
-        }
+            &.horizontal {
+                grid-column: span 2;
+                grid-row: span 18;
+            }
 
-        > .square {
-            grid-row: span 18;
+            &.square {
+                grid-row: span 18;
+            }
         }
     }
 

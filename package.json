@@ -9,8 +9,8 @@
   ],
   "scripts": {
     "build": "next build",
-    "heroku-postbuild": "npm run build && npm run scss-compile",
-    "scss-compile": "sass public/css/main.scss public/css/main.css --no-source-map",
+    "heroku-postbuild": "npm run build && npm run sass",
+    "sass": "sass public/css/main.scss public/css/main.css --no-source-map",
     "start": "node server.js"
   },
   "dependencies": {
