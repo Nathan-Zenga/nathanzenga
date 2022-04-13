@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { motion, useAnimation } from "framer-motion";
 
-const ImageThumb = ({ image, label, index, gridCSSApplied, extraImgCSS }) => {
+const ImageThumb = ({ image, label, index, link, gridCSSApplied, extraImgCSS }) => {
 
   const [ imageObjectURL, setImageObjectURL ] = useState("");
   const animation = useAnimation();
@@ -30,7 +30,7 @@ const ImageThumb = ({ image, label, index, gridCSSApplied, extraImgCSS }) => {
   const isGrid = gridCSSApplied ? imageOrientation(index) : " col-sm-6 float-left";
   const imageContainerClass = "img-container media-container" + isGrid;
   const idx = !isNaN(index) ? { image: index + 1 } : {};
-  const query = { set: image.photo_set.toLowerCase(), ...idx };
+  const query = link === "/gallery" ? { set: image.photo_set.toLowerCase().replace(/ /g, "-"), ...idx } : {};
 
   return (
     <motion.div
@@ -40,7 +40,7 @@ const ImageThumb = ({ image, label, index, gridCSSApplied, extraImgCSS }) => {
       exit={{ opacity: 0 }}
       transition={{ duration: .5 }}
     >
-      <Link href={{ pathname: "/gallery", query }} scroll={false}>
+      <Link href={{ pathname: link, query }} scroll={false}>
         <a className="inner img"
             id={image.photo_set}
             onContextMenu={e => false}>

@@ -98,7 +98,7 @@ const SettingsPage = ({ photos, designs, text }) => {
 
 export const getServerSideProps = async ({ req, res }) => {
   if (!req.user) return { redirect: { destination: '/settings/access?redirect=true', permanent: false } };
-  const photos = await getPhotos({ sort: JSON.stringify({ photo_set: 1, index: 1 }) });
+  const photos = await getPhotos({ sort: { photo_set: 1, index: 1 } });
   const { designs } = await getDesignWork();
   const text = await getInfoText();
   return { props: { photos, designs, text } };

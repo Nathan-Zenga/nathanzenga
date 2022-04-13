@@ -11,7 +11,7 @@ const PhotographyPage = ({ photos }) => {
     <>
     <Meta title={`Photography - ${title}`} ogTitle={`Photography - ${ogTitle}`} />
     <MediaSetLayout applyGridCSS={isGrid}>
-      { photos.map(p => <ImageThumb key={p._id} image={p} label={true} gridCSSApplied={isGrid} />) }
+      { photos.map(p => <ImageThumb key={p._id} image={p} label={true} link={`/set/${p.photo_set.toLowerCase().replace(/ /g, "-")}`} gridCSSApplied={isGrid} />) }
     </MediaSetLayout>
     <Statcounter />
     </>
@@ -19,7 +19,7 @@ const PhotographyPage = ({ photos }) => {
 }
 
 export const getStaticProps = async _ => {
-  const photos = await getPhotos({ photo_set_cover: true, sort: '{ "photo_set_index": 1 }' });
+  const photos = await getPhotos({ photo_set_cover: true, sort: { photo_set_index: 1 } });
   return { props: { photos }, revalidate: 60 };
 }
 

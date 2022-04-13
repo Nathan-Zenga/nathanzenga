@@ -6,7 +6,7 @@ import { getPhotos } from '../services/fetchData';
 
 const Gallery = ({ photos, position }) => {
   const { title, ogTitle } = Meta.defaultProps;
-  const set = photos.length ? photos[0].photo_set : "Missing Gallery";
+  const set = photos[0]?.photo_set || "Gallery Not Found";
 
   const showFirst = (index, array) => {
     let pos = !isNaN(position) ? parseInt(position) : 0;
@@ -57,7 +57,7 @@ const Gallery = ({ photos, position }) => {
 }
 
 export const getServerSideProps = async ({ resolvedUrl, query }) => {
-  const photos = await getPhotos({ photo_set: query.set, sort: '{ "index": 1 }' });
+  const photos = await getPhotos({ photo_set: query.set, sort: { index: 1 } });
   if (resolvedUrl === "/gallery" && (!query.set || !photos.length)) return { notFound: true };
   return { props: { photos, position: query.image || 1 } };
 }
