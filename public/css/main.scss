@@ -1,3 +1,5 @@
+@import "defaults";
+
 $prefixes: ms moz webkit;
 
 @mixin transform($value) {
@@ -16,13 +18,15 @@ $prefixes: ms moz webkit;
 }
 
 header {
-    padding: 30px 0 40px;
+    padding: 45px 0 40px;
 }
 
 #logo {
     display: table;
 
     img {
+        position: relative;
+        top: -10px;
         height: 55px;
         @include filter(invert(1));
         @include transform(rotate(10deg));
