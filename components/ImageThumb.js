@@ -52,7 +52,13 @@ const ImageThumb = ({ image, label, index, link, gridCSSApplied, extraImgCSS }) 
           />
         </a>
       </Link>
-      { label ? <label>{image.photo_set}</label> : <></> }
+      { label ? (
+        <label>
+          <Link href={{ pathname: link, query }} scroll={false}>
+            {image.photo_set}
+          </Link>
+        </label>
+      ) : <></> }
     </motion.div>
   )
 }
