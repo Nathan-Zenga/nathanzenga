@@ -11,7 +11,7 @@ const ArtworkPage = ({ artwork }) => {
     <>
     <Meta title={`Artwork - ${title}`} ogTitle={`Artwork - ${ogTitle}`} />
     <MediaSetLayout applyGridCSS={isGrid}>
-      { artwork.map((img, i) => <ImageThumb key={img._id} image={img} index={i} link="/gallery" gridCSSApplied={isGrid} />) }
+      { artwork.map((img, i) => <ImageThumb key={img._id} image={img} index={i} link={`/set/artwork/${i+1}`} gridCSSApplied={isGrid} />) }
     </MediaSetLayout>
 
     <Statcounter />
@@ -21,6 +21,7 @@ const ArtworkPage = ({ artwork }) => {
 
 export const getStaticProps = async _ => {
   const artwork = await getPhotos({ photo_set: "Artwork", sort: { index: 1 } });
+  if (!artwork.length) return { notFound: true };
   return { props: { artwork }, revalidate: 60 };
 }
 

@@ -1,10 +1,10 @@
-import Statcounter from '../../components/Statcounter';
-import MediaSetLayout from '../../components/MediaSetLayout';
-import Meta from '../../components/Meta';
-import ImageThumb from '../../components/ImageThumb';
-import { getPhotos } from '../../services/fetchData';
+import Statcounter from '../../../components/Statcounter';
+import MediaSetLayout from '../../../components/MediaSetLayout';
+import Meta from '../../../components/Meta';
+import ImageThumb from '../../../components/ImageThumb';
+import { getPhotos } from '../../../services/fetchData';
 
-const GallerySetPage = ({ photos }) => {
+const GallerySetPage = ({ photos, set }) => {
   const isGrid = true;
   const { title, ogTitle } = Meta.defaultProps;
   const photo_set = photos[0]?.photo_set || "Gallery Not Found";
@@ -12,7 +12,7 @@ const GallerySetPage = ({ photos }) => {
     <>
     <Meta title={`${photo_set} - ${title}`} ogTitle={`${photo_set} - ${ogTitle}`} />
     <MediaSetLayout applyGridCSS={isGrid}>
-      { photos.map((p, i) => <ImageThumb key={p._id} image={p} index={i} link="/gallery" gridCSSApplied={isGrid} />) }
+      { photos.map((p, i) => <ImageThumb key={p._id} image={p} index={i} link={`/set/${set}/${i+1}`} gridCSSApplied={isGrid} />) }
     </MediaSetLayout>
     <Statcounter />
     </>
@@ -27,7 +27,8 @@ export const getStaticPaths = async _ => {
 
 export const getStaticProps = async ({ params }) => {
   const photos = await getPhotos({ photo_set: params.set, sort: { index: 1 } });
-  return { props: { photos }, revalidate: 60 };
+  if (!photos.length) return { notFound: true };
+  return { props: { photos, set: params.set }, revalidate: 60 };
 }
 
 export default GallerySetPage;

@@ -29,8 +29,6 @@ const ImageThumb = ({ image, label, index, link, gridCSSApplied, extraImgCSS }) 
 
   const isGrid = gridCSSApplied ? imageOrientation(index) : " col-sm-6 float-left";
   const imageContainerClass = "img-container media-container" + isGrid;
-  const idx = !isNaN(index) ? { image: index + 1 } : {};
-  const query = link === "/gallery" ? { set: image.photo_set.toLowerCase().replace(/ /g, "-"), ...idx } : {};
 
   return (
     <motion.div
@@ -40,7 +38,7 @@ const ImageThumb = ({ image, label, index, link, gridCSSApplied, extraImgCSS }) 
       exit={{ opacity: 0 }}
       transition={{ duration: .5 }}
     >
-      <Link href={{ pathname: link, query }} scroll={false}>
+      <Link href={{ pathname: link }} scroll={false}>
         <a className="inner img"
             id={image.photo_set}
             onContextMenu={e => false}>
@@ -54,7 +52,7 @@ const ImageThumb = ({ image, label, index, link, gridCSSApplied, extraImgCSS }) 
       </Link>
       { label ? (
         <label>
-          <Link href={{ pathname: link, query }} scroll={false}>
+          <Link href={{ pathname: link }} scroll={false}>
             {image.photo_set}
           </Link>
         </label>

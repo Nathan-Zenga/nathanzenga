@@ -8,7 +8,7 @@ const HomePage = ({ photos }) => {
   return (
     <>
     <MediaSetLayout applyGridCSS={isGrid}>
-      { photos.map((p, i) => <ImageThumb key={p._id} image={p} index={i} link="/gallery" gridCSSApplied={isGrid} />) }
+      { photos.map((p, i) => <ImageThumb key={p._id} image={p} index={i} link={`/set/assorted/${i+1}`} gridCSSApplied={isGrid} />) }
     </MediaSetLayout>
     <Statcounter />
     </>
@@ -17,6 +17,7 @@ const HomePage = ({ photos }) => {
 
 export const getStaticProps = async _ => {
   const photos = await getPhotos({ photo_set: "Assorted", sort: { index: 1 } });
+  if (!photos.length) return { notFound: true };
   return { props: { photos }, revalidate: 60 };
 }
 
