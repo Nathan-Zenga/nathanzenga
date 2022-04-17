@@ -6,6 +6,7 @@ const AdminAccessPage = ({ flashMessage, inSession }) => {
 
   const [ message, setMessage ] = useState(flashMessage);
   const router = useRouter();
+  const { title, ogTitle } = Meta.defaultProps;
 
   const login = e => {
     e.preventDefault();
@@ -21,7 +22,6 @@ const AdminAccessPage = ({ flashMessage, inSession }) => {
     })
   }
 
-  const { title, ogTitle } = Meta.defaultProps;
   return (
     <>
     <Meta title={`Password Required - ${title}`} ogTitle={`Password Required - ${ogTitle}`} />
@@ -37,7 +37,7 @@ const AdminAccessPage = ({ flashMessage, inSession }) => {
           </div>
         </div>
       </form>
-      { message ? <div style={{ textAlign: "center" }}>{message}</div> : <></> }
+      { message && <div style={{ textAlign: "center" }}>{message}</div> }
     </div>
     </>
   )
@@ -45,8 +45,7 @@ const AdminAccessPage = ({ flashMessage, inSession }) => {
 
 export const getServerSideProps = ({ req }) => {
   if (req.user) return { redirect: { destination: '/settings/---', permanent: false } };
-  const flashMessage = req.query.redirect === "true" ? "Not logged in" : "";
-  return { props: { flashMessage } }
+  return { props: { flashMessage: req.query.redirect === "true" ? "Not logged in" : "" } }
 }
 
 export default AdminAccessPage

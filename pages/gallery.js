@@ -58,7 +58,7 @@ const Gallery = ({ photos, position }) => {
 
 export const getServerSideProps = async ({ resolvedUrl, query }) => {
   const photos = await getPhotos({ photo_set: query.set, sort: { index: 1 } });
-  if (resolvedUrl === "/gallery" && (!query.set || !photos.length)) return { notFound: true };
+  if (/^\/gallery/i.test(resolvedUrl) && (!query.set || !photos.length)) return { notFound: true };
   return { props: { photos, position: query.image || 1 } };
 }
 
