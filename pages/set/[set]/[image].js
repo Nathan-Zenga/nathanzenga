@@ -38,9 +38,9 @@ const Gallery = ({ photo, set, next_image, prev_image }) => {
 }
 
 export const getStaticPaths = async _ => {
-  const photos = await getPhotos({ sort: { photo_set: 1, index: 1 } });
+  const photos = await getPhotos({ photo_set: { $not: /^design-/i }, sort: { photo_set: 1, index: 1 } });
   const paths = photos.map(p => ({
-    params: { set: p.photo_set.toLowerCase().replace(/ /g, "-"), image: (p.index).toString() }
+    params: { set: p.photo_set.toLowerCase().replace(/ /g, "-"), image: p.index.toString() }
   }));
   return { paths, fallback: false };
 }
@@ -51,7 +51,7 @@ export const getStaticProps = async ({ params }) => {
   if (!photo) return { notFound: true };
   const next_image = photo.index >= photos.length ? 1 : photo.index+1;
   const prev_image = photo.index <= 1 ? photos.length : photo.index-1;
-  return { props: { photo: photo, set: photo.photo_set, next_image, prev_image }, revalidate: 60 };
+  return { props: { photo, set: photo.photo_set, next_image, prev_image }, revalidate: 60 };
 }
 
 export default Gallery;

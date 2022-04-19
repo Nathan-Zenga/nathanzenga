@@ -7,10 +7,10 @@ import { getPhotos } from '../../../services/fetchData';
 const GallerySetPage = ({ photos, set }) => {
   const isGrid = true;
   const { title, ogTitle } = Meta.defaultProps;
-  const photo_set = photos[0]?.photo_set || "Gallery Not Found";
+
   return (
     <>
-    <Meta title={`${photo_set} - ${title}`} ogTitle={`${photo_set} - ${ogTitle}`} />
+    <Meta title={`${photos[0].photo_set} - ${title}`} ogTitle={`${photos[0].photo_set} - ${ogTitle}`} />
     <MediaSetLayout applyGridCSS={isGrid}>
       { photos.map((p, i) => <ImageThumb key={p._id} image={p} index={i} link={`/set/${set}/${i+1}`} gridCSSApplied={isGrid} />) }
     </MediaSetLayout>

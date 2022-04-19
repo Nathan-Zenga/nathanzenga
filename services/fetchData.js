@@ -3,7 +3,7 @@ import { Photo, Info_text, Design } from '../models/models';
 export const getPhotos = async body => {
   const query = { ...body };
   delete query.sort;
-  if (query.photo_set) query.photo_set = { $regex: RegExp(`^${query.photo_set.replace(/_|\-| /g, "\\W?")}$`, "i") };
+  if (typeof query.photo_set == "string") query.photo_set = { $regex: RegExp(`^${query.photo_set.replace(/_|\-| /g, "\\W?")}$`, "i") };
   const photos = JSON.stringify(await Photo.find(query).lean().sort(body.sort || {}).exec());
   return JSON.parse(photos);
 }
