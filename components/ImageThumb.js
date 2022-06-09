@@ -28,7 +28,7 @@ const ImageThumb = ({ image, label, index, link, gridCSSApplied, extraImgCSS }) 
   }
 
   const isGrid = gridCSSApplied ? imageOrientation(index) : " col-sm-6 float-left";
-  const imageContainerClass = "img-container media-container" + isGrid;
+  const imageContainerClass = "img-container" + isGrid;
 
   return (
     <motion.div
@@ -39,7 +39,7 @@ const ImageThumb = ({ image, label, index, link, gridCSSApplied, extraImgCSS }) 
       transition={{ duration: .5 }}
     >
       <Link href={{ pathname: link }} scroll={false}>
-        <a className="inner img"
+        <a className="img-anchor"
             id={image.photo_set}
             onContextMenu={e => false}>
           <motion.img
@@ -50,13 +50,13 @@ const ImageThumb = ({ image, label, index, link, gridCSSApplied, extraImgCSS }) 
           />
         </a>
       </Link>
-      { label ? (
+      { label && (
         <label>
           <Link href={{ pathname: link }} scroll={false}>
             {image.photo_set}
           </Link>
         </label>
-      ) : <></> }
+      ) }
     </motion.div>
   )
 }

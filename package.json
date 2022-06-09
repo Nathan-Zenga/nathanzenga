@@ -1,6 +1,6 @@
 {
   "name": "nathanzenga_com",
-  "version": "11.0.2",
+  "version": "11.1.0",
   "description": "portfolio site",
   "main": "server.js",
   "cacheDirectories": [
@@ -11,7 +11,8 @@
     "build": "next build",
     "heroku-postbuild": "npm run build && npm run sass",
     "sass": "sass public/css/main.scss public/css/main.css --no-source-map",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "npm run sass && npm run start"
   },
   "dependencies": {
     "async": "^3.2.3",

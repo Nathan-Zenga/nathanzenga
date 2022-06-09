@@ -143,22 +143,17 @@ hr {
 .media-set {
     overflow: hidden;
 
-    .media-container {
+    .img-container {
         position: relative;
         padding: 15px;
 
-        > .inner {
+        > .img-anchor {
             position: relative;
-            @include filter(contrast(.825));
-        }
-    }
-
-    .img-container {
-        > .inner {
             display: block;
             background-color: rgba(0,0,0,.1);
             background-position: center;
             background-size: cover;
+            @include filter(contrast(.825));
             cursor: pointer;
 
             > img {
@@ -403,12 +398,12 @@ nav {
     grid-auto-rows: 20px;
     grid-auto-flow: dense;
 
-    > .media-container {
+    > .img-container {
         padding-left: 0;
         padding-right: 0;
         grid-row: span 11;
 
-        > .inner.img {
+        > .img-anchor {
             position: relative;
             height: 100%;
         }
@@ -440,7 +435,7 @@ nav {
             grid-template-columns: repeat(2, 50%);
         }
 
-        > .media-container {
+        > .img-container {
             padding: 15px;
 
             &.horizontal {
