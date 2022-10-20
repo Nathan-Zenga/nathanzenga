@@ -1,3 +1,3 @@
 export default function handler(req, res) {
-  req.logout(); res.send("/")
+  req.logout(() => res.send("/"))
 }

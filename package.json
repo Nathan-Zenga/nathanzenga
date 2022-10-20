@@ -8,8 +8,7 @@
     ".next/cache"
   ],
   "scripts": {
-    "build": "next build",
-    "heroku-postbuild": "npm run build && npm run sass",
+    "build": "next build && npm run sass",
     "sass": "sass public/css/main.scss public/css/main.css --no-source-map",
     "start": "node server.js",
     "dev": "npm run sass && npm run start"
@@ -28,7 +27,7 @@
     "mongoose": "^6.4.6",
     "next": "^12.0.10",
     "nodemailer": "^6.7.2",
-    "passport": "^0.5.2",
+    "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
