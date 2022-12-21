@@ -34,8 +34,8 @@
     "sass": "^1.50.0"
   },
   "engines": {
-    "node": "^16.x.x",
-    "npm": "^8.x.x"
+    "node": "*",
+    "npm": "*"
   },
   "author": "Nathan Zengamambu",
   "license": "ISC"

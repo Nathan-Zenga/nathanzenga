@@ -32,15 +32,17 @@ app.prepare().then(() => {
   server.use(passport.session());
 
   server.all('*', (req, res) => handle(req, res));
-  server.listen(PORT, async () => {
+  server.listen(PORT, () => {
     console.log(`Server started${dev ? " on port " + PORT : ""}`);
 
     if (!dev) try {
-      const email = "nathanzenga@gmail.com";
-      const recipient_email = TEST_EMAIL;
-      const subject = "Re: NZ test email";
-      const message = "This is a test email message";
-      await sendMail({ email, recipient_email, subject, message });
+      setInterval(async () => {
+        const email = "nathanzenga@gmail.com";
+        const recipient_email = TEST_EMAIL;
+        const subject = "Re: NZ test email";
+        const message = "This is a test email message";
+        await sendMail({ email, recipient_email, subject, message });
+      }, 1000 * 60 * 10)
     } catch (err) { console.error(err.message) }
   });
 })
