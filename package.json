@@ -1,12 +1,8 @@
 {
   "name": "nathanzenga_com",
-  "version": "11.1.0",
+  "version": "11.1.1",
   "description": "portfolio site",
   "main": "server.js",
-  "cacheDirectories": [
-    "node_modules",
-    ".next/cache"
-  ],
   "scripts": {
     "build": "next build && npm run sass",
     "sass": "sass public/css/main.scss public/css/main.css --no-source-map",

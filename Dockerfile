@@ -28,4 +28,6 @@ COPY --from=builder /app ./
 
 USER nextjs
 
+RUN chmod -R 777 .next/server/pages/*
+
 CMD ["npm", "run", "start"]
