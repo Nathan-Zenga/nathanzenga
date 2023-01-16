@@ -25,7 +25,6 @@ const DesignsPage = ({ designs, design_sets }) => {
       }
     });
 
-    $("#designs-carousel").delay(250).fadeTo(400, 1);
     $("#designs-carousel").on("slide.bs.carousel", () => { $("video").trigger("pause") });
     $("#designs-carousel").on("slid.bs.carousel", () => { $(".design-item.active video").trigger("play") });
 
@@ -46,31 +45,28 @@ const DesignsPage = ({ designs, design_sets }) => {
   return (
     <>
     <Meta title={`Designs - ${title}`} ogTitle={`Designs - ${ogTitle}`} />
-    <motion.div
-      className="carousel-container container"
+    <motion.div id="designs-carousel" className="carousel slide carousel-fade" data-interval="false"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: .5 }}
     >
-      <div id="designs-carousel" className="carousel slide carousel-fade" data-interval="false" style={{ opacity: 0 }}>
-        <div className="carousel-inner"> {
-          designs.map((item, i) => {
-            const docs = design_sets.filter(d => d.photo_set.includes(item.d_id));
-            return <DesignWorkSlide key={item._id} item={item} design_sets={docs} index={i} />
-          })
-        } </div>
+      <div className="carousel-inner"> {
+        designs.map((item, i) => {
+          const docs = design_sets.filter(d => d.photo_set.includes(item.d_id));
+          return <DesignWorkSlide key={item._id} item={item} design_sets={docs} index={i} />
+        })
+      } </div>
 
-        <a className="carousel-control-prev" href="#designs-carousel" role="button" data-slide="prev">
-          <span className="carousel-control-prev-icon fal fa-angle-left" aria-hidden="true"></span>
-          <span className="sr-only">Previous</span>
-        </a>
+      <a className="carousel-control-prev" href="#designs-carousel" role="button" data-slide="prev">
+        <span className="carousel-control-prev-icon fal fa-angle-left" aria-hidden="true"></span>
+        <span className="sr-only">Previous</span>
+      </a>
 
-        <a className="carousel-control-next" href="#designs-carousel" role="button" data-slide="next">
-          <span className="carousel-control-next-icon fal fa-angle-right" aria-hidden="true"></span>
-          <span className="sr-only">Next</span>
-        </a>
-      </div>
+      <a className="carousel-control-next" href="#designs-carousel" role="button" data-slide="next">
+        <span className="carousel-control-next-icon fal fa-angle-right" aria-hidden="true"></span>
+        <span className="sr-only">Next</span>
+      </a>
     </motion.div>
 
     <Statcounter />

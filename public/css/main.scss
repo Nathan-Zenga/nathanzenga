@@ -17,8 +17,17 @@ $prefixes: ms moz webkit;
     background-image: $value;
 }
 
-header {
-    padding: 45px 0 40px;
+img[alt] {
+    color: transparent;
+}
+
+#header {
+    padding: 45px 0 25px;
+}
+
+#header .container {
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 #logo {
@@ -26,7 +35,7 @@ header {
 
     img {
         position: relative;
-        top: -10px;
+        top: -15px;
         height: 55px;
         @include filter(invert(1));
         @include transform(rotate(10deg));
@@ -276,7 +285,7 @@ $design-container-max-width: 850px;
     height: 400px;
     margin-bottom: 30px;
 
-    .container {
+    > .container {
         position: relative;
         height: inherit;
         max-width: $design-container-max-width;
@@ -288,7 +297,7 @@ $design-container-max-width: 850px;
     position: relative;
     margin-top: -200px;
 
-    .container {
+    > .container {
         max-width: $design-container-max-width;
     }
 }
@@ -415,7 +424,14 @@ nav {
         &.square {
             grid-row: span 19;
         }
-    }
+
+        @media (max-width: 767px) {
+            &:nth-child(3n + 1) {
+                margin-left: -15px;
+                margin-right: -15px;
+            }
+        }
+    }    
 
     @media (min-width: 768px) {
         & {

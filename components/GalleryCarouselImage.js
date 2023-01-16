@@ -6,7 +6,6 @@ const GalleryCarouselImage = ({ image, active })  => {
   const [ imageObjectURL, setObjURL ] = useState("");
   const animation = useAnimation();
   const initial = { opacity: 0 };
-  const animate = { opacity: 1 };
 
   useEffect(async () => {
     const img = new Image();
@@ -20,10 +19,11 @@ const GalleryCarouselImage = ({ image, active })  => {
   return <div className={`carousel-item${active ? " active" : ""}`}>
     <motion.img
       src={imageObjectURL}
+      alt={image.photo_title}
       animate={animation}
-      variants={{ initial, animate, transition: { duration: .5 } }}
+      initial={initial}
       exit={initial}
-      onLoad={async e => { animation.set(initial); await animation.start(animate) }}
+      onLoad={async e => { animation.set(initial); await animation.start({ opacity: 1, transition: { duration: .5 } }) }}
     />
   </div>
 }

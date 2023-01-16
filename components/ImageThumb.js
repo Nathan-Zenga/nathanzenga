@@ -40,10 +40,12 @@ const ImageThumb = ({ image, label, index, link, gridCSSApplied, extraImgCSS }) 
     >
       <Link href={{ pathname: link }} scroll={false}>
         <a className="img-anchor"
-            id={image.photo_set}
+            data-id={image.photo_set}
+            title={image.photo_set}
             onContextMenu={e => false}>
           <motion.img
             src={imageObjectURL}
+            alt={image.photo_title}
             style={{ opacity: 0, ...extraImgCSS }}
             animate={animation}
             onLoad={async e => { await animation.start({ opacity: 1 }) }}

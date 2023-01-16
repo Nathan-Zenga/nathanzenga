@@ -23,7 +23,9 @@ const Header = ({ inSession, session }) => {
           <div className="col-2 col-sm-1" id="nav-wrapper">
             <button className="hamburger hamburger--spin" id="menu-icon" type="button">
               <span className="hamburger-box">
-                <span className="hamburger-inner"></span>
+                <span className="hamburger-inner">
+                  <span className="sr-only">Menu</span>
+                </span>
               </span>
             </button>
             <Nav />
