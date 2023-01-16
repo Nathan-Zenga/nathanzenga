@@ -37,7 +37,6 @@ img[alt] {
         position: relative;
         top: -15px;
         height: 55px;
-        @include filter(invert(1));
         @include transform(rotate(10deg));
     }
 }

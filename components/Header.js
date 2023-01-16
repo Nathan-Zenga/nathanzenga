@@ -32,7 +32,7 @@ const Header = ({ inSession, session }) => {
           </div>
           <div className="col" id="logo-wrapper">
             <Link href="/" scroll={false}>
-              <a id="logo"><img src="/img/logo.png" alt="Logo" /></a>
+              <a id="logo"><img src="/img/logo-2.png" alt="Logo" /></a>
             </Link>
           </div>
           {
