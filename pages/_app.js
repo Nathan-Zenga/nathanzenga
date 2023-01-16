@@ -1,6 +1,7 @@
 import Layout from '../components/Layout'
 import { AnimatePresence } from 'framer-motion'
 import { useEffect, useState } from 'react';
+import io from 'socket.io-client';
 
 function MyApp({ Component, pageProps, router }) {
 
@@ -13,6 +14,11 @@ function MyApp({ Component, pageProps, router }) {
     const loggedIn = await res.json();
     loggedIn && inSession(true);
   }, []);
+
+  useEffect(async () => {
+    const socket = io();
+    return function cleanup() { socket.disconnect() }
+  });
 
   return (
     <Layout inSession={inSession} session={session}>
