@@ -20,7 +20,7 @@ const Header = ({ inSession, session }) => {
     <header id="header">
       <div className="container">
         <div className="row">
-          <div className="col-2 col-sm-1" id="nav-wrapper">
+          <div className="col-2 col-sm-1" id="nav-container">
             <button className="hamburger hamburger--spin" id="menu-icon" type="button">
               <span className="hamburger-box">
                 <span className="hamburger-inner">
@@ -30,14 +30,14 @@ const Header = ({ inSession, session }) => {
             </button>
             <Nav />
           </div>
-          <div className="col" id="logo-wrapper">
+          <div className="col" id="logo-container">
             <Link href="/" scroll={false}>
               <a id="logo"><img src="/img/logo-2.png" alt="Logo" /></a>
             </Link>
           </div>
           {
             session &&
-            <div className="col-3 col-sm-2" id="logout-link-wrapper">
+            <div className="col-3 col-sm-2" id="logout-link-container">
               <a id="logout-link" href="/logout" onClick={logout}>LOGOUT</a>
             </div>
           }

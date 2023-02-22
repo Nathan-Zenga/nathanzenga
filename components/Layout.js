@@ -11,6 +11,7 @@ const Layout = ({ children, inSession, session }) => {
       {children}
     </main>
     <Footer />
+    <script src="/js/main.js" />
     </>
   )
 }

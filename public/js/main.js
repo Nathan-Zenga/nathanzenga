@@ -16,13 +16,13 @@ submitBtnController.prototype.finish = function() {
 
 $("#menu-icon").click(function() {
     $(this).toggleClass("is-active");
-    $("nav").toggleClass("show");
+    $("#nav").toggleClass("show");
 });
 
-$("nav a").click(function() {
-    $("nav").hasClass("show") && $("#menu-icon").click()
+$("#nav a").click(function() {
+    $("#nav").hasClass("show") && $("#menu-icon").click()
 });
 
 $(window).click(function(e) {
-    if (e.pageX > parseInt($("nav.show").css("width"))) $("#menu-icon").click();
+    e.pageX > parseInt($("#nav.show").css("width")) && $("#menu-icon").click();
 });

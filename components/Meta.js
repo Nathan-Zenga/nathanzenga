@@ -15,11 +15,11 @@ const Meta = ({ title, keywords, description, twitter, ogTitle }) => {
       <meta name="twitter:site" content={twitter} />
       <meta name="twitter:creator" content={twitter} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content="" />
+      <meta name="twitter:image" content="/img/icon.png" />
       <meta property="og:url" content="https://nathanzenga.com/" />
       <meta property="og:title" content={ogTitle} />
       <meta property="og:description" content={description} />
-      <meta property="og:image" content="" />
+      <meta property="og:image" content="/img/icon.png" />
     </Head>
   )
 }

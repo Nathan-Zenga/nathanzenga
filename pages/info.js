@@ -42,9 +42,8 @@ const InfoPage = ({ text }) => {
         <motion.div
           className="col-sm-6 float-left" id="contact"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: .5, delay: .5 }}
+          animate={{ opacity: 1, transition: { duration: .5, delay: .5 }}}
+          exit={{ opacity: 0, transition: { duration: .5, delay: 0 }}}
         >
           <form className="form-group" method="post" action="/send/message" onSubmit={onFormSubmit}>
             <label className="sr-only">Name</label>

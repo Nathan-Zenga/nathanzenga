@@ -17,10 +17,6 @@ $prefixes: ms moz webkit;
     background-image: $value;
 }
 
-img[alt] {
-    color: transparent;
-}
-
 #header {
     padding: 45px 0 25px;
 }
@@ -338,11 +334,10 @@ $design-container-max-width: 850px;
 
 #menu-icon {
     position: fixed;
-    padding: 15px 20px 20px 0;
     z-index: 110;
 }
 
-nav {
+#nav {
     position: fixed;
     top: 0;
     left: 0;

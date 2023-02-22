@@ -5,8 +5,7 @@ const openConnection = async () => connection.readyState === 0 && await connect(
 
 const newSchema = definition => {
     const schema = new Schema(definition);
-    const queries = ["find", "findOne", "findOneAndDelete", "findById", "findByIdAndDelete", "deleteMany", "updateMany", "save"];
-    for (const q of queries) schema.pre(q, async next => { await openConnection(); next() });
+    for (const q of [/^find/, /Many$/, "save"]) schema.pre(q, async next => { await openConnection(); next() });
     return schema;
 }
 
