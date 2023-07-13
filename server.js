@@ -4,10 +4,10 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
-const sendMail = require('./config/send-mail');
+const { OAuth2 } = (require("googleapis")).google.auth;
 const socket = require('./services/socket');
 const MemoryStore = require('memorystore')(session);
-const { PORT = 5678, TEST_EMAIL } = process.env;
+const { PORT = 5678, OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_REFRESH_TOKEN } = process.env;
 const dev = process.env.NODE_ENV !== "production";
 const next = require('next')({ dev });
 const handle = next.getRequestHandler();
@@ -36,15 +36,14 @@ next.prepare().then(() => {
   const server = app.listen(PORT, () => {
     console.log(`Server started${dev ? " on port " + PORT : ""}`);
 
-    if (!dev) try {
-      setInterval(async () => {
-        const email = "nathanzenga@gmail.com";
-        const recipient_email = TEST_EMAIL;
-        const subject = "Re: NZ test email";
-        const message = "This is a test email message";
-        await sendMail({ email, recipient_email, subject, message });
-      }, 1000 * 60 * 10)
-    } catch (err) { console.error(err.message) }
+    if (!dev) setInterval(async () => {
+      try {
+        const oauth2Client = new OAuth2( OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, "https://developers.google.com/oauthplayground" );
+        oauth2Client.setCredentials({ refresh_token: OAUTH_REFRESH_TOKEN });
+        const response = await oauth2Client.getAccessToken();
+        if (!response.token) throw Error("Null token");
+      } catch (err) { console.error(err.message) }
+    }, 1000 * 60 * 60 * 24 * 7)
   });
 
   socket(server);
