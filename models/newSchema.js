@@ -1,7 +1,7 @@
-import { connect, connection, Schema } from 'mongoose';
+import mongoose, { connection, Schema } from 'mongoose';
 Schema.Types.String.set('trim', true);
 
-const openConnection = async () => connection.readyState === 0 && await connect(process.env.DB);
+const openConnection = async () => connection.readyState === 0 && mongoose.set({ strictQuery: true }).connect(process.env.DB);
 
 const newSchema = definition => {
     const schema = new Schema(definition);
