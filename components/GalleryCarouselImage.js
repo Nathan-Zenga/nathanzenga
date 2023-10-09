@@ -7,13 +7,14 @@ const GalleryCarouselImage = ({ image, active })  => {
   const animation = useAnimation();
   const initial = { opacity: 0 };
 
-  useEffect(async () => {
-    const img = new Image();
-    const blob = await fetch(image.photo_url).then(res => res.blob());
-    const objURL = URL.createObjectURL(blob);
-    img.onload = e => URL.revokeObjectURL(e.target.src);
-    setObjURL(objURL);
-    setTimeout(() => { img.src = objURL }, 100);
+  useEffect(() => {
+    fetch(image.photo_url).then(res => res.blob()).then(blob => {
+      const img = new Image();
+      const objURL = URL.createObjectURL(blob);
+      img.onload = e => URL.revokeObjectURL(e.target.src);
+      setObjURL(objURL);
+      setTimeout(() => { img.src = objURL }, 100);
+    });
   }, [image.photo_url]);
 
   return <div className={`carousel-item${active ? " active" : ""}`}>

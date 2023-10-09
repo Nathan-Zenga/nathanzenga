@@ -31,8 +31,8 @@ const Header = ({ inSession, session }) => {
             <Nav />
           </div>
           <div className="col" id="logo-container">
-            <Link href="/" scroll={false}>
-              <a id="logo"><img src="/img/logo-2.png" alt="Logo" /></a>
+            <Link href="/" scroll={false} id="logo">
+              <img src="/img/logo-2.png" alt="Logo" />
             </Link>
           </div>
           {

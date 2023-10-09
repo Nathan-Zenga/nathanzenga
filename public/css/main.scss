@@ -233,11 +233,13 @@ hr {
     }
 
     .carousel-control-next, .carousel-control-prev {
+        width: 25%;
         height: 81px;
         bottom: auto;
 
         @media (min-width: 768px) {
             & {
+                width: 20%;
                 height: 400px;
             }
         }

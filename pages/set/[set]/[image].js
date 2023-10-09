@@ -16,18 +16,26 @@ const Gallery = ({ photo, set, next_image, prev_image }) => {
           <GalleryImage active={true} image={photo} />
         </div>
 
-        <Link href={`/set/${set.toLowerCase().replace(/ /g, "-")}/${prev_image}`} scroll={false}>
-          <a className="carousel-control-prev" role="button" data-slide="prev">
-            <span className="carousel-control-prev-icon fal fa-angle-left" aria-hidden="true"></span>
-            <span className="sr-only">Previous</span>
-          </a>
+        <Link
+          href={`/set/${set.toLowerCase().replace(/ /g, "-")}/${prev_image}`}
+          scroll={false}
+          className="carousel-control-prev"
+          role="button"
+          data-slide="prev"
+        >
+          <span className="carousel-control-prev-icon fal fa-angle-left" aria-hidden="true"></span>
+          <span className="sr-only">Previous</span>
         </Link>
 
-        <Link href={`/set/${set.toLowerCase().replace(/ /g, "-")}/${next_image}`} scroll={false}>
-          <a className="carousel-control-next" role="button" data-slide="next">
-            <span className="carousel-control-next-icon fal fa-angle-right" aria-hidden="true"></span>
-            <span className="sr-only">Next</span>
-          </a>
+        <Link
+          href={`/set/${set.toLowerCase().replace(/ /g, "-")}/${next_image}`}
+          scroll={false}
+          className="carousel-control-next"
+          role="button"
+          data-slide="next"
+        >
+          <span className="carousel-control-next-icon fal fa-angle-right" aria-hidden="true"></span>
+          <span className="sr-only">Next</span>
         </Link>
       </div>
     </div>

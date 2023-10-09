@@ -8,14 +8,16 @@ function MyApp({ Component, pageProps, router }) {
   const [ session, inSession ] = useState(false);
   const scrollToTop = () => { $("html, body").animate({ scrollTop: 0 }) };
 
-  useEffect(async () => {
+  const authCheck = async () => {
     if (session) return;
     const res = await fetch(`${location.origin}/api/logged-in`, { method: "post" });
     const loggedIn = await res.json();
     loggedIn && inSession(true);
-  }, []);
+  }
 
-  useEffect(async () => {
+  useEffect(() => { authCheck() }, []);
+
+  useEffect(() => {
     const socket = io();
     return function cleanup() { socket.disconnect() }
   });

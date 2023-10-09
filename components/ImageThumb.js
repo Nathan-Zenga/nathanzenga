@@ -7,14 +7,15 @@ const ImageThumb = ({ image, label, index, link, gridCSSApplied, extraImgCSS }) 
   const [ imageObjectURL, setImageObjectURL ] = useState("");
   const animation = useAnimation();
 
-  useEffect(async () => {
+  useEffect(() => {
     if (imageObjectURL !== "") return;
-    const img = new Image();
-    const blob = await fetch(image.photo_url).then(res => res.blob());
-    const objURL = URL.createObjectURL(blob);
-    img.onload = e => URL.revokeObjectURL(e.target.src);
-    setImageObjectURL(objURL);
-    setTimeout(() => { img.src = objURL }, 100);
+    fetch(image.photo_url).then(res => res.blob()).then(blob => {
+      const img = new Image();
+      const objURL = URL.createObjectURL(blob);
+      img.onload = e => URL.revokeObjectURL(e.target.src);
+      setImageObjectURL(objURL);
+      setTimeout(() => { img.src = objURL }, 100);
+    });
   }, []);
 
   const imageOrientation = index => {
@@ -38,19 +39,21 @@ const ImageThumb = ({ image, label, index, link, gridCSSApplied, extraImgCSS }) 
       exit={{ opacity: 0 }}
       transition={{ duration: .5 }}
     >
-      <Link href={{ pathname: link }} scroll={false}>
-        <a className="img-anchor"
-            data-id={image.photo_set}
-            title={image.photo_set}
-            onContextMenu={e => false}>
-          <motion.img
-            src={imageObjectURL}
-            alt={image.photo_title}
-            style={{ opacity: 0, ...extraImgCSS }}
-            animate={animation}
-            onLoad={async e => { await animation.start({ opacity: 1 }) }}
-          />
-        </a>
+      <Link
+        href={{ pathname: link }}
+        scroll={false}
+        className="img-anchor"
+        data-id={image.photo_set}
+        title={image.photo_set}
+        onContextMenu={e => false}
+      >
+        <motion.img
+          src={imageObjectURL}
+          alt={image.photo_title}
+          style={{ opacity: 0, ...extraImgCSS }}
+          animate={animation}
+          onLoad={async e => { await animation.start({ opacity: 1 }) }}
+        />
       </Link>
       { label && (
         <label>
