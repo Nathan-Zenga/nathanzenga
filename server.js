@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
 const { OAuth2 } = (require("googleapis")).google.auth;
+const cloud = require('cloudinary').v2;
 const socket = require('./services/socket');
 const MemoryStore = require('memorystore')(session);
 const { PORT = 5678, OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_REFRESH_TOKEN } = process.env;
@@ -13,6 +14,9 @@ const next = require('next')({ dev });
 const handle = next.getRequestHandler();
 
 next.prepare().then(() => {
+  const { CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } = process.env;
+  cloud.config({ cloud_name: CLOUDINARY_CLOUD_NAME, api_key: CLOUDINARY_API_KEY, api_secret: CLOUDINARY_API_SECRET });
+
   app.use(bodyParser.json({ limit: "200mb" }));
   app.use(bodyParser.urlencoded({ limit: "200mb", extended: false }));
   app.use(cookieParser());

@@ -6,8 +6,10 @@
   "scripts": {
     "build": "next build && npm run sass",
     "sass": "sass public/css/main.scss public/css/main.css --no-source-map",
-    "start": "node server.js",
-    "dev": "npm run sass && npm run start"
+    "sass:dev": "sass public/css/main.scss public/css/main.css",
+    "start": "node server",
+    "start:dev": "node -r dotenv/config server",
+    "dev": "nodemon -x \"npm run sass:dev && npm run start:dev\""
   },
   "dependencies": {
     "async": "^3.2.3",
@@ -36,5 +38,8 @@
     "npm": "*"
   },
   "author": "Nathan Zengamambu",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "dotenv": "^16.3.1"
+  }
 }

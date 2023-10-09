@@ -6,4 +6,4 @@ build
 .DS_Store
 .vscode
 .vercel
-main.css
+main.css*
