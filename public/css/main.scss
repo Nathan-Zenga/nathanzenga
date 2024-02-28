@@ -427,12 +427,12 @@ $design-container-max-width: 850px;
                 margin-right: -15px;
             }
         }
-    }    
+    }
 
     @media (min-width: 768px) {
         & {
             display: grid;
-            grid-template-columns: repeat(2, 50%);
+            grid-template-columns: repeat(2, 1fr);
         }
 
         > .img-container {
@@ -451,7 +451,7 @@ $design-container-max-width: 850px;
 
     @media (min-width: 992px) {
         & {
-            grid-template-columns: repeat(3, 33.333%);
+            grid-template-columns: repeat(3, 1fr);
         }
     }
 }
@@ -460,7 +460,7 @@ $design-container-max-width: 850px;
     position: relative;
     min-height: 600px;
     max-height: 900px;
-    height:90vh;
+    height: 90vh;
     background-color: rgb(30, 30, 30);
 
     img {

@@ -1,7 +1,7 @@
 const { v2: cloud, UploadApiResponse } = require('cloudinary');
 const { model, Document: MongooseDocument, Types } = require('mongoose');
 
- /**
+/**
  * Resizing passed image with smaller dimensions
  * @param {UploadApiResponse} result response object from initial image upload
  * @return {Promise<UploadApiResponse>}

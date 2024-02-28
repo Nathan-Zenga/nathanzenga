@@ -1,7 +1,9 @@
-import { model, models } from 'mongoose';
-import Schema from './newSchema';
+import { model, models, Schema, plugin } from 'mongoose';
+import connectionHook from './connection-hook-plugin';
+Schema.Types.String.set('trim', true);
+plugin(connectionHook);
 
-export const Photo = models.Photo || model('Photo', Schema({
+export const Photo = models.Photo || model('Photo', new Schema({
     photo_title: String,
     photo_set: String,
     photo_url: String,
@@ -13,16 +15,16 @@ export const Photo = models.Photo || model('Photo', Schema({
     photo_set_index: Number
 }));
 
-export const Design = models.Design || model('Design', Schema({
+export const Design = models.Design || model('Design', new Schema({
     d_id: {
         type: String,
         uppercase: true,
         set: v => v.trim().replace(/[ ._'"]/g, "-")
     },
     text: {
-        client: { type: String },
-        tools: { type: String },
-        description: { type: String }
+        client: String,
+        tools: String,
+        description: String
     },
     images: [{ photo_url: String, index: Number }],
     link: String,
@@ -30,10 +32,6 @@ export const Design = models.Design || model('Design', Schema({
     index: Number
 }));
 
-export const Info_text = models.Info_text || model('Info_text', Schema({
-    text: String
-}));
+export const Info_text = models.Info_text || model('Info_text', new Schema({ text: String }));
 
-export const Admin = models.Admin || model('Admin', Schema({
-    pass: String
-}));
+export const Admin = models.Admin || model('Admin', new Schema({ pass: String }));
