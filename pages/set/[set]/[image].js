@@ -16,33 +16,29 @@ const Gallery = ({ photo, set, next_image, prev_image }) => {
           <GalleryImage active={true} image={photo} />
         </div>
 
-        <Link
-          href={`/set/${set.toLowerCase().replace(/ /g, "-")}/${prev_image}`}
-          scroll={false}
-          className="carousel-control-prev"
-          role="button"
-          data-slide="prev"
-        >
-          <span className="carousel-control-prev-icon fal fa-angle-left" aria-hidden="true"></span>
-          <span className="sr-only">Previous</span>
-        </Link>
-
-        <Link
-          href={`/set/${set.toLowerCase().replace(/ /g, "-")}/${next_image}`}
-          scroll={false}
-          className="carousel-control-next"
-          role="button"
-          data-slide="next"
-        >
-          <span className="carousel-control-next-icon fal fa-angle-right" aria-hidden="true"></span>
-          <span className="sr-only">Next</span>
-        </Link>
+        <CarouselControlLink set={set} image={prev_image} direction="prev" sr_text="Previous" />
+        <CarouselControlLink set={set} image={next_image} direction="next" sr_text="Next" />
       </div>
     </div>
 
     <Statcounter />
     </>
   );
+}
+
+const CarouselControlLink = ({ set, image, direction, sr_text }) => {
+  return (
+    <Link
+      href={`/set/${set.toLowerCase().replace(/ /g, "-")}/${image}`}
+      scroll={false}
+      className={`carousel-control-${direction}`}
+      role="button"
+      data-slide={direction}
+    >
+      <span className={`carousel-control-${direction}-icon fal fa-angle-${direction == "prev" ? "left" : "right"}`} aria-hidden="true"></span>
+      <span className="sr-only">{sr_text}</span>
+    </Link>
+  )
 }
 
 export const getStaticPaths = async _ => {
