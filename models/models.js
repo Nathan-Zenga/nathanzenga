@@ -26,7 +26,11 @@ export const Design = models.Design || model('Design', new Schema({
         tools: String,
         description: String
     },
-    images: [{ photo_url: String, index: Number }],
+    images: [{
+        photo_url: String,
+        p_id: String,
+        index: Number
+    }],
     link: String,
     hidden: { type: Boolean, default: false },
     index: Number

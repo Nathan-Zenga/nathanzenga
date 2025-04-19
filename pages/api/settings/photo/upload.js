@@ -15,7 +15,7 @@ export default async function handler(req, res) {
         await indexShift("Photo", photo, { dec: false });
         if (design) {
             const indexParsed = parseInt(index);
-            design.images.splice(indexParsed-1, 0, { photo_url, indexParsed });
+            design.images.splice(indexParsed-1, 0, { photo_url, index: indexParsed });
             for (let i = 0; i < design.images.length; i++) design.images[i].index = i+1;
             await design.save();
         } else if (photo_set_new) {
