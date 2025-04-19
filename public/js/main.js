@@ -16,7 +16,7 @@ submitBtnController.prototype.finish = function() {
 
 $("#menu-icon").click(function() {
     $(this).toggleClass("is-active");
-    $("#nav").toggleClass("show");
+    $("#nav").toggleClass("show", $(this).hasClass("is-active"));
 });
 
 $("#nav a").click(function() {

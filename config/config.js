@@ -63,7 +63,7 @@ module.exports.indexReorder = async (modelName, args) => {
 module.exports.photoUploader = async body => {
     const { file, photo_title, photo_set, index } = body;
     const newPhoto = new model("Photo")({ photo_title, photo_set, index });
-    const public_id = `${photo_set}/${photo_title}`.toLowerCase().replace(/[ ?&#\\%<>]/g, "_");
+    const public_id = `nathanzenga/${photo_set}/${photo_title}`.toLowerCase().replace(/[ ?&#\\%<>]/g, "_");
     const result = await cloud.uploader.upload(file, { public_id, resource_type: "auto" });
     const result2 = await DownsizedImage(result).catch(err => ({ err }));
     if (result2 && result2.err) { await cloud.api.delete_resources([result.public_id]); throw result2.err }
