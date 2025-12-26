@@ -15,7 +15,7 @@
     "async": "^3.2.3",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.1",
-    "cloudinary": "^1.28.1",
+    "cloudinary": "^2.7.0",
     "cookie-parser": "^1.4.6",
     "express": "^4.17.2",
     "express-session": "^1.17.2",
